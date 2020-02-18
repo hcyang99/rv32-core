@@ -10,20 +10,33 @@
 
 `ifndef __SYS_DEFS_VH__
 `define __SYS_DEFS_VH__
+
+/* Synthesis testing definition, used in DUT module instantiation */
+
+`ifdef  SYNTH_TEST
+`define DUT(mod) mod``_svsim
+`else
+`define DUT(mod) mod
+`endif
+
 //////////////////////////////////////////////
 //
 // Memory/testbench attribute definitions
 //
 //////////////////////////////////////////////
-
-`define NUM_MEM_TAGS           8
-`define MEM_LATENCY_IN_CYCLES  0
+`define CACHE_MODE //removes the byte-level interface from the memory mode, DO NOT MODIFY!
+`define NUM_MEM_TAGS           15
 
 `define MEM_SIZE_IN_BYTES      (64*1024)
 `define MEM_64BIT_LINES        (`MEM_SIZE_IN_BYTES/8)
 
 //you can change the clock period to whatever, 10 is just fine
 `define VERILOG_CLOCK_PERIOD   10.0
+`define SYNTH_CLOCK_PERIOD     10.0 // Clock period for synth and memory latency
+
+`define MEM_LATENCY_IN_CYCLES (100.0/`SYNTH_CLOCK_PERIOD+0.49999)
+// the 0.49999 is to force ceiling(100/period).  The default behavior for
+// float to integer conversion is rounding to nearest
 
 typedef union packed {
     logic [7:0][7:0] byte_level;

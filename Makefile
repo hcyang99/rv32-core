@@ -20,7 +20,7 @@ LINKERS = linker.lds
 ASLINKERS = aslinker.lds
 
 DEBUG_FLAG = -g
-CFLAGS =  -mno-relax -march=rv32im -mabi=ilp32 -nostartfiles -std=gnu11 -mstrict-align -I exception_handler
+CFLAGS =  -mno-relax -march=rv32im -mabi=ilp32 -nostartfiles -std=gnu11 -mstrict-align 
 OFLAGS = -O0
 ASFLAGS = -mno-relax -march=rv32im -mabi=ilp32 -nostartfiles -Wno-main -mstrict-align
 OBJFLAGS = -SD -M no-aliases 
@@ -41,12 +41,66 @@ else
 	AS = riscv64-unknown-elf-as
 	ELF2HEX = elf2hex
 endif
-all: simv
+
+
+VCS = vcs -V -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson -debug_pp
+LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
+
+# SIMULATION CONFIG
+
+HEADERS     = $(wildcard *.svh)
+TESTBENCH   = $(wildcard testbench/*.sv)
+TESTBENCH  += $(wildcard testbench/*.c)
+PIPEFILES   = $(wildcard verilog/*.sv)
+CACHEFILES  = $(wildcard verilog/cache/*.sv)
+
+SIMFILES    = $(PIPEFILES) $(CACHEFILES)
+
+# SYNTHESIS CONFIG
+SYNTH_DIR = ./synth
+
+export HEADERS
+export PIPEFILES
+export CACHEFILES
+
+export CACHE_NAME = cache
+export PIPELINE_NAME = pipeline
+
+PIPELINE  = $(SYNTH_DIR)/$(PIPELINE_NAME).vg 
+SYNFILES  = $(PIPELINE) $(SYNTH_DIR)/$(PIPELINE_NAME)_svsim.sv
+CACHE     = $(SYNTH_DIR)/$(CACHE_NAME).vg
+
+# Passed through to .tcl scripts:
+export CLOCK_NET_NAME = clock
+export RESET_NET_NAME = reset
+export CLOCK_PERIOD   = 10	# TODO: You will need to make match SYNTH_CLOCK_PERIOD in sys_defs
+                                #       and make this more aggressive
+
+################################################################################
+## RULES
+################################################################################
+
+# Default target:
+all:    simv
 	./simv | tee program.out
+
+.PHONY: all
+
+# Simulation:
+
+sim:	simv
+	./simv | tee sim_program.out
+
+simv:	$(HEADERS) $(SIMFILES) $(TESTBENCH)
+	$(VCS) $^ -o simv
+
+.PHONY: sim
+
+# Programs
 
 compile: $(CRT) $(LINKERS)
 	$(GCC) $(CFLAGS) $(OFLAGS) $(CRT) $(SOURCE) -T $(LINKERS) -o program.elf
-	$(GCC) $(CFLAGS) $(DEBUG_FLAG) $(OFLAGS) $(CRT) $(SOURCE) -T $(LINKERS) -o program.debug.elf
+	$(GCC) $(CFLAGS) $(DEBUG_FLAG) $(CRT) $(SOURCE) -T $(LINKERS) -o program.debug.elf
 assemble: $(ASLINKERS)
 	$(GCC) $(ASFLAGS) $(SOURCE) -T $(ASLINKERS) -o program.elf 
 	cp program.elf program.debug.elf
@@ -65,64 +119,33 @@ debug_program:
 assembly: assemble disassemble hex
 	@:
 
-VCS = vcs -V -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson -debug_pp 
-LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
-# For visual debugger
-VISFLAGS = -lncurses
+# Synthesis
 
+$(CACHE): $(CACHEFILES) $(SYNTH_DIR)/$(CACHE_NAME).tcl
+	cd $(SYNTH_DIR) && dc_shell-t -f ./$(CACHE_NAME).tcl | tee $(CACHE_NAME)_synth.out
 
-##### 
-# Modify starting here
-#####
+$(PIPELINE): $(SIMFILES) $(CACHE) $(SYNTH_DIR)/$(PIPELINE_NAME).tcl
+	cd $(SYNTH_DIR) && dc_shell-t -f ./$(PIPELINE_NAME).tcl | tee $(PIPELINE_NAME)_synth.out
+	echo -e -n 'H\n1\ni\n`timescale 1ns/100ps\n.\nw\nq\n' | ed $(PIPELINE)
 
-TESTBENCH = 	sys_defs.svh	\
-		ISA.svh         \
-		testbench/mem.sv  \
-		testbench/testbench.sv	\
-		testbench/pipe_print.c	 
-SIMFILES =	verilog/pipeline.sv	\
-		verilog/regfile.sv	\
-		verilog/if_stage.sv	\
-		verilog/id_stage.sv	\
-		verilog/ex_stage.sv	\
-		verilog/mem_stage.sv	\
-		verilog/wb_stage.sv	\
-
-SYNFILES = synth/pipeline.vg
-
-# Don't ask me why spell VisUal TestBenchER like this...
-VTUBER = sys_defs.svh	\
-		ISA.svh         \
-		testbench/mem.sv  \
-		testbench/visual_testbench.v \
-		testbench/visual_c_hooks.cpp \
-		testbench/pipe_print.c
-
-synth/pipeline.vg:        $(SIMFILES) synth/pipeline.tcl
-	cd synth && dc_shell-t -f ./pipeline.tcl | tee synth.out 
-
-#####
-# Should be no need to modify after here
-#####
-simv:	$(SIMFILES) $(TESTBENCH)
-	$(VCS) $(TESTBENCH) $(SIMFILES)	-o simv
-
-dve:	$(SIMFILES) $(TESTBENCH)
-	$(VCS) +memcbk $(TESTBENCH) $(SIMFILES) -o dve -R -gui
-.PHONY:	dve
-
-# For visual debugger
-vis_simv:	$(SIMFILES) $(VTUBER)
-	$(VCS) $(VISFLAGS) $(VTUBER) $(SIMFILES) -o vis_simv 
-	./vis_simv
-
-syn_simv:	$(SYNFILES) $(TESTBENCH)
-	$(VCS) $(TESTBENCH) $(SYNFILES) $(LIB) -o syn_simv 
-
-syn:	syn_simv
+syn:	syn_simv 
 	./syn_simv | tee syn_program.out
 
+syn_simv:	$(HEADERS) $(SYNFILES) $(TESTBENCH)
+	$(VCS) $^ $(LIB) +define+SYNTH_TEST -o syn_simv 
+
+.PHONY: syn
+
+# Debugging
+
+dve:	sim
+	./simv -gui &
+
+dve_syn: syn_sim 
+	./syn_simv -gui &
+
+.PHONY: dve dve_syn 
 
 clean:
 	rm -rf *simv *simv.daidir csrc vcs.key program.out *.key
@@ -133,5 +156,5 @@ clean:
 	rm -f *.elf *.dump *.mem debug_bin
 
 nuke:	clean
-	rm -rf synth/*.vg synth/*.rep synth/*.ddc synth/*.chk synth/command.log synth/*.syn
+	rm -rf synth/*.vg synth/*.rep synth/*.ddc synth/*.chk synth/*.log synth/*.syn
 	rm -rf synth/*.out command.log synth/*.db synth/*.svf synth/*.mr synth/*.pvl

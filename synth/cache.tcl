@@ -18,26 +18,22 @@ suppress_message {"VER-130"}
 #/***********************************************************/
 lappend search_path ../
 
-set cache_module [getenv CACHE_NAME]
-
-read_file -f ddc [list ${cache_module}.ddc]
-set_dont_touch ${cache_module}
-
 set headers [getenv HEADERS]
-set sources [getenv PIPEFILES]
+set sources [getenv CACHEFILES]
 
 read_file -f sverilog [list ${headers} ${sources}]
-set design_name [getenv PIPELINE_NAME]
+set design_name [getenv CACHE_NAME]
 set clock_name [getenv CLOCK_NET_NAME]
 set reset_name [getenv RESET_NET_NAME]
 set CLK_PERIOD [getenv CLOCK_PERIOD]
 
+
+#/***********************************************************/
+#/* The rest of this file may be left alone for most small  */
+#/* to moderate sized designs.  You may need to alter it    */
+#/* when synthesizing your final project.                   */
+#/***********************************************************/
 set SYN_DIR ./
-
-
-#/***********************************************************/
-#/* You should NOT edit anything below this line for 470    */
-#/***********************************************************/
 
 #/***********************************************************/
 #/* Set some flags for optimisation */
@@ -95,15 +91,13 @@ set LOGICLIB lec25dscc25_TT
 set sys_clk $clock_name
 
 set netlist_file [format "%s%s"  [format "%s%s"  $SYN_DIR $design_name] ".vg"]
-set svsim_file [format "%s%s%s" $SYN_DIR $design_name "_svsim.sv"]
 set ddc_file [format "%s%s"  [format "%s%s"  $SYN_DIR $design_name] ".ddc"]
 set rep_file [format "%s%s"  [format "%s%s"  $SYN_DIR $design_name] ".rep"]
-set res_file [format "%s%s%s" $SYN_DIR $design_name ".res"]
 set dc_shell_status [ set chk_file [format "%s%s"  [format "%s%s"  $SYN_DIR $design_name] ".chk"] ]
 
 #/* if we didnt find errors at this point, run */
 if {  $dc_shell_status != [list] } {
-  current_design $design_name
+   current_design $design_name
   link
   set_wire_load_model -name $WIRE_LOAD -lib $LOGICLIB $design_name
   set_wire_load_mode top
@@ -133,19 +127,17 @@ if {  $dc_shell_status != [list] } {
   compile -map_effort medium
   write -hier -format verilog -output $netlist_file $design_name
   write -hier -format ddc -output $ddc_file $design_name
-  write -format svsim -output $svsim_file $design_name
   redirect $rep_file { report_design -nosplit }
   redirect -append $rep_file { report_area }
   redirect -append $rep_file { report_timing -max_paths 2 -input_pins -nets -transition_time -nosplit }
   redirect -append $rep_file { report_constraint -max_delay -verbose -nosplit }
-  redirect $res_file { report_resources -hier }
   remove_design -all
   read_file -format verilog $netlist_file
   current_design $design_name
   redirect -append $rep_file { report_reference -nosplit }
   quit
 } else {
-  quit
+   quit
 }
 
 
