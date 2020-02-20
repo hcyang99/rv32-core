@@ -15,17 +15,19 @@ module RS_Line(
 
     input [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
     input [`WAYS-1:0] [`PRF_LOG2-1:0]           CDB_PRF_idx;
-    input  [`WAYS-1:0]                          CDB_valid;
+    input [`WAYS-1:0]                           CDB_valid;
 
     input [`XLEN-1:0]                           opa_in; // data or PRN
     input [`XLEN-1:0]                           opb_in; // data or PRN
     input                                       opa_valid; // indicate whether it is data or PRN, 1: data 0: PRN
     input                                       opb_valid;
+    input                                       rd_mem_in;                          
+    input                                       wr_mem_in;                           
 
     input                                       load_in; // high when dispatch
     input [`OLEN-1:0]                           offset_in;
     input [`PCLEN-1:0]                          PC_in;
-    input [4:0]                                 Operation_in; // need to be updated
+    ALU_FUNC                                    Operation_in; //
 
 //    input INST_STRUCT               inst;
 
@@ -37,8 +39,12 @@ module RS_Line(
     output logic                                is_free;    
 
     output logic [`PCLEN-1:0]                   PC_out;
-    output logic [4:0]                          Operation_out; // need to be updated
+    ALU_FUNC                                    Operation_out; // need to be updated
     output logic [`OLEN-1:0]                    offset_out;
+    output logic                                rd_mem_out;                          
+    output logic                                wr_mem_out;                           
+
+
 );
     
 endmodule
@@ -55,6 +61,9 @@ module RS(
     input [`WAYS-1:0] [`XLEN-1:0]               opb_in; // data or PRN
     input [`WAYS-1:0]                           opa_valid; // indicate whether it is data or PRN, 1: data 0: PRN
     input [`WAYS-1:0]                           opb_valid;
+    input [`WAYS-1:0]                           rd_mem_in;                          
+    input [`WAYS-1:0]                           wr_mem_in;                           
+
 
     input                                       load_in; // high when dispatch
     input [`WAYS-1:0] [`OLEN-1:0]               offset_in;
@@ -72,6 +81,10 @@ module RS(
     output logic [`WAYS-1:0] [4:0]              Operation_out; // need to be updated
     output logic [`WAYS-1:0] [`OLEN-1:0]        offset_out;
     output logic [`RS_LOG2-1:0]                 num_is_free;
+    
+    output logic [`WAYS-1:0]                    rd_mem_out;                          
+    output logic [`WAYS-1:0]                    wr_mem_out;                           
+
 );
 
 endmodule
