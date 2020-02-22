@@ -48,6 +48,9 @@ module RS_Line(
 );
 
 
+
+
+
     
 endmodule
 
@@ -90,5 +93,13 @@ module RS(
     output logic [`WAYS-1:0]                    wr_mem_out;                           
 
 );
+
+    wand [WIDTH*REQS-1:0]  gnt_bus;
+    wire                   empty;
+    
+
+
+
+
 
 endmodule
