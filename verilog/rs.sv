@@ -146,7 +146,7 @@ module RS(
     input [`WAYS-1:0]                           rd_mem_in,                          
     input [`WAYS-1:0]                           wr_mem_in,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        dest_PRF_idx_in,
-    input [`WAYS-1:0] [$clog2(`ROB):0]          rob_idx_in,                             
+    input [`WAYS-1:0] [$clog2(`ROB)-1:0]        rob_idx_in,                             
 
     input [`WAYS-1:0]                           load_in, // high when dispatch :: SHOULD HAVE BEEN MULTIPLE ENTRIES??
     input [`WAYS-1:0] [`OLEN-1:0]               offset_in,
