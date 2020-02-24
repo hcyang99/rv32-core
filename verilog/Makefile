@@ -25,11 +25,11 @@ LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
 # SIMULATION CONFIG
 
-SIMFILES	= rs_line.sv
+SIMFILES	= RS_Line.sv
 TESTBENCH	= rs_line_test.sv
 
 # SYNTHESIS CONFIG
-SYNFILES	= rs_line.vg
+SYNFILES	= RS_Line.vg
 
 # Passed through to .tcl scripts:
 export CLOCK_NET_NAME = clock
@@ -82,6 +82,6 @@ syn_simv:	$(SYNFILES) $(TESTBENCH)
 syn:	syn_simv
 	./syn_simv | tee syn_program.out
 
-pe.vg: pe.v pe_synth.tcl
-	dc_shell-t -f pe_synth.tcl | tee pe_synth.out
+RS_Line.vg: RS_Line.sv RS_Line.tcl
+	dc_shell-t -f RS_Line.tcl | tee RS_Line.out
 
