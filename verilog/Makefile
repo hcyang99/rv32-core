@@ -26,10 +26,13 @@ LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 # SIMULATION CONFIG
 
 SIMFILES	= RS_Line.sv
-TESTBENCH	= rs_line_test.sv
+TESTBENCH	= rs_test.sv
 
 # SYNTHESIS CONFIG
 SYNFILES	= RS_Line.vg
+
+# COVERAGE CONFIG
+COVERAGE	= line+tgl
 
 # Passed through to .tcl scripts:
 export CLOCK_NET_NAME = clock
@@ -54,6 +57,11 @@ sim:	simv $(ASSEMBLED)
 simv:	$(HEADERS) $(SIMFILES) $(TESTBENCH)
 	$(VCS) $^ -o simv
 
+coverage:	
+	vcs -V -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson -debug_pp -cm $(COVERAGE) $(SIMFILES) $(TESTBENCH) -o simv
+	./simv -cm $(COVERAGE)
+	urg -dir simv.vdb -format text
+
 .PHONY: sim
 
 # Debugging
@@ -67,7 +75,8 @@ dve:	dve_simv $(ASSEMBLED)
 clean:
 	rm -rvf simv *.daidir csrc vcs.key program.out \
 	syn_simv syn_simv.daidir syn_program.out \
-	dve *.vpd *.vcd *.dump ucli.key 
+	dve *.vpd *.vcd *.dump ucli.key \
+	cm.log *.vdb urgReport
 
 nuke:	clean
 	rm -rvf *.vg *.rep *.db *.chk *.log *.out DVEfiles/

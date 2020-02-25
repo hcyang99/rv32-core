@@ -1,7 +1,7 @@
 #@ # 
 #@ # Running dc_shell Version O-2018.06 for linux64 -- May 21, 2018
-#@ # Date:   Sun Feb 23 20:33:32 2020
-#@ # Run by: sunsusan@dc3nep04.dc.umich.edu
+#@ # Date:   Mon Feb 24 21:05:49 2020
+#@ # Run by: wlshen@caen-vnc-vm09.engin.umich.edu
 #@ 
 
 source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
@@ -6624,8 +6624,8 @@ source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
 
 #@ # -- End source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
 
-source -echo -verbose /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/RS_Line.tcl
-#@ # -- Starting source /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/RS_Line.tcl
+source -echo -verbose /afs/umich.edu/user/w/l/wlshen/eecs470/group7w20/verilog/RS_Line.tcl
+#@ # -- Starting source /afs/umich.edu/user/w/l/wlshen/eecs470/group7w20/verilog/RS_Line.tcl
 
 #@ #/***********************************************************/
 #@ #/*   FILE        : rs_line.tcl                                  */

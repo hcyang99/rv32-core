@@ -1,6 +1,6 @@
 psSimBaseName                      	syn_simv
 psLogFileName                      	NULL
-pDaiDir                            	/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/syn_simv.daidir
+pDaiDir                            	/afs/umich.edu/user/w/l/wlshen/eecs470/group7w20/verilog/syn_simv.daidir
 destPath                           	csrc/
 fSharedMaster                      	0
 fHsimPCSharedLibSpecified          	0

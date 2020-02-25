@@ -1,5 +1,5 @@
 `include "sys_defs.svh"
-`define REG_LEN     64
+//`define REG_LEN     64
 `define PRF         64
 `define ROB         16
 `define RS          16
@@ -12,18 +12,18 @@ module RS_Line(
     input                                       clock,
     input                                       reset,
 
-    input [`WAYS-1:0] [`REG_LEN-1:0]            CDB_Data,
+    input [`WAYS-1:0] [`XLEN-1:0]            CDB_Data,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx,
     input [`WAYS-1:0]                           CDB_valid,
 
-    input [`REG_LEN-1:0]                        opa_in, // data or PRN
-    input [`REG_LEN-1:0]                        opb_in, // data or PRN
+    input [`XLEN-1:0]                        opa_in, // data or PRN
+    input [`XLEN-1:0]                        opb_in, // data or PRN
     input                                       opa_valid_in, // indicate whether it is data or PRN, 1: data 0: PRN
     input                                       opb_valid_in, // assuming opx_valid_in is 0 when en == 0
     input                                       rd_mem_in,                         
     input                                       wr_mem_in,
     input [$clog2(`PRF)-1:0]                    dest_PRF_idx_in,
-    input [$clog2(`ROB):0]                      rob_idx_in,                        
+    input [$clog2(`ROB)-1:0]                      rob_idx_in,                        
 
     input                                       load_in, // high when dispatch
     input [`OLEN-1:0]                           offset_in,
@@ -32,8 +32,8 @@ module RS_Line(
 
 
     output logic                                ready,
-    output logic [`REG_LEN-1:0]                 opa_out,
-    output logic [`REG_LEN-1:0]                 opb_out,
+    output logic [`XLEN-1:0]                 opa_out,
+    output logic [`XLEN-1:0]                 opb_out,
     output logic [$clog2(`PRF)-1:0]             dest_PRF_idx_out,
     output logic [$clog2(`ROB)-1:0]             rob_idx_out,
     output logic                                is_free,
@@ -49,10 +49,10 @@ module RS_Line(
     logic [`WAYS-1:0]                           opb_reg_is_from_CDB;
     logic                                         opa_valid_reg;
     logic                                         opb_valid_reg;
-    logic [`REG_LEN-1:0]                          opa_reg;
-    logic [`REG_LEN-1:0]                          opb_reg;
-    logic [`REG_LEN-1:0]                        opa_reg_feed;
-    logic [`REG_LEN-1:0]                        opb_reg_feed;
+    logic [`XLEN-1:0]                          opa_reg;
+    logic [`XLEN-1:0]                          opb_reg;
+    logic [`XLEN-1:0]                        opa_reg_feed;
+    logic [`XLEN-1:0]                        opb_reg_feed;
     logic                                       opa_valid_reg_feed;
     logic                                       opb_valid_reg_feed;
 

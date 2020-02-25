@@ -27,43 +27,34 @@
 /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 /usr/caen/vcs-2017.12-SP2-1/linux64/bin/vcs1
 RS_Line.vg
-rs_line_test.sv
-67
-sysc_uni_pwd=/home/sunsusan/Desktop/group7w20/verilog
-_LMFILES_=/usr/caen/misc/modules/vcs/2017.12-SP2-1
-XMODIFIERS=@im=ibus
-XDG_VTNR=1
-XDG_SESSION_TYPE=x11
-XDG_SESSION_ID=21
-XDG_SESSION_DESKTOP=gnome-classic
-XDG_SEAT=seat0
-XDG_RUNTIME_DIR=/run/user/114191087
-XDG_MENU_PREFIX=gnome-
-XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/:/usr/caen/misc/menus
-XDG_CURRENT_DESKTOP=GNOME-Classic:GNOME
-XAUTHORITY=/run/gdm/auth-for-sunsusan-4LTDdh/database
-WINDOWPATH=1:1
-VTE_VERSION=5202
+rs_test.sv
+46
+sysc_uni_pwd=/home/wlshen/eecs470/group7w20/verilog
+_LMFILES_=/usr/caen/misc/modules/gcc/6.2.0:/usr/caen/misc/modules/vcs/2017.12-SP2-1
+XDG_SESSION_ID=2592
+XDG_RUNTIME_DIR=/run/user/99554550
+XDG_DATA_DIRS=/home/wlshen/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
 VMR_MODE_FLAG=64
 VCS_MODE_FLAG=64
 VCS_HOME=/usr/caen/vcs-2017.12-SP2-1
 VCS_DEPTH=0
 VCS_ARG_ADDED_FOR_TMP=1
 VCS_ARCH=linux64
-USERNAME=sunsusan
 UNAME=/bin/uname
 TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
 SW_VCS=2017.12-SP2-1
-SSH_AUTH_SOCK=/run/user/114191087/keyring/ssh
+SSH_TTY=/dev/pts/2
+SSH_CONNECTION=35.3.63.121 48840 141.213.74.68 22
+SSH_CLIENT=35.3.63.121 48840 22
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
-SSH_AGENT_PID=31449
 SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
-SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/31213,unix/unix:/tmp/.ICE-unix/31213
+SELINUX_USE_CURRENT_RANGE=
+SELINUX_ROLE_REQUESTED=
+SELINUX_LEVEL_REQUESTED=
 SCRNAME=vcs
 SCRIPT_NAME=vcs
 RESET_NET_NAME=reset
 QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
-QT_IM_MODULE=ibus
 QT_GRAPHICSSYSTEM_CHECKED=1
 OVA_UUM=0
 MSI2LMP_LIBRARY=/usr/share/lammps/frc_files
@@ -72,40 +63,28 @@ MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/caen/misc/module
 MFLAGS=
 MAKELEVEL=1
 MAKEFLAGS=
-LOADEDMODULES=vcs/2017.12-SP2-1
+LOADEDMODULES=gcc/6.2.0:vcs/2017.12-SP2-1
 LESSOPEN=||/usr/bin/lesspipe.sh %s
+LD_RUN_PATH=/usr/um/gcc-6.2.0/lib64
 LC_ALL=C
 LAMMPS_POTENTIALS=/usr/share/lammps/potentials
-KRB5CCNAME=FILE:/tmp/krb5cc_114191087_I9cEzE
+KRB5CCNAME=FILE:/tmp/krb5cc_99554550_CtIDwp
 KDEDIRS=/usr
-IMSETTINGS_MODULE=none
-IMSETTINGS_INTEGRATE_DESKTOP=yes
-ICEAUTHORITY=/run/user/114191087/iceauthority
 HISTCONTROL=ignoredups
-GNOME_TERMINAL_SERVICE=:1.98
-GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/801b2ae6_f62c_4f57_9608_e85c578db3f3
-GNOME_SHELL_SESSION_MODE=classic
-GNOME_DESKTOP_SESSION_ID=this-is-deprecated
-GJS_DEBUG_TOPICS=JS ERROR;JS LOG
-GJS_DEBUG_OUTPUT=stderr
-GDM_LANG=en_US.UTF-8
-GDMSESSION=gnome-classic
-DESKTOP_SESSION=gnome-classic
-DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-uXuWdJf50l,guid=ea39f76b214bac31a85230c85e53248a
-COLORTERM=truecolor
 CLOCK_PERIOD=10	
 CLOCK_NET_NAME=clock
+CINNAMON_2D=1
 BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
 0
 4
-1582390917 sys_defs.svh
+1582590381 ../sys_defs.svh
 1062689876 /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
-1582508016 RS_Line.vg
-1582501365 rs_line_test.sv
+1582596354 RS_Line.vg
+1582596593 rs_test.sv
 5
 0 
 1531625631 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so
 1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
 1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
 1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
-1582508020 syn_simv.daidir
+1582596598 syn_simv.daidir
