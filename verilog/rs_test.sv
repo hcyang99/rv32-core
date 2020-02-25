@@ -43,8 +43,8 @@ module testbench;
 
     // outputs from one rs entry
     logic                                       ready;
-    logic [`XLEN-1:0]                        opa_out;
-    logic [`XLEN-1:0]                        opb_out;
+    logic [`XLEN-1:0]                           opa_out;
+    logic [`XLEN-1:0]                           opb_out;
     logic [$clog2(`PRF)-1:0]                    dest_PRF_idx_out;
     logic [$clog2(`ROB)-1:0]                    rob_idx_out;
     logic                                       is_free;
@@ -78,6 +78,7 @@ module testbench;
     logic [`XLEN-1:0]                           opa_out_correct;
     logic [`XLEN-1:0]                           opb_out_correct;
     logic                                       teststart;
+    logic                                       correct;
 
 
 
@@ -96,9 +97,22 @@ module testbench;
 
 /* ============================================================================
  *
- *                             COMBINATION LOGIC
+ *                             COMBINATIONAL LOGIC
  * 
  */
+
+    always_comb begin           // Logic to determine if output is correct. If correct == 0, module is wrong!
+        correct = 1'b1;
+        if(ready) begin
+            if(is_free) correct = 1'b0;
+            else if(dest_PRF_idx_out == dest_PRF_idx_in && rob_idx_out == rob_idx_in &&
+                    PC_out == PC_in && Operation_out == Operation_in &&
+                    offset_out == offset_in && rd_mem_out == rd_mem_in && wr_mem_out == wr_mem_in) begin
+                if(opa_valid && opa_out != opa_in || !opa_valid && opa_out != CDB_Data[j]) correct = 1'b0;
+                if(opb_valid && opb_out != opb_in || !opb_valid && opb_out != CDB_Data[k]) correct = 1'b0;
+            end else correct = 1'b0;    // If here, then one of the pass-throughs was changed
+        end else correct = 1'b0;
+    end
 
 /* 
  *                            END OF COMBINATIONAL LOGIC
@@ -172,6 +186,7 @@ module testbench;
 logic [3:0] wait_1;
 logic [3:0] wait_2;
     task new_test;
+        @(negedge clock);
         assign reset = 1'b1;
         @(negedge clock);
         assign reset = 1'b0;
@@ -193,8 +208,18 @@ logic [3:0] wait_2;
             $display("CDB_PRF_idx[%d] %h", k, CDB_PRF_idx[k]);
             @(negedge clock);
             CDB_valid[k] = 1'b0;
+            @(negedge clock);
+            check_correct;
     endtask
 
+    task check_correct;
+        #2
+        if(!correct) begin
+            $display("@@@ Incorrect at time %4.0f", $time);
+            $display("@@@ Failed");
+            $finish;
+        end
+    endtask
 
 /* 
  *                            END OF TESTBENCH TASKS
@@ -347,7 +372,7 @@ logic [3:0] wait_2;
 
 
 
-
+        $display("@@@ Passed");
         $finish;
 
     end
