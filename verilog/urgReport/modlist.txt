@@ -1,0 +1,13 @@
+Design Module List
+
+Total Module Definition Coverage Summary 
+SCORE  LINE   COND   TOGGLE 
+ 70.82  95.65  32.00  84.81 
+
+
+Total modules in report: 2
+-------------------------------------------------------------------------------
+SCORE  LINE   COND   TOGGLE NAME      
+ 60.05  94.02   3.85  82.29 testbench 
+ 83.37 100.00  62.50  87.60 RS_Line   
+

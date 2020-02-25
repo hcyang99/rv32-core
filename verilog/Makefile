@@ -32,7 +32,7 @@ TESTBENCH	= rs_test.sv
 SYNFILES	= RS_Line.vg
 
 # COVERAGE CONFIG
-COVERAGE	= line+tgl
+COVERAGE	= line+tgl+cond
 
 # Passed through to .tcl scripts:
 export CLOCK_NET_NAME = clock
