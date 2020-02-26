@@ -32,7 +32,7 @@ TESTBENCH	= rs_test.sv
 SYNFILES	= RS_Line.vg
 
 # COVERAGE CONFIG
-COVERAGE	= line+tgl+cond
+COVERAGE	= line+tgl+branch
 
 # Passed through to .tcl scripts:
 export CLOCK_NET_NAME = clock
@@ -61,6 +61,7 @@ coverage:
 	vcs -V -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson -debug_pp -cm $(COVERAGE) $(SIMFILES) $(TESTBENCH) -o simv
 	./simv -cm $(COVERAGE)
 	urg -dir simv.vdb -format text
+	mv urgReport/hierarchy.txt coverage.txt
 
 .PHONY: sim
 
