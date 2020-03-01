@@ -157,11 +157,10 @@ module RS(
     output logic [`WAYS-1:0]                    inst_out_valid, // tell which inst is valid, **001** when only one inst is valid 
     output logic [`WAYS-1:0] [`REG_LEN-1:0]     opa_out,
     output logic [`WAYS-1:0] [`REG_LEN-1:0]     opb_out,
-    output logic [`WAYS-1:0] [$clog2(`PRF)-1:0] dest_PRF_idx_out,
     output logic [`WAYS-1:0] [$clog2(`ROB)-1:0] rob_idx_out,
 
     output logic [`WAYS-1:0] [`PCLEN-1:0]       PC_out,
-    output ALU_FUNC Operation_out [`WAYS-1:0],
+    output ALU_FUNC                             Operation_out [`WAYS-1:0],
     output logic [`WAYS-1:0] [`OLEN-1:0]        offset_out,
     output logic [$clog2(`RS)-1:0]              num_is_free,
     

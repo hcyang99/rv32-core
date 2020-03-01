@@ -1,4 +1,4 @@
-`include "sys_defs.svh"
+`include "../sys_defs.svh"
 `define REG_LEN     64
 `define PRF         64
 `define ROB         16
