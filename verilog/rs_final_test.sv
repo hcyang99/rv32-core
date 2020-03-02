@@ -16,6 +16,7 @@ module testbench;
  *                               WIRE DECLARATIONS
  * 
  */
+
  // input
     logic                                       clock;
     logic                                       reset;
@@ -109,13 +110,16 @@ initial
     begin
     clock = 0;
     $display("start");
-    $display("Time|reset|load_in|CDB_Data|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out[0]|opb_out[0]");
-    $monitor("%4.0f  %b ", $time, reset,
+//    $display("Time|reset|load_in|CDB_Data|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out[0]|opb_out[0]");
+/*
+    $monitor("%4.0f  %b ", c, reset,
             "    %b      %h", load_in[0], CDB_Data[0],
             "        %h         %h",CDB_PRF_idx[0],CDB_valid[0],
             "   %h     %h",opa_in[0],opa_valid_in[0],
             "     %h     %h",opb_in[0],opb_valid_in[0],
             "           %b    %h   %h",inst_out_valid,opa_out[0],opb_out[0]);
+*/
+    $monitor("Time:%4.0f opa_in[0]: %h opb_in[0]: %h",$time, opa_in[0],opb_in[0]);
         @(negedge clock);
         reset = 1; 
         @(negedge clock);
