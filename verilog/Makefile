@@ -29,7 +29,7 @@ SIMFILES	= rs.sv
 TESTBENCH	= rs_final_test.sv
 
 # SYNTHESIS CONFIG
-SYNFILES	= RS.vg
+SYNFILES	= rs.vg
 
 # COVERAGE CONFIG
 COVERAGE	= line+tgl+cond

@@ -1,5 +1,5 @@
 `include "sys_defs.svh"
-`define REG_LEN     64
+//`define REG_LEN     64
 `define PRF         64
 `define ROB         16
 `define RS          16
@@ -12,12 +12,12 @@ module RS_Line(
     input                                       clock,
     input                                       reset,
 
-    input [`WAYS-1:0] [`REG_LEN-1:0]            CDB_Data,
+    input [`WAYS-1:0] [`XLEN-1:0]            CDB_Data,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx,
     input [`WAYS-1:0]                           CDB_valid,
 
-    input [`REG_LEN-1:0]                        opa_in, // data or PRN
-    input [`REG_LEN-1:0]                        opb_in, // data or PRN
+    input [`XLEN-1:0]                        opa_in, // data or PRN
+    input [`XLEN-1:0]                        opb_in, // data or PRN
     input                                       opa_valid_in, // indicate whether it is data or PRN, 1: data 0: PRN
     input                                       opb_valid_in, // assuming opx_valid_in is 0 when en == 0
     input                                       rd_mem_in,                         
@@ -32,8 +32,8 @@ module RS_Line(
 
 
     output logic                                ready,
-    output logic [`REG_LEN-1:0]                 opa_out,
-    output logic [`REG_LEN-1:0]                 opb_out,
+    output logic [`XLEN-1:0]                 opa_out,
+    output logic [`XLEN-1:0]                 opb_out,
     output logic [$clog2(`PRF)-1:0]             dest_PRF_idx_out,
     output logic [$clog2(`ROB)-1:0]             rob_idx_out,
     output logic                                is_free,
@@ -49,10 +49,10 @@ module RS_Line(
     logic [`WAYS-1:0]                           opb_reg_is_from_CDB;
     reg                                         opa_valid_reg;
     reg                                         opb_valid_reg;
-    reg [`REG_LEN-1:0]                          opa_reg;
-    reg [`REG_LEN-1:0]                          opb_reg;
-    logic [`REG_LEN-1:0]                        opa_reg_feed;
-    logic [`REG_LEN-1:0]                        opb_reg_feed;
+    reg [`XLEN-1:0]                          opa_reg;
+    reg [`XLEN-1:0]                          opb_reg;
+    logic [`XLEN-1:0]                        opa_reg_feed;
+    logic [`XLEN-1:0]                        opb_reg_feed;
     logic                                       opa_valid_reg_feed;
     logic                                       opb_valid_reg_feed;
 
@@ -135,12 +135,12 @@ module RS(
     input                                       clock,
     input                                       reset,
 
-    input [`WAYS-1:0] [`REG_LEN-1:0]            CDB_Data,
+    input [`WAYS-1:0] [`XLEN-1:0]               CDB_Data,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx,
     input [`WAYS-1:0]                           CDB_valid,
 
-    input [`WAYS-1:0] [`REG_LEN-1:0]            opa_in, // data or PRN
-    input [`WAYS-1:0] [`REG_LEN-1:0]            opb_in, // data or PRN
+    input [`WAYS-1:0] [`XLEN-1:0]               opa_in, // data or PRN
+    input [`WAYS-1:0] [`XLEN-1:0]               opb_in, // data or PRN
     input [`WAYS-1:0]                           opa_valid_in, // indicate whether it is data or PRN, 1: data 0: PRN
     input [`WAYS-1:0]                           opb_valid_in,
     input [`WAYS-1:0]                           rd_mem_in,                          
@@ -151,12 +151,13 @@ module RS(
     input [`WAYS-1:0]                           load_in, // high when dispatch :: SHOULD HAVE BEEN MULTIPLE ENTRIES??
     input [`WAYS-1:0] [`OLEN-1:0]               offset_in,
     input [`WAYS-1:0] [`PCLEN-1:0]              PC_in,
-    input ALU_FUNC Operation_in [`WAYS-1:0],
+    input ALU_FUNC                              Operation_in [`WAYS-1:0],
 
 
     output logic [`WAYS-1:0]                    inst_out_valid, // tell which inst is valid, **001** when only one inst is valid 
-    output logic [`WAYS-1:0] [`REG_LEN-1:0]     opa_out,
-    output logic [`WAYS-1:0] [`REG_LEN-1:0]     opb_out,
+    output logic [`WAYS-1:0] [`XLEN-1:0]        opa_out,
+    output logic [`WAYS-1:0] [`XLEN-1:0]        opb_out,
+    output logic [`WAYS-1:0] [$clog2(`PRF)-1:0] dest_PRF_idx_out,
     output logic [`WAYS-1:0] [$clog2(`ROB)-1:0] rob_idx_out,
 
     output logic [`WAYS-1:0] [`PCLEN-1:0]       PC_out,
@@ -170,8 +171,8 @@ module RS(
 );
     // in hubs
     logic [`RS-1:0]                             reset_hub;
-    logic [`RS-1:0] [`REG_LEN-1:0]              opa_in_hub;
-    logic [`RS-1:0] [`REG_LEN-1:0]              opb_in_hub;
+    logic [`RS-1:0] [`XLEN-1:0]                 opa_in_hub;
+    logic [`RS-1:0] [`XLEN-1:0]                 opb_in_hub;
     logic [`RS-1:0]                             opa_valid_in_hub;
     logic [`RS-1:0]                             opb_valid_in_hub;
     logic [`RS-1:0]                             rd_mem_in_hub;
@@ -185,8 +186,8 @@ module RS(
     
     // out hubs
     logic [`RS-1:0]                             ready_hub;
-    logic [`RS-1:0] [`REG_LEN-1:0]              opa_out_hub;
-    logic [`RS-1:0] [`REG_LEN-1:0]              opb_out_hub;
+    logic [`RS-1:0] [`XLEN-1:0]              opa_out_hub;
+    logic [`RS-1:0] [`XLEN-1:0]              opb_out_hub;
     logic [`RS-1:0] [$clog2(`PRF)-1:0]          dest_PRF_idx_out_hub;
     logic [`RS-1:0] [$clog2(`ROB)-1:0]          rob_idx_out_hub;
     logic [`RS-1:0]                             is_free_hub;   
@@ -201,8 +202,8 @@ module RS(
     logic [$clog2(`RS)-1:0]                     free_count_next;
     logic [$clog2(`RS)-1:0]                     free_decrease;
     logic [$clog2(`RS)-1:0]                     free_increase;
-    logic [`WAYS-1:0] [`REG_LEN-1:0]            opa_in_processed;
-    logic [`WAYS-1:0] [`REG_LEN-1:0]            opb_in_processed;
+    logic [`WAYS-1:0] [`XLEN-1:0]            opa_in_processed;
+    logic [`WAYS-1:0] [`XLEN-1:0]            opb_in_processed;
     logic [`WAYS-1:0] [`WAYS-1:0]               opa_is_from_CDB;
     logic [`WAYS-1:0] [`WAYS-1:0]               opb_is_from_CDB; 
     logic [`WAYS-1:0]                           opa_valid_in_processed;
@@ -210,7 +211,7 @@ module RS(
 
     assign free_count_next = free_count - free_decrease + free_increase;
 
-        // watching CDB
+    // watching CDB
     generate
         for (genvar i = 0; i < `WAYS; i = i + 1) begin
             for (genvar j = 0; j < `WAYS; j = j + 1) begin
@@ -219,6 +220,8 @@ module RS(
             end
         end
     endgenerate
+    
+
 
     generate
         for (genvar i = 0; i < `WAYS; i = i + 1) begin
@@ -278,7 +281,8 @@ module RS(
 
     // selecting `WAYS RS Entries to load_in
     always_comb begin
-        int j = 0;
+    $display("opa_is_from_CDB = %h",opa_is_from_CDB);
+    $display("opb_is_from_CDB = %h",opb_is_from_CDB);
         opa_in_hub = 0;
         opb_in_hub = 0;
         opa_valid_in_hub = 0;
@@ -291,6 +295,7 @@ module RS(
         offset_in_hub = 0;
         PC_in_hub = 0;
         Operation_in_hub = '{`RS{ALU_ADD}};
+        int j = 0;
         for (int i = 0; i < `RS; i = i + 1) begin
             if (j < `WAYS && is_free_hub[i]) begin
                 opa_in_hub[i] = opa_in_processed[j];
@@ -312,6 +317,7 @@ module RS(
     end
 
     always_ff @ (posedge clock) begin
+        $display("ready_hub: %b",ready_hub);
         if (reset) begin
             free_count <= `RS;
         end
