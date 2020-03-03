@@ -29,7 +29,7 @@ SIMFILES	= rs.sv
 TESTBENCH	= rs_final_test.sv
 
 # SYNTHESIS CONFIG
-SYNFILES	= rs.vg
+SYNFILES	= RS.vg
 
 # COVERAGE CONFIG
 COVERAGE	= line+tgl+cond
@@ -90,6 +90,9 @@ syn_simv:	$(SYNFILES) $(TESTBENCH)
 
 syn:	syn_simv
 	./syn_simv | tee syn_program.out
+
+RS.vg: rs.sv RS.tcl
+	dc_shell-t -f RS.tcl | tee RS.out
 
 RS_Line.vg: RS_Line.sv RS_Line.tcl
 	dc_shell-t -f RS_Line.tcl | tee RS_Line.out
