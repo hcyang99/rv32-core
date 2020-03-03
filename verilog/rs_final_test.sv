@@ -49,7 +49,7 @@ module testbench;
     logic [`WAYS-1:0] [`PCLEN-1:0]          PC_out;
     ALU_FUNC                                Operation_out [`WAYS-1:0];
     logic [`WAYS-1:0] [`OLEN-1:0]           offset_out;
-    logic [$clog2(`RS)-1:0]                 num_is_free;
+    logic [$clog2(`RS):0]                 num_is_free;
     
     logic [`WAYS-1:0]                       rd_mem_out;                         
     logic [`WAYS-1:0]                       wr_mem_out;        
@@ -65,38 +65,38 @@ module testbench;
 
     RS rs_dummy (
         // inputs
-        .clock(clock),
-        .reset(reset),
-        .CDB_Data(),
-        .CDB_PRF_idx(),
-        .CDB_valid(),
-        .opa_in(),
-        .opb_in(),
-        .opa_valid_in(),
-        .opb_valid_in(),
-        .rd_mem_in(),                          
-        .wr_mem_in(),
-        .dest_PRF_idx_in(),
-        .rob_idx_in(),                             
-        .load_in(),
-        .offset_in(),
-        .PC_in(),
-        .Operation_in(),
+        .clock,
+        .reset,
+        .CDB_Data,
+        .CDB_PRF_idx,
+        .CDB_valid,
+        .opa_in,
+        .opb_in,
+        .opa_valid_in,
+        .opb_valid_in,
+        .rd_mem_in,                          
+        .wr_mem_in,
+        .dest_PRF_idx_in,
+        .rob_idx_in,                             
+        .load_in,
+        .offset_in,
+        .PC_in,
+        .Operation_in,
 
         // output
-        .inst_out_valid(), // tell which inst is valid, **001** when only one inst is valid 
-        .opa_out(),
-        .opb_out(),
-        .dest_PRF_idx_out(),
-        .rob_idx_out(),
+        .inst_out_valid, // tell which inst is valid, **001** when only one inst is valid 
+        .opa_out,
+        .opb_out,
+        .dest_PRF_idx_out,
+        .rob_idx_out,
 
-        .PC_out(),
-        .Operation_out(),
-        .offset_out(),
-        .num_is_free(),
+        .PC_out,
+        .Operation_out,
+        .offset_out,
+        .num_is_free,
     
-        .rd_mem_out(),                          
-        .wr_mem_out()    
+        .rd_mem_out,       
+        .wr_mem_out    
     );
 
 // Generate System Clock
@@ -106,20 +106,29 @@ module testbench;
 		clock = ~clock;
 	end
 
+property p1;
+    @(posedge clock)
+    reset |-> (opa_out == 0 && opb_out == 0);
+endproperty
+assert property(p1) else $finish;
+
+
+
+
+
 initial 
     begin
     clock = 0;
     $display("start");
-//    $display("Time|reset|load_in|CDB_Data|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out[0]|opb_out[0]");
-/*
-    $monitor("%4.0f  %b ", c, reset,
+    $display("Time|reset|load_in|CDB_Data|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out[0]|opb_out[0]");
+    $monitor("%4.0f  %b ", $time, reset,
             "    %b      %h", load_in[0], CDB_Data[0],
             "        %h         %h",CDB_PRF_idx[0],CDB_valid[0],
             "   %h     %h",opa_in[0],opa_valid_in[0],
             "     %h     %h",opb_in[0],opb_valid_in[0],
             "           %b    %h   %h",inst_out_valid,opa_out[0],opb_out[0]);
-*/
-    $monitor("Time:%4.0f opa_in[0]: %h opb_in[0]: %h",$time, opa_in[0],opb_in[0]);
+
+//    $monitor("Time:%4.0f opa_in[0]: %h opb_in[0]: %h",$time, opa_in,opb_in);
         @(negedge clock);
         reset = 1; 
         @(negedge clock);
@@ -129,9 +138,13 @@ initial
         @(negedge clock);
         load_in = 3'b001;
         opa_in[0] = 32'h110;
+        opa_in[1] = 32'h220;
+        opa_in[2] = 32'h330;
         opa_valid_in = 3'b001;
         opb_in[0] = 32'h11;
-        opb_valid_in[0] = 3'b000;
+        opb_in[1] = 32'h22;
+        opb_in[2] = 32'h33;
+        opb_valid_in = 3'b000;
         @(negedge clock);
         load_in = 3'b0;
         @(negedge clock);

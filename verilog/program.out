@@ -1,21 +1,32 @@
 Chronologic VCS simulator copyright 1991-2017
 Contains Synopsys proprietary information.
-Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Mar  2 11:36 2020
+Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Mar  3 10:42 2020
 start
-Time:   0 opa_in[0]: xxxxxxxx opb_in[0]: xxxxxxxx
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-Time:  40 opa_in[0]: 00000110 opb_in[0]: 00000011
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-opa_in[0]: zzzzzzzz opb_in[0]: zzzzzzzz
-$finish called from file "rs_final_test.sv", line 144.
+Time|reset|load_in|CDB_Data|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out[0]|opb_out[0]
+   0  x     x      xxxxxxxx        xx         x   xxxxxxxx     x     xxxxxxxx     x           000    00000000   00000000
+ready_hub: xxxxxxxxxxxxxxxx
+  10  1     x      xxxxxxxx        xx         x   xxxxxxxx     x     xxxxxxxx     x           000    00000000   00000000
+ready_hub: xxxxxxxxxxxxxxxx
+enter reset!
+reset: 1 free_count: xxxxx `RS:          16
+leave reset!
+  20  0     x      xxxxxxxx        xx         x   xxxxxxxx     x     xxxxxxxx     x           000    00000000   00000000
+ready_hub: 0000000000000000
+  30  0     x      xxxxxxxx        xx         0   xxxxxxxx     x     xxxxxxxx     x           000    00000000   00000000
+ready_hub: 0000000000000000
+  40  0     1      xxxxxxxx        xx         0   00000110     1     00000011     0           000    00000000   00000000
+ready_hub: 0000000000000000
+  50  0     0      xxxxxxxx        xx         0   00000110     1     00000011     0           000    00000000   00000000
+ready_hub: 0000000000000000
+  60  0     0      00000abc        11         1   00000110     1     00000011     0           000    00000000   00000000
+ready_hub: 0000000000000000
+  65  0     0      00000abc        11         1   00000110     1     00000011     0           001    00000110   00000abc
+ready_hub: 0000000000000001
+  75  0     0      00000abc        11         1   00000110     1     00000011     0           000    00000000   00000000
+ready_hub: 0000000000000000
+$finish called from file "rs_final_test.sv", line 157.
 $finish at simulation time                   90
            V C S   S i m u l a t i o n   R e p o r t 
 Time: 90
 CPU Time:      0.190 seconds;       Data structure size:   0.0Mb
-Mon Mar  2 11:36:14 2020
+Tue Mar  3 10:42:30 2020

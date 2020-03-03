@@ -1,4 +1,4 @@
-`include "sys_defs.svh"
+`include "../sys_defs.svh"
 //`define REG_LEN     64
 `define PRF         64
 `define ROB         16
@@ -23,7 +23,7 @@ module RS_Line(
     input                                       rd_mem_in,                         
     input                                       wr_mem_in,
     input [$clog2(`PRF)-1:0]                    dest_PRF_idx_in,
-    input [$clog2(`ROB):0]                      rob_idx_in,                        
+    input [$clog2(`ROB)-1:0]                    rob_idx_in,                        
 
     input                                       load_in, // high when dispatch
     input [`OLEN-1:0]                           offset_in,
@@ -32,6 +32,7 @@ module RS_Line(
 
 
     output logic                                ready,
+    // RS entry
     output logic [`XLEN-1:0]                    opa_out,
     output logic [`XLEN-1:0]                    opb_out,
     output logic [$clog2(`PRF)-1:0]             dest_PRF_idx_out,
@@ -49,10 +50,10 @@ module RS_Line(
     logic [`WAYS-1:0]                           opb_reg_is_from_CDB;
     reg                                         opa_valid_reg;
     reg                                         opb_valid_reg;
-    reg   [`XLEN-1:0]                           opa_reg;
-    reg   [`XLEN-1:0]                           opb_reg;
-    logic [`XLEN-1:0]                           opa_reg_feed;
-    logic [`XLEN-1:0]                           opb_reg_feed;
+//    logic [`XLEN-1:0]                           opa_reg;
+//    logic [`XLEN-1:0]                           opb_reg;
+    reg [`XLEN-1:0]                             opa_reg_feed;
+    reg [`XLEN-1:0]                             opb_reg_feed;
     logic                                       opa_valid_reg_feed;
     logic                                       opb_valid_reg_feed;
 
@@ -61,14 +62,15 @@ module RS_Line(
     // watching CDB
     generate
         for (genvar i = 0; i < `WAYS; i = i + 1) begin
-            assign opa_reg_is_from_CDB[i] = ~opa_valid_reg && CDB_valid[i] && CDB_PRF_idx[i] == opa_reg;
-            assign opb_reg_is_from_CDB[i] = ~opb_valid_reg && CDB_valid[i] && CDB_PRF_idx[i] == opb_reg;
+            assign opa_reg_is_from_CDB[i] = ~opa_valid_reg && CDB_valid[i] && CDB_PRF_idx[i] == opa_out;
+            assign opb_reg_is_from_CDB[i] = ~opb_valid_reg && CDB_valid[i] && CDB_PRF_idx[i] == opb_out;
         end
     endgenerate
 
     always_comb begin
-        opa_reg_feed = opa_reg;
-        opb_reg_feed = opb_reg;
+//    $display("opb_reg_is_from_CDB:%b opb_valid_reg:%b CDB_valid:%b CDB_PRF_idx:%h opb_out:%h",opb_reg_is_from_CDB,opb_valid_reg,CDB_valid,CDB_PRF_idx,opb_out);
+        opa_reg_feed = opa_out;
+        opb_reg_feed = opb_out;
         opa_valid_reg_feed = opa_valid_reg;
         opb_valid_reg_feed = opb_valid_reg;
         if (~is_free) begin
@@ -84,27 +86,28 @@ module RS_Line(
             end
         end
     end
-
+    
     always_ff @ (posedge clock) begin
+//    $display("reset: %h load_in: %h",reset,load_in);
         if (reset) begin
             is_free <= 1;
             opa_valid_reg <= 0;
             opb_valid_reg <= 0;
-            opa_reg <= 0;
-            opb_reg <= 0;
+            opa_out <= 0;
+            opb_out <= 0;
         end
         else if (load_in) begin
             is_free <= 0;
             opa_valid_reg <= opa_valid_in;
             opb_valid_reg <= opb_valid_in;
-            opa_reg <= opa_in;
-            opb_reg <= opb_in;
+            opa_out <= opa_in;
+            opb_out <= opb_in;
         end
         else begin
             opa_valid_reg <= opa_valid_reg_feed;
             opb_valid_reg <= opb_valid_reg_feed;
-            opa_reg <= opa_reg_feed;
-            opb_reg <= opb_reg_feed;
+            opa_out <= opa_reg_feed;
+            opb_out <= opb_reg_feed;
         end
     end
 
@@ -130,6 +133,10 @@ module RS_Line(
     end
     
 endmodule
+
+
+
+
 
 module RS(
     input                                       clock,
@@ -163,7 +170,7 @@ module RS(
     output logic [`WAYS-1:0] [`PCLEN-1:0]       PC_out,
     output ALU_FUNC                             Operation_out [`WAYS-1:0],
     output logic [`WAYS-1:0] [`OLEN-1:0]        offset_out,
-    output logic [$clog2(`RS)-1:0]              num_is_free,
+    output logic [$clog2(`RS):0]              num_is_free,
     
     output logic [`WAYS-1:0]                    rd_mem_out,                          
     output logic [`WAYS-1:0]                    wr_mem_out                        
@@ -178,7 +185,7 @@ module RS(
     logic [`RS-1:0]                             rd_mem_in_hub;
     logic [`RS-1:0]                             wr_mem_in_hub;
     logic [`RS-1:0] [$clog2(`PRF)-1:0]          dest_PRF_idx_in_hub;
-    logic [`RS-1:0] [$clog2(`ROB):0]            rob_idx_in_hub;
+    logic [`RS-1:0] [$clog2(`ROB)-1:0]          rob_idx_in_hub;
     logic [`RS-1:0]                             load_in_hub;
     logic [`RS-1:0] [`OLEN-1:0]                 offset_in_hub;
     logic [`RS-1:0] [`PCLEN-1:0]                PC_in_hub;
@@ -198,8 +205,8 @@ module RS(
     logic [`RS-1:0]                             wr_mem_out_hub;
 
     // other internals
-    reg   [$clog2(`RS)-1:0]                     free_count;
-    logic [$clog2(`RS)-1:0]                     free_count_next;
+    reg   [$clog2(`RS):0]                     free_count;
+    logic [$clog2(`RS):0]                     free_count_next;
     logic [$clog2(`RS)-1:0]                     free_decrease;
     logic [$clog2(`RS)-1:0]                     free_increase;
     logic [`WAYS-1:0] [`XLEN-1:0]               opa_in_processed;
@@ -209,7 +216,7 @@ module RS(
     logic [`WAYS-1:0]                           opa_valid_in_processed;
     logic [`WAYS-1:0]                           opb_valid_in_processed;
 
-    assign free_count_next = free_count - free_decrease + free_increase;
+    assign free_count_next = (free_count - free_decrease + free_increase);
 
     // watching CDB
     generate
@@ -292,45 +299,87 @@ module RS(
         offset_in_hub = 0;
         PC_in_hub = 0;
         Operation_in_hub = '{`RS{ALU_ADD}};
+        free_decrease = 0;
+        for (int i = 0; i < `WAYS; i = i + 1) begin
+            if(load_in[i]) begin
+                for (; j < `RS; j = j + 1) begin
+                    if(is_free_hub[j]) begin
+                        load_in_hub[j] = 1;
+                        opa_in_hub[j] = opa_in_processed[i];
+                        opb_in_hub[j] = opb_in_processed[i];
+                        opa_valid_in_hub[j] = opa_valid_in_processed[i];
+                        opb_valid_in_hub[j] = opb_valid_in_processed[i];
+                        // pipeline related
+                        rd_mem_in_hub[j] = rd_mem_in[i];
+                        wr_mem_in_hub[j] = wr_mem_in[i];
+                        dest_PRF_idx_in_hub[j] = dest_PRF_idx_in[i];
+                        rob_idx_in_hub[j] = rob_idx_in[i];
+                        offset_in_hub[j] = offset_in[i];
+                        PC_in_hub[j] = PC_in[i];
+                        Operation_in_hub[j] = Operation_in[i];
+                        free_decrease = free_decrease + 1;
+                        break;
+                    end
+                end
+            end
+        end
+    end
+
+/*
         for (int i = 0; i < `RS; i = i + 1) begin
             if (j < `WAYS && is_free_hub[i]) begin
-                opa_in_hub[i] = opa_in_processed[j];
-                opb_in_hub[i] = opb_in_processed[j];
-                opa_valid_in_hub[i] = opa_valid_in_processed[j];
-                opb_valid_in_hub[i] = opb_valid_in_processed[j];
-                rd_mem_in_hub[i] = rd_mem_in[j];
-                wr_mem_in_hub[i] = wr_mem_in[j];
-                dest_PRF_idx_in_hub[i] = dest_PRF_idx_in[j];
-                rob_idx_in_hub[i] = rob_idx_in[j];
-                load_in_hub[i] = load_in[j];
-                offset_in_hub[i] = offset_in[j];
-                PC_in_hub[i] = PC_in[j];
-                Operation_in_hub[i] = Operation_in[j];
+                if(load_in[j]) begin
+                    load_in_hub[i] = 1;
+                    opa_in_hub[i] = opa_in_processed[j];
+                    opb_in_hub[i] = opb_in_processed[j];
+                    opa_valid_in_hub[i] = opa_valid_in_processed[j];
+                    opb_valid_in_hub[i] = opb_valid_in_processed[j];
+                    rd_mem_in_hub[i] = rd_mem_in[j];
+                    wr_mem_in_hub[i] = wr_mem_in[j];
+                    dest_PRF_idx_in_hub[i] = dest_PRF_idx_in[j];
+                    rob_idx_in_hub[i] = rob_idx_in[j];
+                    offset_in_hub[i] = offset_in[j];
+                    PC_in_hub[i] = PC_in[j];
+                    Operation_in_hub[i] = Operation_in[j];
+                end
                 j = j + 1;
             end
         end
         free_decrease = j;
     end
+*/
+
 
     always_ff @ (posedge clock) begin
-//        $display("ready_hub: %b",ready_hub);
+       $display("ready_hub: %b",ready_hub);
     // watch CDB
 //    $display("opa_is_from_CDB = %h",opa_is_from_CDB);
 //    $display("opb_is_from_CDB = %h",opb_is_from_CDB);
     // processing
-    $display("opa_in[0]: %h opb_in[0]: %h",opa_in[0],opb_in[0]);
+//    $display("in rs.sv, opa_in[0]: %h opb_in[0]: %h",opa_in,opb_in);
 //    $display("opa_in_processed[0]: %h opb_in_processed[0]: %h",opa_in_processed[0],opb_in_processed[0]);
-
-
+//    $display("load_in_hub: %h",load_in_hub);
+//    $display("free_decrease: %d",free_decrease); 
+//    $display("opa_out_hub[0]: %h opb_out_hub[0]: %h",opa_out_hub[0],opb_out_hub[0]);
+        
+        
         if (reset) begin
+            $display("enter reset!");
             free_count <= `RS;
+            $display("reset: %b free_count: %b `RS: %d",reset,free_count, `RS);
+            $display("leave reset!");
         end
         else begin
             free_count <= free_count_next;
         end
+
     end
+
+
     assign num_is_free = free_count;
 
+
+// output selector
     always_comb begin
         int j = 0;
         reset_hub = 0;
