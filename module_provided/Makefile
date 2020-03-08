@@ -25,8 +25,8 @@ LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
 # SIMULATION CONFIG
 
-SIMFILES	= verilog/rs.sv module_provided/psl_get.v sys_defs.svh
-TESTBENCH	= testbench/rs_final_test.sv sys_defs.svh
+SIMFILES	= psl_get.v
+TESTBENCH	= psl_get_test.v
 
 # SYNTHESIS CONFIG
 SYNFILES	= RS.vg
@@ -94,5 +94,5 @@ syn:	syn_simv
 RS_Line.vg: verilog/RS_Line.sv synth/RS_Line.tcl
 	dc_shell-t -f synth/RS_Line.tcl | tee RS_Line.out
 
-RS.vg: verilog/rs.sv RS_Line.vg synth/rs.tcl 
+RS.vg: verilog/rs.sv synth/rs.tcl
 	dc_shell-t -f synth/rs.tcl | tee rs.out

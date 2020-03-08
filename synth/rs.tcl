@@ -9,8 +9,10 @@
 #/* The following five lines must be updated for every      */
 #/* new design                                              */
 #/***********************************************************/
-
-read_file -f sverilog [list "verilog/rs.sv"]
+set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/"]
+read_file -f ddc [list "RS_Line.ddc"]
+set_dont_touch RS_Line
+read_file -f sverilog [list "verilog/rs.sv" "module_provided/psl_get.v"]
 set design_name RS
 set clock_name clock
 set reset_name reset

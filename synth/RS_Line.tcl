@@ -10,7 +10,7 @@
 #/* new design                                              */
 #/***********************************************************/
 
-read_file -f sverilog [list "RS_Line.sv"]
+read_file -f sverilog [list "verilog/RS_Line.sv"]
 set design_name RS_Line
 set clock_name clock
 set reset_name reset
