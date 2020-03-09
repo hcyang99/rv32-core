@@ -1,10 +1,9 @@
 /**********change has made**********
 1. always load in that amount of instruction, but if it reach the end. 
-set the insruction as invalid, and insert `NOOP
+set the insruction as invalid
 
 2. observe that there is one clock period time delay in the output num_is_free,
-so one solution is outputting the num_is_free, free_increase and free_decrease at
-the same time
+// output num_is_free_next
 **********************/
 `include "sys_defs.svh"
 //`define REG_LEN     64
@@ -99,45 +98,45 @@ module RS_Line(
     always_ff @ (posedge clock) begin
 //    $display("reset: %h load_in: %h",reset,load_in);
         if (reset) begin
-            is_free <= 1;
-            opa_valid_reg <= 0;
-            opb_valid_reg <= 0;
-            opa_out <= 0;
-            opb_out <= 0;
+            is_free <= #1 1;
+            opa_valid_reg <= #1 0;
+            opb_valid_reg <= #1 0;
+            opa_out <= #1 0;
+            opb_out <= #1 0;
         end
         else if (load_in) begin
-            is_free <= 0;
-            opa_valid_reg <= opa_valid_in;
-            opb_valid_reg <= opb_valid_in;
-            opa_out <= opa_in;
-            opb_out <= opb_in;
+            is_free <= #1 0;
+            opa_valid_reg <= #1 opa_valid_in;
+            opb_valid_reg <= #1 opb_valid_in;
+            opa_out <= #1 opa_in;
+            opb_out <= #1 opb_in;
         end
         else begin
-            opa_valid_reg <= opa_valid_reg_feed;
-            opb_valid_reg <= opb_valid_reg_feed;
-            opa_out <= opa_reg_feed;
-            opb_out <= opb_reg_feed;
+            opa_valid_reg <= #1 opa_valid_reg_feed;
+            opb_valid_reg <= #1 opb_valid_reg_feed;
+            opa_out <= #1 opa_reg_feed;
+            opb_out <= #1 opb_reg_feed;
         end
     end
 
     always_ff @ (posedge clock) begin
         if (reset) begin
-            PC_out <= 0;
-//            Operation_out <= ALU_ADD;
-            offset_out <= 0;
-            rd_mem_out <= 0;                          
-            wr_mem_out <= 0; 
-            dest_PRF_idx_out <= 0;
-            rob_idx_out <= 0;
+            PC_out <= #1 0;
+//            Operation_out <= #1 ALU_ADD;
+            offset_out <= #1 0;
+            rd_mem_out <= #1 0;                          
+            wr_mem_out <= #1 0; 
+            dest_PRF_idx_out <= #1 0;
+            rob_idx_out <= #1 0;
         end
         else if (load_in) begin
-            PC_out <= PC_in;
-//            Operation_out <= Operation_in;
-            offset_out <= offset_in;
-            rd_mem_out <= rd_mem_in;                          
-            wr_mem_out <= wr_mem_in; 
-            dest_PRF_idx_out <= dest_PRF_idx_in;
-            rob_idx_out <= rob_idx_in;
+            PC_out <= #1 PC_in;
+//            Operation_out <= #1 Operation_in;
+            offset_out <= #1 offset_in;
+            rd_mem_out <= #1 rd_mem_in;                          
+            wr_mem_out <= #1 wr_mem_in; 
+            dest_PRF_idx_out <= #1 dest_PRF_idx_in;
+            rob_idx_out <= #1 rob_idx_in;
         end
     end
     
@@ -352,10 +351,10 @@ module RS(
 //        $display("load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b inst_out_valid:%b",load_in,is_free_hub, load_in_hub,ready_hub,inst_out_valid); 
 //            $display("reset_hub: %b",reset_hub);
         if (reset) begin
-            num_is_free <= `RS;
+            num_is_free <= #1 `RS;
         end
         else begin
-            num_is_free <= num_is_free_next;
+            num_is_free <= #1 num_is_free_next;
         end
 
     end

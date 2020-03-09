@@ -12,12 +12,12 @@ module RS_Line(
     input                                       clock,
     input                                       reset,
 
-    input [`WAYS-1:0] [`XLEN-1:0]            CDB_Data,
+    input [`WAYS-1:0] [`XLEN-1:0]               CDB_Data,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx,
     input [`WAYS-1:0]                           CDB_valid,
 
-    input [`XLEN-1:0]                        opa_in, // data or PRN
-    input [`XLEN-1:0]                        opb_in, // data or PRN
+    input [`XLEN-1:0]                           opa_in, // data or PRN
+    input [`XLEN-1:0]                           opb_in, // data or PRN
     input                                       opa_valid_in, // indicate whether it is data or PRN, 1: data 0: PRN
     input                                       opb_valid_in, // assuming opx_valid_in is 0 when en == 0
     input                                       rd_mem_in,                         
@@ -32,8 +32,8 @@ module RS_Line(
 
 
     output logic                                ready,
-    output logic [`XLEN-1:0]                 opa_out,
-    output logic [`XLEN-1:0]                 opb_out,
+    output logic [`XLEN-1:0]                    opa_out,
+    output logic [`XLEN-1:0]                    opb_out,
     output logic [$clog2(`PRF)-1:0]             dest_PRF_idx_out,
     output logic [$clog2(`ROB)-1:0]             rob_idx_out,
     output logic                                is_free,

@@ -25,11 +25,11 @@ LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
 # SIMULATION CONFIG
 
-SIMFILES	= rs.sv
-TESTBENCH	= rs_final_test.sv
+SIMFILES	= RS_Line_old.sv
+TESTBENCH	= ../testbench/rs_test.sv
 
 # SYNTHESIS CONFIG
-SYNFILES	= RS.vg
+SYNFILES	= RS_Line.vg
 
 # COVERAGE CONFIG
 COVERAGE	= line+tgl+cond
@@ -94,6 +94,6 @@ syn:	syn_simv
 RS.vg: rs.sv RS.tcl
 	dc_shell-t -f RS.tcl | tee RS.out
 
-RS_Line.vg: RS_Line.sv RS_Line.tcl
+RS_Line.vg: RS_Line.sv ../synth/RS_Line.tcl
 	dc_shell-t -f RS_Line.tcl | tee RS_Line.out
 
