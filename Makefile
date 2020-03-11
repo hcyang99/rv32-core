@@ -20,13 +20,16 @@
 ## CONFIGURATION
 ################################################################################
 
-VCS = SW_VCS=2017.12-SP2-1 vcs -sverilog +vc -Mupdate -line -full64
+VCS = SW_VCS=2017.12-SP2-1 vcs -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson
 LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
 # SIMULATION CONFIG
 
-SIMFILES	= RS_Line.sv
-TESTBENCH	= rs_test.sv
+SIMFILES	= #verilog/rob.sv
+TESTBENCH	= sys_defs.svh \
+	testbench/rob_test.sv \
+	testbench/mt19937-64.c \
+	testbench/rob_generate_test.cpp
 
 # SYNTHESIS CONFIG
 SYNFILES	= RS_Line.vg
@@ -80,7 +83,7 @@ clean:
 	cm.log *.vdb urgReport
 
 nuke:	clean
-	rm -rvf *.vg *.rep *.db *.chk *.log *.out DVEfiles/
+	rm -rvf *.vg *.rep *.db *.chk *.log *.out rob_test.mem DVEfiles/
 
 .PHONY: clean nuke dve
 

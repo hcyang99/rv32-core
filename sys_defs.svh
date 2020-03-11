@@ -175,7 +175,7 @@ typedef enum logic [1:0] {
 `define TRUE  1'h1
 
 // RISCV ISA SPEC
-`define XLEN 32
+`define XLEN 64
 typedef union packed {
 	logic [31:0] inst;
 	struct packed {
