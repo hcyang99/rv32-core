@@ -37,9 +37,10 @@ module testbench;
                            
 
     logic                                       load_in; // high when dispatch :: SHOULD HAVE BEEN MULTIPLE ENTRIES??
+    logic [`WAYS-1:0]                           inst_valid_in;
     logic [`WAYS-1:0] [`OLEN-1:0]               offset_in;
     logic [`WAYS-1:0] [`PCLEN-1:0]              PC_in;
-//    ALU_FUNC                                  Operation_in  [`WAYS-1:0] ;
+    ALU_FUNC   [`WAYS-1:0]                                Operation_in;
 
 // output
     logic [`WAYS-1:0]                       inst_out_valid; // tell which inst is valid, **001** when only one inst is valid 
@@ -49,7 +50,7 @@ module testbench;
     logic [`WAYS-1:0] [$clog2(`ROB)-1:0]    rob_idx_out;
 
     logic [`WAYS-1:0] [`PCLEN-1:0]          PC_out;
-//    ALU_FUNC                                Operation_out [`WAYS-1:0];
+    ALU_FUNC   [`WAYS-1:0]                              Operation_out;
     logic [`WAYS-1:0] [`OLEN-1:0]           offset_out;
     logic [$clog2(`RS):0]                   num_is_free;
     
@@ -90,9 +91,10 @@ module testbench;
         .dest_PRF_idx_in,
         .rob_idx_in,                             
         .load_in,
+        .inst_valid_in,
         .offset_in,
         .PC_in,
-//        .Operation_in,
+        .Operation_in,
 
         // output
         .inst_out_valid, // tell which inst is valid, **001** when only one inst is valid 
@@ -102,7 +104,7 @@ module testbench;
         .rob_idx_out,
 
         .PC_out,
-//        .Operation_out,
+        .Operation_out,
         .offset_out,
         .num_is_free,
     
@@ -165,19 +167,20 @@ initial
     begin
     clock = 0;
     $display("start");
-    $display("Time|reset|load_in|CDB_PRF_idx[1]|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out[0]|opb_out[0]|num_is_free_next|is_free_hub|ready_hub");
+    $display("Time|reset|load_in|CDB_PRF_idx[1]|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out[0]|opb_out[0]|num_is_free|is_free_hub|ready_hub");
     $monitor("%4.0f  %b ", $time, reset,
-            "    %b     ", load_in,
+            "   %b", load_in,
             "        %h         %b",CDB_PRF_idx[1],CDB_valid,
             "   %h     %h",opa_in[1],opa_valid_in[1],
             "     %h     %h",opb_in[1],opb_valid_in[1],
             "           %b    %h   %h",inst_out_valid,opa_out[0],opb_out[0],
-            "     %d    %b    %b",num_is_free_next,is_free_hub,ready_hub);
+            "     %d    %b    %b",num_is_free,is_free_hub,ready_hub);
 
 //    $monitor("Time:%4.0f opa_in[0]: %h opb_in[0]: %h",$time, opa_in,opb_in);
 // single input
         @(negedge clock);// 10
         reset = 1; 
+        inst_valid_in = 3'b111;
         @(negedge clock);// 20
         reset = 0;
         @(negedge clock); // 30
@@ -199,7 +202,8 @@ initial
         CDB_PRF_idx[0] = `LOGPRF'b0; 
         @(negedge clock);//50
         maunal_test = 0;
-        load_in = 0;
+        load_in = 1;
+        inst_valid_in = 0;
         CDB_valid = `WAYS'b11;
         CDB_Data[0] = `XLEN'habc;
         CDB_PRF_idx[0] = `LOGPRF'b10; 
@@ -209,9 +213,10 @@ initial
 // should recover after 1.5*clock period
         @(negedge clock);  //60 
         $display("start testing night ship"); 
-        repeat(2) begin 
+        repeat(10) begin 
         night_ship = 1;  
         load_in = 1;
+        inst_valid_in = 3'b111;
 
         rd_mem_in = {`WAYS{1'b1}} & $random;
         wr_mem_in = {`WAYS{1'b1}} & $random;
@@ -236,9 +241,10 @@ initial
         end
 // check for output selector when more than 3 RS entries are ready
 // should +3 afrer 1.5*clock period, +1 after 1 clock period
+
        @(negedge clock)
         $display("start testing output selector");
-        repeat(2) begin
+        repeat(100) begin
         rd_mem_in = {`WAYS{1'b1}} & $random;
         wr_mem_in = {`WAYS{1'b1}} & $random;
         dest_PRF_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
@@ -290,6 +296,7 @@ initial
         // num_is_free = 4;
         @(negedge clock);
         end
+
         @(negedge clock);
         load_in = 0;
         CDB_valid = 0;

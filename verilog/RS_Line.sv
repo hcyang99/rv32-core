@@ -26,6 +26,7 @@ module RS_Line(
     input [$clog2(`ROB)-1:0]                    rob_idx_in,                        
 
     input                                       load_in, // high when dispatch
+    input                                       instruction_valid,
     input [`OLEN-1:0]                           offset_in,
     input [`PCLEN-1:0]                          PC_in,
     input ALU_FUNC                              Operation_in,
@@ -87,8 +88,8 @@ module RS_Line(
     end
     
     always_ff @ (posedge clock) begin
-    $display("opa_valid_reg: %b opb_valid_reg: %b",opa_valid_reg,opb_valid_reg);
-        if (reset) begin
+//    $display("opa_valid_reg: %b opb_valid_reg: %b",opa_valid_reg,opb_valid_reg);
+        if (reset | ~instruction_valid) begin
             is_free <= 1;
             opa_valid_reg <= 0;
             opb_valid_reg <= 0;
@@ -111,7 +112,7 @@ module RS_Line(
     end
 
     always_ff @ (posedge clock) begin
-        if (reset) begin
+        if (reset | ~instruction_valid) begin
             PC_out <= 0;
             Operation_out <= ALU_ADD;
             offset_out <= 0;

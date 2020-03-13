@@ -20,16 +20,16 @@
 ## CONFIGURATION
 ################################################################################
 
-VCS = SW_VCS=2017.12-SP2-1 vcs -sverilog +vc -Mupdate -line -full64
+VCS = SW_VCS=2017.12-SP2-1 vcs -sverilog +vc -Mupdate -line -full64 +define+DEBUG=1
 LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
 # SIMULATION CONFIG
 
-SIMFILES	= verilog/RS_Line_old.sv module_provided/psl_get.v sys_defs.svh
-TESTBENCH	= testbench/rs_test.sv sys_defs.svh
+SIMFILES	= verilog/rs.sv module_provided/psl_get.v sys_defs.svh
+TESTBENCH	= testbench/rs_final_test.sv sys_defs.svh
 
 # SYNTHESIS CONFIG
-SYNFILES	= RS_Line.vg
+SYNFILES	= RS.vg
 
 # COVERAGE CONFIG
 COVERAGE	= line+tgl+cond
@@ -71,6 +71,10 @@ dve_simv:	$(HEADERS) $(SIMFILES) $(TESTBENCH)
 
 dve:	dve_simv $(ASSEMBLED)
 	./$<
+
+dve_syn:   $(HEADERS) $(SYNFILES) $(TESTBENCH) $(LIB)
+	$(VCS) +memcbk $^ -o $@ -gui
+	./dve_syn
 
 clean:
 	rm -rvf simv *.daidir csrc vcs.key program.out \
