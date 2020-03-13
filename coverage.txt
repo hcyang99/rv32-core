@@ -1,0 +1,11 @@
+Design Hierarchy
+
+
+----------------
+SCORE  LINE   TOGGLE BRANCH           
+ 87.69  95.65  84.81  82.61 testbench 
+  
+  ----------------
+  SCORE  LINE   TOGGLE BRANCH          
+   95.87 100.00  87.60 100.00 rs_entry 
+
