@@ -1,15 +1,12 @@
 # Begin_DVE_Session_Save_Info
 # DVE restart session
-# Saved on Fri Mar 6 19:11:19 2020
+# Saved on Sat Mar 14 12:23:40 2020
 # Designs open: 1
 #   Sim: /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/dve_simv
-# Toplevel windows open: 2
+# Toplevel windows open: 1
 # 	TopLevel.1
-# 	TopLevel.2
 #   Source.1: _vcs_unit__631861102
-#   Wave.1: 7 signals
-#   Group count = 1
-#   Group Group1 signal count = 7
+#   Group count = 0
 # End_DVE_Session_Save_Info
 
 # DVE version: N-2017.12-SP2-1_Full64
@@ -50,20 +47,6 @@ gui_update_layout -id ${Source.1} {{show_state maximized} {dock_state undocked} 
 # End MDI window settings
 
 
-# Create and position top-level window: TopLevel.2
-
-set TopLevel.2 TopLevel.2
-
-# Docked window settings
-gui_sync_global -id ${TopLevel.2} -option true
-
-# MDI window settings
-set Wave.1 Wave.1
-gui_update_layout -id ${Wave.1} {{show_state maximized} {dock_state undocked} {dock_on_new_line false} {child_wave_left 352} {child_wave_right 860} {child_wave_colname 174} {child_wave_colvalue 174} {child_wave_col1 0} {child_wave_col2 1}}
-
-# End MDI window settings
-
-
 #</WindowLayout>
 
 #<Database>
@@ -87,12 +70,6 @@ gui_set_time_units 1s
 
 # Global: Signal Groups
 
-
-set _session_group_1 Group1
-gui_sg_create "$_session_group_1"
-set Group1 "$_session_group_1"
-
-gui_sg_addsignal -group "$_session_group_1" { testbench.reset testbench.num_is_free testbench.load_in testbench.num_is_free_next testbench.is_free_hub testbench.free_increase testbench.clock }
 
 # Global: Highlighting
 
@@ -130,7 +107,7 @@ gui_list_set_filter -id ${Data.1} -list { {Buffer 1} {Input 1} {Others 1} {Linka
 gui_list_set_filter -id ${Data.1} -text {*}
 gui_list_show_data -id ${Data.1} {testbench}
 gui_show_window -window ${Data.1}
-catch { gui_list_select -id ${Data.1} {testbench.clock }}
+catch { gui_list_select -id ${Data.1} {testbench.night_ship }}
 gui_view_scroll -id ${Data.1} -vertical -set 0
 gui_view_scroll -id ${Data.1} -horizontal -set 0
 gui_view_scroll -id ${Hier.1} -vertical -set 0
@@ -144,46 +121,12 @@ gui_src_value_annotate -id ${Source.1} -switch true
 gui_set_env TOGGLE::VALUEANNOTATE 1
 gui_view_scroll -id ${Source.1} -vertical -set 0
 gui_src_set_reusable -id ${Source.1}
-
-# View 'Wave.1'
-gui_wv_sync -id ${Wave.1} -switch false
-set groupExD [gui_get_pref_value -category Wave -key exclusiveSG]
-gui_set_pref_value -category Wave -key exclusiveSG -value {false}
-set origWaveHeight [gui_get_pref_value -category Wave -key waveRowHeight]
-gui_list_set_height -id Wave -height 25
-set origGroupCreationState [gui_list_create_group_when_add -wave]
-gui_list_create_group_when_add -wave -disable
-gui_wv_zoom_timerange -id ${Wave.1} 0 130
-gui_list_add_group -id ${Wave.1} -after {New Group} {Group1}
-gui_seek_criteria -id ${Wave.1} {Any Edge}
-
-
-
-gui_set_env TOGGLE::DEFAULT_WAVE_WINDOW ${Wave.1}
-gui_set_pref_value -category Wave -key exclusiveSG -value $groupExD
-gui_list_set_height -id Wave -height $origWaveHeight
-if {$origGroupCreationState} {
-	gui_list_create_group_when_add -wave -enable
-}
-if { $groupExD } {
- gui_msg_report -code DVWW028
-}
-gui_list_set_filter -id ${Wave.1} -list { {Buffer 1} {Input 1} {Others 1} {Linkage 1} {Output 1} {Parameter 1} {All 1} {Aggregate 1} {LibBaseMember 1} {Event 1} {Assertion 1} {Constant 1} {Interface 1} {BaseMembers 1} {Signal 1} {$unit 1} {Inout 1} {Variable 1} }
-gui_list_set_filter -id ${Wave.1} -text {*}
-gui_list_set_insertion_bar  -id ${Wave.1} -group Group1  -position in
-
-gui_view_scroll -id ${Wave.1} -vertical -set 0
-gui_show_grid -id ${Wave.1} -enable false
 # Restore toplevel window zorder
 # The toplevel window could be closed if it has no view/pane
 if {[gui_exist_window -window ${TopLevel.1}]} {
 	gui_set_active_window -window ${TopLevel.1}
 	gui_set_active_window -window ${Source.1}
 	gui_set_active_window -window ${DLPane.1}
-}
-if {[gui_exist_window -window ${TopLevel.2}]} {
-	gui_set_active_window -window ${TopLevel.2}
-	gui_set_active_window -window ${Wave.1}
 }
 #</Session>
 

@@ -29,8 +29,6 @@ module testbench;
     logic [`WAYS-1:0] [`XLEN-1:0]               opb_in; // data or PRN
     logic [`WAYS-1:0]                           opa_valid_in; // indicate whether it is data or PRN, 1: data 0: PRN
     logic [`WAYS-1:0]                           opb_valid_in;
-    logic [`WAYS-1:0]                           rd_mem_in;                          
-    logic [`WAYS-1:0]                           wr_mem_in;
     logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        dest_PRF_idx_in;
     logic [`WAYS-1:0] [$clog2(`ROB)-1:0]        rob_idx_in;      
                            
@@ -38,25 +36,16 @@ module testbench;
 
     logic                                       load_in; // high when dispatch :: SHOULD HAVE BEEN MULTIPLE ENTRIES??
     logic [`WAYS-1:0]                           inst_valid_in;
-    logic [`WAYS-1:0] [`OLEN-1:0]               offset_in;
-    ALU_FUNC   [`WAYS-1:0]                                Operation_in;
 
 // output
      ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
 
     logic [`WAYS-1:0]                       inst_out_valid; // tell which inst is valid, **001** when only one inst is valid 
-    logic [`WAYS-1:0] [`XLEN-1:0]           opa_out;
-    logic [`WAYS-1:0] [`XLEN-1:0]           opb_out;
     logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRF_idx_out;
     logic [`WAYS-1:0] [$clog2(`ROB)-1:0]    rob_idx_out;
 
-    ALU_FUNC   [`WAYS-1:0]                              Operation_out;
-    logic [`WAYS-1:0] [`OLEN-1:0]           offset_out;
     logic [$clog2(`RS):0]                   num_is_free;
     
-    logic [`WAYS-1:0]                       rd_mem_out;                         
-    logic [`WAYS-1:0]                       wr_mem_out;        
-
     logic [$clog2(`WAYS):0]                 free_decrease;
     logic [$clog2(`RS):0]                   num_is_free_next; 
     logic [`RS-1:0]                         is_free_hub;
@@ -73,7 +62,13 @@ module testbench;
  *
  * ============================================================================
  */
-
+generate
+        for (genvar i = 0; i < `WAYS; i = i + 1) begin
+                assign id_rs_packet_in[i].rs1_value = opa_in[i];
+                assign id_rs_packet_in[i].rs2_value = opb_in[i];
+                assign id_rs_packet_in[i].valid     = inst_valid_in[i];
+        end
+    endgenerate
 
 
     RS rs_dummy (
@@ -83,34 +78,21 @@ module testbench;
         .CDB_Data,
         .CDB_PRF_idx,
         .CDB_valid,
-        .opa_in,
-        .opb_in,
         .opa_valid_in,
         .opb_valid_in,
-        .rd_mem_in,                          
-        .wr_mem_in,
         .dest_PRF_idx_in,
         .rob_idx_in, 
         .id_rs_packet_in,                            
         .load_in,
-        .inst_valid_in,
-        .offset_in,
-        .Operation_in,
 
         // output
         .rs_packet_out,
         .inst_out_valid, // tell which inst is valid, **001** when only one inst is valid 
-        .opa_out,
-        .opb_out,
         .dest_PRF_idx_out,
         .rob_idx_out,
 
-        .Operation_out,
-        .offset_out,
         .num_is_free,
     
-        .rd_mem_out,       
-        .wr_mem_out,
 
         .free_decrease,
         .num_is_free_next,
@@ -131,7 +113,7 @@ module testbench;
 property p1;
 // check reset
     @(posedge clock)
-    reset |=> (opa_out == 0 && opb_out == 0 && num_is_free ==`RS);
+    reset |=> (num_is_free ==`RS);
 endproperty
 assert property(p1) else $finish;
 
@@ -175,13 +157,13 @@ initial
     begin
     clock = 0;
     $display("start");
-    $display("Time|reset|load_in|CDB_PRF_idx[1]|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out[0]|opb_out[0]|num_is_free|is_free_hub|ready_hub|reset_hub");
+    $display("Time|reset|load_in|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out|opb_out|num_is_free|is_free_hub|ready_hub|reset_hub");
     $monitor("%4.0f  %b ", $time, reset,
             "   %b", load_in,
-            "   %h     %b",CDB_PRF_idx[1],CDB_valid,
+            "      %h        %b",CDB_PRF_idx[1],CDB_valid,
             "   %h     %h",opa_in[1],opa_valid_in[1],
             "     %h     %h",opb_in[1],opb_valid_in[1],
-            "     %b    %h   %h",inst_out_valid,opa_out[0],opb_out[0],
+            "     %b    %h   %h",inst_out_valid,rs_packet_out[0].rs1_value,rs_packet_out[0].rs2_value,
             "     %d    %b    %b     %b",num_is_free,is_free_hub,ready_hub,reset_hub);
 
 //    $monitor("Time:%4.0f opa_in[0]: %h opb_in[0]: %h",$time, opa_in,opb_in);
@@ -221,16 +203,13 @@ initial
 // should recover after 1.5*clock period
         @(negedge clock);  //60 
         $display("start testing night ship"); 
-        repeat(10) begin 
+        repeat(100) begin 
         night_ship = 1;  
         load_in = 1;
         inst_valid_in = 3'b111;
 
-        rd_mem_in = {`WAYS{1'b1}} & $random;
-        wr_mem_in = {`WAYS{1'b1}} & $random;
         dest_PRF_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
         rob_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
-        offset_in = {`OLEN*`WAYS{1'b1}} & $random;
         opa_in[0] = {`XLEN{1'b1}} & $random;
         opa_in[1] = {`XLEN{1'b1}} & $random;
         opa_in[2] = {`XLEN{1'b1}} & $random;
@@ -251,12 +230,9 @@ initial
 
        @(negedge clock)
         $display("start testing output selector");
-        repeat(10) begin
-        rd_mem_in = {`WAYS{1'b1}} & $random;
-        wr_mem_in = {`WAYS{1'b1}} & $random;
+        repeat(100) begin
         dest_PRF_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
         rob_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
-        offset_in = {`OLEN*`WAYS{1'b1}} & $random;
         
         night_ship = 0;
         opa_in[0] = {`LOGPRF{1'b1}} & $random;
@@ -358,11 +334,13 @@ initial
         opb_in[2] = `XLEN'b100;
         opb_valid_in = `WAYS'b111;
         CDB_valid = `WAYS'b0;
+
         @(negedge clock);//240
         load_in = 0;
         // 245: 4
         @(negedge clock);//250
         // 255: 7
+        @(negedge clock);//250
         @(negedge clock);//250
 
      $finish;
