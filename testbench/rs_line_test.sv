@@ -18,19 +18,14 @@ module testbench;
 
     logic                                       opa_valid_in; // indicate whether it is data or PRN, 1: data 0: PRN
     logic                                       opb_valid_in; // assuming opx_valid_in is 0 when en == 0
-    logic [$clog2(`PRF)-1:0]                    dest_PRF_idx_in;
-    logic [$clog2(`ROB)-1:0]                    rob_idx_in;                   
 
     logic                                       load_in; // high when dispatch
-    logic                                       inst_valid_in;
-    ID_EX_PACKET                          id_rs_packet_in;
+    ID_EX_PACKET                                id_rs_packet_in;
 
-    ID_EX_PACKET                         rs_packet_out;
-    logic                                ready;
+    ID_EX_PACKET                                rs_packet_out;
+    logic                                       ready;
     // RS entry
-    logic [$clog2(`PRF)-1:0]             dest_PRF_idx_out;
-    logic [$clog2(`ROB)-1:0]             rob_idx_out;
-    logic                                is_free;
+    logic                                       is_free;
 
     RS_Line lines(
         // inputs
@@ -42,17 +37,12 @@ module testbench;
         
         .opa_valid_in,
         .opb_valid_in,
-        .dest_PRF_idx_in,
-        .rob_idx_in,
         .load_in,
-        .inst_valid_in, // when load_in = 1, it does represent whether the inst is valid or not, when load_in = 0, it should make no difference
         .id_rs_packet_in,
 
         // outputs
         .rs_packet_out,
         .ready,
-        .dest_PRF_idx_out,
-        .rob_idx_out,
         .is_free
     );
 
@@ -71,7 +61,7 @@ module testbench;
         reset = 1; 
         @(negedge clock);
         reset = 0;
-        inst_valid_in = 1;
+        id_rs_packet_in.valid = 1;
         @(negedge clock);
         CDB_valid = 3'b000;
         @(negedge clock);

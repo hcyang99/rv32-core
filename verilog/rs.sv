@@ -7,12 +7,7 @@ set the insruction as invalid
 **********************/
 `include "sys_defs.svh"
 //`define REG_LEN     64
-`define PRF         64
-`define ROB         16
-`define RS          16
 
-`define OLEN        16
-`define WAYS        3
 //`timescale 1ns/100ps
 
 module RS_Line(
@@ -25,8 +20,6 @@ module RS_Line(
 
     input                                       opa_valid_in, // indicate whether it is data or PRN, 1: data 0: PRN
     input                                       opb_valid_in, // assuming opx_valid_in is 0 when en == 0
-    input [$clog2(`PRF)-1:0]                    dest_PRF_idx_in,
-    input [$clog2(`ROB)-1:0]                    rob_idx_in,                        
 
     input                                       load_in, // high when dispatch
     input ID_EX_PACKET                          id_rs_packet_in,
@@ -34,8 +27,6 @@ module RS_Line(
     output ID_EX_PACKET                         rs_packet_out,
     output logic                                ready,
     // RS entry
-    output logic [$clog2(`PRF)-1:0]             dest_PRF_idx_out,
-    output logic [$clog2(`ROB)-1:0]             rob_idx_out,
     output logic                                is_free
 
 );
@@ -102,13 +93,9 @@ module RS_Line(
     always_ff @ (posedge clock) begin
         if (load_in & id_rs_packet_in.valid) begin
             rs_packet_out <= id_rs_packet_in;
-            dest_PRF_idx_out <=  dest_PRF_idx_in;
-            rob_idx_out <=  rob_idx_in;
         end 
         else if (reset | (~id_rs_packet_in.valid & load_in)) begin
             rs_packet_out <= 0;
-            dest_PRF_idx_out <=  0;
-            rob_idx_out <=  0;
         end 
         else begin
             rs_packet_out.rs1_value <=  opa_reg_feed;
@@ -132,16 +119,11 @@ module RS(
 
     input [`WAYS-1:0]                           opa_valid_in, // indicate whether it is data or PRN, 1: data 0: PRN
     input [`WAYS-1:0]                           opb_valid_in,
-    input [`WAYS-1:0] [$clog2(`PRF)-1:0]        dest_PRF_idx_in,
-    input [`WAYS-1:0] [$clog2(`ROB)-1:0]        rob_idx_in,                             
 
     input ID_EX_PACKET [`WAYS-1:0]              id_rs_packet_in,
     input                                       load_in, // ***high when dispatch***
 
     output ID_EX_PACKET [`WAYS-1:0]             rs_packet_out,
-    output logic [`WAYS-1:0]                    inst_out_valid, // tell which inst is valid, **001** when only one inst is valid 
-    output logic [`WAYS-1:0] [$clog2(`PRF)-1:0] dest_PRF_idx_out,
-    output logic [`WAYS-1:0] [$clog2(`ROB)-1:0] rob_idx_out,
 
     output logic [$clog2(`RS):0]                num_is_free,
     
@@ -158,8 +140,6 @@ module RS(
 //    wor   [`RS-1:0]                           reset_hub;
     logic [`RS-1:0]                             opa_valid_in_hub;
     logic [`RS-1:0]                             opb_valid_in_hub;
-    logic [`RS-1:0] [$clog2(`PRF)-1:0]          dest_PRF_idx_in_hub;
-    logic [`RS-1:0] [$clog2(`ROB)-1:0]          rob_idx_in_hub;
     wor   [`RS-1:0]                             load_in_hub;
     ID_EX_PACKET [`RS-1:0]                      id_rs_packet_in_hub;
     ID_EX_PACKET [`RS-1:0]                      rs_packet_out_hub;
@@ -167,8 +147,6 @@ module RS(
     
     // out hubs
 //    logic [`RS-1:0]                             ready_hub;
-    logic [`RS-1:0] [$clog2(`PRF)-1:0]          dest_PRF_idx_out_hub;
-    logic [`RS-1:0] [$clog2(`ROB)-1:0]          rob_idx_out_hub;
 //    logic [`RS-1:0]                             is_free_hub;
 
 
@@ -234,22 +212,17 @@ module RS(
         id_rs_packet_in_hub = 0;
         opa_valid_in_hub = 0;
         opb_valid_in_hub = 0;
-        dest_PRF_idx_in_hub = 0;
-        rob_idx_in_hub = 0;
         free_decrease = 0;
         for (int i = 0; i < `RS; i = i + 1) begin
             if(load_in_hub[i]) begin
                 if(free_decrease < `WAYS) begin
-                    id_rs_packet_in_hub[i]           = id_rs_packet_in_hub[free_decrease];
+                    id_rs_packet_in_hub[i]           = id_rs_packet_in[free_decrease];
                     id_rs_packet_in_hub[i].rs1_value = opa_in_processed[free_decrease];
                     id_rs_packet_in_hub[i].rs2_value = opb_in_processed[free_decrease];
-                    opa_valid_in_hub[i] = opa_valid_in_processed[free_decrease];
-                    opb_valid_in_hub[i] = opb_valid_in_processed[free_decrease];
+                    opa_valid_in_hub[i]              = opa_valid_in_processed[free_decrease];
+                    opb_valid_in_hub[i]              = opb_valid_in_processed[free_decrease];
                     // pipeline related
-                    dest_PRF_idx_in_hub[i] = dest_PRF_idx_in[free_decrease];
-                    rob_idx_in_hub[i] = rob_idx_in[free_decrease];
-                    id_rs_packet_in_hub[i] = id_rs_packet_in[free_decrease];
-                    if(id_rs_packet_in_hub[free_decrease].valid) free_decrease = free_decrease + 1;
+                    if(id_rs_packet_in[free_decrease].valid) free_decrease = free_decrease + 1;
                 end else break;
             end
         end
@@ -288,16 +261,12 @@ RS_Line lines [`RS-1:0] (
         
         .opa_valid_in(opa_valid_in_hub),
         .opb_valid_in(opb_valid_in_hub),
-        .dest_PRF_idx_in(dest_PRF_idx_in_hub),
-        .rob_idx_in(rob_idx_in_hub),
         .load_in(load_in_hub),
         .id_rs_packet_in(id_rs_packet_in_hub),
 
         // outputs
         .rs_packet_out(rs_packet_out_hub),
         .ready(ready_hub),
-        .dest_PRF_idx_out(dest_PRF_idx_out_hub),
-        .rob_idx_out(rob_idx_out_hub),
         .is_free(is_free_hub)
     );
 
@@ -307,16 +276,11 @@ RS_Line lines [`RS-1:0] (
 // output selector
     always_comb begin
         free_increase = 0;
-        dest_PRF_idx_out = 0;
-        rob_idx_out = 0;
-        inst_out_valid = 0;
+        rs_packet_out = 0;
         if(~reset) begin            
             for (int i = 0; i < `RS; i = i + 1) begin
 //            $display("i:%d free_increase: %d num_is_free_next: %d",i, free_increase,num_is_free_next);
                 if (reset_hub[i]) begin
-                    inst_out_valid[free_increase] = 1;
-                    dest_PRF_idx_out[free_increase] = dest_PRF_idx_out_hub[i];
-                    rob_idx_out[free_increase] = rob_idx_out_hub[i];
                     rs_packet_out[free_increase] = rs_packet_out_hub[i];
                     free_increase = free_increase + 1;
                 end

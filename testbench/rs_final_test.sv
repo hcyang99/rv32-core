@@ -1,12 +1,5 @@
 `include "sys_defs.svh"
-//`define XLEN        64
-`define PRF         64
-`define LOGPRF      6 //$clog2(`PRF)
 
-`define ROB         16
-`define RS          16
-`define OLEN        16
-`define WAYS        3
 //`timescale 1ns/100ps
 
 
@@ -29,8 +22,6 @@ module testbench;
     logic [`WAYS-1:0] [`XLEN-1:0]               opb_in; // data or PRN
     logic [`WAYS-1:0]                           opa_valid_in; // indicate whether it is data or PRN, 1: data 0: PRN
     logic [`WAYS-1:0]                           opb_valid_in;
-    logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        dest_PRF_idx_in;
-    logic [`WAYS-1:0] [$clog2(`ROB)-1:0]        rob_idx_in;      
                            
      ID_EX_PACKET [`WAYS-1:0]              id_rs_packet_in;
 
@@ -40,9 +31,6 @@ module testbench;
 // output
      ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
 
-    logic [`WAYS-1:0]                       inst_out_valid; // tell which inst is valid, **001** when only one inst is valid 
-    logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRF_idx_out;
-    logic [`WAYS-1:0] [$clog2(`ROB)-1:0]    rob_idx_out;
 
     logic [$clog2(`RS):0]                   num_is_free;
     
@@ -68,7 +56,7 @@ generate
                 assign id_rs_packet_in[i].rs2_value = opb_in[i];
                 assign id_rs_packet_in[i].valid     = inst_valid_in[i];
         end
-    endgenerate
+endgenerate
 
 
     RS rs_dummy (
@@ -80,16 +68,11 @@ generate
         .CDB_valid,
         .opa_valid_in,
         .opb_valid_in,
-        .dest_PRF_idx_in,
-        .rob_idx_in, 
         .id_rs_packet_in,                            
         .load_in,
 
         // output
         .rs_packet_out,
-        .inst_out_valid, // tell which inst is valid, **001** when only one inst is valid 
-        .dest_PRF_idx_out,
-        .rob_idx_out,
 
         .num_is_free,
     
@@ -157,18 +140,19 @@ initial
     begin
     clock = 0;
     $display("start");
-    $display("Time|reset|load_in|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|inst_out_valid|opa_out|opb_out|num_is_free|is_free_hub|ready_hub|reset_hub");
+    $display("Time|reset|load_in|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|opa_out|opb_out|num_is_free|is_free_hub|ready_hub|reset_hub");
     $monitor("%4.0f  %b ", $time, reset,
             "   %b", load_in,
             "      %h        %b",CDB_PRF_idx[1],CDB_valid,
             "   %h     %h",opa_in[1],opa_valid_in[1],
             "     %h     %h",opb_in[1],opb_valid_in[1],
-            "     %b    %h   %h",inst_out_valid,rs_packet_out[0].rs1_value,rs_packet_out[0].rs2_value,
+            "    %h   %h",rs_packet_out[0].rs1_value,rs_packet_out[0].rs2_value,
             "     %d    %b    %b     %b",num_is_free,is_free_hub,ready_hub,reset_hub);
 
 //    $monitor("Time:%4.0f opa_in[0]: %h opb_in[0]: %h",$time, opa_in,opb_in);
 // single input
         @(negedge clock);// 10
+        load_in = 0;
         reset = 1; 
         inst_valid_in = 3'b111;
         @(negedge clock);// 20
@@ -178,7 +162,6 @@ initial
         // manual testcase
         maunal_test = 1;
         load_in = 1;
-        CDB_valid = `WAYS'b0;
         opa_in[0] = `XLEN'h1;
         opa_in[1] = `XLEN'b11;
         opa_in[2] = `XLEN'b101;
@@ -208,8 +191,6 @@ initial
         load_in = 1;
         inst_valid_in = 3'b111;
 
-        dest_PRF_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
-        rob_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
         opa_in[0] = {`XLEN{1'b1}} & $random;
         opa_in[1] = {`XLEN{1'b1}} & $random;
         opa_in[2] = {`XLEN{1'b1}} & $random;
@@ -227,12 +208,9 @@ initial
         end
 // check for output selector when more than 3 RS entries are ready
 // should +3 afrer 1.5*clock period, +1 after 1 clock period
-
        @(negedge clock)
         $display("start testing output selector");
         repeat(100) begin
-        dest_PRF_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
-        rob_idx_in = {`WAYS*$clog2(`PRF){1'b1}} & $random;
         
         night_ship = 0;
         opa_in[0] = {`LOGPRF{1'b1}} & $random;
@@ -334,7 +312,6 @@ initial
         opb_in[2] = `XLEN'b100;
         opb_valid_in = `WAYS'b111;
         CDB_valid = `WAYS'b0;
-
         @(negedge clock);//240
         load_in = 0;
         // 245: 4
@@ -342,7 +319,7 @@ initial
         // 255: 7
         @(negedge clock);//250
         @(negedge clock);//250
-
+$display("@@@Success");
      $finish;
      end // initial
 

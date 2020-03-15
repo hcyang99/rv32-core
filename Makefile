@@ -33,6 +33,7 @@ TESTBENCH	= testbench/rs_final_test.sv sys_defs.svh
 
 # SYNTHESIS CONFIG
 SYNFILES	= RS.vg
+#SYNFILES = RS_Line.vg
 
 # COVERAGE CONFIG
 COVERAGE	= line+tgl+cond
@@ -100,6 +101,9 @@ syn:	syn_simv
 
 RS_Line.vg: verilog/rs.sv synth/RS_Line.tcl
 	dc_shell-t -f synth/RS_Line.tcl | tee RS_Line.out
+
+#RS_Line.vg: verilog/RS_Line.sv synth/RS_Line.tcl
+#	dc_shell-t -f synth/RS_Line.tcl | tee RS_Line.out
 
 RS.vg: verilog/rs.sv RS_Line.vg synth/rs.tcl 
 	dc_shell-t -f synth/rs.tcl | tee rs.out

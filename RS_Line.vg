@@ -1,0 +1,1800 @@
+/////////////////////////////////////////////////////////////
+// Created by: Synopsys DC Expert(TM) in wire load mode
+// Version   : O-2018.06
+// Date      : Sun Mar 15 15:32:44 2020
+/////////////////////////////////////////////////////////////
+
+
+module RS_Line ( clock, reset, .CDB_Data({\CDB_Data[2][31] , \CDB_Data[2][30] , 
+        \CDB_Data[2][29] , \CDB_Data[2][28] , \CDB_Data[2][27] , 
+        \CDB_Data[2][26] , \CDB_Data[2][25] , \CDB_Data[2][24] , 
+        \CDB_Data[2][23] , \CDB_Data[2][22] , \CDB_Data[2][21] , 
+        \CDB_Data[2][20] , \CDB_Data[2][19] , \CDB_Data[2][18] , 
+        \CDB_Data[2][17] , \CDB_Data[2][16] , \CDB_Data[2][15] , 
+        \CDB_Data[2][14] , \CDB_Data[2][13] , \CDB_Data[2][12] , 
+        \CDB_Data[2][11] , \CDB_Data[2][10] , \CDB_Data[2][9] , 
+        \CDB_Data[2][8] , \CDB_Data[2][7] , \CDB_Data[2][6] , \CDB_Data[2][5] , 
+        \CDB_Data[2][4] , \CDB_Data[2][3] , \CDB_Data[2][2] , \CDB_Data[2][1] , 
+        \CDB_Data[2][0] , \CDB_Data[1][31] , \CDB_Data[1][30] , 
+        \CDB_Data[1][29] , \CDB_Data[1][28] , \CDB_Data[1][27] , 
+        \CDB_Data[1][26] , \CDB_Data[1][25] , \CDB_Data[1][24] , 
+        \CDB_Data[1][23] , \CDB_Data[1][22] , \CDB_Data[1][21] , 
+        \CDB_Data[1][20] , \CDB_Data[1][19] , \CDB_Data[1][18] , 
+        \CDB_Data[1][17] , \CDB_Data[1][16] , \CDB_Data[1][15] , 
+        \CDB_Data[1][14] , \CDB_Data[1][13] , \CDB_Data[1][12] , 
+        \CDB_Data[1][11] , \CDB_Data[1][10] , \CDB_Data[1][9] , 
+        \CDB_Data[1][8] , \CDB_Data[1][7] , \CDB_Data[1][6] , \CDB_Data[1][5] , 
+        \CDB_Data[1][4] , \CDB_Data[1][3] , \CDB_Data[1][2] , \CDB_Data[1][1] , 
+        \CDB_Data[1][0] , \CDB_Data[0][31] , \CDB_Data[0][30] , 
+        \CDB_Data[0][29] , \CDB_Data[0][28] , \CDB_Data[0][27] , 
+        \CDB_Data[0][26] , \CDB_Data[0][25] , \CDB_Data[0][24] , 
+        \CDB_Data[0][23] , \CDB_Data[0][22] , \CDB_Data[0][21] , 
+        \CDB_Data[0][20] , \CDB_Data[0][19] , \CDB_Data[0][18] , 
+        \CDB_Data[0][17] , \CDB_Data[0][16] , \CDB_Data[0][15] , 
+        \CDB_Data[0][14] , \CDB_Data[0][13] , \CDB_Data[0][12] , 
+        \CDB_Data[0][11] , \CDB_Data[0][10] , \CDB_Data[0][9] , 
+        \CDB_Data[0][8] , \CDB_Data[0][7] , \CDB_Data[0][6] , \CDB_Data[0][5] , 
+        \CDB_Data[0][4] , \CDB_Data[0][3] , \CDB_Data[0][2] , \CDB_Data[0][1] , 
+        \CDB_Data[0][0] }), .CDB_PRF_idx({\CDB_PRF_idx[2][5] , 
+        \CDB_PRF_idx[2][4] , \CDB_PRF_idx[2][3] , \CDB_PRF_idx[2][2] , 
+        \CDB_PRF_idx[2][1] , \CDB_PRF_idx[2][0] , \CDB_PRF_idx[1][5] , 
+        \CDB_PRF_idx[1][4] , \CDB_PRF_idx[1][3] , \CDB_PRF_idx[1][2] , 
+        \CDB_PRF_idx[1][1] , \CDB_PRF_idx[1][0] , \CDB_PRF_idx[0][5] , 
+        \CDB_PRF_idx[0][4] , \CDB_PRF_idx[0][3] , \CDB_PRF_idx[0][2] , 
+        \CDB_PRF_idx[0][1] , \CDB_PRF_idx[0][0] }), CDB_valid, opa_valid_in, 
+        opb_valid_in, load_in, .id_rs_packet_in({\id_rs_packet_in[NPC][31] , 
+        \id_rs_packet_in[NPC][30] , \id_rs_packet_in[NPC][29] , 
+        \id_rs_packet_in[NPC][28] , \id_rs_packet_in[NPC][27] , 
+        \id_rs_packet_in[NPC][26] , \id_rs_packet_in[NPC][25] , 
+        \id_rs_packet_in[NPC][24] , \id_rs_packet_in[NPC][23] , 
+        \id_rs_packet_in[NPC][22] , \id_rs_packet_in[NPC][21] , 
+        \id_rs_packet_in[NPC][20] , \id_rs_packet_in[NPC][19] , 
+        \id_rs_packet_in[NPC][18] , \id_rs_packet_in[NPC][17] , 
+        \id_rs_packet_in[NPC][16] , \id_rs_packet_in[NPC][15] , 
+        \id_rs_packet_in[NPC][14] , \id_rs_packet_in[NPC][13] , 
+        \id_rs_packet_in[NPC][12] , \id_rs_packet_in[NPC][11] , 
+        \id_rs_packet_in[NPC][10] , \id_rs_packet_in[NPC][9] , 
+        \id_rs_packet_in[NPC][8] , \id_rs_packet_in[NPC][7] , 
+        \id_rs_packet_in[NPC][6] , \id_rs_packet_in[NPC][5] , 
+        \id_rs_packet_in[NPC][4] , \id_rs_packet_in[NPC][3] , 
+        \id_rs_packet_in[NPC][2] , \id_rs_packet_in[NPC][1] , 
+        \id_rs_packet_in[NPC][0] , \id_rs_packet_in[PC][31] , 
+        \id_rs_packet_in[PC][30] , \id_rs_packet_in[PC][29] , 
+        \id_rs_packet_in[PC][28] , \id_rs_packet_in[PC][27] , 
+        \id_rs_packet_in[PC][26] , \id_rs_packet_in[PC][25] , 
+        \id_rs_packet_in[PC][24] , \id_rs_packet_in[PC][23] , 
+        \id_rs_packet_in[PC][22] , \id_rs_packet_in[PC][21] , 
+        \id_rs_packet_in[PC][20] , \id_rs_packet_in[PC][19] , 
+        \id_rs_packet_in[PC][18] , \id_rs_packet_in[PC][17] , 
+        \id_rs_packet_in[PC][16] , \id_rs_packet_in[PC][15] , 
+        \id_rs_packet_in[PC][14] , \id_rs_packet_in[PC][13] , 
+        \id_rs_packet_in[PC][12] , \id_rs_packet_in[PC][11] , 
+        \id_rs_packet_in[PC][10] , \id_rs_packet_in[PC][9] , 
+        \id_rs_packet_in[PC][8] , \id_rs_packet_in[PC][7] , 
+        \id_rs_packet_in[PC][6] , \id_rs_packet_in[PC][5] , 
+        \id_rs_packet_in[PC][4] , \id_rs_packet_in[PC][3] , 
+        \id_rs_packet_in[PC][2] , \id_rs_packet_in[PC][1] , 
+        \id_rs_packet_in[PC][0] , \id_rs_packet_in[rs1_value][31] , 
+        \id_rs_packet_in[rs1_value][30] , \id_rs_packet_in[rs1_value][29] , 
+        \id_rs_packet_in[rs1_value][28] , \id_rs_packet_in[rs1_value][27] , 
+        \id_rs_packet_in[rs1_value][26] , \id_rs_packet_in[rs1_value][25] , 
+        \id_rs_packet_in[rs1_value][24] , \id_rs_packet_in[rs1_value][23] , 
+        \id_rs_packet_in[rs1_value][22] , \id_rs_packet_in[rs1_value][21] , 
+        \id_rs_packet_in[rs1_value][20] , \id_rs_packet_in[rs1_value][19] , 
+        \id_rs_packet_in[rs1_value][18] , \id_rs_packet_in[rs1_value][17] , 
+        \id_rs_packet_in[rs1_value][16] , \id_rs_packet_in[rs1_value][15] , 
+        \id_rs_packet_in[rs1_value][14] , \id_rs_packet_in[rs1_value][13] , 
+        \id_rs_packet_in[rs1_value][12] , \id_rs_packet_in[rs1_value][11] , 
+        \id_rs_packet_in[rs1_value][10] , \id_rs_packet_in[rs1_value][9] , 
+        \id_rs_packet_in[rs1_value][8] , \id_rs_packet_in[rs1_value][7] , 
+        \id_rs_packet_in[rs1_value][6] , \id_rs_packet_in[rs1_value][5] , 
+        \id_rs_packet_in[rs1_value][4] , \id_rs_packet_in[rs1_value][3] , 
+        \id_rs_packet_in[rs1_value][2] , \id_rs_packet_in[rs1_value][1] , 
+        \id_rs_packet_in[rs1_value][0] , \id_rs_packet_in[rs2_value][31] , 
+        \id_rs_packet_in[rs2_value][30] , \id_rs_packet_in[rs2_value][29] , 
+        \id_rs_packet_in[rs2_value][28] , \id_rs_packet_in[rs2_value][27] , 
+        \id_rs_packet_in[rs2_value][26] , \id_rs_packet_in[rs2_value][25] , 
+        \id_rs_packet_in[rs2_value][24] , \id_rs_packet_in[rs2_value][23] , 
+        \id_rs_packet_in[rs2_value][22] , \id_rs_packet_in[rs2_value][21] , 
+        \id_rs_packet_in[rs2_value][20] , \id_rs_packet_in[rs2_value][19] , 
+        \id_rs_packet_in[rs2_value][18] , \id_rs_packet_in[rs2_value][17] , 
+        \id_rs_packet_in[rs2_value][16] , \id_rs_packet_in[rs2_value][15] , 
+        \id_rs_packet_in[rs2_value][14] , \id_rs_packet_in[rs2_value][13] , 
+        \id_rs_packet_in[rs2_value][12] , \id_rs_packet_in[rs2_value][11] , 
+        \id_rs_packet_in[rs2_value][10] , \id_rs_packet_in[rs2_value][9] , 
+        \id_rs_packet_in[rs2_value][8] , \id_rs_packet_in[rs2_value][7] , 
+        \id_rs_packet_in[rs2_value][6] , \id_rs_packet_in[rs2_value][5] , 
+        \id_rs_packet_in[rs2_value][4] , \id_rs_packet_in[rs2_value][3] , 
+        \id_rs_packet_in[rs2_value][2] , \id_rs_packet_in[rs2_value][1] , 
+        \id_rs_packet_in[rs2_value][0] , \id_rs_packet_in[opa_select][1] , 
+        \id_rs_packet_in[opa_select][0] , \id_rs_packet_in[opb_select][3] , 
+        \id_rs_packet_in[opb_select][2] , \id_rs_packet_in[opb_select][1] , 
+        \id_rs_packet_in[opb_select][0] , \id_rs_packet_in[inst][31] , 
+        \id_rs_packet_in[inst][30] , \id_rs_packet_in[inst][29] , 
+        \id_rs_packet_in[inst][28] , \id_rs_packet_in[inst][27] , 
+        \id_rs_packet_in[inst][26] , \id_rs_packet_in[inst][25] , 
+        \id_rs_packet_in[inst][24] , \id_rs_packet_in[inst][23] , 
+        \id_rs_packet_in[inst][22] , \id_rs_packet_in[inst][21] , 
+        \id_rs_packet_in[inst][20] , \id_rs_packet_in[inst][19] , 
+        \id_rs_packet_in[inst][18] , \id_rs_packet_in[inst][17] , 
+        \id_rs_packet_in[inst][16] , \id_rs_packet_in[inst][15] , 
+        \id_rs_packet_in[inst][14] , \id_rs_packet_in[inst][13] , 
+        \id_rs_packet_in[inst][12] , \id_rs_packet_in[inst][11] , 
+        \id_rs_packet_in[inst][10] , \id_rs_packet_in[inst][9] , 
+        \id_rs_packet_in[inst][8] , \id_rs_packet_in[inst][7] , 
+        \id_rs_packet_in[inst][6] , \id_rs_packet_in[inst][5] , 
+        \id_rs_packet_in[inst][4] , \id_rs_packet_in[inst][3] , 
+        \id_rs_packet_in[inst][2] , \id_rs_packet_in[inst][1] , 
+        \id_rs_packet_in[inst][0] , \id_rs_packet_in[dest_PRF_idx][5] , 
+        \id_rs_packet_in[dest_PRF_idx][4] , \id_rs_packet_in[dest_PRF_idx][3] , 
+        \id_rs_packet_in[dest_PRF_idx][2] , \id_rs_packet_in[dest_PRF_idx][1] , 
+        \id_rs_packet_in[dest_PRF_idx][0] , \id_rs_packet_in[rob_idx][3] , 
+        \id_rs_packet_in[rob_idx][2] , \id_rs_packet_in[rob_idx][1] , 
+        \id_rs_packet_in[rob_idx][0] , \id_rs_packet_in[alu_func][4] , 
+        \id_rs_packet_in[alu_func][3] , \id_rs_packet_in[alu_func][2] , 
+        \id_rs_packet_in[alu_func][1] , \id_rs_packet_in[alu_func][0] , 
+        \id_rs_packet_in[rd_mem] , \id_rs_packet_in[wr_mem] , 
+        \id_rs_packet_in[cond_branch] , \id_rs_packet_in[uncond_branch] , 
+        \id_rs_packet_in[halt] , \id_rs_packet_in[illegal] , 
+        \id_rs_packet_in[csr_op] , \id_rs_packet_in[valid] }), 
+    .rs_packet_out({\rs_packet_out[NPC][31] , \rs_packet_out[NPC][30] , 
+        \rs_packet_out[NPC][29] , \rs_packet_out[NPC][28] , 
+        \rs_packet_out[NPC][27] , \rs_packet_out[NPC][26] , 
+        \rs_packet_out[NPC][25] , \rs_packet_out[NPC][24] , 
+        \rs_packet_out[NPC][23] , \rs_packet_out[NPC][22] , 
+        \rs_packet_out[NPC][21] , \rs_packet_out[NPC][20] , 
+        \rs_packet_out[NPC][19] , \rs_packet_out[NPC][18] , 
+        \rs_packet_out[NPC][17] , \rs_packet_out[NPC][16] , 
+        \rs_packet_out[NPC][15] , \rs_packet_out[NPC][14] , 
+        \rs_packet_out[NPC][13] , \rs_packet_out[NPC][12] , 
+        \rs_packet_out[NPC][11] , \rs_packet_out[NPC][10] , 
+        \rs_packet_out[NPC][9] , \rs_packet_out[NPC][8] , 
+        \rs_packet_out[NPC][7] , \rs_packet_out[NPC][6] , 
+        \rs_packet_out[NPC][5] , \rs_packet_out[NPC][4] , 
+        \rs_packet_out[NPC][3] , \rs_packet_out[NPC][2] , 
+        \rs_packet_out[NPC][1] , \rs_packet_out[NPC][0] , 
+        \rs_packet_out[PC][31] , \rs_packet_out[PC][30] , 
+        \rs_packet_out[PC][29] , \rs_packet_out[PC][28] , 
+        \rs_packet_out[PC][27] , \rs_packet_out[PC][26] , 
+        \rs_packet_out[PC][25] , \rs_packet_out[PC][24] , 
+        \rs_packet_out[PC][23] , \rs_packet_out[PC][22] , 
+        \rs_packet_out[PC][21] , \rs_packet_out[PC][20] , 
+        \rs_packet_out[PC][19] , \rs_packet_out[PC][18] , 
+        \rs_packet_out[PC][17] , \rs_packet_out[PC][16] , 
+        \rs_packet_out[PC][15] , \rs_packet_out[PC][14] , 
+        \rs_packet_out[PC][13] , \rs_packet_out[PC][12] , 
+        \rs_packet_out[PC][11] , \rs_packet_out[PC][10] , 
+        \rs_packet_out[PC][9] , \rs_packet_out[PC][8] , \rs_packet_out[PC][7] , 
+        \rs_packet_out[PC][6] , \rs_packet_out[PC][5] , \rs_packet_out[PC][4] , 
+        \rs_packet_out[PC][3] , \rs_packet_out[PC][2] , \rs_packet_out[PC][1] , 
+        \rs_packet_out[PC][0] , \rs_packet_out[rs1_value][31] , 
+        \rs_packet_out[rs1_value][30] , \rs_packet_out[rs1_value][29] , 
+        \rs_packet_out[rs1_value][28] , \rs_packet_out[rs1_value][27] , 
+        \rs_packet_out[rs1_value][26] , \rs_packet_out[rs1_value][25] , 
+        \rs_packet_out[rs1_value][24] , \rs_packet_out[rs1_value][23] , 
+        \rs_packet_out[rs1_value][22] , \rs_packet_out[rs1_value][21] , 
+        \rs_packet_out[rs1_value][20] , \rs_packet_out[rs1_value][19] , 
+        \rs_packet_out[rs1_value][18] , \rs_packet_out[rs1_value][17] , 
+        \rs_packet_out[rs1_value][16] , \rs_packet_out[rs1_value][15] , 
+        \rs_packet_out[rs1_value][14] , \rs_packet_out[rs1_value][13] , 
+        \rs_packet_out[rs1_value][12] , \rs_packet_out[rs1_value][11] , 
+        \rs_packet_out[rs1_value][10] , \rs_packet_out[rs1_value][9] , 
+        \rs_packet_out[rs1_value][8] , \rs_packet_out[rs1_value][7] , 
+        \rs_packet_out[rs1_value][6] , \rs_packet_out[rs1_value][5] , 
+        \rs_packet_out[rs1_value][4] , \rs_packet_out[rs1_value][3] , 
+        \rs_packet_out[rs1_value][2] , \rs_packet_out[rs1_value][1] , 
+        \rs_packet_out[rs1_value][0] , \rs_packet_out[rs2_value][31] , 
+        \rs_packet_out[rs2_value][30] , \rs_packet_out[rs2_value][29] , 
+        \rs_packet_out[rs2_value][28] , \rs_packet_out[rs2_value][27] , 
+        \rs_packet_out[rs2_value][26] , \rs_packet_out[rs2_value][25] , 
+        \rs_packet_out[rs2_value][24] , \rs_packet_out[rs2_value][23] , 
+        \rs_packet_out[rs2_value][22] , \rs_packet_out[rs2_value][21] , 
+        \rs_packet_out[rs2_value][20] , \rs_packet_out[rs2_value][19] , 
+        \rs_packet_out[rs2_value][18] , \rs_packet_out[rs2_value][17] , 
+        \rs_packet_out[rs2_value][16] , \rs_packet_out[rs2_value][15] , 
+        \rs_packet_out[rs2_value][14] , \rs_packet_out[rs2_value][13] , 
+        \rs_packet_out[rs2_value][12] , \rs_packet_out[rs2_value][11] , 
+        \rs_packet_out[rs2_value][10] , \rs_packet_out[rs2_value][9] , 
+        \rs_packet_out[rs2_value][8] , \rs_packet_out[rs2_value][7] , 
+        \rs_packet_out[rs2_value][6] , \rs_packet_out[rs2_value][5] , 
+        \rs_packet_out[rs2_value][4] , \rs_packet_out[rs2_value][3] , 
+        \rs_packet_out[rs2_value][2] , \rs_packet_out[rs2_value][1] , 
+        \rs_packet_out[rs2_value][0] , \rs_packet_out[opa_select][1] , 
+        \rs_packet_out[opa_select][0] , \rs_packet_out[opb_select][3] , 
+        \rs_packet_out[opb_select][2] , \rs_packet_out[opb_select][1] , 
+        \rs_packet_out[opb_select][0] , \rs_packet_out[inst][31] , 
+        \rs_packet_out[inst][30] , \rs_packet_out[inst][29] , 
+        \rs_packet_out[inst][28] , \rs_packet_out[inst][27] , 
+        \rs_packet_out[inst][26] , \rs_packet_out[inst][25] , 
+        \rs_packet_out[inst][24] , \rs_packet_out[inst][23] , 
+        \rs_packet_out[inst][22] , \rs_packet_out[inst][21] , 
+        \rs_packet_out[inst][20] , \rs_packet_out[inst][19] , 
+        \rs_packet_out[inst][18] , \rs_packet_out[inst][17] , 
+        \rs_packet_out[inst][16] , \rs_packet_out[inst][15] , 
+        \rs_packet_out[inst][14] , \rs_packet_out[inst][13] , 
+        \rs_packet_out[inst][12] , \rs_packet_out[inst][11] , 
+        \rs_packet_out[inst][10] , \rs_packet_out[inst][9] , 
+        \rs_packet_out[inst][8] , \rs_packet_out[inst][7] , 
+        \rs_packet_out[inst][6] , \rs_packet_out[inst][5] , 
+        \rs_packet_out[inst][4] , \rs_packet_out[inst][3] , 
+        \rs_packet_out[inst][2] , \rs_packet_out[inst][1] , 
+        \rs_packet_out[inst][0] , \rs_packet_out[dest_PRF_idx][5] , 
+        \rs_packet_out[dest_PRF_idx][4] , \rs_packet_out[dest_PRF_idx][3] , 
+        \rs_packet_out[dest_PRF_idx][2] , \rs_packet_out[dest_PRF_idx][1] , 
+        \rs_packet_out[dest_PRF_idx][0] , \rs_packet_out[rob_idx][3] , 
+        \rs_packet_out[rob_idx][2] , \rs_packet_out[rob_idx][1] , 
+        \rs_packet_out[rob_idx][0] , \rs_packet_out[alu_func][4] , 
+        \rs_packet_out[alu_func][3] , \rs_packet_out[alu_func][2] , 
+        \rs_packet_out[alu_func][1] , \rs_packet_out[alu_func][0] , 
+        \rs_packet_out[rd_mem] , \rs_packet_out[wr_mem] , 
+        \rs_packet_out[cond_branch] , \rs_packet_out[uncond_branch] , 
+        \rs_packet_out[halt] , \rs_packet_out[illegal] , 
+        \rs_packet_out[csr_op] , \rs_packet_out[valid] }), ready, is_free );
+  input [2:0] CDB_valid;
+  input clock, reset, \CDB_Data[2][31] , \CDB_Data[2][30] , \CDB_Data[2][29] ,
+         \CDB_Data[2][28] , \CDB_Data[2][27] , \CDB_Data[2][26] ,
+         \CDB_Data[2][25] , \CDB_Data[2][24] , \CDB_Data[2][23] ,
+         \CDB_Data[2][22] , \CDB_Data[2][21] , \CDB_Data[2][20] ,
+         \CDB_Data[2][19] , \CDB_Data[2][18] , \CDB_Data[2][17] ,
+         \CDB_Data[2][16] , \CDB_Data[2][15] , \CDB_Data[2][14] ,
+         \CDB_Data[2][13] , \CDB_Data[2][12] , \CDB_Data[2][11] ,
+         \CDB_Data[2][10] , \CDB_Data[2][9] , \CDB_Data[2][8] ,
+         \CDB_Data[2][7] , \CDB_Data[2][6] , \CDB_Data[2][5] ,
+         \CDB_Data[2][4] , \CDB_Data[2][3] , \CDB_Data[2][2] ,
+         \CDB_Data[2][1] , \CDB_Data[2][0] , \CDB_Data[1][31] ,
+         \CDB_Data[1][30] , \CDB_Data[1][29] , \CDB_Data[1][28] ,
+         \CDB_Data[1][27] , \CDB_Data[1][26] , \CDB_Data[1][25] ,
+         \CDB_Data[1][24] , \CDB_Data[1][23] , \CDB_Data[1][22] ,
+         \CDB_Data[1][21] , \CDB_Data[1][20] , \CDB_Data[1][19] ,
+         \CDB_Data[1][18] , \CDB_Data[1][17] , \CDB_Data[1][16] ,
+         \CDB_Data[1][15] , \CDB_Data[1][14] , \CDB_Data[1][13] ,
+         \CDB_Data[1][12] , \CDB_Data[1][11] , \CDB_Data[1][10] ,
+         \CDB_Data[1][9] , \CDB_Data[1][8] , \CDB_Data[1][7] ,
+         \CDB_Data[1][6] , \CDB_Data[1][5] , \CDB_Data[1][4] ,
+         \CDB_Data[1][3] , \CDB_Data[1][2] , \CDB_Data[1][1] ,
+         \CDB_Data[1][0] , \CDB_Data[0][31] , \CDB_Data[0][30] ,
+         \CDB_Data[0][29] , \CDB_Data[0][28] , \CDB_Data[0][27] ,
+         \CDB_Data[0][26] , \CDB_Data[0][25] , \CDB_Data[0][24] ,
+         \CDB_Data[0][23] , \CDB_Data[0][22] , \CDB_Data[0][21] ,
+         \CDB_Data[0][20] , \CDB_Data[0][19] , \CDB_Data[0][18] ,
+         \CDB_Data[0][17] , \CDB_Data[0][16] , \CDB_Data[0][15] ,
+         \CDB_Data[0][14] , \CDB_Data[0][13] , \CDB_Data[0][12] ,
+         \CDB_Data[0][11] , \CDB_Data[0][10] , \CDB_Data[0][9] ,
+         \CDB_Data[0][8] , \CDB_Data[0][7] , \CDB_Data[0][6] ,
+         \CDB_Data[0][5] , \CDB_Data[0][4] , \CDB_Data[0][3] ,
+         \CDB_Data[0][2] , \CDB_Data[0][1] , \CDB_Data[0][0] ,
+         \CDB_PRF_idx[2][5] , \CDB_PRF_idx[2][4] , \CDB_PRF_idx[2][3] ,
+         \CDB_PRF_idx[2][2] , \CDB_PRF_idx[2][1] , \CDB_PRF_idx[2][0] ,
+         \CDB_PRF_idx[1][5] , \CDB_PRF_idx[1][4] , \CDB_PRF_idx[1][3] ,
+         \CDB_PRF_idx[1][2] , \CDB_PRF_idx[1][1] , \CDB_PRF_idx[1][0] ,
+         \CDB_PRF_idx[0][5] , \CDB_PRF_idx[0][4] , \CDB_PRF_idx[0][3] ,
+         \CDB_PRF_idx[0][2] , \CDB_PRF_idx[0][1] , \CDB_PRF_idx[0][0] ,
+         opa_valid_in, opb_valid_in, load_in, \id_rs_packet_in[NPC][31] ,
+         \id_rs_packet_in[NPC][30] , \id_rs_packet_in[NPC][29] ,
+         \id_rs_packet_in[NPC][28] , \id_rs_packet_in[NPC][27] ,
+         \id_rs_packet_in[NPC][26] , \id_rs_packet_in[NPC][25] ,
+         \id_rs_packet_in[NPC][24] , \id_rs_packet_in[NPC][23] ,
+         \id_rs_packet_in[NPC][22] , \id_rs_packet_in[NPC][21] ,
+         \id_rs_packet_in[NPC][20] , \id_rs_packet_in[NPC][19] ,
+         \id_rs_packet_in[NPC][18] , \id_rs_packet_in[NPC][17] ,
+         \id_rs_packet_in[NPC][16] , \id_rs_packet_in[NPC][15] ,
+         \id_rs_packet_in[NPC][14] , \id_rs_packet_in[NPC][13] ,
+         \id_rs_packet_in[NPC][12] , \id_rs_packet_in[NPC][11] ,
+         \id_rs_packet_in[NPC][10] , \id_rs_packet_in[NPC][9] ,
+         \id_rs_packet_in[NPC][8] , \id_rs_packet_in[NPC][7] ,
+         \id_rs_packet_in[NPC][6] , \id_rs_packet_in[NPC][5] ,
+         \id_rs_packet_in[NPC][4] , \id_rs_packet_in[NPC][3] ,
+         \id_rs_packet_in[NPC][2] , \id_rs_packet_in[NPC][1] ,
+         \id_rs_packet_in[NPC][0] , \id_rs_packet_in[PC][31] ,
+         \id_rs_packet_in[PC][30] , \id_rs_packet_in[PC][29] ,
+         \id_rs_packet_in[PC][28] , \id_rs_packet_in[PC][27] ,
+         \id_rs_packet_in[PC][26] , \id_rs_packet_in[PC][25] ,
+         \id_rs_packet_in[PC][24] , \id_rs_packet_in[PC][23] ,
+         \id_rs_packet_in[PC][22] , \id_rs_packet_in[PC][21] ,
+         \id_rs_packet_in[PC][20] , \id_rs_packet_in[PC][19] ,
+         \id_rs_packet_in[PC][18] , \id_rs_packet_in[PC][17] ,
+         \id_rs_packet_in[PC][16] , \id_rs_packet_in[PC][15] ,
+         \id_rs_packet_in[PC][14] , \id_rs_packet_in[PC][13] ,
+         \id_rs_packet_in[PC][12] , \id_rs_packet_in[PC][11] ,
+         \id_rs_packet_in[PC][10] , \id_rs_packet_in[PC][9] ,
+         \id_rs_packet_in[PC][8] , \id_rs_packet_in[PC][7] ,
+         \id_rs_packet_in[PC][6] , \id_rs_packet_in[PC][5] ,
+         \id_rs_packet_in[PC][4] , \id_rs_packet_in[PC][3] ,
+         \id_rs_packet_in[PC][2] , \id_rs_packet_in[PC][1] ,
+         \id_rs_packet_in[PC][0] , \id_rs_packet_in[rs1_value][31] ,
+         \id_rs_packet_in[rs1_value][30] , \id_rs_packet_in[rs1_value][29] ,
+         \id_rs_packet_in[rs1_value][28] , \id_rs_packet_in[rs1_value][27] ,
+         \id_rs_packet_in[rs1_value][26] , \id_rs_packet_in[rs1_value][25] ,
+         \id_rs_packet_in[rs1_value][24] , \id_rs_packet_in[rs1_value][23] ,
+         \id_rs_packet_in[rs1_value][22] , \id_rs_packet_in[rs1_value][21] ,
+         \id_rs_packet_in[rs1_value][20] , \id_rs_packet_in[rs1_value][19] ,
+         \id_rs_packet_in[rs1_value][18] , \id_rs_packet_in[rs1_value][17] ,
+         \id_rs_packet_in[rs1_value][16] , \id_rs_packet_in[rs1_value][15] ,
+         \id_rs_packet_in[rs1_value][14] , \id_rs_packet_in[rs1_value][13] ,
+         \id_rs_packet_in[rs1_value][12] , \id_rs_packet_in[rs1_value][11] ,
+         \id_rs_packet_in[rs1_value][10] , \id_rs_packet_in[rs1_value][9] ,
+         \id_rs_packet_in[rs1_value][8] , \id_rs_packet_in[rs1_value][7] ,
+         \id_rs_packet_in[rs1_value][6] , \id_rs_packet_in[rs1_value][5] ,
+         \id_rs_packet_in[rs1_value][4] , \id_rs_packet_in[rs1_value][3] ,
+         \id_rs_packet_in[rs1_value][2] , \id_rs_packet_in[rs1_value][1] ,
+         \id_rs_packet_in[rs1_value][0] , \id_rs_packet_in[rs2_value][31] ,
+         \id_rs_packet_in[rs2_value][30] , \id_rs_packet_in[rs2_value][29] ,
+         \id_rs_packet_in[rs2_value][28] , \id_rs_packet_in[rs2_value][27] ,
+         \id_rs_packet_in[rs2_value][26] , \id_rs_packet_in[rs2_value][25] ,
+         \id_rs_packet_in[rs2_value][24] , \id_rs_packet_in[rs2_value][23] ,
+         \id_rs_packet_in[rs2_value][22] , \id_rs_packet_in[rs2_value][21] ,
+         \id_rs_packet_in[rs2_value][20] , \id_rs_packet_in[rs2_value][19] ,
+         \id_rs_packet_in[rs2_value][18] , \id_rs_packet_in[rs2_value][17] ,
+         \id_rs_packet_in[rs2_value][16] , \id_rs_packet_in[rs2_value][15] ,
+         \id_rs_packet_in[rs2_value][14] , \id_rs_packet_in[rs2_value][13] ,
+         \id_rs_packet_in[rs2_value][12] , \id_rs_packet_in[rs2_value][11] ,
+         \id_rs_packet_in[rs2_value][10] , \id_rs_packet_in[rs2_value][9] ,
+         \id_rs_packet_in[rs2_value][8] , \id_rs_packet_in[rs2_value][7] ,
+         \id_rs_packet_in[rs2_value][6] , \id_rs_packet_in[rs2_value][5] ,
+         \id_rs_packet_in[rs2_value][4] , \id_rs_packet_in[rs2_value][3] ,
+         \id_rs_packet_in[rs2_value][2] , \id_rs_packet_in[rs2_value][1] ,
+         \id_rs_packet_in[rs2_value][0] , \id_rs_packet_in[opa_select][1] ,
+         \id_rs_packet_in[opa_select][0] , \id_rs_packet_in[opb_select][3] ,
+         \id_rs_packet_in[opb_select][2] , \id_rs_packet_in[opb_select][1] ,
+         \id_rs_packet_in[opb_select][0] , \id_rs_packet_in[inst][31] ,
+         \id_rs_packet_in[inst][30] , \id_rs_packet_in[inst][29] ,
+         \id_rs_packet_in[inst][28] , \id_rs_packet_in[inst][27] ,
+         \id_rs_packet_in[inst][26] , \id_rs_packet_in[inst][25] ,
+         \id_rs_packet_in[inst][24] , \id_rs_packet_in[inst][23] ,
+         \id_rs_packet_in[inst][22] , \id_rs_packet_in[inst][21] ,
+         \id_rs_packet_in[inst][20] , \id_rs_packet_in[inst][19] ,
+         \id_rs_packet_in[inst][18] , \id_rs_packet_in[inst][17] ,
+         \id_rs_packet_in[inst][16] , \id_rs_packet_in[inst][15] ,
+         \id_rs_packet_in[inst][14] , \id_rs_packet_in[inst][13] ,
+         \id_rs_packet_in[inst][12] , \id_rs_packet_in[inst][11] ,
+         \id_rs_packet_in[inst][10] , \id_rs_packet_in[inst][9] ,
+         \id_rs_packet_in[inst][8] , \id_rs_packet_in[inst][7] ,
+         \id_rs_packet_in[inst][6] , \id_rs_packet_in[inst][5] ,
+         \id_rs_packet_in[inst][4] , \id_rs_packet_in[inst][3] ,
+         \id_rs_packet_in[inst][2] , \id_rs_packet_in[inst][1] ,
+         \id_rs_packet_in[inst][0] , \id_rs_packet_in[dest_PRF_idx][5] ,
+         \id_rs_packet_in[dest_PRF_idx][4] ,
+         \id_rs_packet_in[dest_PRF_idx][3] ,
+         \id_rs_packet_in[dest_PRF_idx][2] ,
+         \id_rs_packet_in[dest_PRF_idx][1] ,
+         \id_rs_packet_in[dest_PRF_idx][0] , \id_rs_packet_in[rob_idx][3] ,
+         \id_rs_packet_in[rob_idx][2] , \id_rs_packet_in[rob_idx][1] ,
+         \id_rs_packet_in[rob_idx][0] , \id_rs_packet_in[alu_func][4] ,
+         \id_rs_packet_in[alu_func][3] , \id_rs_packet_in[alu_func][2] ,
+         \id_rs_packet_in[alu_func][1] , \id_rs_packet_in[alu_func][0] ,
+         \id_rs_packet_in[rd_mem] , \id_rs_packet_in[wr_mem] ,
+         \id_rs_packet_in[cond_branch] , \id_rs_packet_in[uncond_branch] ,
+         \id_rs_packet_in[halt] , \id_rs_packet_in[illegal] ,
+         \id_rs_packet_in[csr_op] , \id_rs_packet_in[valid] ;
+  output \rs_packet_out[NPC][31] , \rs_packet_out[NPC][30] ,
+         \rs_packet_out[NPC][29] , \rs_packet_out[NPC][28] ,
+         \rs_packet_out[NPC][27] , \rs_packet_out[NPC][26] ,
+         \rs_packet_out[NPC][25] , \rs_packet_out[NPC][24] ,
+         \rs_packet_out[NPC][23] , \rs_packet_out[NPC][22] ,
+         \rs_packet_out[NPC][21] , \rs_packet_out[NPC][20] ,
+         \rs_packet_out[NPC][19] , \rs_packet_out[NPC][18] ,
+         \rs_packet_out[NPC][17] , \rs_packet_out[NPC][16] ,
+         \rs_packet_out[NPC][15] , \rs_packet_out[NPC][14] ,
+         \rs_packet_out[NPC][13] , \rs_packet_out[NPC][12] ,
+         \rs_packet_out[NPC][11] , \rs_packet_out[NPC][10] ,
+         \rs_packet_out[NPC][9] , \rs_packet_out[NPC][8] ,
+         \rs_packet_out[NPC][7] , \rs_packet_out[NPC][6] ,
+         \rs_packet_out[NPC][5] , \rs_packet_out[NPC][4] ,
+         \rs_packet_out[NPC][3] , \rs_packet_out[NPC][2] ,
+         \rs_packet_out[NPC][1] , \rs_packet_out[NPC][0] ,
+         \rs_packet_out[PC][31] , \rs_packet_out[PC][30] ,
+         \rs_packet_out[PC][29] , \rs_packet_out[PC][28] ,
+         \rs_packet_out[PC][27] , \rs_packet_out[PC][26] ,
+         \rs_packet_out[PC][25] , \rs_packet_out[PC][24] ,
+         \rs_packet_out[PC][23] , \rs_packet_out[PC][22] ,
+         \rs_packet_out[PC][21] , \rs_packet_out[PC][20] ,
+         \rs_packet_out[PC][19] , \rs_packet_out[PC][18] ,
+         \rs_packet_out[PC][17] , \rs_packet_out[PC][16] ,
+         \rs_packet_out[PC][15] , \rs_packet_out[PC][14] ,
+         \rs_packet_out[PC][13] , \rs_packet_out[PC][12] ,
+         \rs_packet_out[PC][11] , \rs_packet_out[PC][10] ,
+         \rs_packet_out[PC][9] , \rs_packet_out[PC][8] ,
+         \rs_packet_out[PC][7] , \rs_packet_out[PC][6] ,
+         \rs_packet_out[PC][5] , \rs_packet_out[PC][4] ,
+         \rs_packet_out[PC][3] , \rs_packet_out[PC][2] ,
+         \rs_packet_out[PC][1] , \rs_packet_out[PC][0] ,
+         \rs_packet_out[rs1_value][31] , \rs_packet_out[rs1_value][30] ,
+         \rs_packet_out[rs1_value][29] , \rs_packet_out[rs1_value][28] ,
+         \rs_packet_out[rs1_value][27] , \rs_packet_out[rs1_value][26] ,
+         \rs_packet_out[rs1_value][25] , \rs_packet_out[rs1_value][24] ,
+         \rs_packet_out[rs1_value][23] , \rs_packet_out[rs1_value][22] ,
+         \rs_packet_out[rs1_value][21] , \rs_packet_out[rs1_value][20] ,
+         \rs_packet_out[rs1_value][19] , \rs_packet_out[rs1_value][18] ,
+         \rs_packet_out[rs1_value][17] , \rs_packet_out[rs1_value][16] ,
+         \rs_packet_out[rs1_value][15] , \rs_packet_out[rs1_value][14] ,
+         \rs_packet_out[rs1_value][13] , \rs_packet_out[rs1_value][12] ,
+         \rs_packet_out[rs1_value][11] , \rs_packet_out[rs1_value][10] ,
+         \rs_packet_out[rs1_value][9] , \rs_packet_out[rs1_value][8] ,
+         \rs_packet_out[rs1_value][7] , \rs_packet_out[rs1_value][6] ,
+         \rs_packet_out[rs1_value][5] , \rs_packet_out[rs1_value][4] ,
+         \rs_packet_out[rs1_value][3] , \rs_packet_out[rs1_value][2] ,
+         \rs_packet_out[rs1_value][1] , \rs_packet_out[rs1_value][0] ,
+         \rs_packet_out[rs2_value][31] , \rs_packet_out[rs2_value][30] ,
+         \rs_packet_out[rs2_value][29] , \rs_packet_out[rs2_value][28] ,
+         \rs_packet_out[rs2_value][27] , \rs_packet_out[rs2_value][26] ,
+         \rs_packet_out[rs2_value][25] , \rs_packet_out[rs2_value][24] ,
+         \rs_packet_out[rs2_value][23] , \rs_packet_out[rs2_value][22] ,
+         \rs_packet_out[rs2_value][21] , \rs_packet_out[rs2_value][20] ,
+         \rs_packet_out[rs2_value][19] , \rs_packet_out[rs2_value][18] ,
+         \rs_packet_out[rs2_value][17] , \rs_packet_out[rs2_value][16] ,
+         \rs_packet_out[rs2_value][15] , \rs_packet_out[rs2_value][14] ,
+         \rs_packet_out[rs2_value][13] , \rs_packet_out[rs2_value][12] ,
+         \rs_packet_out[rs2_value][11] , \rs_packet_out[rs2_value][10] ,
+         \rs_packet_out[rs2_value][9] , \rs_packet_out[rs2_value][8] ,
+         \rs_packet_out[rs2_value][7] , \rs_packet_out[rs2_value][6] ,
+         \rs_packet_out[rs2_value][5] , \rs_packet_out[rs2_value][4] ,
+         \rs_packet_out[rs2_value][3] , \rs_packet_out[rs2_value][2] ,
+         \rs_packet_out[rs2_value][1] , \rs_packet_out[rs2_value][0] ,
+         \rs_packet_out[opa_select][1] , \rs_packet_out[opa_select][0] ,
+         \rs_packet_out[opb_select][3] , \rs_packet_out[opb_select][2] ,
+         \rs_packet_out[opb_select][1] , \rs_packet_out[opb_select][0] ,
+         \rs_packet_out[inst][31] , \rs_packet_out[inst][30] ,
+         \rs_packet_out[inst][29] , \rs_packet_out[inst][28] ,
+         \rs_packet_out[inst][27] , \rs_packet_out[inst][26] ,
+         \rs_packet_out[inst][25] , \rs_packet_out[inst][24] ,
+         \rs_packet_out[inst][23] , \rs_packet_out[inst][22] ,
+         \rs_packet_out[inst][21] , \rs_packet_out[inst][20] ,
+         \rs_packet_out[inst][19] , \rs_packet_out[inst][18] ,
+         \rs_packet_out[inst][17] , \rs_packet_out[inst][16] ,
+         \rs_packet_out[inst][15] , \rs_packet_out[inst][14] ,
+         \rs_packet_out[inst][13] , \rs_packet_out[inst][12] ,
+         \rs_packet_out[inst][11] , \rs_packet_out[inst][10] ,
+         \rs_packet_out[inst][9] , \rs_packet_out[inst][8] ,
+         \rs_packet_out[inst][7] , \rs_packet_out[inst][6] ,
+         \rs_packet_out[inst][5] , \rs_packet_out[inst][4] ,
+         \rs_packet_out[inst][3] , \rs_packet_out[inst][2] ,
+         \rs_packet_out[inst][1] , \rs_packet_out[inst][0] ,
+         \rs_packet_out[dest_PRF_idx][5] , \rs_packet_out[dest_PRF_idx][4] ,
+         \rs_packet_out[dest_PRF_idx][3] , \rs_packet_out[dest_PRF_idx][2] ,
+         \rs_packet_out[dest_PRF_idx][1] , \rs_packet_out[dest_PRF_idx][0] ,
+         \rs_packet_out[rob_idx][3] , \rs_packet_out[rob_idx][2] ,
+         \rs_packet_out[rob_idx][1] , \rs_packet_out[rob_idx][0] ,
+         \rs_packet_out[alu_func][4] , \rs_packet_out[alu_func][3] ,
+         \rs_packet_out[alu_func][2] , \rs_packet_out[alu_func][1] ,
+         \rs_packet_out[alu_func][0] , \rs_packet_out[rd_mem] ,
+         \rs_packet_out[wr_mem] , \rs_packet_out[cond_branch] ,
+         \rs_packet_out[uncond_branch] , \rs_packet_out[halt] ,
+         \rs_packet_out[illegal] , \rs_packet_out[csr_op] ,
+         \rs_packet_out[valid] , ready, is_free;
+  wire   n17, n194, n456, n457, n458, n459, n460, n461, n462, n463, n464, n465,
+         n466, n467, n468, n469, n470, n471, n472, n473, n474, n475, n476,
+         n477, n478, n479, n480, n481, n482, n483, n484, n485, n486, n487,
+         n488, n489, n490, n491, n492, n493, n494, n495, n496, n497, n498,
+         n499, n500, n501, n502, n503, n504, n505, n506, n507, n508, n509,
+         n510, n511, n512, n513, n514, n515, n516, n517, n518, n519, n520,
+         n521, n522, n523, n524, n525, n526, n527, n528, n529, n530, n531,
+         n532, n533, n538, n539, n540, n541, n542, n543, n544, n545, n546,
+         n547, n548, n549, n550, n551, n552, n553, n554, n555, n556, n557,
+         n558, n559, n560, n561, n562, n563, n564, n565, n566, n567, n568,
+         n569, n570, n571, n572, n573, n574, n575, n576, n577, n578, n579,
+         n580, n581, n582, n583, n584, n585, n586, n587, n588, n589, n590,
+         n591, n592, n593, n594, n595, n596, n597, n598, n599, n600, n601,
+         n602, n603, n604, n605, n606, n607, n608, n609, n610, n611, n612,
+         n613, n614, n615, n616, n617, n618, n619, n620, n621, n622, n623,
+         n624, n625, n626, n627, n628, n629, n630, n631, n632, n633, n634,
+         n635, n636, n637, n638, n639, n640, n641, n642, n643, n644, n645,
+         n646, n647, n648, n649, n650, n651, n652, n653, n654, n655, n656,
+         n657, n658, n659, n660, n661, n662, n663, n664, n665, n666, n667,
+         n668, n669, n670, n671, n672, n673, n674, n675, n676, n677, n678,
+         n679, n680, n681, n682, n683, n684, n685, n686, n687, n688, n689,
+         n690, n691, n692, n693, n694, n695, n696, n697, n698, n699, n700,
+         n701, n702, n703, n704, n705, n706, n707, n708, n709, n710, n711,
+         n712, n713, n714, n715, n716, n717, n718, n719, n720, n721, n722,
+         n723, n724, n725, n726, n727, n728, n729, n730, n731, n732, n733,
+         n734, n735, n736, n737, n738, n739, n740, n741, n742, n743, n744,
+         n745, n746, n747, n748, n749, n750, n751, n752, n753, n754, n755,
+         n756, n757, n758, n759, n760, n761, n762, n763, n764, n765, n766,
+         n767, n768, n769, n770, n771, n772, n773, n774, n775, n776, n777,
+         n778, n779, n780, n781, n782, n783, n784, n785, n786, n787, n788,
+         n789, n790, n791, n792, n793, n794, n795, n796, n797, n798, n799,
+         n800, n801, n802, n803, n804, n805, n806, n807, n808, n809, n810,
+         n811, n812, n813, n814, n815, n816, n817, n818, n819, n820, n821,
+         n822, n823, n824, n825, n826, n827, n828, n829, n830, n831, n832,
+         n833, n834, n835, n836, n837, n838, n839, n840, n841, n842, n843,
+         n844, n845, n846, n847, n848, n849, n850, n851, n852, n853, n854,
+         n855, n856, n857, n858, n859, n860, n861, n862, n863, n864, n865,
+         n866, n867, n868, n869, n870, n871, n872, n873, n874, n875, n876,
+         n877, n878, n879, n880, n881, n882, n883, n884, n885, n886, n887,
+         n888, n889, n890, n891, n892, n893, n894, n895, n896, n897, n898,
+         n899, n900, n901, n902, n903, n904, n905, n906, n907, n908, n909,
+         n910, n911, n912, n913, n914, n915, n916, n917, n918, n919, n920,
+         n921, n922, n923, n924, n925, n926, n927, n928, n929, n930, n931,
+         n932, n933, n934, n935, n936, n937, n938, n939, n940, n941, n942,
+         n943, n944, n945, n946, n947, n948, n949, n950, n951, n952, n953,
+         n954, n955, n956, n957, n958, n959, n960, n961, n962, n963, n964,
+         n965, n966, n967, n968, n969, n970, n971, n972, n973, n974, n975,
+         n976, n977, n978, n979, n980, n981, n982, n983, n984, n985, n986,
+         n987, n988, n989, n990, n991, n992, n993, n994, n995, n996, n997,
+         n998, n999, n1000, n1001, n1002, n1003, n1004, n1005, n1006, n1007,
+         n1008, n1009, n1010, n1011, n1012, n1013, n1014, n1015, n1016, n1017,
+         n1018, n1019, n1020, n1021, n1022, n1023, n1024, n1025, n1026, n1027,
+         n1028, n1029, n1030, n1031, n1032, n1033, n1034, n1035, n1036, n1037,
+         n1038, n1039, n1040, n1041, n1042, n1043, n1044, n1045, n1046, n1047,
+         n1048, n1049, n1050, n1051, n1052, n1053, n1054, n1055, n1056, n1057,
+         n1058, n1059, n1060, n1061, n1062, n1063, n1064, n1065, n1066, n1067,
+         n1068, n1069, n1070, n1071, n1072, n1073, n1074, n1075, n1076, n1077,
+         n1078, n1079, n1080, n1081, n1082, n1083, n1084, n1085, n1086, n1087,
+         n1088, n1089, n1090, n1091, n1092, n1093, n1094, n1095, n1096, n1097,
+         n1098, n1099, n1100, n1101, n1102, n1103, n1104, n1105, n1106, n1107,
+         n1108, n1109, n1110, n1111, n1112, n1113, n1114, n1115, n1116, n1117,
+         n1118, n1119, n1120, n1121, n1122, n1123, n1124, n1125, n1126, n1127,
+         n1128, n1129, n1130, n1131, n1132, n1133, n1134, n1135, n1136, n1137,
+         n1138, n1139, n1140, n1141, n1142, n1143, n1144, n1145, n1146, n1147,
+         n1148, n1149, n1150, n1151, n1152, n1153, n1154, n1155, n1156, n1157,
+         n1158, n1159, n1160, n1161, n1162, n1163, n1164, n1165, n1166, n1167,
+         n1168, n1169, n1170, n1171, n1172, n1173, n1174, n1175, n1176, n1177,
+         n1178, n1179, n1180, n1181, n1182, n1183, n1184, n1185, n1186, n1187,
+         n1188, n1189, n1190, n1191, n1192, n1193, n1194, n1195, n1196, n1197,
+         n1198;
+
+  dffss1 \rs_packet_out_reg[valid]  ( .DIN(n563), .SETB(n194), .CLK(clock), 
+        .Q(\rs_packet_out[valid] ) );
+  dffs1 \rs_packet_out_reg[rs2_value][4]  ( .DIN(n515), .CLK(clock), .QN(n528)
+         );
+  dffs1 \rs_packet_out_reg[rs2_value][3]  ( .DIN(n516), .CLK(clock), .QN(n527)
+         );
+  dffs1 \rs_packet_out_reg[rs2_value][2]  ( .DIN(n517), .CLK(clock), .QN(n526)
+         );
+  dffs1 \rs_packet_out_reg[rs2_value][5]  ( .DIN(n514), .CLK(clock), .QN(n529)
+         );
+  dffs1 opa_valid_reg_reg ( .DIN(n487), .CLK(clock), .Q(n1023), .QN(n567) );
+  dffs1 opb_valid_reg_reg ( .DIN(n519), .CLK(clock), .Q(n1024), .QN(n566) );
+  dffs2 \rs_packet_out_reg[rs2_value][17]  ( .DIN(n502), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][17] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][16]  ( .DIN(n503), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][16] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][15]  ( .DIN(n504), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][15] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][27]  ( .DIN(n492), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][27] ) );
+  dffs2 \rs_packet_out_reg[rs1_value][16]  ( .DIN(n470), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][16] ), .QN(n876) );
+  dffs2 is_free_reg ( .DIN(n522), .CLK(clock), .Q(is_free), .QN(n17) );
+  dffs2 \rs_packet_out_reg[NPC][17]  ( .DIN(n1075), .CLK(clock), .Q(
+        \rs_packet_out[NPC][17] ), .QN(n1074) );
+  dffs2 \rs_packet_out_reg[rs2_value][0]  ( .DIN(n521), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][0] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][1]  ( .DIN(n518), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][1] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][19]  ( .DIN(n500), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][19] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][25]  ( .DIN(n494), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][25] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][20]  ( .DIN(n499), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][20] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][18]  ( .DIN(n501), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][18] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][7]  ( .DIN(n512), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][7] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][29]  ( .DIN(n490), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][29] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][6]  ( .DIN(n513), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][6] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][26]  ( .DIN(n493), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][26] ) );
+  dffs2 \rs_packet_out_reg[rs1_value][15]  ( .DIN(n471), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][15] ), .QN(n874) );
+  dffs2 \rs_packet_out_reg[rs2_value][14]  ( .DIN(n505), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][14] ) );
+  dffs2 \rs_packet_out_reg[NPC][16]  ( .DIN(n1076), .CLK(clock), .Q(
+        \rs_packet_out[NPC][16] ), .QN(n1073) );
+  dffs2 \rs_packet_out_reg[rs1_value][5]  ( .DIN(n481), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][5] ), .QN(n854) );
+  dffs2 \rs_packet_out_reg[rs1_value][2]  ( .DIN(n484), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][2] ), .QN(n848) );
+  dffs2 \rs_packet_out_reg[rs1_value][3]  ( .DIN(n483), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][3] ), .QN(n850) );
+  dffs2 \rs_packet_out_reg[rs1_value][4]  ( .DIN(n482), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][4] ), .QN(n852) );
+  dffs2 \rs_packet_out_reg[rs2_value][28]  ( .DIN(n491), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][28] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][8]  ( .DIN(n511), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][8] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][12]  ( .DIN(n507), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][12] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][21]  ( .DIN(n498), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][21] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][10]  ( .DIN(n509), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][10] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][23]  ( .DIN(n496), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][23] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][11]  ( .DIN(n508), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][11] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][24]  ( .DIN(n495), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][24] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][9]  ( .DIN(n510), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][9] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][30]  ( .DIN(n489), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][30] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][22]  ( .DIN(n497), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][22] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][31]  ( .DIN(n520), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][31] ) );
+  dffs2 \rs_packet_out_reg[rs2_value][13]  ( .DIN(n506), .CLK(clock), .Q(
+        \rs_packet_out[rs2_value][13] ) );
+  dffs2 \rs_packet_out_reg[rs1_value][0]  ( .DIN(n486), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][0] ), .QN(n844) );
+  dffs2 \rs_packet_out_reg[rs1_value][1]  ( .DIN(n485), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][1] ), .QN(n846) );
+  dffs2 \rs_packet_out_reg[rs1_value][14]  ( .DIN(n472), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][14] ), .QN(n872) );
+  dffs2 \rs_packet_out_reg[rs1_value][17]  ( .DIN(n469), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][17] ), .QN(n878) );
+  dffs2 \rs_packet_out_reg[rs1_value][12]  ( .DIN(n474), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][12] ), .QN(n868) );
+  dffs2 \rs_packet_out_reg[rs1_value][22]  ( .DIN(n464), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][22] ), .QN(n888) );
+  dffs2 \rs_packet_out_reg[rs1_value][6]  ( .DIN(n480), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][6] ), .QN(n856) );
+  dffs2 \rs_packet_out_reg[rs1_value][11]  ( .DIN(n475), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][11] ), .QN(n866) );
+  dffs2 \rs_packet_out_reg[rs1_value][24]  ( .DIN(n462), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][24] ), .QN(n892) );
+  dffs2 \rs_packet_out_reg[rs1_value][13]  ( .DIN(n473), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][13] ), .QN(n870) );
+  dffs2 \rs_packet_out_reg[rs1_value][31]  ( .DIN(n488), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][31] ), .QN(n840) );
+  dffs2 \rs_packet_out_reg[rs1_value][23]  ( .DIN(n463), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][23] ), .QN(n890) );
+  dffs2 \rs_packet_out_reg[rs1_value][10]  ( .DIN(n476), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][10] ), .QN(n864) );
+  dffs2 \rs_packet_out_reg[NPC][15]  ( .DIN(n1077), .CLK(clock), .Q(
+        \rs_packet_out[NPC][15] ), .QN(n1072) );
+  dffs2 \rs_packet_out_reg[NPC][14]  ( .DIN(n1078), .CLK(clock), .Q(
+        \rs_packet_out[NPC][14] ), .QN(n1071) );
+  dffs2 \rs_packet_out_reg[NPC][13]  ( .DIN(n1079), .CLK(clock), .Q(
+        \rs_packet_out[NPC][13] ), .QN(n1070) );
+  dffs2 \rs_packet_out_reg[NPC][12]  ( .DIN(n1080), .CLK(clock), .Q(
+        \rs_packet_out[NPC][12] ), .QN(n1069) );
+  dffs2 \rs_packet_out_reg[NPC][11]  ( .DIN(n1081), .CLK(clock), .Q(
+        \rs_packet_out[NPC][11] ), .QN(n1068) );
+  dffs2 \rs_packet_out_reg[NPC][10]  ( .DIN(n1082), .CLK(clock), .Q(
+        \rs_packet_out[NPC][10] ), .QN(n1067) );
+  dffs2 \rs_packet_out_reg[NPC][9]  ( .DIN(n1083), .CLK(clock), .Q(
+        \rs_packet_out[NPC][9] ), .QN(n1066) );
+  dffs2 \rs_packet_out_reg[NPC][8]  ( .DIN(n1084), .CLK(clock), .Q(
+        \rs_packet_out[NPC][8] ), .QN(n1065) );
+  dffs2 \rs_packet_out_reg[NPC][7]  ( .DIN(n1085), .CLK(clock), .Q(
+        \rs_packet_out[NPC][7] ), .QN(n1064) );
+  dffs2 \rs_packet_out_reg[NPC][6]  ( .DIN(n1086), .CLK(clock), .Q(
+        \rs_packet_out[NPC][6] ), .QN(n1063) );
+  dffs2 \rs_packet_out_reg[illegal]  ( .DIN(n1183), .CLK(clock), .Q(
+        \rs_packet_out[illegal] ), .QN(n964) );
+  dffs2 \rs_packet_out_reg[halt]  ( .DIN(n1182), .CLK(clock), .Q(
+        \rs_packet_out[halt] ), .QN(n965) );
+  dffs2 \rs_packet_out_reg[csr_op]  ( .DIN(n1184), .CLK(clock), .Q(
+        \rs_packet_out[csr_op] ), .QN(n963) );
+  dffs2 \rs_packet_out_reg[NPC][31]  ( .DIN(n1185), .CLK(clock), .Q(
+        \rs_packet_out[NPC][31] ), .QN(n962) );
+  dffs2 \rs_packet_out_reg[NPC][30]  ( .DIN(n1186), .CLK(clock), .Q(
+        \rs_packet_out[NPC][30] ), .QN(n961) );
+  dffs2 \rs_packet_out_reg[NPC][29]  ( .DIN(n1187), .CLK(clock), .Q(
+        \rs_packet_out[NPC][29] ), .QN(n960) );
+  dffs2 \rs_packet_out_reg[NPC][28]  ( .DIN(n1188), .CLK(clock), .Q(
+        \rs_packet_out[NPC][28] ), .QN(n959) );
+  dffs2 \rs_packet_out_reg[NPC][27]  ( .DIN(n1189), .CLK(clock), .Q(
+        \rs_packet_out[NPC][27] ), .QN(n958) );
+  dffs2 \rs_packet_out_reg[NPC][26]  ( .DIN(n1190), .CLK(clock), .Q(
+        \rs_packet_out[NPC][26] ), .QN(n957) );
+  dffs2 \rs_packet_out_reg[NPC][25]  ( .DIN(n1191), .CLK(clock), .Q(
+        \rs_packet_out[NPC][25] ), .QN(n956) );
+  dffs2 \rs_packet_out_reg[NPC][24]  ( .DIN(n1192), .CLK(clock), .Q(
+        \rs_packet_out[NPC][24] ), .QN(n955) );
+  dffs2 \rs_packet_out_reg[NPC][23]  ( .DIN(n1193), .CLK(clock), .Q(
+        \rs_packet_out[NPC][23] ), .QN(n954) );
+  dffs2 \rs_packet_out_reg[NPC][22]  ( .DIN(n1194), .CLK(clock), .Q(
+        \rs_packet_out[NPC][22] ), .QN(n953) );
+  dffs2 \rs_packet_out_reg[NPC][21]  ( .DIN(n1195), .CLK(clock), .Q(
+        \rs_packet_out[NPC][21] ), .QN(n952) );
+  dffs2 \rs_packet_out_reg[NPC][20]  ( .DIN(n1196), .CLK(clock), .Q(
+        \rs_packet_out[NPC][20] ), .QN(n951) );
+  dffs2 \rs_packet_out_reg[NPC][19]  ( .DIN(n1197), .CLK(clock), .Q(
+        \rs_packet_out[NPC][19] ), .QN(n950) );
+  dffs2 \rs_packet_out_reg[NPC][18]  ( .DIN(n1198), .CLK(clock), .Q(
+        \rs_packet_out[NPC][18] ), .QN(n949) );
+  dffs2 \rs_packet_out_reg[wr_mem]  ( .DIN(n1179), .CLK(clock), .Q(
+        \rs_packet_out[wr_mem] ), .QN(n968) );
+  dffs2 \rs_packet_out_reg[uncond_branch]  ( .DIN(n1181), .CLK(clock), .Q(
+        \rs_packet_out[uncond_branch] ), .QN(n966) );
+  dffs2 \rs_packet_out_reg[rob_idx][3]  ( .DIN(n1169), .CLK(clock), .Q(
+        \rs_packet_out[rob_idx][3] ), .QN(n978) );
+  dffs2 \rs_packet_out_reg[rob_idx][2]  ( .DIN(n1170), .CLK(clock), .Q(
+        \rs_packet_out[rob_idx][2] ), .QN(n977) );
+  dffs2 \rs_packet_out_reg[rob_idx][1]  ( .DIN(n1171), .CLK(clock), .Q(
+        \rs_packet_out[rob_idx][1] ), .QN(n976) );
+  dffs2 \rs_packet_out_reg[rob_idx][0]  ( .DIN(n1172), .CLK(clock), .Q(
+        \rs_packet_out[rob_idx][0] ), .QN(n975) );
+  dffs2 \rs_packet_out_reg[rd_mem]  ( .DIN(n1178), .CLK(clock), .Q(
+        \rs_packet_out[rd_mem] ), .QN(n969) );
+  dffs2 \rs_packet_out_reg[dest_PRF_idx][5]  ( .DIN(n1163), .CLK(clock), .Q(
+        \rs_packet_out[dest_PRF_idx][5] ), .QN(n984) );
+  dffs2 \rs_packet_out_reg[dest_PRF_idx][4]  ( .DIN(n1164), .CLK(clock), .Q(
+        \rs_packet_out[dest_PRF_idx][4] ), .QN(n983) );
+  dffs2 \rs_packet_out_reg[dest_PRF_idx][3]  ( .DIN(n1165), .CLK(clock), .Q(
+        \rs_packet_out[dest_PRF_idx][3] ), .QN(n982) );
+  dffs2 \rs_packet_out_reg[dest_PRF_idx][2]  ( .DIN(n1166), .CLK(clock), .Q(
+        \rs_packet_out[dest_PRF_idx][2] ), .QN(n981) );
+  dffs2 \rs_packet_out_reg[dest_PRF_idx][1]  ( .DIN(n1167), .CLK(clock), .Q(
+        \rs_packet_out[dest_PRF_idx][1] ), .QN(n980) );
+  dffs2 \rs_packet_out_reg[dest_PRF_idx][0]  ( .DIN(n1168), .CLK(clock), .Q(
+        \rs_packet_out[dest_PRF_idx][0] ), .QN(n979) );
+  dffs2 \rs_packet_out_reg[cond_branch]  ( .DIN(n1180), .CLK(clock), .Q(
+        \rs_packet_out[cond_branch] ), .QN(n967) );
+  dffs2 \rs_packet_out_reg[alu_func][4]  ( .DIN(n1173), .CLK(clock), .Q(
+        \rs_packet_out[alu_func][4] ), .QN(n974) );
+  dffs2 \rs_packet_out_reg[alu_func][3]  ( .DIN(n1174), .CLK(clock), .Q(
+        \rs_packet_out[alu_func][3] ), .QN(n973) );
+  dffs2 \rs_packet_out_reg[alu_func][2]  ( .DIN(n1175), .CLK(clock), .Q(
+        \rs_packet_out[alu_func][2] ), .QN(n972) );
+  dffs2 \rs_packet_out_reg[alu_func][1]  ( .DIN(n1176), .CLK(clock), .Q(
+        \rs_packet_out[alu_func][1] ), .QN(n971) );
+  dffs2 \rs_packet_out_reg[alu_func][0]  ( .DIN(n1177), .CLK(clock), .Q(
+        \rs_packet_out[alu_func][0] ), .QN(n970) );
+  dffs2 \rs_packet_out_reg[opb_select][3]  ( .DIN(n1127), .CLK(clock), .Q(
+        \rs_packet_out[opb_select][3] ), .QN(n1020) );
+  dffs2 \rs_packet_out_reg[opb_select][2]  ( .DIN(n1128), .CLK(clock), .Q(
+        \rs_packet_out[opb_select][2] ), .QN(n1019) );
+  dffs2 \rs_packet_out_reg[opb_select][1]  ( .DIN(n1129), .CLK(clock), .Q(
+        \rs_packet_out[opb_select][1] ), .QN(n1018) );
+  dffs2 \rs_packet_out_reg[opb_select][0]  ( .DIN(n1130), .CLK(clock), .Q(
+        \rs_packet_out[opb_select][0] ), .QN(n1017) );
+  dffs2 \rs_packet_out_reg[opa_select][1]  ( .DIN(n1125), .CLK(clock), .Q(
+        \rs_packet_out[opa_select][1] ), .QN(n1022) );
+  dffs2 \rs_packet_out_reg[opa_select][0]  ( .DIN(n1126), .CLK(clock), .Q(
+        \rs_packet_out[opa_select][0] ), .QN(n1021) );
+  dffs2 \rs_packet_out_reg[inst][31]  ( .DIN(n1131), .CLK(clock), .Q(
+        \rs_packet_out[inst][31] ), .QN(n1016) );
+  dffs2 \rs_packet_out_reg[inst][30]  ( .DIN(n1132), .CLK(clock), .Q(
+        \rs_packet_out[inst][30] ), .QN(n1015) );
+  dffs2 \rs_packet_out_reg[inst][29]  ( .DIN(n1133), .CLK(clock), .Q(
+        \rs_packet_out[inst][29] ), .QN(n1014) );
+  dffs2 \rs_packet_out_reg[inst][28]  ( .DIN(n1134), .CLK(clock), .Q(
+        \rs_packet_out[inst][28] ), .QN(n1013) );
+  dffs2 \rs_packet_out_reg[inst][27]  ( .DIN(n1135), .CLK(clock), .Q(
+        \rs_packet_out[inst][27] ), .QN(n1012) );
+  dffs2 \rs_packet_out_reg[inst][26]  ( .DIN(n1136), .CLK(clock), .Q(
+        \rs_packet_out[inst][26] ), .QN(n1011) );
+  dffs2 \rs_packet_out_reg[inst][25]  ( .DIN(n1137), .CLK(clock), .Q(
+        \rs_packet_out[inst][25] ), .QN(n1010) );
+  dffs2 \rs_packet_out_reg[inst][24]  ( .DIN(n1138), .CLK(clock), .Q(
+        \rs_packet_out[inst][24] ), .QN(n1009) );
+  dffs2 \rs_packet_out_reg[inst][23]  ( .DIN(n1139), .CLK(clock), .Q(
+        \rs_packet_out[inst][23] ), .QN(n1008) );
+  dffs2 \rs_packet_out_reg[inst][22]  ( .DIN(n1140), .CLK(clock), .Q(
+        \rs_packet_out[inst][22] ), .QN(n1007) );
+  dffs2 \rs_packet_out_reg[inst][21]  ( .DIN(n1141), .CLK(clock), .Q(
+        \rs_packet_out[inst][21] ), .QN(n1006) );
+  dffs2 \rs_packet_out_reg[inst][20]  ( .DIN(n1142), .CLK(clock), .Q(
+        \rs_packet_out[inst][20] ), .QN(n1005) );
+  dffs2 \rs_packet_out_reg[inst][19]  ( .DIN(n1143), .CLK(clock), .Q(
+        \rs_packet_out[inst][19] ), .QN(n1004) );
+  dffs2 \rs_packet_out_reg[inst][18]  ( .DIN(n1144), .CLK(clock), .Q(
+        \rs_packet_out[inst][18] ), .QN(n1003) );
+  dffs2 \rs_packet_out_reg[inst][17]  ( .DIN(n1145), .CLK(clock), .Q(
+        \rs_packet_out[inst][17] ), .QN(n1002) );
+  dffs2 \rs_packet_out_reg[inst][16]  ( .DIN(n1146), .CLK(clock), .Q(
+        \rs_packet_out[inst][16] ), .QN(n1001) );
+  dffs2 \rs_packet_out_reg[inst][15]  ( .DIN(n1147), .CLK(clock), .Q(
+        \rs_packet_out[inst][15] ), .QN(n1000) );
+  dffs2 \rs_packet_out_reg[inst][14]  ( .DIN(n1148), .CLK(clock), .Q(
+        \rs_packet_out[inst][14] ), .QN(n999) );
+  dffs2 \rs_packet_out_reg[inst][13]  ( .DIN(n1149), .CLK(clock), .Q(
+        \rs_packet_out[inst][13] ), .QN(n998) );
+  dffs2 \rs_packet_out_reg[inst][12]  ( .DIN(n1150), .CLK(clock), .Q(
+        \rs_packet_out[inst][12] ), .QN(n997) );
+  dffs2 \rs_packet_out_reg[inst][11]  ( .DIN(n1151), .CLK(clock), .Q(
+        \rs_packet_out[inst][11] ), .QN(n996) );
+  dffs2 \rs_packet_out_reg[inst][10]  ( .DIN(n1152), .CLK(clock), .Q(
+        \rs_packet_out[inst][10] ), .QN(n995) );
+  dffs2 \rs_packet_out_reg[inst][9]  ( .DIN(n1153), .CLK(clock), .Q(
+        \rs_packet_out[inst][9] ), .QN(n994) );
+  dffs2 \rs_packet_out_reg[inst][8]  ( .DIN(n1154), .CLK(clock), .Q(
+        \rs_packet_out[inst][8] ), .QN(n993) );
+  dffs2 \rs_packet_out_reg[inst][7]  ( .DIN(n1155), .CLK(clock), .Q(
+        \rs_packet_out[inst][7] ), .QN(n992) );
+  dffs2 \rs_packet_out_reg[inst][6]  ( .DIN(n1156), .CLK(clock), .Q(
+        \rs_packet_out[inst][6] ), .QN(n991) );
+  dffs2 \rs_packet_out_reg[inst][5]  ( .DIN(n1157), .CLK(clock), .Q(
+        \rs_packet_out[inst][5] ), .QN(n990) );
+  dffs2 \rs_packet_out_reg[inst][4]  ( .DIN(n1158), .CLK(clock), .Q(
+        \rs_packet_out[inst][4] ), .QN(n989) );
+  dffs2 \rs_packet_out_reg[inst][3]  ( .DIN(n1159), .CLK(clock), .Q(
+        \rs_packet_out[inst][3] ), .QN(n988) );
+  dffs2 \rs_packet_out_reg[inst][2]  ( .DIN(n1160), .CLK(clock), .Q(
+        \rs_packet_out[inst][2] ), .QN(n987) );
+  dffs2 \rs_packet_out_reg[inst][1]  ( .DIN(n1161), .CLK(clock), .Q(
+        \rs_packet_out[inst][1] ), .QN(n986) );
+  dffs2 \rs_packet_out_reg[inst][0]  ( .DIN(n1162), .CLK(clock), .Q(
+        \rs_packet_out[inst][0] ), .QN(n985) );
+  dffs2 \rs_packet_out_reg[PC][31]  ( .DIN(n1093), .CLK(clock), .Q(
+        \rs_packet_out[PC][31] ), .QN(n1056) );
+  dffs2 \rs_packet_out_reg[PC][30]  ( .DIN(n1094), .CLK(clock), .Q(
+        \rs_packet_out[PC][30] ), .QN(n1055) );
+  dffs2 \rs_packet_out_reg[PC][29]  ( .DIN(n1095), .CLK(clock), .Q(
+        \rs_packet_out[PC][29] ), .QN(n1054) );
+  dffs2 \rs_packet_out_reg[PC][28]  ( .DIN(n1096), .CLK(clock), .Q(
+        \rs_packet_out[PC][28] ), .QN(n1053) );
+  dffs2 \rs_packet_out_reg[PC][27]  ( .DIN(n1097), .CLK(clock), .Q(
+        \rs_packet_out[PC][27] ), .QN(n1052) );
+  dffs2 \rs_packet_out_reg[PC][26]  ( .DIN(n1098), .CLK(clock), .Q(
+        \rs_packet_out[PC][26] ), .QN(n1051) );
+  dffs2 \rs_packet_out_reg[PC][25]  ( .DIN(n1099), .CLK(clock), .Q(
+        \rs_packet_out[PC][25] ), .QN(n1050) );
+  dffs2 \rs_packet_out_reg[PC][24]  ( .DIN(n1100), .CLK(clock), .Q(
+        \rs_packet_out[PC][24] ), .QN(n1049) );
+  dffs2 \rs_packet_out_reg[PC][23]  ( .DIN(n1101), .CLK(clock), .Q(
+        \rs_packet_out[PC][23] ), .QN(n1048) );
+  dffs2 \rs_packet_out_reg[PC][22]  ( .DIN(n1102), .CLK(clock), .Q(
+        \rs_packet_out[PC][22] ), .QN(n1047) );
+  dffs2 \rs_packet_out_reg[PC][21]  ( .DIN(n1103), .CLK(clock), .Q(
+        \rs_packet_out[PC][21] ), .QN(n1046) );
+  dffs2 \rs_packet_out_reg[PC][20]  ( .DIN(n1104), .CLK(clock), .Q(
+        \rs_packet_out[PC][20] ), .QN(n1045) );
+  dffs2 \rs_packet_out_reg[PC][19]  ( .DIN(n1105), .CLK(clock), .Q(
+        \rs_packet_out[PC][19] ), .QN(n1044) );
+  dffs2 \rs_packet_out_reg[PC][18]  ( .DIN(n1106), .CLK(clock), .Q(
+        \rs_packet_out[PC][18] ), .QN(n1043) );
+  dffs2 \rs_packet_out_reg[PC][17]  ( .DIN(n1107), .CLK(clock), .Q(
+        \rs_packet_out[PC][17] ), .QN(n1042) );
+  dffs2 \rs_packet_out_reg[PC][16]  ( .DIN(n1108), .CLK(clock), .Q(
+        \rs_packet_out[PC][16] ), .QN(n1041) );
+  dffs2 \rs_packet_out_reg[PC][15]  ( .DIN(n1109), .CLK(clock), .Q(
+        \rs_packet_out[PC][15] ), .QN(n1040) );
+  dffs2 \rs_packet_out_reg[PC][14]  ( .DIN(n1110), .CLK(clock), .Q(
+        \rs_packet_out[PC][14] ), .QN(n1039) );
+  dffs2 \rs_packet_out_reg[PC][13]  ( .DIN(n1111), .CLK(clock), .Q(
+        \rs_packet_out[PC][13] ), .QN(n1038) );
+  dffs2 \rs_packet_out_reg[PC][12]  ( .DIN(n1112), .CLK(clock), .Q(
+        \rs_packet_out[PC][12] ), .QN(n1037) );
+  dffs2 \rs_packet_out_reg[PC][11]  ( .DIN(n1113), .CLK(clock), .Q(
+        \rs_packet_out[PC][11] ), .QN(n1036) );
+  dffs2 \rs_packet_out_reg[PC][10]  ( .DIN(n1114), .CLK(clock), .Q(
+        \rs_packet_out[PC][10] ), .QN(n1035) );
+  dffs2 \rs_packet_out_reg[PC][9]  ( .DIN(n1115), .CLK(clock), .Q(
+        \rs_packet_out[PC][9] ), .QN(n1034) );
+  dffs2 \rs_packet_out_reg[PC][8]  ( .DIN(n1116), .CLK(clock), .Q(
+        \rs_packet_out[PC][8] ), .QN(n1033) );
+  dffs2 \rs_packet_out_reg[PC][7]  ( .DIN(n1117), .CLK(clock), .Q(
+        \rs_packet_out[PC][7] ), .QN(n1032) );
+  dffs2 \rs_packet_out_reg[PC][6]  ( .DIN(n1118), .CLK(clock), .Q(
+        \rs_packet_out[PC][6] ), .QN(n1031) );
+  dffs2 \rs_packet_out_reg[PC][5]  ( .DIN(n1119), .CLK(clock), .Q(
+        \rs_packet_out[PC][5] ), .QN(n1030) );
+  dffs2 \rs_packet_out_reg[PC][4]  ( .DIN(n1120), .CLK(clock), .Q(
+        \rs_packet_out[PC][4] ), .QN(n1029) );
+  dffs2 \rs_packet_out_reg[PC][3]  ( .DIN(n1121), .CLK(clock), .Q(
+        \rs_packet_out[PC][3] ), .QN(n1028) );
+  dffs2 \rs_packet_out_reg[PC][2]  ( .DIN(n1122), .CLK(clock), .Q(
+        \rs_packet_out[PC][2] ), .QN(n1027) );
+  dffs2 \rs_packet_out_reg[PC][1]  ( .DIN(n1123), .CLK(clock), .Q(
+        \rs_packet_out[PC][1] ), .QN(n1026) );
+  dffs2 \rs_packet_out_reg[PC][0]  ( .DIN(n1124), .CLK(clock), .Q(
+        \rs_packet_out[PC][0] ), .QN(n1025) );
+  dffs2 \rs_packet_out_reg[NPC][5]  ( .DIN(n1087), .CLK(clock), .Q(
+        \rs_packet_out[NPC][5] ), .QN(n1062) );
+  dffs2 \rs_packet_out_reg[NPC][4]  ( .DIN(n1088), .CLK(clock), .Q(
+        \rs_packet_out[NPC][4] ), .QN(n1061) );
+  dffs2 \rs_packet_out_reg[NPC][3]  ( .DIN(n1089), .CLK(clock), .Q(
+        \rs_packet_out[NPC][3] ), .QN(n1060) );
+  dffs2 \rs_packet_out_reg[NPC][2]  ( .DIN(n1090), .CLK(clock), .Q(
+        \rs_packet_out[NPC][2] ), .QN(n1059) );
+  dffs2 \rs_packet_out_reg[NPC][1]  ( .DIN(n1091), .CLK(clock), .Q(
+        \rs_packet_out[NPC][1] ), .QN(n1058) );
+  dffs2 \rs_packet_out_reg[NPC][0]  ( .DIN(n1092), .CLK(clock), .Q(
+        \rs_packet_out[NPC][0] ), .QN(n1057) );
+  dffs2 \rs_packet_out_reg[rs1_value][30]  ( .DIN(n456), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][30] ), .QN(n904) );
+  dffs2 \rs_packet_out_reg[rs1_value][29]  ( .DIN(n457), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][29] ), .QN(n902) );
+  dffs2 \rs_packet_out_reg[rs1_value][28]  ( .DIN(n458), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][28] ), .QN(n900) );
+  dffs2 \rs_packet_out_reg[rs1_value][27]  ( .DIN(n459), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][27] ), .QN(n898) );
+  dffs2 \rs_packet_out_reg[rs1_value][26]  ( .DIN(n460), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][26] ), .QN(n896) );
+  dffs2 \rs_packet_out_reg[rs1_value][25]  ( .DIN(n461), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][25] ), .QN(n894) );
+  dffs2 \rs_packet_out_reg[rs1_value][21]  ( .DIN(n465), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][21] ), .QN(n886) );
+  dffs2 \rs_packet_out_reg[rs1_value][20]  ( .DIN(n466), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][20] ), .QN(n884) );
+  dffs2 \rs_packet_out_reg[rs1_value][19]  ( .DIN(n467), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][19] ), .QN(n882) );
+  dffs2 \rs_packet_out_reg[rs1_value][18]  ( .DIN(n468), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][18] ), .QN(n880) );
+  dffs2 \rs_packet_out_reg[rs1_value][9]  ( .DIN(n477), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][9] ), .QN(n862) );
+  dffs2 \rs_packet_out_reg[rs1_value][8]  ( .DIN(n478), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][8] ), .QN(n860) );
+  dffs2 \rs_packet_out_reg[rs1_value][7]  ( .DIN(n479), .CLK(clock), .Q(
+        \rs_packet_out[rs1_value][7] ), .QN(n858) );
+  nnd2s2 U517 ( .DIN1(n909), .DIN2(n843), .Q(n523) );
+  nnd2s2 U518 ( .DIN1(load_in), .DIN2(\id_rs_packet_in[valid] ), .Q(n524) );
+  nnd2s2 U519 ( .DIN1(n797), .DIN2(n703), .Q(n525) );
+  nnd3s2 U520 ( .DIN1(n794), .DIN2(n795), .DIN3(n703), .Q(n530) );
+  nnd3s2 U521 ( .DIN1(n796), .DIN2(n795), .DIN3(n703), .Q(n531) );
+  nnd3s2 U522 ( .DIN1(n906), .DIN2(n907), .DIN3(n843), .Q(n532) );
+  nnd3s2 U523 ( .DIN1(n908), .DIN2(n907), .DIN3(n843), .Q(n533) );
+  nor4s1 U524 ( .DIN1(n948), .DIN2(\rs_packet_out[rs1_value][15] ), .DIN3(
+        \rs_packet_out[rs1_value][17] ), .DIN4(\rs_packet_out[rs1_value][16] ), 
+        .Q(n943) );
+  nor4s1 U525 ( .DIN1(n838), .DIN2(\rs_packet_out[rs2_value][15] ), .DIN3(
+        \rs_packet_out[rs2_value][17] ), .DIN4(\rs_packet_out[rs2_value][16] ), 
+        .Q(n833) );
+  ib1s1 U526 ( .DIN(n527), .Q(\rs_packet_out[rs2_value][3] ) );
+  ib1s1 U527 ( .DIN(n528), .Q(\rs_packet_out[rs2_value][4] ) );
+  ib1s1 U528 ( .DIN(n529), .Q(\rs_packet_out[rs2_value][5] ) );
+  ib1s1 U529 ( .DIN(n526), .Q(\rs_packet_out[rs2_value][2] ) );
+  ib1s1 U530 ( .DIN(n839), .Q(n549) );
+  ib1s1 U531 ( .DIN(n693), .Q(n538) );
+  ib1s1 U532 ( .DIN(n693), .Q(n539) );
+  ib1s1 U533 ( .DIN(n693), .Q(n540) );
+  ib1s1 U534 ( .DIN(n693), .Q(n541) );
+  ib1s1 U535 ( .DIN(n532), .Q(n552) );
+  ib1s1 U536 ( .DIN(n533), .Q(n551) );
+  ib1s1 U537 ( .DIN(n533), .Q(n550) );
+  ib1s1 U538 ( .DIN(n700), .Q(n542) );
+  ib1s1 U539 ( .DIN(n531), .Q(n544) );
+  ib1s1 U540 ( .DIN(n530), .Q(n547) );
+  ib1s1 U541 ( .DIN(n530), .Q(n546) );
+  ib1s1 U542 ( .DIN(n532), .Q(n553) );
+  ib1s1 U543 ( .DIN(n531), .Q(n545) );
+  ib1s1 U544 ( .DIN(n700), .Q(n543) );
+  ib1s1 U545 ( .DIN(n524), .Q(n558) );
+  ib1s1 U546 ( .DIN(n524), .Q(n557) );
+  ib1s1 U547 ( .DIN(n524), .Q(n561) );
+  ib1s1 U548 ( .DIN(n524), .Q(n560) );
+  ib1s1 U549 ( .DIN(n524), .Q(n559) );
+  ib1s1 U550 ( .DIN(n524), .Q(n562) );
+  ib1s1 U551 ( .DIN(n524), .Q(n563) );
+  ib1s1 U552 ( .DIN(n524), .Q(n564) );
+  ib1s1 U553 ( .DIN(n524), .Q(n565) );
+  ib1s1 U554 ( .DIN(n524), .Q(n555) );
+  ib1s1 U555 ( .DIN(n524), .Q(n554) );
+  ib1s1 U556 ( .DIN(n524), .Q(n556) );
+  ib1s1 U557 ( .DIN(n549), .Q(n548) );
+  nor2s1 U558 ( .DIN1(n566), .DIN2(n567), .Q(ready) );
+  oai21s1 U559 ( .DIN1(n539), .DIN2(n1074), .DIN3(n569), .Q(n1075) );
+  nnd2s1 U560 ( .DIN1(\id_rs_packet_in[NPC][17] ), .DIN2(n560), .Q(n569) );
+  oai21s1 U561 ( .DIN1(n540), .DIN2(n1073), .DIN3(n570), .Q(n1076) );
+  nnd2s1 U562 ( .DIN1(\id_rs_packet_in[NPC][16] ), .DIN2(n562), .Q(n570) );
+  oai21s1 U563 ( .DIN1(n540), .DIN2(n1072), .DIN3(n571), .Q(n1077) );
+  nnd2s1 U564 ( .DIN1(\id_rs_packet_in[NPC][15] ), .DIN2(n565), .Q(n571) );
+  oai21s1 U565 ( .DIN1(n540), .DIN2(n1071), .DIN3(n572), .Q(n1078) );
+  nnd2s1 U566 ( .DIN1(\id_rs_packet_in[NPC][14] ), .DIN2(n565), .Q(n572) );
+  oai21s1 U567 ( .DIN1(n541), .DIN2(n1070), .DIN3(n573), .Q(n1079) );
+  nnd2s1 U568 ( .DIN1(\id_rs_packet_in[NPC][13] ), .DIN2(n565), .Q(n573) );
+  oai21s1 U569 ( .DIN1(n539), .DIN2(n1069), .DIN3(n574), .Q(n1080) );
+  nnd2s1 U570 ( .DIN1(\id_rs_packet_in[NPC][12] ), .DIN2(n565), .Q(n574) );
+  oai21s1 U571 ( .DIN1(n541), .DIN2(n1068), .DIN3(n575), .Q(n1081) );
+  nnd2s1 U572 ( .DIN1(\id_rs_packet_in[NPC][11] ), .DIN2(n565), .Q(n575) );
+  oai21s1 U573 ( .DIN1(n540), .DIN2(n1067), .DIN3(n576), .Q(n1082) );
+  nnd2s1 U574 ( .DIN1(\id_rs_packet_in[NPC][10] ), .DIN2(n565), .Q(n576) );
+  oai21s1 U575 ( .DIN1(n541), .DIN2(n1066), .DIN3(n577), .Q(n1083) );
+  nnd2s1 U576 ( .DIN1(\id_rs_packet_in[NPC][9] ), .DIN2(n565), .Q(n577) );
+  oai21s1 U577 ( .DIN1(n541), .DIN2(n1065), .DIN3(n578), .Q(n1084) );
+  nnd2s1 U578 ( .DIN1(\id_rs_packet_in[NPC][8] ), .DIN2(n565), .Q(n578) );
+  oai21s1 U579 ( .DIN1(n539), .DIN2(n1064), .DIN3(n579), .Q(n1085) );
+  nnd2s1 U580 ( .DIN1(\id_rs_packet_in[NPC][7] ), .DIN2(n565), .Q(n579) );
+  oai21s1 U581 ( .DIN1(n539), .DIN2(n1063), .DIN3(n580), .Q(n1086) );
+  nnd2s1 U582 ( .DIN1(\id_rs_packet_in[NPC][6] ), .DIN2(n565), .Q(n580) );
+  oai21s1 U583 ( .DIN1(n541), .DIN2(n1062), .DIN3(n581), .Q(n1087) );
+  nnd2s1 U584 ( .DIN1(\id_rs_packet_in[NPC][5] ), .DIN2(n565), .Q(n581) );
+  oai21s1 U585 ( .DIN1(n541), .DIN2(n1061), .DIN3(n582), .Q(n1088) );
+  nnd2s1 U586 ( .DIN1(\id_rs_packet_in[NPC][4] ), .DIN2(n565), .Q(n582) );
+  oai21s1 U587 ( .DIN1(n541), .DIN2(n1060), .DIN3(n583), .Q(n1089) );
+  nnd2s1 U588 ( .DIN1(\id_rs_packet_in[NPC][3] ), .DIN2(n565), .Q(n583) );
+  oai21s1 U589 ( .DIN1(n541), .DIN2(n1059), .DIN3(n584), .Q(n1090) );
+  nnd2s1 U590 ( .DIN1(\id_rs_packet_in[NPC][2] ), .DIN2(n565), .Q(n584) );
+  oai21s1 U591 ( .DIN1(n541), .DIN2(n1058), .DIN3(n585), .Q(n1091) );
+  nnd2s1 U592 ( .DIN1(\id_rs_packet_in[NPC][1] ), .DIN2(n565), .Q(n585) );
+  oai21s1 U593 ( .DIN1(n541), .DIN2(n1057), .DIN3(n586), .Q(n1092) );
+  nnd2s1 U594 ( .DIN1(\id_rs_packet_in[NPC][0] ), .DIN2(n565), .Q(n586) );
+  oai21s1 U595 ( .DIN1(n541), .DIN2(n1056), .DIN3(n587), .Q(n1093) );
+  nnd2s1 U596 ( .DIN1(\id_rs_packet_in[PC][31] ), .DIN2(n565), .Q(n587) );
+  oai21s1 U597 ( .DIN1(n541), .DIN2(n1055), .DIN3(n588), .Q(n1094) );
+  nnd2s1 U598 ( .DIN1(\id_rs_packet_in[PC][30] ), .DIN2(n564), .Q(n588) );
+  oai21s1 U599 ( .DIN1(n541), .DIN2(n1054), .DIN3(n589), .Q(n1095) );
+  nnd2s1 U600 ( .DIN1(\id_rs_packet_in[PC][29] ), .DIN2(n564), .Q(n589) );
+  oai21s1 U601 ( .DIN1(n541), .DIN2(n1053), .DIN3(n590), .Q(n1096) );
+  nnd2s1 U602 ( .DIN1(\id_rs_packet_in[PC][28] ), .DIN2(n564), .Q(n590) );
+  oai21s1 U603 ( .DIN1(n541), .DIN2(n1052), .DIN3(n591), .Q(n1097) );
+  nnd2s1 U604 ( .DIN1(\id_rs_packet_in[PC][27] ), .DIN2(n564), .Q(n591) );
+  oai21s1 U605 ( .DIN1(n541), .DIN2(n1051), .DIN3(n592), .Q(n1098) );
+  nnd2s1 U606 ( .DIN1(\id_rs_packet_in[PC][26] ), .DIN2(n564), .Q(n592) );
+  oai21s1 U607 ( .DIN1(n541), .DIN2(n1050), .DIN3(n593), .Q(n1099) );
+  nnd2s1 U608 ( .DIN1(\id_rs_packet_in[PC][25] ), .DIN2(n564), .Q(n593) );
+  oai21s1 U609 ( .DIN1(n541), .DIN2(n1049), .DIN3(n594), .Q(n1100) );
+  nnd2s1 U610 ( .DIN1(\id_rs_packet_in[PC][24] ), .DIN2(n564), .Q(n594) );
+  oai21s1 U611 ( .DIN1(n541), .DIN2(n1048), .DIN3(n595), .Q(n1101) );
+  nnd2s1 U612 ( .DIN1(\id_rs_packet_in[PC][23] ), .DIN2(n564), .Q(n595) );
+  oai21s1 U613 ( .DIN1(n541), .DIN2(n1047), .DIN3(n596), .Q(n1102) );
+  nnd2s1 U614 ( .DIN1(\id_rs_packet_in[PC][22] ), .DIN2(n564), .Q(n596) );
+  oai21s1 U615 ( .DIN1(n541), .DIN2(n1046), .DIN3(n597), .Q(n1103) );
+  nnd2s1 U616 ( .DIN1(\id_rs_packet_in[PC][21] ), .DIN2(n564), .Q(n597) );
+  oai21s1 U617 ( .DIN1(n541), .DIN2(n1045), .DIN3(n598), .Q(n1104) );
+  nnd2s1 U618 ( .DIN1(\id_rs_packet_in[PC][20] ), .DIN2(n564), .Q(n598) );
+  oai21s1 U619 ( .DIN1(n541), .DIN2(n1044), .DIN3(n599), .Q(n1105) );
+  nnd2s1 U620 ( .DIN1(\id_rs_packet_in[PC][19] ), .DIN2(n564), .Q(n599) );
+  oai21s1 U621 ( .DIN1(n540), .DIN2(n1043), .DIN3(n600), .Q(n1106) );
+  nnd2s1 U622 ( .DIN1(\id_rs_packet_in[PC][18] ), .DIN2(n564), .Q(n600) );
+  oai21s1 U623 ( .DIN1(n540), .DIN2(n1042), .DIN3(n601), .Q(n1107) );
+  nnd2s1 U624 ( .DIN1(\id_rs_packet_in[PC][17] ), .DIN2(n564), .Q(n601) );
+  oai21s1 U625 ( .DIN1(n540), .DIN2(n1041), .DIN3(n602), .Q(n1108) );
+  nnd2s1 U626 ( .DIN1(\id_rs_packet_in[PC][16] ), .DIN2(n564), .Q(n602) );
+  oai21s1 U627 ( .DIN1(n540), .DIN2(n1040), .DIN3(n603), .Q(n1109) );
+  nnd2s1 U628 ( .DIN1(\id_rs_packet_in[PC][15] ), .DIN2(n564), .Q(n603) );
+  oai21s1 U629 ( .DIN1(n540), .DIN2(n1039), .DIN3(n604), .Q(n1110) );
+  nnd2s1 U630 ( .DIN1(\id_rs_packet_in[PC][14] ), .DIN2(n564), .Q(n604) );
+  oai21s1 U631 ( .DIN1(n540), .DIN2(n1038), .DIN3(n605), .Q(n1111) );
+  nnd2s1 U632 ( .DIN1(\id_rs_packet_in[PC][13] ), .DIN2(n563), .Q(n605) );
+  oai21s1 U633 ( .DIN1(n540), .DIN2(n1037), .DIN3(n606), .Q(n1112) );
+  nnd2s1 U634 ( .DIN1(\id_rs_packet_in[PC][12] ), .DIN2(n563), .Q(n606) );
+  oai21s1 U635 ( .DIN1(n540), .DIN2(n1036), .DIN3(n607), .Q(n1113) );
+  nnd2s1 U636 ( .DIN1(\id_rs_packet_in[PC][11] ), .DIN2(n563), .Q(n607) );
+  oai21s1 U637 ( .DIN1(n540), .DIN2(n1035), .DIN3(n608), .Q(n1114) );
+  nnd2s1 U638 ( .DIN1(\id_rs_packet_in[PC][10] ), .DIN2(n563), .Q(n608) );
+  oai21s1 U639 ( .DIN1(n540), .DIN2(n1034), .DIN3(n609), .Q(n1115) );
+  nnd2s1 U640 ( .DIN1(\id_rs_packet_in[PC][9] ), .DIN2(n563), .Q(n609) );
+  oai21s1 U641 ( .DIN1(n540), .DIN2(n1033), .DIN3(n610), .Q(n1116) );
+  nnd2s1 U642 ( .DIN1(\id_rs_packet_in[PC][8] ), .DIN2(n563), .Q(n610) );
+  oai21s1 U643 ( .DIN1(n540), .DIN2(n1032), .DIN3(n611), .Q(n1117) );
+  nnd2s1 U644 ( .DIN1(\id_rs_packet_in[PC][7] ), .DIN2(n563), .Q(n611) );
+  oai21s1 U645 ( .DIN1(n540), .DIN2(n1031), .DIN3(n612), .Q(n1118) );
+  nnd2s1 U646 ( .DIN1(\id_rs_packet_in[PC][6] ), .DIN2(n563), .Q(n612) );
+  oai21s1 U647 ( .DIN1(n540), .DIN2(n1030), .DIN3(n613), .Q(n1119) );
+  nnd2s1 U648 ( .DIN1(\id_rs_packet_in[PC][5] ), .DIN2(n563), .Q(n613) );
+  oai21s1 U649 ( .DIN1(n540), .DIN2(n1029), .DIN3(n614), .Q(n1120) );
+  nnd2s1 U650 ( .DIN1(\id_rs_packet_in[PC][4] ), .DIN2(n563), .Q(n614) );
+  oai21s1 U651 ( .DIN1(n540), .DIN2(n1028), .DIN3(n615), .Q(n1121) );
+  nnd2s1 U652 ( .DIN1(\id_rs_packet_in[PC][3] ), .DIN2(n563), .Q(n615) );
+  oai21s1 U653 ( .DIN1(n540), .DIN2(n1027), .DIN3(n616), .Q(n1122) );
+  nnd2s1 U654 ( .DIN1(\id_rs_packet_in[PC][2] ), .DIN2(n563), .Q(n616) );
+  oai21s1 U655 ( .DIN1(n540), .DIN2(n1026), .DIN3(n617), .Q(n1123) );
+  nnd2s1 U656 ( .DIN1(\id_rs_packet_in[PC][1] ), .DIN2(n563), .Q(n617) );
+  oai21s1 U657 ( .DIN1(n540), .DIN2(n1025), .DIN3(n618), .Q(n1124) );
+  nnd2s1 U658 ( .DIN1(\id_rs_packet_in[PC][0] ), .DIN2(n563), .Q(n618) );
+  oai21s1 U659 ( .DIN1(n540), .DIN2(n1022), .DIN3(n619), .Q(n1125) );
+  nnd2s1 U660 ( .DIN1(\id_rs_packet_in[opa_select][1] ), .DIN2(n563), .Q(n619)
+         );
+  oai21s1 U661 ( .DIN1(n541), .DIN2(n1021), .DIN3(n620), .Q(n1126) );
+  nnd2s1 U662 ( .DIN1(\id_rs_packet_in[opa_select][0] ), .DIN2(n563), .Q(n620)
+         );
+  oai21s1 U663 ( .DIN1(n539), .DIN2(n1020), .DIN3(n621), .Q(n1127) );
+  nnd2s1 U664 ( .DIN1(\id_rs_packet_in[opb_select][3] ), .DIN2(n563), .Q(n621)
+         );
+  oai21s1 U665 ( .DIN1(n540), .DIN2(n1019), .DIN3(n622), .Q(n1128) );
+  nnd2s1 U666 ( .DIN1(\id_rs_packet_in[opb_select][2] ), .DIN2(n562), .Q(n622)
+         );
+  oai21s1 U667 ( .DIN1(n541), .DIN2(n1018), .DIN3(n623), .Q(n1129) );
+  nnd2s1 U668 ( .DIN1(\id_rs_packet_in[opb_select][1] ), .DIN2(n562), .Q(n623)
+         );
+  oai21s1 U669 ( .DIN1(n539), .DIN2(n1017), .DIN3(n624), .Q(n1130) );
+  nnd2s1 U670 ( .DIN1(\id_rs_packet_in[opb_select][0] ), .DIN2(n562), .Q(n624)
+         );
+  oai21s1 U671 ( .DIN1(n540), .DIN2(n1016), .DIN3(n625), .Q(n1131) );
+  nnd2s1 U672 ( .DIN1(\id_rs_packet_in[inst][31] ), .DIN2(n562), .Q(n625) );
+  oai21s1 U673 ( .DIN1(n541), .DIN2(n1015), .DIN3(n626), .Q(n1132) );
+  nnd2s1 U674 ( .DIN1(\id_rs_packet_in[inst][30] ), .DIN2(n562), .Q(n626) );
+  oai21s1 U675 ( .DIN1(n538), .DIN2(n1014), .DIN3(n627), .Q(n1133) );
+  nnd2s1 U676 ( .DIN1(\id_rs_packet_in[inst][29] ), .DIN2(n562), .Q(n627) );
+  oai21s1 U677 ( .DIN1(n538), .DIN2(n1013), .DIN3(n628), .Q(n1134) );
+  nnd2s1 U678 ( .DIN1(\id_rs_packet_in[inst][28] ), .DIN2(n562), .Q(n628) );
+  oai21s1 U679 ( .DIN1(n538), .DIN2(n1012), .DIN3(n629), .Q(n1135) );
+  nnd2s1 U680 ( .DIN1(\id_rs_packet_in[inst][27] ), .DIN2(n562), .Q(n629) );
+  oai21s1 U681 ( .DIN1(n538), .DIN2(n1011), .DIN3(n630), .Q(n1136) );
+  nnd2s1 U682 ( .DIN1(\id_rs_packet_in[inst][26] ), .DIN2(n562), .Q(n630) );
+  oai21s1 U683 ( .DIN1(n568), .DIN2(n1010), .DIN3(n631), .Q(n1137) );
+  nnd2s1 U684 ( .DIN1(\id_rs_packet_in[inst][25] ), .DIN2(n562), .Q(n631) );
+  oai21s1 U685 ( .DIN1(n568), .DIN2(n1009), .DIN3(n632), .Q(n1138) );
+  nnd2s1 U686 ( .DIN1(\id_rs_packet_in[inst][24] ), .DIN2(n562), .Q(n632) );
+  oai21s1 U687 ( .DIN1(n568), .DIN2(n1008), .DIN3(n633), .Q(n1139) );
+  nnd2s1 U688 ( .DIN1(\id_rs_packet_in[inst][23] ), .DIN2(n562), .Q(n633) );
+  oai21s1 U689 ( .DIN1(n568), .DIN2(n1007), .DIN3(n634), .Q(n1140) );
+  nnd2s1 U690 ( .DIN1(\id_rs_packet_in[inst][22] ), .DIN2(n562), .Q(n634) );
+  oai21s1 U691 ( .DIN1(n568), .DIN2(n1006), .DIN3(n635), .Q(n1141) );
+  nnd2s1 U692 ( .DIN1(\id_rs_packet_in[inst][21] ), .DIN2(n562), .Q(n635) );
+  oai21s1 U693 ( .DIN1(n568), .DIN2(n1005), .DIN3(n636), .Q(n1142) );
+  nnd2s1 U694 ( .DIN1(\id_rs_packet_in[inst][20] ), .DIN2(n562), .Q(n636) );
+  oai21s1 U695 ( .DIN1(n568), .DIN2(n1004), .DIN3(n637), .Q(n1143) );
+  nnd2s1 U696 ( .DIN1(\id_rs_packet_in[inst][19] ), .DIN2(n562), .Q(n637) );
+  oai21s1 U697 ( .DIN1(n539), .DIN2(n1003), .DIN3(n638), .Q(n1144) );
+  nnd2s1 U698 ( .DIN1(\id_rs_packet_in[inst][18] ), .DIN2(n562), .Q(n638) );
+  oai21s1 U699 ( .DIN1(n539), .DIN2(n1002), .DIN3(n639), .Q(n1145) );
+  nnd2s1 U700 ( .DIN1(\id_rs_packet_in[inst][17] ), .DIN2(n561), .Q(n639) );
+  oai21s1 U701 ( .DIN1(n539), .DIN2(n1001), .DIN3(n640), .Q(n1146) );
+  nnd2s1 U702 ( .DIN1(\id_rs_packet_in[inst][16] ), .DIN2(n561), .Q(n640) );
+  oai21s1 U703 ( .DIN1(n539), .DIN2(n1000), .DIN3(n641), .Q(n1147) );
+  nnd2s1 U704 ( .DIN1(\id_rs_packet_in[inst][15] ), .DIN2(n561), .Q(n641) );
+  oai21s1 U705 ( .DIN1(n539), .DIN2(n999), .DIN3(n642), .Q(n1148) );
+  nnd2s1 U706 ( .DIN1(\id_rs_packet_in[inst][14] ), .DIN2(n561), .Q(n642) );
+  oai21s1 U707 ( .DIN1(n539), .DIN2(n998), .DIN3(n643), .Q(n1149) );
+  nnd2s1 U708 ( .DIN1(\id_rs_packet_in[inst][13] ), .DIN2(n561), .Q(n643) );
+  oai21s1 U709 ( .DIN1(n539), .DIN2(n997), .DIN3(n644), .Q(n1150) );
+  nnd2s1 U710 ( .DIN1(\id_rs_packet_in[inst][12] ), .DIN2(n561), .Q(n644) );
+  oai21s1 U711 ( .DIN1(n539), .DIN2(n996), .DIN3(n645), .Q(n1151) );
+  nnd2s1 U712 ( .DIN1(\id_rs_packet_in[inst][11] ), .DIN2(n561), .Q(n645) );
+  oai21s1 U713 ( .DIN1(n539), .DIN2(n995), .DIN3(n646), .Q(n1152) );
+  nnd2s1 U714 ( .DIN1(\id_rs_packet_in[inst][10] ), .DIN2(n561), .Q(n646) );
+  oai21s1 U715 ( .DIN1(n539), .DIN2(n994), .DIN3(n647), .Q(n1153) );
+  nnd2s1 U716 ( .DIN1(\id_rs_packet_in[inst][9] ), .DIN2(n561), .Q(n647) );
+  oai21s1 U717 ( .DIN1(n539), .DIN2(n993), .DIN3(n648), .Q(n1154) );
+  nnd2s1 U718 ( .DIN1(\id_rs_packet_in[inst][8] ), .DIN2(n561), .Q(n648) );
+  oai21s1 U719 ( .DIN1(n539), .DIN2(n992), .DIN3(n649), .Q(n1155) );
+  nnd2s1 U720 ( .DIN1(\id_rs_packet_in[inst][7] ), .DIN2(n561), .Q(n649) );
+  oai21s1 U721 ( .DIN1(n539), .DIN2(n991), .DIN3(n650), .Q(n1156) );
+  nnd2s1 U722 ( .DIN1(\id_rs_packet_in[inst][6] ), .DIN2(n561), .Q(n650) );
+  oai21s1 U723 ( .DIN1(n539), .DIN2(n990), .DIN3(n651), .Q(n1157) );
+  nnd2s1 U724 ( .DIN1(\id_rs_packet_in[inst][5] ), .DIN2(n561), .Q(n651) );
+  oai21s1 U725 ( .DIN1(n539), .DIN2(n989), .DIN3(n652), .Q(n1158) );
+  nnd2s1 U726 ( .DIN1(\id_rs_packet_in[inst][4] ), .DIN2(n561), .Q(n652) );
+  oai21s1 U727 ( .DIN1(n539), .DIN2(n988), .DIN3(n653), .Q(n1159) );
+  nnd2s1 U728 ( .DIN1(\id_rs_packet_in[inst][3] ), .DIN2(n561), .Q(n653) );
+  oai21s1 U729 ( .DIN1(n539), .DIN2(n987), .DIN3(n654), .Q(n1160) );
+  nnd2s1 U730 ( .DIN1(\id_rs_packet_in[inst][2] ), .DIN2(n561), .Q(n654) );
+  oai21s1 U731 ( .DIN1(n539), .DIN2(n986), .DIN3(n655), .Q(n1161) );
+  nnd2s1 U732 ( .DIN1(\id_rs_packet_in[inst][1] ), .DIN2(n561), .Q(n655) );
+  oai21s1 U733 ( .DIN1(n539), .DIN2(n985), .DIN3(n656), .Q(n1162) );
+  nnd2s1 U734 ( .DIN1(\id_rs_packet_in[inst][0] ), .DIN2(n560), .Q(n656) );
+  oai21s1 U735 ( .DIN1(n540), .DIN2(n984), .DIN3(n657), .Q(n1163) );
+  nnd2s1 U736 ( .DIN1(\id_rs_packet_in[dest_PRF_idx][5] ), .DIN2(n560), .Q(
+        n657) );
+  oai21s1 U737 ( .DIN1(n541), .DIN2(n983), .DIN3(n658), .Q(n1164) );
+  nnd2s1 U738 ( .DIN1(\id_rs_packet_in[dest_PRF_idx][4] ), .DIN2(n560), .Q(
+        n658) );
+  oai21s1 U739 ( .DIN1(n539), .DIN2(n982), .DIN3(n659), .Q(n1165) );
+  nnd2s1 U740 ( .DIN1(\id_rs_packet_in[dest_PRF_idx][3] ), .DIN2(n560), .Q(
+        n659) );
+  oai21s1 U741 ( .DIN1(n539), .DIN2(n981), .DIN3(n660), .Q(n1166) );
+  nnd2s1 U742 ( .DIN1(\id_rs_packet_in[dest_PRF_idx][2] ), .DIN2(n560), .Q(
+        n660) );
+  oai21s1 U743 ( .DIN1(n540), .DIN2(n980), .DIN3(n661), .Q(n1167) );
+  nnd2s1 U744 ( .DIN1(\id_rs_packet_in[dest_PRF_idx][1] ), .DIN2(n560), .Q(
+        n661) );
+  oai21s1 U745 ( .DIN1(n541), .DIN2(n979), .DIN3(n662), .Q(n1168) );
+  nnd2s1 U746 ( .DIN1(\id_rs_packet_in[dest_PRF_idx][0] ), .DIN2(n560), .Q(
+        n662) );
+  oai21s1 U747 ( .DIN1(n539), .DIN2(n978), .DIN3(n663), .Q(n1169) );
+  nnd2s1 U748 ( .DIN1(\id_rs_packet_in[rob_idx][3] ), .DIN2(n560), .Q(n663) );
+  oai21s1 U749 ( .DIN1(n540), .DIN2(n977), .DIN3(n664), .Q(n1170) );
+  nnd2s1 U750 ( .DIN1(\id_rs_packet_in[rob_idx][2] ), .DIN2(n560), .Q(n664) );
+  oai21s1 U751 ( .DIN1(n540), .DIN2(n976), .DIN3(n665), .Q(n1171) );
+  nnd2s1 U752 ( .DIN1(\id_rs_packet_in[rob_idx][1] ), .DIN2(n560), .Q(n665) );
+  oai21s1 U753 ( .DIN1(n541), .DIN2(n975), .DIN3(n666), .Q(n1172) );
+  nnd2s1 U754 ( .DIN1(\id_rs_packet_in[rob_idx][0] ), .DIN2(n560), .Q(n666) );
+  oai21s1 U755 ( .DIN1(n539), .DIN2(n974), .DIN3(n667), .Q(n1173) );
+  nnd2s1 U756 ( .DIN1(\id_rs_packet_in[alu_func][4] ), .DIN2(n560), .Q(n667)
+         );
+  oai21s1 U757 ( .DIN1(n541), .DIN2(n973), .DIN3(n668), .Q(n1174) );
+  nnd2s1 U758 ( .DIN1(\id_rs_packet_in[alu_func][3] ), .DIN2(n560), .Q(n668)
+         );
+  oai21s1 U759 ( .DIN1(n540), .DIN2(n972), .DIN3(n669), .Q(n1175) );
+  nnd2s1 U760 ( .DIN1(\id_rs_packet_in[alu_func][2] ), .DIN2(n560), .Q(n669)
+         );
+  oai21s1 U761 ( .DIN1(n541), .DIN2(n971), .DIN3(n670), .Q(n1176) );
+  nnd2s1 U762 ( .DIN1(\id_rs_packet_in[alu_func][1] ), .DIN2(n560), .Q(n670)
+         );
+  oai21s1 U763 ( .DIN1(n539), .DIN2(n970), .DIN3(n671), .Q(n1177) );
+  nnd2s1 U764 ( .DIN1(\id_rs_packet_in[alu_func][0] ), .DIN2(n560), .Q(n671)
+         );
+  oai21s1 U765 ( .DIN1(n539), .DIN2(n969), .DIN3(n672), .Q(n1178) );
+  nnd2s1 U766 ( .DIN1(\id_rs_packet_in[rd_mem] ), .DIN2(n559), .Q(n672) );
+  oai21s1 U767 ( .DIN1(n540), .DIN2(n968), .DIN3(n673), .Q(n1179) );
+  nnd2s1 U768 ( .DIN1(\id_rs_packet_in[wr_mem] ), .DIN2(n559), .Q(n673) );
+  oai21s1 U769 ( .DIN1(n541), .DIN2(n967), .DIN3(n674), .Q(n1180) );
+  nnd2s1 U770 ( .DIN1(\id_rs_packet_in[cond_branch] ), .DIN2(n559), .Q(n674)
+         );
+  oai21s1 U771 ( .DIN1(n539), .DIN2(n966), .DIN3(n675), .Q(n1181) );
+  nnd2s1 U772 ( .DIN1(\id_rs_packet_in[uncond_branch] ), .DIN2(n559), .Q(n675)
+         );
+  oai21s1 U773 ( .DIN1(n538), .DIN2(n965), .DIN3(n676), .Q(n1182) );
+  nnd2s1 U774 ( .DIN1(\id_rs_packet_in[halt] ), .DIN2(n559), .Q(n676) );
+  oai21s1 U775 ( .DIN1(n538), .DIN2(n964), .DIN3(n677), .Q(n1183) );
+  nnd2s1 U776 ( .DIN1(\id_rs_packet_in[illegal] ), .DIN2(n559), .Q(n677) );
+  oai21s1 U777 ( .DIN1(n538), .DIN2(n963), .DIN3(n678), .Q(n1184) );
+  nnd2s1 U778 ( .DIN1(\id_rs_packet_in[csr_op] ), .DIN2(n559), .Q(n678) );
+  oai21s1 U779 ( .DIN1(n538), .DIN2(n962), .DIN3(n679), .Q(n1185) );
+  nnd2s1 U780 ( .DIN1(\id_rs_packet_in[NPC][31] ), .DIN2(n559), .Q(n679) );
+  oai21s1 U781 ( .DIN1(n538), .DIN2(n961), .DIN3(n680), .Q(n1186) );
+  nnd2s1 U782 ( .DIN1(\id_rs_packet_in[NPC][30] ), .DIN2(n559), .Q(n680) );
+  oai21s1 U783 ( .DIN1(n538), .DIN2(n960), .DIN3(n681), .Q(n1187) );
+  nnd2s1 U784 ( .DIN1(\id_rs_packet_in[NPC][29] ), .DIN2(n559), .Q(n681) );
+  oai21s1 U785 ( .DIN1(n538), .DIN2(n959), .DIN3(n682), .Q(n1188) );
+  nnd2s1 U786 ( .DIN1(\id_rs_packet_in[NPC][28] ), .DIN2(n559), .Q(n682) );
+  oai21s1 U787 ( .DIN1(n538), .DIN2(n958), .DIN3(n683), .Q(n1189) );
+  nnd2s1 U788 ( .DIN1(\id_rs_packet_in[NPC][27] ), .DIN2(n559), .Q(n683) );
+  oai21s1 U789 ( .DIN1(n538), .DIN2(n957), .DIN3(n684), .Q(n1190) );
+  nnd2s1 U790 ( .DIN1(\id_rs_packet_in[NPC][26] ), .DIN2(n559), .Q(n684) );
+  oai21s1 U791 ( .DIN1(n538), .DIN2(n956), .DIN3(n685), .Q(n1191) );
+  nnd2s1 U792 ( .DIN1(\id_rs_packet_in[NPC][25] ), .DIN2(n559), .Q(n685) );
+  oai21s1 U793 ( .DIN1(n538), .DIN2(n955), .DIN3(n686), .Q(n1192) );
+  nnd2s1 U794 ( .DIN1(\id_rs_packet_in[NPC][24] ), .DIN2(n559), .Q(n686) );
+  oai21s1 U795 ( .DIN1(n538), .DIN2(n954), .DIN3(n687), .Q(n1193) );
+  nnd2s1 U796 ( .DIN1(\id_rs_packet_in[NPC][23] ), .DIN2(n559), .Q(n687) );
+  oai21s1 U797 ( .DIN1(n538), .DIN2(n953), .DIN3(n688), .Q(n1194) );
+  nnd2s1 U798 ( .DIN1(\id_rs_packet_in[NPC][22] ), .DIN2(n559), .Q(n688) );
+  oai21s1 U799 ( .DIN1(n538), .DIN2(n952), .DIN3(n689), .Q(n1195) );
+  nnd2s1 U800 ( .DIN1(\id_rs_packet_in[NPC][21] ), .DIN2(n558), .Q(n689) );
+  oai21s1 U801 ( .DIN1(n538), .DIN2(n951), .DIN3(n690), .Q(n1196) );
+  nnd2s1 U802 ( .DIN1(\id_rs_packet_in[NPC][20] ), .DIN2(n558), .Q(n690) );
+  oai21s1 U803 ( .DIN1(n538), .DIN2(n950), .DIN3(n691), .Q(n1197) );
+  nnd2s1 U804 ( .DIN1(\id_rs_packet_in[NPC][19] ), .DIN2(n558), .Q(n691) );
+  oai21s1 U805 ( .DIN1(n538), .DIN2(n949), .DIN3(n692), .Q(n1198) );
+  nnd2s1 U806 ( .DIN1(\id_rs_packet_in[NPC][18] ), .DIN2(n558), .Q(n692) );
+  aoi21s1 U807 ( .DIN1(n17), .DIN2(n693), .DIN3(n558), .Q(n522) );
+  oai211s1 U808 ( .DIN1(n525), .DIN2(n694), .DIN3(n695), .DIN4(n696), .Q(n521)
+         );
+  aoi22s1 U809 ( .DIN1(n542), .DIN2(\rs_packet_out[rs2_value][0] ), .DIN3(
+        \id_rs_packet_in[rs2_value][0] ), .DIN4(n558), .Q(n696) );
+  aoi22s1 U810 ( .DIN1(\CDB_Data[1][0] ), .DIN2(n545), .DIN3(\CDB_Data[0][0] ), 
+        .DIN4(n547), .Q(n695) );
+  oai211s1 U811 ( .DIN1(n525), .DIN2(n697), .DIN3(n698), .DIN4(n699), .Q(n520)
+         );
+  aoi22s1 U812 ( .DIN1(\rs_packet_out[rs2_value][31] ), .DIN2(n542), .DIN3(
+        \id_rs_packet_in[rs2_value][31] ), .DIN4(n558), .Q(n699) );
+  aoi22s1 U813 ( .DIN1(\CDB_Data[1][31] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][31] ), .DIN4(n546), .Q(n698) );
+  oai211s1 U814 ( .DIN1(n566), .DIN2(n700), .DIN3(n701), .DIN4(n702), .Q(n519)
+         );
+  nnd2s1 U815 ( .DIN1(opb_valid_in), .DIN2(n558), .Q(n702) );
+  hi1s1 U816 ( .DIN(n703), .Q(n701) );
+  oai211s1 U817 ( .DIN1(n525), .DIN2(n704), .DIN3(n705), .DIN4(n706), .Q(n518)
+         );
+  aoi22s1 U818 ( .DIN1(n542), .DIN2(\rs_packet_out[rs2_value][1] ), .DIN3(
+        \id_rs_packet_in[rs2_value][1] ), .DIN4(n558), .Q(n706) );
+  aoi22s1 U819 ( .DIN1(\CDB_Data[1][1] ), .DIN2(n545), .DIN3(\CDB_Data[0][1] ), 
+        .DIN4(n547), .Q(n705) );
+  oai211s1 U820 ( .DIN1(n525), .DIN2(n707), .DIN3(n708), .DIN4(n709), .Q(n517)
+         );
+  aoi22s1 U821 ( .DIN1(n542), .DIN2(\rs_packet_out[rs2_value][2] ), .DIN3(
+        \id_rs_packet_in[rs2_value][2] ), .DIN4(n558), .Q(n709) );
+  aoi22s1 U822 ( .DIN1(\CDB_Data[1][2] ), .DIN2(n545), .DIN3(\CDB_Data[0][2] ), 
+        .DIN4(n546), .Q(n708) );
+  oai211s1 U823 ( .DIN1(n525), .DIN2(n710), .DIN3(n711), .DIN4(n712), .Q(n516)
+         );
+  aoi22s1 U824 ( .DIN1(n542), .DIN2(\rs_packet_out[rs2_value][3] ), .DIN3(
+        \id_rs_packet_in[rs2_value][3] ), .DIN4(n558), .Q(n712) );
+  aoi22s1 U825 ( .DIN1(\CDB_Data[1][3] ), .DIN2(n545), .DIN3(\CDB_Data[0][3] ), 
+        .DIN4(n547), .Q(n711) );
+  oai211s1 U826 ( .DIN1(n525), .DIN2(n713), .DIN3(n714), .DIN4(n715), .Q(n515)
+         );
+  aoi22s1 U827 ( .DIN1(n542), .DIN2(\rs_packet_out[rs2_value][4] ), .DIN3(
+        \id_rs_packet_in[rs2_value][4] ), .DIN4(n558), .Q(n715) );
+  aoi22s1 U828 ( .DIN1(\CDB_Data[1][4] ), .DIN2(n545), .DIN3(\CDB_Data[0][4] ), 
+        .DIN4(n546), .Q(n714) );
+  oai211s1 U829 ( .DIN1(n525), .DIN2(n716), .DIN3(n717), .DIN4(n718), .Q(n514)
+         );
+  aoi22s1 U830 ( .DIN1(n542), .DIN2(\rs_packet_out[rs2_value][5] ), .DIN3(
+        \id_rs_packet_in[rs2_value][5] ), .DIN4(n558), .Q(n718) );
+  aoi22s1 U831 ( .DIN1(\CDB_Data[1][5] ), .DIN2(n544), .DIN3(\CDB_Data[0][5] ), 
+        .DIN4(n547), .Q(n717) );
+  oai211s1 U832 ( .DIN1(n525), .DIN2(n719), .DIN3(n720), .DIN4(n721), .Q(n513)
+         );
+  aoi22s1 U833 ( .DIN1(\rs_packet_out[rs2_value][6] ), .DIN2(n542), .DIN3(
+        \id_rs_packet_in[rs2_value][6] ), .DIN4(n558), .Q(n721) );
+  aoi22s1 U834 ( .DIN1(\CDB_Data[1][6] ), .DIN2(n544), .DIN3(\CDB_Data[0][6] ), 
+        .DIN4(n547), .Q(n720) );
+  oai211s1 U835 ( .DIN1(n525), .DIN2(n722), .DIN3(n723), .DIN4(n724), .Q(n512)
+         );
+  aoi22s1 U836 ( .DIN1(\rs_packet_out[rs2_value][7] ), .DIN2(n542), .DIN3(
+        \id_rs_packet_in[rs2_value][7] ), .DIN4(n558), .Q(n724) );
+  aoi22s1 U837 ( .DIN1(\CDB_Data[1][7] ), .DIN2(n544), .DIN3(\CDB_Data[0][7] ), 
+        .DIN4(n547), .Q(n723) );
+  oai211s1 U838 ( .DIN1(n525), .DIN2(n725), .DIN3(n726), .DIN4(n727), .Q(n511)
+         );
+  aoi22s1 U839 ( .DIN1(\rs_packet_out[rs2_value][8] ), .DIN2(n542), .DIN3(
+        \id_rs_packet_in[rs2_value][8] ), .DIN4(n558), .Q(n727) );
+  aoi22s1 U840 ( .DIN1(\CDB_Data[1][8] ), .DIN2(n544), .DIN3(\CDB_Data[0][8] ), 
+        .DIN4(n547), .Q(n726) );
+  oai211s1 U841 ( .DIN1(n525), .DIN2(n728), .DIN3(n729), .DIN4(n730), .Q(n510)
+         );
+  aoi22s1 U842 ( .DIN1(\rs_packet_out[rs2_value][9] ), .DIN2(n542), .DIN3(
+        \id_rs_packet_in[rs2_value][9] ), .DIN4(n557), .Q(n730) );
+  aoi22s1 U843 ( .DIN1(\CDB_Data[1][9] ), .DIN2(n544), .DIN3(\CDB_Data[0][9] ), 
+        .DIN4(n547), .Q(n729) );
+  oai211s1 U844 ( .DIN1(n525), .DIN2(n731), .DIN3(n732), .DIN4(n733), .Q(n509)
+         );
+  aoi22s1 U845 ( .DIN1(\rs_packet_out[rs2_value][10] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][10] ), .DIN4(n557), .Q(n733) );
+  aoi22s1 U846 ( .DIN1(\CDB_Data[1][10] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][10] ), .DIN4(n547), .Q(n732) );
+  oai211s1 U847 ( .DIN1(n525), .DIN2(n734), .DIN3(n735), .DIN4(n736), .Q(n508)
+         );
+  aoi22s1 U848 ( .DIN1(\rs_packet_out[rs2_value][11] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][11] ), .DIN4(n557), .Q(n736) );
+  aoi22s1 U849 ( .DIN1(\CDB_Data[1][11] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][11] ), .DIN4(n547), .Q(n735) );
+  oai211s1 U850 ( .DIN1(n525), .DIN2(n737), .DIN3(n738), .DIN4(n739), .Q(n507)
+         );
+  aoi22s1 U851 ( .DIN1(\rs_packet_out[rs2_value][12] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][12] ), .DIN4(n557), .Q(n739) );
+  aoi22s1 U852 ( .DIN1(\CDB_Data[1][12] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][12] ), .DIN4(n547), .Q(n738) );
+  oai211s1 U853 ( .DIN1(n525), .DIN2(n740), .DIN3(n741), .DIN4(n742), .Q(n506)
+         );
+  aoi22s1 U854 ( .DIN1(\rs_packet_out[rs2_value][13] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][13] ), .DIN4(n557), .Q(n742) );
+  aoi22s1 U855 ( .DIN1(\CDB_Data[1][13] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][13] ), .DIN4(n547), .Q(n741) );
+  oai211s1 U856 ( .DIN1(n525), .DIN2(n743), .DIN3(n744), .DIN4(n745), .Q(n505)
+         );
+  aoi22s1 U857 ( .DIN1(\rs_packet_out[rs2_value][14] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][14] ), .DIN4(n557), .Q(n745) );
+  aoi22s1 U858 ( .DIN1(\CDB_Data[1][14] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][14] ), .DIN4(n547), .Q(n744) );
+  oai211s1 U859 ( .DIN1(n525), .DIN2(n746), .DIN3(n747), .DIN4(n748), .Q(n504)
+         );
+  aoi22s1 U860 ( .DIN1(\rs_packet_out[rs2_value][15] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][15] ), .DIN4(n557), .Q(n748) );
+  aoi22s1 U861 ( .DIN1(\CDB_Data[1][15] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][15] ), .DIN4(n547), .Q(n747) );
+  oai211s1 U862 ( .DIN1(n525), .DIN2(n749), .DIN3(n750), .DIN4(n751), .Q(n503)
+         );
+  aoi22s1 U863 ( .DIN1(\rs_packet_out[rs2_value][16] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][16] ), .DIN4(n557), .Q(n751) );
+  aoi22s1 U864 ( .DIN1(\CDB_Data[1][16] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][16] ), .DIN4(n547), .Q(n750) );
+  oai211s1 U865 ( .DIN1(n525), .DIN2(n752), .DIN3(n753), .DIN4(n754), .Q(n502)
+         );
+  aoi22s1 U866 ( .DIN1(\rs_packet_out[rs2_value][17] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][17] ), .DIN4(n557), .Q(n754) );
+  aoi22s1 U867 ( .DIN1(\CDB_Data[1][17] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][17] ), .DIN4(n547), .Q(n753) );
+  oai211s1 U868 ( .DIN1(n525), .DIN2(n755), .DIN3(n756), .DIN4(n757), .Q(n501)
+         );
+  aoi22s1 U869 ( .DIN1(\rs_packet_out[rs2_value][18] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][18] ), .DIN4(n557), .Q(n757) );
+  aoi22s1 U870 ( .DIN1(\CDB_Data[1][18] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][18] ), .DIN4(n546), .Q(n756) );
+  oai211s1 U871 ( .DIN1(n525), .DIN2(n758), .DIN3(n759), .DIN4(n760), .Q(n500)
+         );
+  aoi22s1 U872 ( .DIN1(\rs_packet_out[rs2_value][19] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][19] ), .DIN4(n557), .Q(n760) );
+  aoi22s1 U873 ( .DIN1(\CDB_Data[1][19] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][19] ), .DIN4(n546), .Q(n759) );
+  oai211s1 U874 ( .DIN1(n525), .DIN2(n761), .DIN3(n762), .DIN4(n763), .Q(n499)
+         );
+  aoi22s1 U875 ( .DIN1(\rs_packet_out[rs2_value][20] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][20] ), .DIN4(n557), .Q(n763) );
+  aoi22s1 U876 ( .DIN1(\CDB_Data[1][20] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][20] ), .DIN4(n546), .Q(n762) );
+  oai211s1 U877 ( .DIN1(n525), .DIN2(n764), .DIN3(n765), .DIN4(n766), .Q(n498)
+         );
+  aoi22s1 U878 ( .DIN1(\rs_packet_out[rs2_value][21] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][21] ), .DIN4(n557), .Q(n766) );
+  aoi22s1 U879 ( .DIN1(\CDB_Data[1][21] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][21] ), .DIN4(n546), .Q(n765) );
+  oai211s1 U880 ( .DIN1(n525), .DIN2(n767), .DIN3(n768), .DIN4(n769), .Q(n497)
+         );
+  aoi22s1 U881 ( .DIN1(\rs_packet_out[rs2_value][22] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][22] ), .DIN4(n557), .Q(n769) );
+  aoi22s1 U882 ( .DIN1(\CDB_Data[1][22] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][22] ), .DIN4(n546), .Q(n768) );
+  oai211s1 U883 ( .DIN1(n525), .DIN2(n770), .DIN3(n771), .DIN4(n772), .Q(n496)
+         );
+  aoi22s1 U884 ( .DIN1(\rs_packet_out[rs2_value][23] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][23] ), .DIN4(n557), .Q(n772) );
+  aoi22s1 U885 ( .DIN1(\CDB_Data[1][23] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][23] ), .DIN4(n546), .Q(n771) );
+  oai211s1 U886 ( .DIN1(n525), .DIN2(n773), .DIN3(n774), .DIN4(n775), .Q(n495)
+         );
+  aoi22s1 U887 ( .DIN1(\rs_packet_out[rs2_value][24] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][24] ), .DIN4(n556), .Q(n775) );
+  aoi22s1 U888 ( .DIN1(\CDB_Data[1][24] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][24] ), .DIN4(n546), .Q(n774) );
+  oai211s1 U889 ( .DIN1(n525), .DIN2(n776), .DIN3(n777), .DIN4(n778), .Q(n494)
+         );
+  aoi22s1 U890 ( .DIN1(\rs_packet_out[rs2_value][25] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][25] ), .DIN4(n556), .Q(n778) );
+  aoi22s1 U891 ( .DIN1(\CDB_Data[1][25] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][25] ), .DIN4(n546), .Q(n777) );
+  oai211s1 U892 ( .DIN1(n525), .DIN2(n779), .DIN3(n780), .DIN4(n781), .Q(n493)
+         );
+  aoi22s1 U893 ( .DIN1(\rs_packet_out[rs2_value][26] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][26] ), .DIN4(n556), .Q(n781) );
+  aoi22s1 U894 ( .DIN1(\CDB_Data[1][26] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][26] ), .DIN4(n546), .Q(n780) );
+  oai211s1 U895 ( .DIN1(n525), .DIN2(n782), .DIN3(n783), .DIN4(n784), .Q(n492)
+         );
+  aoi22s1 U896 ( .DIN1(\rs_packet_out[rs2_value][27] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][27] ), .DIN4(n556), .Q(n784) );
+  aoi22s1 U897 ( .DIN1(\CDB_Data[1][27] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][27] ), .DIN4(n546), .Q(n783) );
+  oai211s1 U898 ( .DIN1(n525), .DIN2(n785), .DIN3(n786), .DIN4(n787), .Q(n491)
+         );
+  aoi22s1 U899 ( .DIN1(\rs_packet_out[rs2_value][28] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][28] ), .DIN4(n556), .Q(n787) );
+  aoi22s1 U900 ( .DIN1(\CDB_Data[1][28] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][28] ), .DIN4(n546), .Q(n786) );
+  oai211s1 U901 ( .DIN1(n525), .DIN2(n788), .DIN3(n789), .DIN4(n790), .Q(n490)
+         );
+  aoi22s1 U902 ( .DIN1(\rs_packet_out[rs2_value][29] ), .DIN2(n543), .DIN3(
+        \id_rs_packet_in[rs2_value][29] ), .DIN4(n556), .Q(n790) );
+  aoi22s1 U903 ( .DIN1(\CDB_Data[1][29] ), .DIN2(n544), .DIN3(
+        \CDB_Data[0][29] ), .DIN4(n546), .Q(n789) );
+  oai211s1 U904 ( .DIN1(n525), .DIN2(n791), .DIN3(n792), .DIN4(n793), .Q(n489)
+         );
+  aoi22s1 U905 ( .DIN1(\rs_packet_out[rs2_value][30] ), .DIN2(n542), .DIN3(
+        \id_rs_packet_in[rs2_value][30] ), .DIN4(n556), .Q(n793) );
+  aoi22s1 U906 ( .DIN1(\CDB_Data[1][30] ), .DIN2(n545), .DIN3(
+        \CDB_Data[0][30] ), .DIN4(n546), .Q(n792) );
+  nor2s1 U907 ( .DIN1(n538), .DIN2(n542), .Q(n703) );
+  oai21s1 U908 ( .DIN1(n798), .DIN2(is_free), .DIN3(n693), .Q(n700) );
+  aoi211s1 U909 ( .DIN1(n799), .DIN2(n800), .DIN3(n797), .DIN4(n796), .Q(n798)
+         );
+  hi1s1 U910 ( .DIN(n794), .Q(n796) );
+  or5s1 U911 ( .DIN1(n801), .DIN2(n802), .DIN3(n803), .DIN4(n804), .DIN5(n805), 
+        .Q(n794) );
+  nnd4s1 U912 ( .DIN1(n806), .DIN2(n807), .DIN3(n808), .DIN4(n809), .Q(n805)
+         );
+  xnr2s1 U913 ( .DIN1(\CDB_PRF_idx[1][2] ), .DIN2(
+        \rs_packet_out[rs2_value][2] ), .Q(n809) );
+  xnr2s1 U914 ( .DIN1(\CDB_PRF_idx[1][3] ), .DIN2(
+        \rs_packet_out[rs2_value][3] ), .Q(n808) );
+  xnr2s1 U915 ( .DIN1(\CDB_PRF_idx[1][4] ), .DIN2(
+        \rs_packet_out[rs2_value][4] ), .Q(n807) );
+  xnr2s1 U916 ( .DIN1(\CDB_PRF_idx[1][5] ), .DIN2(
+        \rs_packet_out[rs2_value][5] ), .Q(n806) );
+  xor2s1 U917 ( .DIN1(\rs_packet_out[rs2_value][1] ), .DIN2(
+        \CDB_PRF_idx[1][1] ), .Q(n802) );
+  xor2s1 U918 ( .DIN1(\rs_packet_out[rs2_value][0] ), .DIN2(
+        \CDB_PRF_idx[1][0] ), .Q(n801) );
+  nor6s1 U919 ( .DIN1(n810), .DIN2(n811), .DIN3(n812), .DIN4(n813), .DIN5(
+        \rs_packet_out[rs2_value][6] ), .DIN6(\rs_packet_out[rs2_value][31] ), 
+        .Q(n800) );
+  or3s1 U920 ( .DIN1(\rs_packet_out[rs2_value][8] ), .DIN2(
+        \rs_packet_out[rs2_value][9] ), .DIN3(\rs_packet_out[rs2_value][7] ), 
+        .Q(n813) );
+  or4s1 U921 ( .DIN1(\rs_packet_out[rs2_value][27] ), .DIN2(
+        \rs_packet_out[rs2_value][28] ), .DIN3(\rs_packet_out[rs2_value][29] ), 
+        .DIN4(\rs_packet_out[rs2_value][30] ), .Q(n812) );
+  or4s1 U922 ( .DIN1(\rs_packet_out[rs2_value][19] ), .DIN2(
+        \rs_packet_out[rs2_value][20] ), .DIN3(\rs_packet_out[rs2_value][21] ), 
+        .DIN4(\rs_packet_out[rs2_value][22] ), .Q(n811) );
+  or4s1 U923 ( .DIN1(\rs_packet_out[rs2_value][23] ), .DIN2(
+        \rs_packet_out[rs2_value][24] ), .DIN3(\rs_packet_out[rs2_value][25] ), 
+        .DIN4(\rs_packet_out[rs2_value][26] ), .Q(n810) );
+  nor6s1 U924 ( .DIN1(n814), .DIN2(n815), .DIN3(n816), .DIN4(n817), .DIN5(
+        \rs_packet_out[rs2_value][15] ), .DIN6(\rs_packet_out[rs2_value][14] ), 
+        .Q(n799) );
+  or3s1 U925 ( .DIN1(\rs_packet_out[rs2_value][17] ), .DIN2(
+        \rs_packet_out[rs2_value][18] ), .DIN3(\rs_packet_out[rs2_value][16] ), 
+        .Q(n817) );
+  or4s1 U926 ( .DIN1(\rs_packet_out[rs2_value][10] ), .DIN2(
+        \rs_packet_out[rs2_value][11] ), .DIN3(\rs_packet_out[rs2_value][12] ), 
+        .DIN4(\rs_packet_out[rs2_value][13] ), .Q(n816) );
+  nnd4s1 U927 ( .DIN1(n818), .DIN2(n819), .DIN3(n820), .DIN4(n821), .Q(n815)
+         );
+  xnr2s1 U928 ( .DIN1(\CDB_PRF_idx[0][2] ), .DIN2(
+        \rs_packet_out[rs2_value][2] ), .Q(n821) );
+  xnr2s1 U929 ( .DIN1(\CDB_PRF_idx[0][3] ), .DIN2(
+        \rs_packet_out[rs2_value][3] ), .Q(n820) );
+  xnr2s1 U930 ( .DIN1(\CDB_PRF_idx[0][4] ), .DIN2(
+        \rs_packet_out[rs2_value][4] ), .Q(n819) );
+  xnr2s1 U931 ( .DIN1(\CDB_PRF_idx[0][5] ), .DIN2(
+        \rs_packet_out[rs2_value][5] ), .Q(n818) );
+  nnd4s1 U932 ( .DIN1(n822), .DIN2(n823), .DIN3(CDB_valid[0]), .DIN4(n566), 
+        .Q(n814) );
+  xnr2s1 U933 ( .DIN1(\rs_packet_out[rs2_value][0] ), .DIN2(
+        \CDB_PRF_idx[0][0] ), .Q(n823) );
+  xnr2s1 U934 ( .DIN1(\rs_packet_out[rs2_value][1] ), .DIN2(
+        \CDB_PRF_idx[0][1] ), .Q(n822) );
+  hi1s1 U935 ( .DIN(n693), .Q(n568) );
+  hi1s1 U936 ( .DIN(n795), .Q(n797) );
+  or5s1 U937 ( .DIN1(n824), .DIN2(n825), .DIN3(n803), .DIN4(n826), .DIN5(n827), 
+        .Q(n795) );
+  nnd4s1 U938 ( .DIN1(n828), .DIN2(n829), .DIN3(n830), .DIN4(n831), .Q(n827)
+         );
+  xnr2s1 U939 ( .DIN1(\CDB_PRF_idx[2][2] ), .DIN2(
+        \rs_packet_out[rs2_value][2] ), .Q(n831) );
+  xnr2s1 U940 ( .DIN1(\CDB_PRF_idx[2][3] ), .DIN2(
+        \rs_packet_out[rs2_value][3] ), .Q(n830) );
+  xnr2s1 U941 ( .DIN1(\CDB_PRF_idx[2][4] ), .DIN2(
+        \rs_packet_out[rs2_value][4] ), .Q(n829) );
+  xnr2s1 U942 ( .DIN1(\CDB_PRF_idx[2][5] ), .DIN2(
+        \rs_packet_out[rs2_value][5] ), .Q(n828) );
+  nnd3s1 U943 ( .DIN1(n832), .DIN2(n833), .DIN3(n834), .Q(n803) );
+  nor6s1 U944 ( .DIN1(n835), .DIN2(n836), .DIN3(n837), .DIN4(
+        \rs_packet_out[rs2_value][22] ), .DIN5(\rs_packet_out[rs2_value][24] ), 
+        .DIN6(\rs_packet_out[rs2_value][23] ), .Q(n834) );
+  or4s1 U945 ( .DIN1(\rs_packet_out[rs2_value][25] ), .DIN2(
+        \rs_packet_out[rs2_value][26] ), .DIN3(\rs_packet_out[rs2_value][27] ), 
+        .DIN4(\rs_packet_out[rs2_value][28] ), .Q(n837) );
+  or3s1 U946 ( .DIN1(\rs_packet_out[rs2_value][30] ), .DIN2(
+        \rs_packet_out[rs2_value][31] ), .DIN3(\rs_packet_out[rs2_value][29] ), 
+        .Q(n836) );
+  or4s1 U947 ( .DIN1(\rs_packet_out[rs2_value][6] ), .DIN2(
+        \rs_packet_out[rs2_value][7] ), .DIN3(\rs_packet_out[rs2_value][8] ), 
+        .DIN4(\rs_packet_out[rs2_value][9] ), .Q(n835) );
+  or4s1 U948 ( .DIN1(\rs_packet_out[rs2_value][18] ), .DIN2(
+        \rs_packet_out[rs2_value][19] ), .DIN3(\rs_packet_out[rs2_value][20] ), 
+        .DIN4(\rs_packet_out[rs2_value][21] ), .Q(n838) );
+  nor6s1 U949 ( .DIN1(\rs_packet_out[rs2_value][12] ), .DIN2(
+        \rs_packet_out[rs2_value][14] ), .DIN3(\rs_packet_out[rs2_value][13] ), 
+        .DIN4(n1024), .DIN5(\rs_packet_out[rs2_value][11] ), .DIN6(
+        \rs_packet_out[rs2_value][10] ), .Q(n832) );
+  xor2s1 U950 ( .DIN1(\rs_packet_out[rs2_value][1] ), .DIN2(
+        \CDB_PRF_idx[2][1] ), .Q(n825) );
+  xor2s1 U951 ( .DIN1(\rs_packet_out[rs2_value][0] ), .DIN2(
+        \CDB_PRF_idx[2][0] ), .Q(n824) );
+  oai221s1 U952 ( .DIN1(n697), .DIN2(n523), .DIN3(n839), .DIN4(n840), .DIN5(
+        n841), .Q(n488) );
+  aoi222s1 U953 ( .DIN1(\id_rs_packet_in[rs1_value][31] ), .DIN2(n556), .DIN3(
+        n551), .DIN4(\CDB_Data[1][31] ), .DIN5(n553), .DIN6(\CDB_Data[0][31] ), 
+        .Q(n841) );
+  hi1s1 U954 ( .DIN(\CDB_Data[2][31] ), .Q(n697) );
+  oai21s1 U955 ( .DIN1(n567), .DIN2(n548), .DIN3(n842), .Q(n487) );
+  aoi21s1 U956 ( .DIN1(opa_valid_in), .DIN2(n556), .DIN3(n843), .Q(n842) );
+  oai221s1 U957 ( .DIN1(n694), .DIN2(n523), .DIN3(n844), .DIN4(n548), .DIN5(
+        n845), .Q(n486) );
+  aoi222s1 U958 ( .DIN1(\id_rs_packet_in[rs1_value][0] ), .DIN2(n556), .DIN3(
+        n550), .DIN4(\CDB_Data[1][0] ), .DIN5(n553), .DIN6(\CDB_Data[0][0] ), 
+        .Q(n845) );
+  hi1s1 U959 ( .DIN(\CDB_Data[2][0] ), .Q(n694) );
+  oai221s1 U960 ( .DIN1(n704), .DIN2(n523), .DIN3(n846), .DIN4(n548), .DIN5(
+        n847), .Q(n485) );
+  aoi222s1 U961 ( .DIN1(\id_rs_packet_in[rs1_value][1] ), .DIN2(n556), .DIN3(
+        n551), .DIN4(\CDB_Data[1][1] ), .DIN5(n553), .DIN6(\CDB_Data[0][1] ), 
+        .Q(n847) );
+  hi1s1 U962 ( .DIN(\CDB_Data[2][1] ), .Q(n704) );
+  oai221s1 U963 ( .DIN1(n707), .DIN2(n523), .DIN3(n848), .DIN4(n548), .DIN5(
+        n849), .Q(n484) );
+  aoi222s1 U964 ( .DIN1(\id_rs_packet_in[rs1_value][2] ), .DIN2(n556), .DIN3(
+        n550), .DIN4(\CDB_Data[1][2] ), .DIN5(n553), .DIN6(\CDB_Data[0][2] ), 
+        .Q(n849) );
+  hi1s1 U965 ( .DIN(\CDB_Data[2][2] ), .Q(n707) );
+  oai221s1 U966 ( .DIN1(n710), .DIN2(n523), .DIN3(n850), .DIN4(n548), .DIN5(
+        n851), .Q(n483) );
+  aoi222s1 U967 ( .DIN1(\id_rs_packet_in[rs1_value][3] ), .DIN2(n556), .DIN3(
+        n551), .DIN4(\CDB_Data[1][3] ), .DIN5(n553), .DIN6(\CDB_Data[0][3] ), 
+        .Q(n851) );
+  hi1s1 U968 ( .DIN(\CDB_Data[2][3] ), .Q(n710) );
+  oai221s1 U969 ( .DIN1(n713), .DIN2(n523), .DIN3(n852), .DIN4(n548), .DIN5(
+        n853), .Q(n482) );
+  aoi222s1 U970 ( .DIN1(\id_rs_packet_in[rs1_value][4] ), .DIN2(n556), .DIN3(
+        n550), .DIN4(\CDB_Data[1][4] ), .DIN5(n553), .DIN6(\CDB_Data[0][4] ), 
+        .Q(n853) );
+  hi1s1 U971 ( .DIN(\CDB_Data[2][4] ), .Q(n713) );
+  oai221s1 U972 ( .DIN1(n716), .DIN2(n523), .DIN3(n854), .DIN4(n548), .DIN5(
+        n855), .Q(n481) );
+  aoi222s1 U973 ( .DIN1(\id_rs_packet_in[rs1_value][5] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][5] ), .DIN5(n552), .DIN6(\CDB_Data[0][5] ), 
+        .Q(n855) );
+  hi1s1 U974 ( .DIN(\CDB_Data[2][5] ), .Q(n716) );
+  oai221s1 U975 ( .DIN1(n719), .DIN2(n523), .DIN3(n548), .DIN4(n856), .DIN5(
+        n857), .Q(n480) );
+  aoi222s1 U976 ( .DIN1(\id_rs_packet_in[rs1_value][6] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][6] ), .DIN5(n552), .DIN6(\CDB_Data[0][6] ), 
+        .Q(n857) );
+  hi1s1 U977 ( .DIN(\CDB_Data[2][6] ), .Q(n719) );
+  oai221s1 U978 ( .DIN1(n722), .DIN2(n523), .DIN3(n548), .DIN4(n858), .DIN5(
+        n859), .Q(n479) );
+  aoi222s1 U979 ( .DIN1(\id_rs_packet_in[rs1_value][7] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][7] ), .DIN5(n552), .DIN6(\CDB_Data[0][7] ), 
+        .Q(n859) );
+  hi1s1 U980 ( .DIN(\CDB_Data[2][7] ), .Q(n722) );
+  oai221s1 U981 ( .DIN1(n725), .DIN2(n523), .DIN3(n548), .DIN4(n860), .DIN5(
+        n861), .Q(n478) );
+  aoi222s1 U982 ( .DIN1(\id_rs_packet_in[rs1_value][8] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][8] ), .DIN5(n552), .DIN6(\CDB_Data[0][8] ), 
+        .Q(n861) );
+  hi1s1 U983 ( .DIN(\CDB_Data[2][8] ), .Q(n725) );
+  oai221s1 U984 ( .DIN1(n728), .DIN2(n523), .DIN3(n548), .DIN4(n862), .DIN5(
+        n863), .Q(n477) );
+  aoi222s1 U985 ( .DIN1(\id_rs_packet_in[rs1_value][9] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][9] ), .DIN5(n552), .DIN6(\CDB_Data[0][9] ), 
+        .Q(n863) );
+  hi1s1 U986 ( .DIN(\CDB_Data[2][9] ), .Q(n728) );
+  oai221s1 U987 ( .DIN1(n731), .DIN2(n523), .DIN3(n839), .DIN4(n864), .DIN5(
+        n865), .Q(n476) );
+  aoi222s1 U988 ( .DIN1(\id_rs_packet_in[rs1_value][10] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][10] ), .DIN5(n552), .DIN6(\CDB_Data[0][10] ), 
+        .Q(n865) );
+  hi1s1 U989 ( .DIN(\CDB_Data[2][10] ), .Q(n731) );
+  oai221s1 U990 ( .DIN1(n734), .DIN2(n523), .DIN3(n839), .DIN4(n866), .DIN5(
+        n867), .Q(n475) );
+  aoi222s1 U991 ( .DIN1(\id_rs_packet_in[rs1_value][11] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][11] ), .DIN5(n552), .DIN6(\CDB_Data[0][11] ), 
+        .Q(n867) );
+  hi1s1 U992 ( .DIN(\CDB_Data[2][11] ), .Q(n734) );
+  oai221s1 U993 ( .DIN1(n737), .DIN2(n523), .DIN3(n839), .DIN4(n868), .DIN5(
+        n869), .Q(n474) );
+  aoi222s1 U994 ( .DIN1(\id_rs_packet_in[rs1_value][12] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][12] ), .DIN5(n552), .DIN6(\CDB_Data[0][12] ), 
+        .Q(n869) );
+  hi1s1 U995 ( .DIN(\CDB_Data[2][12] ), .Q(n737) );
+  oai221s1 U996 ( .DIN1(n740), .DIN2(n523), .DIN3(n839), .DIN4(n870), .DIN5(
+        n871), .Q(n473) );
+  aoi222s1 U997 ( .DIN1(\id_rs_packet_in[rs1_value][13] ), .DIN2(n555), .DIN3(
+        n551), .DIN4(\CDB_Data[1][13] ), .DIN5(n552), .DIN6(\CDB_Data[0][13] ), 
+        .Q(n871) );
+  hi1s1 U998 ( .DIN(\CDB_Data[2][13] ), .Q(n740) );
+  oai221s1 U999 ( .DIN1(n743), .DIN2(n523), .DIN3(n839), .DIN4(n872), .DIN5(
+        n873), .Q(n472) );
+  aoi222s1 U1000 ( .DIN1(\id_rs_packet_in[rs1_value][14] ), .DIN2(n555), 
+        .DIN3(n551), .DIN4(\CDB_Data[1][14] ), .DIN5(n552), .DIN6(
+        \CDB_Data[0][14] ), .Q(n873) );
+  hi1s1 U1001 ( .DIN(\CDB_Data[2][14] ), .Q(n743) );
+  oai221s1 U1002 ( .DIN1(n746), .DIN2(n523), .DIN3(n839), .DIN4(n874), .DIN5(
+        n875), .Q(n471) );
+  aoi222s1 U1003 ( .DIN1(\id_rs_packet_in[rs1_value][15] ), .DIN2(n555), 
+        .DIN3(n551), .DIN4(\CDB_Data[1][15] ), .DIN5(n552), .DIN6(
+        \CDB_Data[0][15] ), .Q(n875) );
+  hi1s1 U1004 ( .DIN(\CDB_Data[2][15] ), .Q(n746) );
+  oai221s1 U1005 ( .DIN1(n749), .DIN2(n523), .DIN3(n839), .DIN4(n876), .DIN5(
+        n877), .Q(n470) );
+  aoi222s1 U1006 ( .DIN1(\id_rs_packet_in[rs1_value][16] ), .DIN2(n555), 
+        .DIN3(n551), .DIN4(\CDB_Data[1][16] ), .DIN5(n552), .DIN6(
+        \CDB_Data[0][16] ), .Q(n877) );
+  hi1s1 U1007 ( .DIN(\CDB_Data[2][16] ), .Q(n749) );
+  oai221s1 U1008 ( .DIN1(n752), .DIN2(n523), .DIN3(n839), .DIN4(n878), .DIN5(
+        n879), .Q(n469) );
+  aoi222s1 U1009 ( .DIN1(\id_rs_packet_in[rs1_value][17] ), .DIN2(n555), 
+        .DIN3(n551), .DIN4(\CDB_Data[1][17] ), .DIN5(n552), .DIN6(
+        \CDB_Data[0][17] ), .Q(n879) );
+  hi1s1 U1010 ( .DIN(\CDB_Data[2][17] ), .Q(n752) );
+  oai221s1 U1011 ( .DIN1(n755), .DIN2(n523), .DIN3(n839), .DIN4(n880), .DIN5(
+        n881), .Q(n468) );
+  aoi222s1 U1012 ( .DIN1(\id_rs_packet_in[rs1_value][18] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][18] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][18] ), .Q(n881) );
+  hi1s1 U1013 ( .DIN(\CDB_Data[2][18] ), .Q(n755) );
+  oai221s1 U1014 ( .DIN1(n758), .DIN2(n523), .DIN3(n839), .DIN4(n882), .DIN5(
+        n883), .Q(n467) );
+  aoi222s1 U1015 ( .DIN1(\id_rs_packet_in[rs1_value][19] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][19] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][19] ), .Q(n883) );
+  hi1s1 U1016 ( .DIN(\CDB_Data[2][19] ), .Q(n758) );
+  oai221s1 U1017 ( .DIN1(n761), .DIN2(n523), .DIN3(n839), .DIN4(n884), .DIN5(
+        n885), .Q(n466) );
+  aoi222s1 U1018 ( .DIN1(\id_rs_packet_in[rs1_value][20] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][20] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][20] ), .Q(n885) );
+  hi1s1 U1019 ( .DIN(\CDB_Data[2][20] ), .Q(n761) );
+  oai221s1 U1020 ( .DIN1(n764), .DIN2(n523), .DIN3(n839), .DIN4(n886), .DIN5(
+        n887), .Q(n465) );
+  aoi222s1 U1021 ( .DIN1(\id_rs_packet_in[rs1_value][21] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][21] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][21] ), .Q(n887) );
+  hi1s1 U1022 ( .DIN(\CDB_Data[2][21] ), .Q(n764) );
+  oai221s1 U1023 ( .DIN1(n767), .DIN2(n523), .DIN3(n548), .DIN4(n888), .DIN5(
+        n889), .Q(n464) );
+  aoi222s1 U1024 ( .DIN1(\id_rs_packet_in[rs1_value][22] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][22] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][22] ), .Q(n889) );
+  hi1s1 U1025 ( .DIN(\CDB_Data[2][22] ), .Q(n767) );
+  oai221s1 U1026 ( .DIN1(n770), .DIN2(n523), .DIN3(n548), .DIN4(n890), .DIN5(
+        n891), .Q(n463) );
+  aoi222s1 U1027 ( .DIN1(\id_rs_packet_in[rs1_value][23] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][23] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][23] ), .Q(n891) );
+  hi1s1 U1028 ( .DIN(\CDB_Data[2][23] ), .Q(n770) );
+  oai221s1 U1029 ( .DIN1(n773), .DIN2(n523), .DIN3(n548), .DIN4(n892), .DIN5(
+        n893), .Q(n462) );
+  aoi222s1 U1030 ( .DIN1(\id_rs_packet_in[rs1_value][24] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][24] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][24] ), .Q(n893) );
+  hi1s1 U1031 ( .DIN(\CDB_Data[2][24] ), .Q(n773) );
+  oai221s1 U1032 ( .DIN1(n776), .DIN2(n523), .DIN3(n548), .DIN4(n894), .DIN5(
+        n895), .Q(n461) );
+  aoi222s1 U1033 ( .DIN1(\id_rs_packet_in[rs1_value][25] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][25] ), .DIN5(n552), .DIN6(
+        \CDB_Data[0][25] ), .Q(n895) );
+  hi1s1 U1034 ( .DIN(\CDB_Data[2][25] ), .Q(n776) );
+  oai221s1 U1035 ( .DIN1(n779), .DIN2(n523), .DIN3(n548), .DIN4(n896), .DIN5(
+        n897), .Q(n460) );
+  aoi222s1 U1036 ( .DIN1(\id_rs_packet_in[rs1_value][26] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][26] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][26] ), .Q(n897) );
+  hi1s1 U1037 ( .DIN(\CDB_Data[2][26] ), .Q(n779) );
+  oai221s1 U1038 ( .DIN1(n782), .DIN2(n523), .DIN3(n548), .DIN4(n898), .DIN5(
+        n899), .Q(n459) );
+  aoi222s1 U1039 ( .DIN1(\id_rs_packet_in[rs1_value][27] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][27] ), .DIN5(n552), .DIN6(
+        \CDB_Data[0][27] ), .Q(n899) );
+  hi1s1 U1040 ( .DIN(\CDB_Data[2][27] ), .Q(n782) );
+  oai221s1 U1041 ( .DIN1(n785), .DIN2(n523), .DIN3(n548), .DIN4(n900), .DIN5(
+        n901), .Q(n458) );
+  aoi222s1 U1042 ( .DIN1(\id_rs_packet_in[rs1_value][28] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][28] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][28] ), .Q(n901) );
+  hi1s1 U1043 ( .DIN(\CDB_Data[2][28] ), .Q(n785) );
+  oai221s1 U1044 ( .DIN1(n788), .DIN2(n523), .DIN3(n548), .DIN4(n902), .DIN5(
+        n903), .Q(n457) );
+  aoi222s1 U1045 ( .DIN1(\id_rs_packet_in[rs1_value][29] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][29] ), .DIN5(n552), .DIN6(
+        \CDB_Data[0][29] ), .Q(n903) );
+  hi1s1 U1046 ( .DIN(\CDB_Data[2][29] ), .Q(n788) );
+  oai221s1 U1047 ( .DIN1(n791), .DIN2(n523), .DIN3(n548), .DIN4(n904), .DIN5(
+        n905), .Q(n456) );
+  aoi222s1 U1048 ( .DIN1(\id_rs_packet_in[rs1_value][30] ), .DIN2(n554), 
+        .DIN3(n550), .DIN4(\CDB_Data[1][30] ), .DIN5(n553), .DIN6(
+        \CDB_Data[0][30] ), .Q(n905) );
+  and2s1 U1049 ( .DIN1(n693), .DIN2(n548), .Q(n843) );
+  oai21s1 U1050 ( .DIN1(n910), .DIN2(is_free), .DIN3(n693), .Q(n839) );
+  aoi211s1 U1051 ( .DIN1(n911), .DIN2(n912), .DIN3(n909), .DIN4(n908), .Q(n910) );
+  hi1s1 U1052 ( .DIN(n906), .Q(n908) );
+  or5s1 U1053 ( .DIN1(n913), .DIN2(n914), .DIN3(n804), .DIN4(n915), .DIN5(n916), .Q(n906) );
+  nnd4s1 U1054 ( .DIN1(n917), .DIN2(n918), .DIN3(n919), .DIN4(n920), .Q(n916)
+         );
+  xor2s1 U1055 ( .DIN1(\CDB_PRF_idx[1][2] ), .DIN2(n848), .Q(n920) );
+  xor2s1 U1056 ( .DIN1(\CDB_PRF_idx[1][3] ), .DIN2(n850), .Q(n919) );
+  xor2s1 U1057 ( .DIN1(\CDB_PRF_idx[1][4] ), .DIN2(n852), .Q(n918) );
+  xor2s1 U1058 ( .DIN1(\CDB_PRF_idx[1][5] ), .DIN2(n854), .Q(n917) );
+  hi1s1 U1059 ( .DIN(CDB_valid[1]), .Q(n804) );
+  xor2s1 U1060 ( .DIN1(\rs_packet_out[rs1_value][1] ), .DIN2(
+        \CDB_PRF_idx[1][1] ), .Q(n914) );
+  xor2s1 U1061 ( .DIN1(\rs_packet_out[rs1_value][0] ), .DIN2(
+        \CDB_PRF_idx[1][0] ), .Q(n913) );
+  nor6s1 U1062 ( .DIN1(n921), .DIN2(n922), .DIN3(n923), .DIN4(n924), .DIN5(
+        \rs_packet_out[rs1_value][6] ), .DIN6(\rs_packet_out[rs1_value][31] ), 
+        .Q(n912) );
+  nnd3s1 U1063 ( .DIN1(n860), .DIN2(n862), .DIN3(n858), .Q(n924) );
+  nnd4s1 U1064 ( .DIN1(n898), .DIN2(n900), .DIN3(n902), .DIN4(n904), .Q(n923)
+         );
+  nnd4s1 U1065 ( .DIN1(n882), .DIN2(n884), .DIN3(n886), .DIN4(n888), .Q(n922)
+         );
+  nnd4s1 U1066 ( .DIN1(n890), .DIN2(n892), .DIN3(n894), .DIN4(n896), .Q(n921)
+         );
+  nor6s1 U1067 ( .DIN1(n925), .DIN2(n926), .DIN3(n927), .DIN4(n928), .DIN5(
+        \rs_packet_out[rs1_value][15] ), .DIN6(\rs_packet_out[rs1_value][14] ), 
+        .Q(n911) );
+  nnd3s1 U1068 ( .DIN1(n878), .DIN2(n880), .DIN3(n876), .Q(n928) );
+  nnd4s1 U1069 ( .DIN1(n864), .DIN2(n866), .DIN3(n868), .DIN4(n870), .Q(n927)
+         );
+  nnd4s1 U1070 ( .DIN1(n929), .DIN2(n930), .DIN3(n931), .DIN4(n932), .Q(n926)
+         );
+  xnr2s1 U1071 ( .DIN1(\CDB_PRF_idx[0][2] ), .DIN2(
+        \rs_packet_out[rs1_value][2] ), .Q(n932) );
+  xnr2s1 U1072 ( .DIN1(\CDB_PRF_idx[0][3] ), .DIN2(
+        \rs_packet_out[rs1_value][3] ), .Q(n931) );
+  xnr2s1 U1073 ( .DIN1(\CDB_PRF_idx[0][4] ), .DIN2(
+        \rs_packet_out[rs1_value][4] ), .Q(n930) );
+  xnr2s1 U1074 ( .DIN1(\CDB_PRF_idx[0][5] ), .DIN2(
+        \rs_packet_out[rs1_value][5] ), .Q(n929) );
+  nnd4s1 U1075 ( .DIN1(n933), .DIN2(n934), .DIN3(CDB_valid[0]), .DIN4(n567), 
+        .Q(n925) );
+  xor2s1 U1076 ( .DIN1(\CDB_PRF_idx[0][0] ), .DIN2(n844), .Q(n934) );
+  xor2s1 U1077 ( .DIN1(\CDB_PRF_idx[0][1] ), .DIN2(n846), .Q(n933) );
+  hi1s1 U1078 ( .DIN(n907), .Q(n909) );
+  or5s1 U1079 ( .DIN1(n935), .DIN2(n936), .DIN3(n826), .DIN4(n915), .DIN5(n937), .Q(n907) );
+  nnd4s1 U1080 ( .DIN1(n938), .DIN2(n939), .DIN3(n940), .DIN4(n941), .Q(n937)
+         );
+  xnr2s1 U1081 ( .DIN1(\rs_packet_out[rs1_value][2] ), .DIN2(
+        \CDB_PRF_idx[2][2] ), .Q(n941) );
+  xnr2s1 U1082 ( .DIN1(\rs_packet_out[rs1_value][3] ), .DIN2(
+        \CDB_PRF_idx[2][3] ), .Q(n940) );
+  xnr2s1 U1083 ( .DIN1(\rs_packet_out[rs1_value][4] ), .DIN2(
+        \CDB_PRF_idx[2][4] ), .Q(n939) );
+  xnr2s1 U1084 ( .DIN1(\rs_packet_out[rs1_value][5] ), .DIN2(
+        \CDB_PRF_idx[2][5] ), .Q(n938) );
+  nnd3s1 U1085 ( .DIN1(n942), .DIN2(n943), .DIN3(n944), .Q(n915) );
+  nor6s1 U1086 ( .DIN1(n945), .DIN2(n946), .DIN3(n947), .DIN4(
+        \rs_packet_out[rs1_value][22] ), .DIN5(\rs_packet_out[rs1_value][24] ), 
+        .DIN6(\rs_packet_out[rs1_value][23] ), .Q(n944) );
+  nnd4s1 U1087 ( .DIN1(n894), .DIN2(n896), .DIN3(n898), .DIN4(n900), .Q(n947)
+         );
+  nnd3s1 U1088 ( .DIN1(n904), .DIN2(n840), .DIN3(n902), .Q(n946) );
+  nnd4s1 U1089 ( .DIN1(n856), .DIN2(n858), .DIN3(n860), .DIN4(n862), .Q(n945)
+         );
+  nnd4s1 U1090 ( .DIN1(n880), .DIN2(n882), .DIN3(n884), .DIN4(n886), .Q(n948)
+         );
+  nor6s1 U1091 ( .DIN1(\rs_packet_out[rs1_value][12] ), .DIN2(
+        \rs_packet_out[rs1_value][14] ), .DIN3(\rs_packet_out[rs1_value][13] ), 
+        .DIN4(n1023), .DIN5(\rs_packet_out[rs1_value][11] ), .DIN6(
+        \rs_packet_out[rs1_value][10] ), .Q(n942) );
+  hi1s1 U1092 ( .DIN(CDB_valid[2]), .Q(n826) );
+  xor2s1 U1093 ( .DIN1(\rs_packet_out[rs1_value][1] ), .DIN2(
+        \CDB_PRF_idx[2][1] ), .Q(n936) );
+  xor2s1 U1094 ( .DIN1(\rs_packet_out[rs1_value][0] ), .DIN2(
+        \CDB_PRF_idx[2][0] ), .Q(n935) );
+  hi1s1 U1095 ( .DIN(\CDB_Data[2][30] ), .Q(n791) );
+  nnd2s1 U1096 ( .DIN1(\rs_packet_out[valid] ), .DIN2(n693), .Q(n194) );
+  nor2s1 U1097 ( .DIN1(reset), .DIN2(load_in), .Q(n693) );
+endmodule
+

@@ -1,0 +1,117 @@
+0 
+30
++define+DEBUG=1
++vc
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/usr/caen/vcs-2017.12-SP2-1/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
+-Mout=syn_simv
+-Msaverestoreobj=/usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=-ldl
+-Mupdate
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/usr/caen/vcs-2017.12-SP2-1/include
+-full64
+-gen_obj
+-line
+-o syn_simv
+-picarchive
+-sverilog
+/afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
+/usr/caen/vcs-2017.12-SP2-1/linux64/bin/vcs1
+RS.vg
+sys_defs.svh
+testbench/rs_final_test.sv
+71
+sysc_uni_pwd=/home/sunsusan/Desktop/group7w20
+_LMFILES_=/usr/caen/misc/modules/vscode/1.32.3:/usr/caen/misc/modules/vcs/2017.12-SP2-1
+XMODIFIERS=@im=ibus
+XDG_SESSION_TYPE=x11
+XDG_SESSION_ID=832
+XDG_SESSION_DESKTOP=gnome-classic
+XDG_RUNTIME_DIR=/run/user/114191087
+XDG_MENU_PREFIX=gnome-
+XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/:/usr/caen/misc/menus
+XDG_CURRENT_DESKTOP=GNOME-Classic:GNOME
+XAUTHORITY=/run/gdm/auth-for-sunsusan-q44knY/database
+VTE_VERSION=5202
+VSCODE_NLS_CONFIG={"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+VSCODE_LOGS=/home/sunsusan/.config/Code/logs/20200315T150940
+VSCODE_IPC_HOOK=/run/user/114191087/vscode-f03f62c4-1.32.3-main.sock
+VSCODE_CLI=1
+VMR_MODE_FLAG=64
+VCS_MODE_FLAG=64
+VCS_HOME=/usr/caen/vcs-2017.12-SP2-1
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+USERNAME=sunsusan
+UNAME=/bin/uname
+TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
+SW_VCS=2017.12-SP2-1
+SSH_AUTH_SOCK=/run/user/114191087/keyring/ssh
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SSH_AGENT_PID=16154
+SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/15973,unix/unix:/tmp/.ICE-unix/15973
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+RESET_NET_NAME=reset
+QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+QT_IM_MODULE=ibus
+QT_GRAPHICSSYSTEM_CHECKED=1
+OVA_UUM=0
+MSI2LMP_LIBRARY=/usr/share/lammps/frc_files
+MODULESHOME=/usr/share/Modules
+MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/caen/misc/modules:/afs/umich.edu/class/coe/modules
+MFLAGS=
+MAKELEVEL=1
+MAKEFLAGS=
+LOADEDMODULES=vscode/1.32.3:vcs/2017.12-SP2-1
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LC_ALL=C
+LAMMPS_POTENTIALS=/usr/share/lammps/potentials
+KRB5CCNAME=FILE:/tmp/krb5cc_114191087_DyNmg4
+KDEDIRS=/usr
+IMSETTINGS_MODULE=none
+IMSETTINGS_INTEGRATE_DESKTOP=yes
+ICEAUTHORITY=/run/user/114191087/iceauthority
+HISTCONTROL=ignoredups
+GNOME_TERMINAL_SERVICE=:1.86
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/8f6758d2_5586_407d_87b5_f2fcfce004dd
+GNOME_SHELL_SESSION_MODE=classic
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GJS_DEBUG_OUTPUT=stderr
+GDM_LANG=en_US.UTF-8
+GDMSESSION=gnome-classic
+ELECTRON_NO_ATTACH_CONSOLE=1
+DESKTOP_SESSION=gnome-classic
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-neLqFuGHSe,guid=025cfdaa8a6abf9776b1113a5e6e7d5b
+COLORTERM=truecolor
+CLOCK_PERIOD=10	
+CLOCK_NET_NAME=clock
+CINNAMON_2D=1
+BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
+0
+4
+1062689876 /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
+1584301829 RS.vg
+1584301149 sys_defs.svh
+1584299277 testbench/rs_final_test.sv
+5
+0 
+1531625631 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so
+1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
+1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
+1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
+1584301841 syn_simv.daidir

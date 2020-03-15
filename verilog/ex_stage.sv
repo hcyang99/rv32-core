@@ -99,15 +99,16 @@ endmodule // brcond
 module ex_stage(
 	input clock,               // system clock
 	input reset,               // system reset
-	input ID_EX_PACKET   id_ex_packet_in,
-	output EX_MEM_PACKET ex_packet_out
+	input 	ID_EX_PACKET[`WAYS-1:0]      	id_ex_packet_in,
+	output 	EX_MEM_PACKET[`WAYS-1:0] 	ex_packet_out
 );
 	// Pass-throughs
 	assign ex_packet_out.NPC = id_ex_packet_in.NPC;
 	assign ex_packet_out.rs2_value = id_ex_packet_in.rs2_value;
 	assign ex_packet_out.rd_mem = id_ex_packet_in.rd_mem;
 	assign ex_packet_out.wr_mem = id_ex_packet_in.wr_mem;
-	assign ex_packet_out.dest_reg_idx = id_ex_packet_in.dest_reg_idx;
+	assign ex_packet_out.dest_PRF_idx = id_ex_packet_in.dest_PRF_idx;
+	assign ex_packet_out.rob_idx      = id_ex_packet_in.rob_idx;
 	assign ex_packet_out.halt = id_ex_packet_in.halt;
 	assign ex_packet_out.illegal = id_ex_packet_in.illegal;
 	assign ex_packet_out.csr_op = id_ex_packet_in.csr_op;

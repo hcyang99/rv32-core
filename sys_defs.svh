@@ -21,6 +21,22 @@
 
 //////////////////////////////////////////////
 //
+// R10K algorithm
+//
+//////////////////////////////////////////////
+`define PRF         64
+`define LOGPRF      6 //$clog2(`PRF)
+
+`define ROB         16
+`define RS          16
+
+`define OLEN        16
+`define WAYS        3
+
+
+
+//////////////////////////////////////////////
+//
 // Memory/testbench attribute definitions
 //
 //////////////////////////////////////////////
@@ -286,14 +302,16 @@ typedef struct packed {
 	ALU_OPB_SELECT opb_select; // ALU opb mux select (ALU_OPB_xxx *)
 	INST inst;                 // instruction
 	
-	logic [4:0] dest_reg_idx;  // destination (writeback) register index      
+	logic [$clog2(`PRF)-1:0] dest_PRF_idx;  // destination (writeback) register index 
+	logic [$clog2(`ROB)-1:0] rob_idx;       
+
 	ALU_FUNC    alu_func;      // ALU function select (ALU_xxx *)
 	logic       rd_mem;        // does inst read memory?
 	logic       wr_mem;        // does inst write memory?
 	logic       cond_branch;   // is inst a conditional branch?
 	logic       uncond_branch; // is inst an unconditional branch?
 	logic       halt;          // is this a halt?
-	logic       illegal;       // is this instruction illegal?
+	logic       illegal;       // is this instruction illegal? (unknown instruction)
 	logic       csr_op;        // is this a CSR operation? (we only used this as a cheap way to get return code)
 	logic       valid;         // is inst a valid instruction to be counted for CPI calculations?
 } ID_EX_PACKET;
@@ -305,7 +323,10 @@ typedef struct packed {
 	//pass throughs from decode stage
 	logic [`XLEN-1:0] rs2_value;
 	logic             rd_mem, wr_mem;
-	logic [4:0]       dest_reg_idx;
+
+	logic [$clog2(`PRF)-1:0]       	dest_PRF_idx;
+	logic [$clog2(`ROB)-1:0] 		rob_idx;       
+
 	logic             halt, illegal, csr_op, valid;
 	logic [2:0]       mem_size; // byte, half-word or word
 } EX_MEM_PACKET;
