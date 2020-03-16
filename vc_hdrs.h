@@ -37,7 +37,7 @@ typedef struct VeriC_Descriptor *vc_handle;
 
 #endif /* _VC_TYPES_ */
 
-void generate_test(int , int , int , int , int );
+void generate_test(int , int , int , int , int , int );
 
 #ifdef __cplusplus
 }

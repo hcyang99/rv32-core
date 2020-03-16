@@ -9,16 +9,13 @@
 #include <stdint.h>
 #include <inttypes.h>
 
-// i think 1000 is enough...
-// if not then change this
-#define NUM_TESTS 1000
-
 // global variables
 int N_WAYS;
 int ROB_SIZE;
 int PRF_SIZE;
 int NUM_REGS;
 int XLEN;
+int NUM_TESTS;
 
 // struct definitions
 typedef struct rob_en{
@@ -87,7 +84,7 @@ void generate_correct(rob_struct * , rob_inputs * , FILE *);
 // "main" function that gets called from the testbench
 // generates a test file that will serve as input to the rob verilog module
 // simultaneously makes calls to generate_correct to also generate the correct output
-extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, int num_regs_in, int xlen_in){
+extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, int num_regs_in, int xlen_in, int num_tests_in){
     // "rob_test.mem" is the test file, and "rob_test.correct" is the correct output
     FILE *fptr = fopen("rob_test.mem", "w");
     FILE *cor_fptr = fopen("rob_test.correct", "w");
@@ -98,6 +95,7 @@ extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, i
     PRF_SIZE = prf_size_in;
     NUM_REGS = num_regs_in;
     XLEN = xlen_in;
+    NUM_TESTS = num_tests_in;
 
     // initializing the structs based on input
     rob_entry * arr = (rob_entry *)malloc(sizeof(rob_entry) * ROB_SIZE);
@@ -179,6 +177,11 @@ extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, i
     // closing the file pointers to avoid leaks
     fclose(fptr);
     fclose(cor_fptr);
+
+    // free the dynamically allocated stuff
+    free(arr);
+    free(inputs);
+    free(taken_robs);
 }
 
 
@@ -204,8 +207,8 @@ void generate_correct(rob_struct * rob, rob_inputs * inputs, FILE * fptr){
             new_entry.reg_write = inputs[i].reg_write;
             new_entry.is_branch = inputs[i].is_branch;
             new_entry.PC = inputs[i].PC;
-            new_entry.target = inputs[i].CDB_target;
-            new_entry.branch_direction = inputs[i].CDB_direction;
+            new_entry.target = inputs[i].inst_target;
+            new_entry.branch_direction = inputs[i].prediction;
             new_entry.mispredicted = 0;
             new_entry.done = 0;
 

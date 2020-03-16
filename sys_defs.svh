@@ -19,6 +19,18 @@
 `define DUT(mod) mod
 `endif
 
+
+`define REGS		48
+`define REG_LEN     64
+`define PRF         64
+`define ROB         16
+`define RS          16
+
+`define OLEN        16
+`define PCLEN       32
+`define WAYS        3
+
+
 //////////////////////////////////////////////
 //
 // Memory/testbench attribute definitions
