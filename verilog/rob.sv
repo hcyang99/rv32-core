@@ -43,73 +43,94 @@ module rob(
 
 rob_entry [`ROB-1:0]                              entries;
 logic [$clog2(`ROB)-1:0]                          head;
-logic [$clog2(`ROB)-1:0]                          tail;
+// logic [$clog2(`ROB)-1:0]                          tail;
 logic [$clog2(`ROB)-1:0]                          next_head;
 logic [$clog2(`ROB)-1:0]                          next_tail;
 logic [$clog2(`WAYS)-1:0]                         num_dispatched;
 logic [$clog2(`WAYS)-1:0]                         num_committed;
+rob entry [`WAYS-1:0]                             new_entries;
+logic                                             proc_nuke;
 
-// Dispatch logic
+// Dispatch combinational logic
 always_comb begin
+    num_dispatched = 0;
     for(int i = 0; i < `WAYS; i++) begin
     
         // Store inputs in ROB if valid
         if(valid[i]) begin
-            entries[tail + i % `ROB].dest_ARN = dest_ARN[i];
-            entries[tail + i % `ROB].dest_PRN = dest_PRN[i];
-            entries[tail + i % `ROB].reg_write = reg_write[i];
-            entries[tail + i % `ROB].is_branch = is_branch[i];
-            entries[tail + i % `ROB].PC = PC[i];
-            entries[tail + i % `ROB].target = target[i];
-            entries[tail + i % `ROB].branch_direction = branch_direction[i];
-            entries[tail + i % `ROB].mispredicted = 0;
-            entries[tail + i % `ROB].done = 0;
-            num_dispatched = i;
+            new_entries[i].dest_ARN = dest_ARN[i];
+            new_entries[i].dest_PRN = dest_PRN[i];
+            new_entries[i].reg_write = reg_write[i];
+            new_entries[i].is_branch = is_branch[i];
+            new_entries[i].PC = PC[i];
+            new_entries[i].target = target[i];
+            new_entries[i].branch_direction = branch_direction[i];
+            new_entries[i].mispredicted = 0;
+            new_entries[i].done = 0;
+
+            // Valid inputs should never come after invalid inputs
+            // That means the last valid i + 1 is the number of valid inputs
+            num_dispatched = i + 1;
         end
     end
     
-    // Move tail based on number of valid inouts received
-    next_tail = tail + num_dispatched % `ROB;
+    // Move tail based on number of valid inputs received
+    next_tail = (tail + num_dispatched) % `ROB;
 end
 
-// CDB logic
-always_ff @(posedge clock) begin
-    for(int i = 0; i < `WAYS; ++i) begin
-        if(CDB_valid[i]) begin
-            entries[CDB_ROB_idx].done             = 1'b1;
-            entries[CDB_ROB_idx].mispredicted     =
-                entries[CDB_ROB_idx].branch_direction == CDB_direction[i] ? 1'b0 : 1'b1;
-
-            entries[CDB_ROB_idx].branch_direction = CDB_direction[i];
-            entries[CDB_ROB_idx].target           = CDB_target[i];
-        end
-    end
-end
-
-// Commit logic
-always_ff @(posedge clock) begin
+// Commit/Output combinational logic
+always_comb begin
+    proc_nuke = 0;
     for(int i = 0; i < `WAYS; i++) begin
-        if(entries[head].is_branch & entries[head].mispredicted) begin
-            
-        end
-        else if(entries[head].reg_write & entries[head].done) begin
-            
-        end
+        valid_out[i] = 0;
+        dest_PRN_out[i] = 0;
+        dest_ARN_out[i] = 0;
     end
+    for(int i = 0; i < `WAYS; i++) begin
+        if(entries[(head + i) % `ROB].done) begin
+            num_committed = i + 1;
+            if(entries[(head + i) % `ROB].reg_write) begin
+                dest_PRN_out[i] = entries[(head + i) % `ROB].dest_PRN;
+                dest_ARN_out[i] = entries[(head + i) % `ROB].dest_ARN;
+                valid_out[i] = 1;
+            end if(entries[(head + i) % `ROB].is_branch & entries[head].mispredicted) begin
+                proc_nuke = 1;
+                break;
+            end
+        end else break;
+    end
+
+    // Move head based on number of valid inputs received
+    next_head = (head + num_committed) % `ROB;
 end
-
-
 
 // Sequential Logic
 always_ff @(posedge clock) begin
-    if(reset) begin
+    if(reset || proc_nuke) begin
         num_free            <= `SD ($clog2(`ROB))'d`ROB;
         head                <= `SD tail;
         entries[head].done  <= `SD 1'b0;
     end else begin
-        head                <= `SD next_head;
+        for(int i = 0; i < `WAYS; i++) begin
+            
+            // Dispatch logic
+            if(valid[i]) begin
+                entries[(tail + i) % `ROB] <= `SD new_entries[i];
+            end
+
+            // CDB logic
+            if(CDB_valid[i]) begin
+                entries[CDB_ROB_idx[i]].done             <= `SD 1'b1;
+                entries[CDB_ROB_idx[i]].mispredicted     <= `SD
+                    entries[CDB_ROB_idx[i]].branch_direction == CDB_direction[i] ?
+                    CDB_direction[i] == 0 || entries[CDB_ROB_idx[i]].target == CDB_target[i] ? 1'b0 : 1'b1;
+                entries[CDB_ROB_idx[i]].branch_direction <= `SD CDB_direction[i];
+                entries[CDB_ROB_idx[i]].target           <= `SD CDB_target[i];
+            end
+        end
         tail                <= `SD next_tail;
-        num_free            <=  `SD num_free - num_dispatched + num_committed;
+        head                <= `SD next_head;
+        num_free            <= `SD num_free - num_dispatched + num_committed;
     end
 end
 
