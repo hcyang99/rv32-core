@@ -80,6 +80,7 @@ end
 
 // Commit/Output combinational logic
 always_comb begin
+    num_committed = 0;
     proc_nuke = 0;
     for(int i = 0; i < `WAYS; i++) begin
         valid_out[i] = 0;
