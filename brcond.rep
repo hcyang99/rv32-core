@@ -1,0 +1,396 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : design
+Design : brcond
+Version: O-2018.06
+Date   : Fri Mar 20 10:59:56 2020
+****************************************
+
+Design allows ideal nets on clock nets.
+
+Library(s) Used:
+
+    lec25dscc25_TT (File: /afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db)
+
+Local Link Library:
+
+    {lec25dscc25_TT.db}
+
+Flip-Flop Types:
+
+    No flip-flop types specified.
+
+Latch Types:
+
+    No latch types specified.
+
+Operating Conditions:
+
+
+    Operating Condition Name : nom_pvt
+    Library : lec25dscc25_TT
+    Process :   1.00
+    Temperature :  25.00
+    Voltage :   2.50
+    Interconnect Model : balanced_tree
+
+Wire Loading Model:
+
+    Selected manually by the user.
+
+Name           :   tsmcwire
+Location       :   lec25dscc25_TT
+Resistance     :   0.2642
+Capacitance    :   0.000132782
+Area           :   0.27
+Slope          :   0.74
+Fanout   Length   Points Average Cap Std Deviation
+--------------------------------------------------------------
+     1     0.89
+     2     1.48
+     3     2.44
+     4     3.18
+     5     3.92
+
+
+
+Wire Loading Model Mode: top.
+
+Timing Ranges:
+
+    No timing ranges specified.
+
+Pin Input Delays:
+
+    None specified.
+
+Pin Output Delays:
+
+    None specified.
+
+Disabled Timing Arcs:
+
+    No arcs disabled.
+
+Required Licenses:
+
+    None Required
+
+Design Parameters:
+
+    None specified.
+1
+ 
+****************************************
+Report : area
+Design : brcond
+Version: O-2018.06
+Date   : Fri Mar 20 10:59:56 2020
+****************************************
+
+Library(s) Used:
+
+    lec25dscc25_TT (File: /afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db)
+
+Number of ports:                          139
+Number of nets:                           490
+Number of cells:                          356
+Number of combinational cells:            354
+Number of sequential cells:                 1
+Number of macros/black boxes:               0
+Number of buf/inv:                        183
+Number of references:                      11
+
+Combinational area:              16413.148766
+Buf/Inv area:                     6071.500957
+Noncombinational area:               0.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:             179.143117
+
+Total cell area:                 16413.148766
+Total area:                      16592.291882
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -input_pins
+        -nets
+        -max_paths 2
+        -transition_time
+Design : brcond
+Version: O-2018.06
+Date   : Fri Mar 20 10:59:56 2020
+****************************************
+
+Operating Conditions: nom_pvt   Library: lec25dscc25_TT
+Wire Load Model Mode: top
+
+  Startpoint: func[2] (input port)
+  Endpoint: cond (output port)
+  Path Group: input_grp
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  brcond             tsmcwire              lec25dscc25_TT
+
+  Point                        Fanout     Trans      Incr       Path
+  ---------------------------------------------------------------------
+  input external delay                               0.00       0.00 f
+  func[2] (in)                             0.25      0.06       0.06 f
+  func[2] (net)                  4                   0.00       0.06 f
+  U75/DIN3 (nnd3s2)                        0.25      0.00       0.06 f
+  U75/Q (nnd3s2)                           0.99      0.41       0.47 r
+  n152 (net)                    23                   0.00       0.47 r
+  U146/DIN (ib1s1)                         0.99      0.00       0.47 r
+  U146/Q (ib1s1)                           0.41      0.18       0.65 f
+  n156 (net)                     4                   0.00       0.65 f
+  U177/DIN (ib1s1)                         0.41      0.00       0.65 f
+  U177/Q (ib1s1)                           0.81      0.36       1.01 r
+  n155 (net)                    18                   0.00       1.01 r
+  U217/DIN3 (oai22s2)                      0.81      0.00       1.02 r
+  U217/Q (oai22s2)                         0.40      0.21       1.23 f
+  U2/U2/Z_0 (net)                2                   0.00       1.23 f
+  U350/DIN2 (and2s1)                       0.40      0.00       1.23 f
+  U350/Q (and2s1)                          0.13      0.25       1.48 f
+  n160 (net)                     1                   0.00       1.48 f
+  U351/DIN4 (oai222s1)                     0.13      0.00       1.48 f
+  U351/Q (oai222s1)                        0.54      0.18       1.66 r
+  n161 (net)                     1                   0.00       1.66 r
+  U216/DIN (ib1s1)                         0.54      0.00       1.66 r
+  U216/Q (ib1s1)                           0.20      0.08       1.74 f
+  n194 (net)                     1                   0.00       1.74 f
+  U352/DIN5 (aoi221s1)                     0.20      0.00       1.74 f
+  U352/Q (aoi221s1)                        0.42      0.08       1.82 r
+  n162 (net)                     1                   0.00       1.82 r
+  U353/DIN5 (aoi221s1)                     0.42      0.00       1.83 r
+  U353/Q (aoi221s1)                        0.52      0.16       1.98 f
+  n163 (net)                     1                   0.00       1.98 f
+  U354/DIN5 (aoi221s1)                     0.52      0.00       1.98 f
+  U354/Q (aoi221s1)                        0.44      0.12       2.11 r
+  n164 (net)                     1                   0.00       2.11 r
+  U355/DIN5 (aoi221s1)                     0.44      0.00       2.11 r
+  U355/Q (aoi221s1)                        0.51      0.16       2.27 f
+  n165 (net)                     1                   0.00       2.27 f
+  U356/DIN5 (aoi221s1)                     0.51      0.00       2.27 f
+  U356/Q (aoi221s1)                        0.44      0.12       2.39 r
+  n166 (net)                     1                   0.00       2.39 r
+  U357/DIN5 (aoi221s1)                     0.44      0.00       2.39 r
+  U357/Q (aoi221s1)                        0.51      0.16       2.55 f
+  n167 (net)                     1                   0.00       2.55 f
+  U358/DIN5 (aoi221s1)                     0.51      0.00       2.55 f
+  U358/Q (aoi221s1)                        0.44      0.12       2.68 r
+  n168 (net)                     1                   0.00       2.68 r
+  U359/DIN5 (aoi221s1)                     0.44      0.00       2.68 r
+  U359/Q (aoi221s1)                        0.51      0.16       2.84 f
+  n169 (net)                     1                   0.00       2.84 f
+  U360/DIN5 (aoi221s1)                     0.51      0.00       2.84 f
+  U360/Q (aoi221s1)                        0.44      0.12       2.96 r
+  n170 (net)                     1                   0.00       2.96 r
+  U361/DIN5 (aoi221s1)                     0.44      0.00       2.96 r
+  U361/Q (aoi221s1)                        0.52      0.16       3.12 f
+  n171 (net)                     1                   0.00       3.12 f
+  U362/DIN5 (aoi221s1)                     0.52      0.00       3.12 f
+  U362/Q (aoi221s1)                        0.43      0.12       3.24 r
+  n172 (net)                     1                   0.00       3.24 r
+  U363/DIN5 (aoi221s1)                     0.43      0.00       3.25 r
+  U363/Q (aoi221s1)                        0.52      0.16       3.40 f
+  n173 (net)                     1                   0.00       3.40 f
+  U364/DIN5 (aoi221s1)                     0.52      0.00       3.41 f
+  U364/Q (aoi221s1)                        0.43      0.12       3.53 r
+  n174 (net)                     1                   0.00       3.53 r
+  U365/DIN5 (aoi221s1)                     0.43      0.00       3.53 r
+  U365/Q (aoi221s1)                        0.52      0.16       3.69 f
+  n175 (net)                     1                   0.00       3.69 f
+  U366/DIN5 (aoi221s1)                     0.52      0.00       3.69 f
+  U366/Q (aoi221s1)                        0.43      0.12       3.81 r
+  n176 (net)                     1                   0.00       3.81 r
+  U367/DIN5 (aoi221s1)                     0.43      0.00       3.81 r
+  U367/Q (aoi221s1)                        0.52      0.16       3.97 f
+  n177 (net)                     1                   0.00       3.97 f
+  U368/DIN5 (aoi221s1)                     0.52      0.00       3.97 f
+  U368/Q (aoi221s1)                        0.43      0.12       4.09 r
+  n178 (net)                     1                   0.00       4.09 r
+  U369/DIN5 (aoi221s1)                     0.43      0.00       4.10 r
+  U369/Q (aoi221s1)                        0.52      0.16       4.25 f
+  n179 (net)                     1                   0.00       4.25 f
+  U370/DIN5 (aoi221s1)                     0.52      0.00       4.26 f
+  U370/Q (aoi221s1)                        0.43      0.12       4.38 r
+  n180 (net)                     1                   0.00       4.38 r
+  U371/DIN5 (aoi221s1)                     0.43      0.00       4.38 r
+  U371/Q (aoi221s1)                        0.52      0.16       4.54 f
+  n181 (net)                     1                   0.00       4.54 f
+  U372/DIN5 (aoi221s1)                     0.52      0.00       4.54 f
+  U372/Q (aoi221s1)                        0.44      0.12       4.66 r
+  n182 (net)                     1                   0.00       4.66 r
+  U373/DIN5 (aoi221s1)                     0.44      0.00       4.66 r
+  U373/Q (aoi221s1)                        0.52      0.16       4.82 f
+  n183 (net)                     1                   0.00       4.82 f
+  U374/DIN5 (aoi221s1)                     0.52      0.00       4.82 f
+  U374/Q (aoi221s1)                        0.44      0.12       4.95 r
+  n184 (net)                     1                   0.00       4.95 r
+  U375/DIN5 (aoi221s1)                     0.44      0.00       4.95 r
+  U375/Q (aoi221s1)                        0.52      0.16       5.11 f
+  n185 (net)                     1                   0.00       5.11 f
+  U376/DIN5 (aoi221s1)                     0.52      0.00       5.11 f
+  U376/Q (aoi221s1)                        0.44      0.12       5.23 r
+  n186 (net)                     1                   0.00       5.23 r
+  U377/DIN5 (aoi221s1)                     0.44      0.00       5.23 r
+  U377/Q (aoi221s1)                        0.52      0.16       5.39 f
+  n187 (net)                     1                   0.00       5.39 f
+  U378/DIN5 (aoi221s1)                     0.52      0.00       5.39 f
+  U378/Q (aoi221s1)                        0.44      0.12       5.52 r
+  n188 (net)                     1                   0.00       5.52 r
+  U379/DIN5 (aoi221s1)                     0.44      0.00       5.52 r
+  U379/Q (aoi221s1)                        0.52      0.16       5.68 f
+  n189 (net)                     1                   0.00       5.68 f
+  U380/DIN5 (aoi221s1)                     0.52      0.00       5.68 f
+  U380/Q (aoi221s1)                        0.44      0.12       5.80 r
+  n190 (net)                     1                   0.00       5.80 r
+  U381/DIN5 (aoi221s1)                     0.44      0.00       5.80 r
+  U381/Q (aoi221s1)                        0.52      0.16       5.96 f
+  n191 (net)                     1                   0.00       5.96 f
+  U147/DIN (ib1s1)                         0.52      0.00       5.96 f
+  U147/Q (ib1s1)                           0.18      0.08       6.04 r
+  n254 (net)                     1                   0.00       6.04 r
+  U382/DIN3 (oai21s1)                      0.18      0.00       6.04 r
+  U382/Q (oai21s1)                         0.32      0.12       6.16 f
+  N28 (net)                      1                   0.00       6.16 f
+  U280/DIN3 (oai21s2)                      0.32      0.00       6.16 f
+  U280/Q (oai21s2)                         0.27      0.12       6.29 r
+  n148 (net)                     1                   0.00       6.29 r
+  U279/DIN3 (oai21s2)                      0.27      0.00       6.29 r
+  U279/Q (oai21s2)                         0.98      0.44       6.73 f
+  cond (net)                     1                   0.00       6.73 f
+  cond (out)                               0.98      0.02       6.75 f
+  data arrival time                                             6.75
+
+  max_delay                                         10.00      10.00
+  output external delay                              0.00      10.00
+  data required time                                           10.00
+  ---------------------------------------------------------------------
+  data required time                                           10.00
+  data arrival time                                            -6.75
+  ---------------------------------------------------------------------
+  slack (MET)                                                   3.25
+
+
+1
+ 
+****************************************
+Report : constraint
+        -verbose
+        -max_delay
+Design : brcond
+Version: O-2018.06
+Date   : Fri Mar 20 10:59:56 2020
+****************************************
+
+
+  Startpoint: func[2] (input port)
+  Endpoint: cond (output port)
+  Path Group: input_grp
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  brcond             tsmcwire              lec25dscc25_TT
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                     0.00       0.00 f
+  func[2] (in)                             0.06       0.06 f
+  U75/Q (nnd3s2)                           0.42       0.47 r
+  U146/Q (ib1s1)                           0.18       0.65 f
+  U177/Q (ib1s1)                           0.36       1.01 r
+  U217/Q (oai22s2)                         0.21       1.23 f
+  U350/Q (and2s1)                          0.25       1.48 f
+  U351/Q (oai222s1)                        0.18       1.66 r
+  U216/Q (ib1s1)                           0.08       1.74 f
+  U352/Q (aoi221s1)                        0.09       1.82 r
+  U353/Q (aoi221s1)                        0.16       1.98 f
+  U354/Q (aoi221s1)                        0.12       2.11 r
+  U355/Q (aoi221s1)                        0.16       2.27 f
+  U356/Q (aoi221s1)                        0.12       2.39 r
+  U357/Q (aoi221s1)                        0.16       2.55 f
+  U358/Q (aoi221s1)                        0.12       2.68 r
+  U359/Q (aoi221s1)                        0.16       2.84 f
+  U360/Q (aoi221s1)                        0.12       2.96 r
+  U361/Q (aoi221s1)                        0.16       3.12 f
+  U362/Q (aoi221s1)                        0.12       3.24 r
+  U363/Q (aoi221s1)                        0.16       3.40 f
+  U364/Q (aoi221s1)                        0.12       3.53 r
+  U365/Q (aoi221s1)                        0.16       3.69 f
+  U366/Q (aoi221s1)                        0.12       3.81 r
+  U367/Q (aoi221s1)                        0.16       3.97 f
+  U368/Q (aoi221s1)                        0.12       4.09 r
+  U369/Q (aoi221s1)                        0.16       4.25 f
+  U370/Q (aoi221s1)                        0.12       4.38 r
+  U371/Q (aoi221s1)                        0.16       4.54 f
+  U372/Q (aoi221s1)                        0.12       4.66 r
+  U373/Q (aoi221s1)                        0.16       4.82 f
+  U374/Q (aoi221s1)                        0.12       4.95 r
+  U375/Q (aoi221s1)                        0.16       5.11 f
+  U376/Q (aoi221s1)                        0.12       5.23 r
+  U377/Q (aoi221s1)                        0.16       5.39 f
+  U378/Q (aoi221s1)                        0.12       5.52 r
+  U379/Q (aoi221s1)                        0.16       5.68 f
+  U380/Q (aoi221s1)                        0.12       5.80 r
+  U381/Q (aoi221s1)                        0.16       5.96 f
+  U147/Q (ib1s1)                           0.08       6.04 r
+  U382/Q (oai21s1)                         0.12       6.16 f
+  U280/Q (oai21s2)                         0.12       6.29 r
+  U279/Q (oai21s2)                         0.44       6.73 f
+  cond (out)                               0.02       6.75 f
+  data arrival time                                   6.75
+
+  max_delay                               10.00      10.00
+  output external delay                    0.00      10.00
+  data required time                                 10.00
+  -----------------------------------------------------------
+  data required time                                 10.00
+  data arrival time                                  -6.75
+  -----------------------------------------------------------
+  slack (MET)                                         3.25
+
+
+1
+Information: Updating graph... (UID-83)
+ 
+****************************************
+Report : reference
+Design : brcond
+Version: O-2018.06
+Date   : Fri Mar 20 10:59:59 2020
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+and2s1             lec25dscc25_TT    49.766399       2    99.532799
+and3s1             lec25dscc25_TT    66.355202       1    66.355202
+aoai122s2          lec25dscc25_TT    74.649597       2   149.299194
+aoi221s1           lec25dscc25_TT    74.649597      30  2239.487915
+brcond_DW01_cmp6_0             5381.596828       1   5381.596828  h
+ib1s1              lec25dscc25_TT    33.177601     135  4478.976116
+nnd3s2             lec25dscc25_TT    49.766399       1    49.766399
+oai21s1            lec25dscc25_TT    49.766399       1    49.766399
+oai21s2            lec25dscc25_TT    49.766399       2    99.532799
+oai22s2            lec25dscc25_TT    58.060799      64  3715.891113
+oai222s1           lec25dscc25_TT    82.944000       1    82.944000
+-----------------------------------------------------------------------------
+Total 11 references                                 16413.148766
+1

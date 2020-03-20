@@ -4,7 +4,7 @@ Information: Updating design information... (UID-85)
 Report : design
 Design : RS_Line
 Version: O-2018.06
-Date   : Sun Mar 15 15:32:44 2020
+Date   : Fri Mar 20 10:43:21 2020
 ****************************************
 
 Design allows ideal nets on clock nets.
@@ -86,7 +86,7 @@ Design Parameters:
 Report : area
 Design : RS_Line
 Version: O-2018.06
-Date   : Sun Mar 15 15:32:44 2020
+Date   : Fri Mar 20 10:43:21 2020
 ****************************************
 
 Library(s) Used:
@@ -122,7 +122,7 @@ Report : timing
         -transition_time
 Design : RS_Line
 Version: O-2018.06
-Date   : Sun Mar 15 15:32:44 2020
+Date   : Fri Mar 20 10:43:21 2020
 ****************************************
 
  * Some/all delay information is back-annotated.
@@ -446,7 +446,7 @@ Wire Load Model Mode: top
   ---------------------------------------------------------------------
   opb_valid_reg_reg/CLK (dffs1)            0.00      0.00       0.00 r
   opb_valid_reg_reg/Q (dffs1)              0.17      0.18       0.18 f
-  n1024 (net)                    1                   0.00       0.18 f
+  n1010 (net)                    1                   0.00       0.18 f
   opb_valid_reg_reg/QN (dffs1)             0.18      0.09       0.27 r
   n566 (net)                     3                   0.00       0.27 r
   U558/DIN1 (nor2s1)                       0.18      0.00       0.27 r
@@ -508,7 +508,7 @@ Report : constraint
         -max_delay
 Design : RS_Line
 Version: O-2018.06
-Date   : Sun Mar 15 15:32:44 2020
+Date   : Fri Mar 20 10:43:21 2020
 ****************************************
 
 
@@ -643,7 +643,7 @@ Information: Updating graph... (UID-83)
 Report : reference
 Design : RS_Line
 Version: O-2018.06
-Date   : Sun Mar 15 15:32:45 2020
+Date   : Fri Mar 20 10:43:22 2020
 ****************************************
 
 Attributes:

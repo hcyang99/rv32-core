@@ -19,25 +19,44 @@
  of a written license agreement with Synopsys, Inc. All other use, reproduction,
             or distribution of this software is strictly prohibited.
 Initializing...
+################################################################################
+## DO NOT EDIT THESE FILES BY HAND
+##
+## CONFIGURATION HAS BEEN MOVED TO THE MAKEFILE
+################################################################################
+set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/" ]
+./ /afs/umich.edu/class/eecs470/lib/synopsys/
+set target_library "lec25dscc25_TT.db"
+lec25dscc25_TT.db
+set link_library [concat  "*" $target_library]
+* lec25dscc25_TT.db
 #/***********************************************************/
-#/*   FILE        : rs_line.tcl                                  */
-#/*   Description : Default Synopsys Design Compiler Script */
-#/*   Usage       : dc_shell -tcl_mode -f default.tcl       */
-#/*   You'll need to minimally set design_name & read files */
+#/* Set some flags to suppress warnings we don't care about */
+set suppress_errors [concat $suppress_errors "UID-401"]
+UID-401
+suppress_message {"VER-130"}
 #/***********************************************************/
+#/* The following lines are set from environment variables
+#/* automatically by the Makefile
 #/***********************************************************/
-#/* The following five lines must be updated for every      */
-#/* new design                                              */
-#/***********************************************************/
-read_file -f sverilog [list "verilog/rs.sv"]
+lappend search_path ../
+./ /afs/umich.edu/class/eecs470/lib/synopsys/ ../
+set headers [getenv HEADERS]
+sys_defs.svh ISA.svh 
+set sources [getenv SOURCES]
+verilog/rs.sv
+read_file -f sverilog [list ${headers} ${sources}]
+Loading db file '/afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db'
 Loading db file '/usr/caen/synopsys-synth-2018.06/libraries/syn/gtech.db'
 Loading db file '/usr/caen/synopsys-synth-2018.06/libraries/syn/standard.sldb'
+  Loading link library 'lec25dscc25_TT'
   Loading link library 'gtech'
-Loading sverilog file '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/rs.sv'
+Loading sverilog files: '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/sys_defs.svh' '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/ISA.svh' '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/rs.sv' 
 Detecting input file type automatically (-rtl or -netlist).
 Reading with Presto HDL Compiler (equivalent to -rtl option).
 Running PRESTO HDLC
-Warning: Can't read link_library file 'your_library.db'. (UID-3)
+Compiling source file /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/sys_defs.svh
+Compiling source file /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/ISA.svh
 Compiling source file /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/rs.sv
 Opening include file sys_defs.svh
 
@@ -60,9 +79,11 @@ Inferred memory devices in process
 ===============================================================================
 |  rs_packet_out_reg  | Flip-flop |  189  |  Y  | N  | N  | N  | N  | N  | N  |
 ===============================================================================
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/rs.sv:320: signed to unsigned assignment occurs. (VER-318)
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/rs.sv:317: signed to unsigned conversion occurs. (VER-318)
 
 Inferred memory devices in process
-	in routine RS line 231 in file
+	in routine RS line 234 in file
 		'/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/rs.sv'.
 ===============================================================================
 |    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
@@ -74,14 +95,14 @@ Current design is now '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilo
 Loaded 2 designs.
 Current design is 'RS_Line'.
 RS_Line RS
-set design_name RS_Line
+set design_name [getenv DESIGN_NAME]
 RS_Line
-set clock_name clock
+set clock_name [getenv CLOCK_NET_NAME]
 clock
-set reset_name reset
+set reset_name [getenv RESET_NET_NAME]
 reset
-set CLK_PERIOD 10
-10
+set CLK_PERIOD [getenv CLOCK_PERIOD]
+10	
 #/***********************************************************/
 #/* The rest of this file may be left alone for most small  */
 #/* to moderate sized designs.  You may need to alter it    */
@@ -89,18 +110,16 @@ set CLK_PERIOD 10
 #/***********************************************************/
 set SYN_DIR ./
 ./
-set search_path "/afs/umich.edu/class/eecs470/lib/synopsys/"
-/afs/umich.edu/class/eecs470/lib/synopsys/
-set target_library "lec25dscc25_TT.db"
-lec25dscc25_TT.db
-set link_library [concat  "*" $target_library]
-* lec25dscc25_TT.db
 #/***********************************************************/
 #/* Set some flags for optimisation */
 set compile_top_all_paths "true"
 true
 set auto_wire_load_selection "false"
 false
+set compile_seqmap_synchronous_extraction "true"
+true
+# uncomment this and change number appropriately if on multi-core machine
+#set_host_options -max_cores 2
 #/***********************************************************/
 #/*  Clk Periods/uncertainty/transition                     */
 set CLK_TRANSITION 0.1
@@ -191,7 +210,7 @@ if {  $dc_shell_status != [list] } {
   uniquify
   ungroup -all -flatten
   redirect $chk_file { check_design }
-  compile -map_effort high
+  compile -map_effort medium
   write -hier -format verilog -output $netlist_file $design_name
   write -hier -format ddc -output $ddc_file $design_name
   redirect $rep_file { report_design -nosplit }
@@ -207,7 +226,6 @@ if {  $dc_shell_status != [list] } {
    quit
 }
 Current design is 'RS_Line'.
-Loading db file '/afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db'
 
   Linking design 'RS_Line'
   Using the following designs and libraries:
@@ -215,628 +233,6 @@ Loading db file '/afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db'
   * (2 designs)               /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/RS_Line.db, etc
   lec25dscc25_TT (library)    /afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db
 
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
-Warning: Design rule attributes from the driving cell will be
-	set on the port. (UID-401)
 Current design is 'RS_Line'.
 Warning: Design has no hierarchy.  No cells can be ungrouped. (UID-228)
 Information: Evaluating DesignWare library utilization. (UISN-27)
@@ -866,30 +262,30 @@ Information: Updating design information... (UID-85)
   Processing 'RS_Line_DW01_cmp6_4'
   Processing 'RS_Line_DW01_cmp6_5'
 
-  Beginning Mapping Optimizations  (High effort)
+  Beginning Mapping Optimizations  (Medium effort)
   -------------------------------
 
                                   TOTAL                                                  
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:02   90218.1      0.00       0.0       0.7                                0.00  
-    0:00:02   90218.1      0.00       0.0       0.7                                0.00  
-    0:00:02   90218.1      0.00       0.0       0.7                                0.00  
-    0:00:02   90218.1      0.00       0.0       0.7                                0.00  
-    0:00:02   90218.1      0.00       0.0       0.7                                0.00  
-    0:00:02   67383.6      0.00       0.0       0.7                                0.00  
-    0:00:02   67176.3      0.00       0.0       0.7                                0.00  
-    0:00:02   67176.3      0.00       0.0       0.7                                0.00  
-    0:00:02   67176.3      0.00       0.0       0.7                                0.00  
-    0:00:02   67176.3      0.00       0.0       0.7                                0.00  
-    0:00:02   67176.3      0.00       0.0       0.7                                0.00  
-    0:00:03   67209.4      0.00       0.0       0.2                                0.00  
-    0:00:03   67226.0      0.00       0.0       0.1                                0.00  
-    0:00:03   67242.6      0.00       0.0       0.0                                0.00  
-    0:00:03   67242.6      0.00       0.0       0.0                                0.00  
-    0:00:03   67242.6      0.00       0.0       0.0                                0.00  
-    0:00:03   67242.6      0.00       0.0       0.0                                0.00  
+    0:00:04   90218.1      0.00       0.0       0.7                                0.00  
+    0:00:04   90218.1      0.00       0.0       0.7                                0.00  
+    0:00:04   90218.1      0.00       0.0       0.7                                0.00  
+    0:00:04   90218.1      0.00       0.0       0.7                                0.00  
+    0:00:04   90218.1      0.00       0.0       0.7                                0.00  
+    0:00:04   67383.6      0.00       0.0       0.7                                0.00  
+    0:00:04   67176.3      0.00       0.0       0.7                                0.00  
+    0:00:04   67176.3      0.00       0.0       0.7                                0.00  
+    0:00:04   67176.3      0.00       0.0       0.7                                0.00  
+    0:00:04   67176.3      0.00       0.0       0.7                                0.00  
+    0:00:04   67176.3      0.00       0.0       0.7                                0.00  
+    0:00:04   67209.4      0.00       0.0       0.2                                0.00  
+    0:00:04   67226.0      0.00       0.0       0.1                                0.00  
+    0:00:04   67242.6      0.00       0.0       0.0                                0.00  
+    0:00:04   67242.6      0.00       0.0       0.0                                0.00  
+    0:00:04   67242.6      0.00       0.0       0.0                                0.00  
+    0:00:04   67242.6      0.00       0.0       0.0                                0.00  
 
 
 
@@ -900,9 +296,9 @@ Information: Updating design information... (UID-85)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:03   67242.6      0.00       0.0       0.0                                0.00  
-    0:00:03   67242.6      0.00       0.0       0.0                                0.00  
-    0:00:03   62879.9      0.00       0.0      33.4                                0.00  
+    0:00:04   67242.6      0.00       0.0       0.0                                0.00  
+    0:00:04   67242.6      0.00       0.0       0.0                                0.00  
+    0:00:05   62879.9      0.00       0.0      33.4                                0.00  
 
 
   Beginning Design Rule Fixing  (max_transition)
@@ -912,14 +308,14 @@ Information: Updating design information... (UID-85)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:03   62879.9      0.00       0.0      33.4                                0.00  
-    0:00:03   63336.1      0.00       0.0      29.6 rs_packet_out[NPC][17]         0.00  
-    0:00:03   63477.1      0.00       0.0      26.2 rs_packet_out[NPC][16]         0.00  
-    0:00:04   63759.1      0.00       0.0      21.7 rs_packet_out[rs2_value][13]      0.00  
-    0:00:04   64273.3      0.00       0.0      16.7 rs_packet_out[NPC][27]         0.00  
-    0:00:04   65102.7      0.00       0.0       9.6 rs_packet_out[inst][16]        0.00  
-    0:00:04   65932.1      0.00       0.0       2.4 rs_packet_out[NPC][4]          0.00  
-    0:00:04   66214.1      0.00       0.0       0.0                                0.00  
+    0:00:05   62879.9      0.00       0.0      33.4                                0.00  
+    0:00:05   63336.1      0.00       0.0      29.6 rs_packet_out[NPC][31]         0.00  
+    0:00:05   63477.1      0.00       0.0      26.2 rs_packet_out[NPC][30]         0.00  
+    0:00:05   63759.1      0.00       0.0      21.7 rs_packet_out[rs2_value][13]      0.00  
+    0:00:05   64273.3      0.00       0.0      16.7 rs_packet_out[illegal]         0.00  
+    0:00:05   65102.7      0.00       0.0       9.6 rs_packet_out[inst][16]        0.00  
+    0:00:06   65932.1      0.00       0.0       2.4 rs_packet_out[NPC][4]          0.00  
+    0:00:06   66214.1      0.00       0.0       0.0                                0.00  
 
 
   Beginning Critical Range Optimization
@@ -929,7 +325,7 @@ Information: Updating design information... (UID-85)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:04   66214.1      0.00       0.0       0.0                                0.00  
+    0:00:06   66214.1      0.00       0.0       0.0                                0.00  
 
 
   Beginning Area-Recovery Phase  (cleanup)
@@ -939,20 +335,20 @@ Information: Updating design information... (UID-85)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:04   66214.1      0.00       0.0       0.0                                0.00  
-    0:00:04   66214.1      0.00       0.0       0.0                                0.00  
-    0:00:04   65666.7      0.00       0.0       0.0                                0.00  
-    0:00:04   65334.9      0.00       0.0       0.0                                0.00  
-    0:00:04   65202.2      0.00       0.0       0.0                                0.00  
-    0:00:04   65061.2      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   66214.1      0.00       0.0       0.0                                0.00  
+    0:00:06   66214.1      0.00       0.0       0.0                                0.00  
+    0:00:06   65666.7      0.00       0.0       0.0                                0.00  
+    0:00:06   65334.9      0.00       0.0       0.0                                0.00  
+    0:00:06   65202.2      0.00       0.0       0.0                                0.00  
+    0:00:06   65061.2      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
 
 
   Beginning Critical Range Optimization
@@ -962,8 +358,8 @@ Information: Updating design information... (UID-85)
    ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
   --------- --------- --------- --------- --------- ------------------------- -----------
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
-    0:00:04   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
+    0:00:06   64945.1      0.00       0.0       0.0                                0.00  
 Loading db file '/afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db'
 
 
@@ -976,8 +372,8 @@ Writing verilog file '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/RS_Line
 Writing ddc file './RS_Line.ddc'.
 Removing design 'RS_Line'
 Removing design 'RS'
-Removing library 'gtech'
 Removing library 'lec25dscc25_TT'
+Removing library 'gtech'
 Removing library 'standard.sldb'
 Loading db file '/afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db'
 Loading db file '/usr/caen/synopsys-synth-2018.06/libraries/syn/gtech.db'

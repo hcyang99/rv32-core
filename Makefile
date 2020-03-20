@@ -25,23 +25,41 @@ LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
 # SIMULATION CONFIG
 
-SIMFILES	= verilog/rs.sv module_provided/psl_get.v sys_defs.svh
-TESTBENCH	= testbench/rs_final_test.sv sys_defs.svh
+#SIMFILES	= verilog/rs.sv module_provided/psl_get.v sys_defs.svh
+#TESTBENCH	= testbench/rs_final_test.sv sys_defs.svh
 
 #SIMFILES	= verilog/RS_Line.sv sys_defs.svh
 #TESTBENCH	= testbench/rs_line_test.sv sys_defs.svh
 
+HEADERS 	= sys_defs.svh ISA.svh 
+SOURCES 	= verilog/rs.sv
+
+SIMFILES 	= sys_defs.svh ISA.svh verilog/ex_stage.sv verilog/mult.sv
+TESTBENCH   = testbench/ex_stage_test.sv
+
+
 # SYNTHESIS CONFIG
-SYNFILES	= RS.vg
-#SYNFILES = RS_Line.vg
+#SYNFILES	= RS.vg
+SYNFILES 	= RS_Line.vg
+#SYNFILES  = ex_stage.vg
+
 
 # COVERAGE CONFIG
 COVERAGE	= line+tgl+cond
+DESIGN_NAME = RS
 
 # Passed through to .tcl scripts:
+
+export HEADERS
+export SOURCES
 export CLOCK_NET_NAME = clock
 export RESET_NET_NAME = reset
 export CLOCK_PERIOD = 10	# TODO: You will want to make this more aggresive
+
+export DESIGN_NAME
+
+
+#//export DESIGN_NAME = RS_Line
 
 ################################################################################
 ## RULES
@@ -99,11 +117,30 @@ syn_simv:	$(SYNFILES) $(TESTBENCH)
 syn:	syn_simv
 	./syn_simv | tee syn_program.out
 
-RS_Line.vg: verilog/rs.sv synth/RS_Line.tcl
-	dc_shell-t -f synth/RS_Line.tcl | tee RS_Line.out
-
-#RS_Line.vg: verilog/RS_Line.sv synth/RS_Line.tcl
-#	dc_shell-t -f synth/RS_Line.tcl | tee RS_Line.out
+# test
+RS_Line.vg: verilog/rs.sv synth/syn.tcl
+	dc_shell-t -f synth/syn.tcl | tee RS_Line.out
 
 RS.vg: verilog/rs.sv RS_Line.vg synth/rs.tcl 
 	dc_shell-t -f synth/rs.tcl | tee rs.out
+
+mult_stage.vg: verilog/mult.sv synth/syn.tcl
+	dc_shell-t -f synth/syn.tcl | tee mult_stage.out
+
+mult.vg: verilog/mult.sv mult_stage.vg synth/syn.tcl
+	dc_shell-t -f synth/syn.tcl | tee mult.out
+
+alu.vg: verilog/ex_stage.sv mult.vg synth/syn.tcl
+	dc_shell-t -f synth/syn.tcl | tee alu.out
+
+brcond.vg: verilog/ex_stage.sv synth/syn.tcl
+	dc_shell-t -f synth/syn.tcl | tee brcond.out
+
+ex_stage.vg: verilog/ex_stage.sv alu.vg brcond.vg synth/syn.tcl
+	dc_shell-t -f synth/syn.tcl | tee ex_stage.out
+
+
+
+#alu.vg: 
+#export DESIGN_NAME = alu
+#	verilog/ex_stage.sv  synth/syn.tcl 

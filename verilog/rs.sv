@@ -123,6 +123,7 @@ module RS(
     input ID_EX_PACKET [`WAYS-1:0]              id_rs_packet_in,
     input                                       load_in, // ***high when dispatch***
 
+    input [`WAYS-1:0]                           ALU_occupied,
     output ID_EX_PACKET [`WAYS-1:0]             rs_packet_out,
 
     output logic [$clog2(`RS):0]                num_is_free,
@@ -133,11 +134,14 @@ module RS(
     output logic [$clog2(`RS):0]                num_is_free_next,
     output logic [`RS-1:0]                      is_free_hub,
     output logic [$clog2(`WAYS):0]              free_increase,
-    output wor   [`RS-1:0]                      reset_hub,
+    output logic   [`RS-1:0]                      reset_hub,
+    output    wor [`RS-1:0]                             reset_hub_tmp,
+
     output logic [`RS-1:0]                      ready_hub
 );
     // in hubs
 //    wor   [`RS-1:0]                           reset_hub;
+    logic [$clog2(`WAYS):0]                     ALU_idx;
     logic [`RS-1:0]                             opa_valid_in_hub;
     logic [`RS-1:0]                             opb_valid_in_hub;
     wor   [`RS-1:0]                             load_in_hub;
@@ -166,7 +170,7 @@ module RS(
 // for input selector
     logic [`RS*`WAYS-1:0]  in_gnt_bus;
     logic [`RS*`WAYS-1:0]  out_gnt_bus;
-
+    logic                   has_match;
 
     assign num_is_free_next = (num_is_free - free_decrease + free_increase);
 
@@ -174,14 +178,13 @@ module RS(
     generate
         for (genvar i = 0; i < `WAYS; i = i + 1) begin
             assign load_in_hub = in_gnt_bus[(i+1)*`RS-1 -: `RS];
-            assign reset_hub = out_gnt_bus[(i+1)*`RS-1 -: `RS];
+            assign reset_hub_tmp = out_gnt_bus[(i+1)*`RS-1 -: `RS];
             for (genvar j = 0; j < `WAYS; j = j + 1) begin
                 assign opa_is_from_CDB[i][j] = ~opa_valid_in[i] && CDB_valid[j] && CDB_PRF_idx[j] == id_rs_packet_in[i].rs1_value;
                 assign opb_is_from_CDB[i][j] = ~opb_valid_in[i] && CDB_valid[j] && CDB_PRF_idx[j] == id_rs_packet_in[i].rs2_value;
             end
         end
     endgenerate
-    
 
 
     always_comb begin
@@ -240,7 +243,7 @@ module RS(
 //        $display("opa_valid_in_hub[0]: %b opb_valid_in_hub[0]: %b",opa_valid_in_hub[0],opb_valid_in_hub[0]);
 //        $display("load_in_hub: %b",load_in_hub);
 //        $display("free_decrease: %d free_increase: %d",free_decrease,free_increase); 
-//        $display("load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b inst_out_valid:%b inst_valid_in:%b",load_in,is_free_hub, load_in_hub,ready_hub,inst_out_valid,inst_valid_in); 
+//        $display("load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b",load_in,is_free_hub, load_in_hub,ready_hub); 
 //        $display("reset_hub: %b",reset_hub);
         if (reset) begin
             num_is_free <= `RS;
@@ -273,20 +276,65 @@ RS_Line lines [`RS-1:0] (
     psel_gen #(`WAYS,`RS) output_selector(.en(1'b1),.reset(reset),.req(ready_hub),.gnt_bus(out_gnt_bus));
 
 
+/*
 // output selector
     always_comb begin
         free_increase = 0;
         rs_packet_out = 0;
+        reset_hub = reset_hub_tmp;
         if(~reset) begin            
             for (int i = 0; i < `RS; i = i + 1) begin
 //            $display("i:%d free_increase: %d num_is_free_next: %d",i, free_increase,num_is_free_next);
-                if (reset_hub[i]) begin
-                    rs_packet_out[free_increase] = rs_packet_out_hub[i];
-                    free_increase = free_increase + 1;
+                if (reset_hub_tmp[i]) begin
+                    if(ALU_occupied[free_increase]) begin
+                        reset_hub[i] = 0;
+                    end else begin
+                        rs_packet_out[free_increase] = rs_packet_out_hub[i];
+                        free_increase = free_increase + 1;
+                    end
                 end
             end
         end
     end
+*/
+// output selector
+    always_comb begin
+        free_increase = 0;
+        rs_packet_out = 0;
+        reset_hub = reset_hub_tmp;
+        ALU_idx = 0;
+        has_match = 0;
+//        $display("reset_hub_tmp: %b ALU_occupied: %b",reset_hub_tmp,ALU_occupied);
+        if(~reset) begin            
+            for (int i = 0; i < `RS; i = i + 1) begin
+//            $display("i: %d free_increase: %d ALU_idx: %d",i,free_increase,ALU_idx);
+                if (reset_hub_tmp[i]) begin
+                    has_match = 0;
+                    if((ALU_idx < `WAYS)) begin
+                        for(int j = 0; j < `WAYS; j = j + 1) begin
+//                            $display("j: %d ALU_occupied[j]: %b",j,ALU_occupied[j]);
+                            // to be changed (delete j <`WAYS)
+                            if((j>= ALU_idx) && ~ALU_occupied[j]) begin
+                                rs_packet_out[free_increase] = rs_packet_out_hub[i];
+                                free_increase = free_increase + 1;
+                                ALU_idx = j + 1;
+                                has_match = 1;
+                                break;
+                            end 
+                        end
+                        if(~has_match) begin
+                            reset_hub[i] = 0;                    
+//                            $display("reset_hub: %b",reset_hub);                            
+                        end
+                    end else begin
+                        reset_hub[i] = 0;                    
+//                        $display("reset_hub: %b",reset_hub);
+                    end
+                end
+            end
+        end
+    end
+
 
 
 

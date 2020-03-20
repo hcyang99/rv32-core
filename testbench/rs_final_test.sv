@@ -27,6 +27,10 @@ module testbench;
 
     logic                                       load_in; // high when dispatch :: SHOULD HAVE BEEN MULTIPLE ENTRIES??
     logic [`WAYS-1:0]                           inst_valid_in;
+    wor [`RS-1:0]                             reset_hub_tmp;
+
+    logic [`WAYS-1:0]                           ALU_occupied;
+
 
 // output
      ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
@@ -70,6 +74,7 @@ endgenerate
         .opb_valid_in,
         .id_rs_packet_in,                            
         .load_in,
+        .ALU_occupied,
 
         // output
         .rs_packet_out,
@@ -82,6 +87,7 @@ endgenerate
         .is_free_hub,
         .free_increase,
         .reset_hub,
+        .reset_hub_tmp,
 
         .ready_hub
     );
@@ -140,18 +146,19 @@ initial
     begin
     clock = 0;
     $display("start");
-    $display("Time|reset|load_in|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|opa_out|opb_out|num_is_free|is_free_hub|ready_hub|reset_hub");
+    $display("Time|reset|load_in|CDB_PRF_idx|CDB_valid|opa_in|opa_valid_in|opb_in|opb_valid_in|opa_out|opb_out|num_is_free|is_free_hub|ready_hub|reset_hub|reset_hub_tmp");
     $monitor("%4.0f  %b ", $time, reset,
             "   %b", load_in,
             "      %h        %b",CDB_PRF_idx[1],CDB_valid,
             "   %h     %h",opa_in[1],opa_valid_in[1],
             "     %h     %h",opb_in[1],opb_valid_in[1],
             "    %h   %h",rs_packet_out[0].rs1_value,rs_packet_out[0].rs2_value,
-            "     %d    %b    %b     %b",num_is_free,is_free_hub,ready_hub,reset_hub);
+            "     %d    %b    %b     %b     %b",num_is_free,is_free_hub,ready_hub,reset_hub,reset_hub_tmp);
 
 //    $monitor("Time:%4.0f opa_in[0]: %h opb_in[0]: %h",$time, opa_in,opb_in);
 // single input
         @(negedge clock);// 10
+        ALU_occupied = 3'b0;
         load_in = 0;
         reset = 1; 
         inst_valid_in = 3'b111;
@@ -174,19 +181,26 @@ initial
         CDB_Data[0] = `XLEN'habc;
         CDB_PRF_idx[0] = `LOGPRF'b0; 
         @(negedge clock);//50
+        ALU_occupied = 3'b011;
         maunal_test = 0;
         load_in = 1;
         inst_valid_in = 0;
         CDB_valid = `WAYS'b11;
-        CDB_Data[0] = `XLEN'habc;
+        CDB_Data[0] = `XLEN'hcdb;
         CDB_PRF_idx[0] = `LOGPRF'b10; 
-        CDB_Data[1] = `XLEN'habc;
+        CDB_Data[1] = `XLEN'hbca;
         CDB_PRF_idx[1] = `LOGPRF'b100;
+        @(negedge clock);//60
+//        $display("time:%4.0f",$time);
+        ALU_occupied = 3'b110;
+
 // check for ships in the night
 // should recover after 1.5*clock period
-        @(negedge clock);  //60 
-        $display("start testing night ship"); 
-        repeat(100) begin 
+
+        @(negedge clock);  //70 
+        ALU_occupied = 3'b000;
+        $display("time: %4.0f, start testing night ship",$time);
+        repeat(10) begin 
         night_ship = 1;  
         load_in = 1;
         inst_valid_in = 3'b111;
@@ -204,11 +218,12 @@ initial
         CDB_PRF_idx[1] = opb_in[2];
         CDB_PRF_idx[2] = {`LOGPRF{1'b1}} & $random;
         CDB_Data = {`WAYS*`XLEN{1'b1}} & $random;
-        @(negedge clock);
+        @(negedge clock); // 80
         end
 // check for output selector when more than 3 RS entries are ready
 // should +3 afrer 1.5*clock period, +1 after 1 clock period
-       @(negedge clock)
+
+       @(negedge clock) //90
         $display("start testing output selector");
         repeat(100) begin
         
@@ -312,8 +327,11 @@ initial
         opb_in[2] = `XLEN'b100;
         opb_valid_in = `WAYS'b111;
         CDB_valid = `WAYS'b0;
+
         @(negedge clock);//240
         load_in = 0;
+        night_ship = 0;
+        ALU_occupied = 3'b0;
         // 245: 4
         @(negedge clock);//250
         // 255: 7

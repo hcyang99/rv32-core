@@ -1,7 +1,7 @@
 #@ # 
 #@ # Running dc_shell Version O-2018.06 for linux64 -- May 21, 2018
-#@ # Date:   Sun Mar 15 15:32:46 2020
-#@ # Run by: sunsusan@caen-vnc-vm04.engin.umich.edu
+#@ # Date:   Fri Mar 20 11:00:01 2020
+#@ # Run by: sunsusan@caen-vnc-vm09.engin.umich.edu
 #@ 
 
 source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
@@ -6624,31 +6624,37 @@ source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
 
 #@ # -- End source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
 
-source -echo -verbose /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/synth/rs.tcl
-#@ # -- Starting source /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/synth/rs.tcl
+source -echo -verbose /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/synth/syn.tcl
+#@ # -- Starting source /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/synth/syn.tcl
 
-#@ #/***********************************************************/
-#@ #/*   FILE        : rs.tcl                                  */
-#@ #/*   Description : Default Synopsys Design Compiler Script */
-#@ #/*   Usage       : dc_shell -tcl_mode -f default.tcl       */
-#@ #/*   You'll need to minimally set design_name & read files */
-#@ #/***********************************************************/
+#@ ################################################################################
+#@ ## DO NOT EDIT THESE FILES BY HAND
+#@ ##
+#@ ## CONFIGURATION HAS BEEN MOVED TO THE MAKEFILE
+#@ ################################################################################
+#@ set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/" ]
+#@ set target_library "lec25dscc25_TT.db"
+#@ set link_library [concat  "*" $target_library]
 #@ 
 #@ #/***********************************************************/
-#@ #/* The following five lines must be updated for every      */
-#@ #/* new design                                              */
+#@ #/* Set some flags to suppress warnings we don't care about */
+#@ set suppress_errors [concat $suppress_errors "UID-401"]
+#@ suppress_message {"VER-130"}
+#@ 
 #@ #/***********************************************************/
-#@ set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/"]
-#@ read_file -f ddc [list "RS_Line.ddc"]
-#@ set_dont_touch RS_Line
-#@ read_file -f sverilog [list "verilog/rs.sv" "module_provided/psl_get.v"]
-#@ set design_name RS
-#@ set clock_name clock
-#@ set reset_name reset
-#@ set CLK_PERIOD 10
+#@ #/* The following lines are set from environment variables
+#@ #/* automatically by the Makefile
+#@ #/***********************************************************/
+#@ lappend search_path ../
 #@ 
+#@ set headers [getenv HEADERS]
+#@ set sources [getenv SOURCES]
 #@ 
-#@ 
+#@ read_file -f sverilog [list ${headers} ${sources}]
+#@ set design_name [getenv DESIGN_NAME]
+#@ set clock_name [getenv CLOCK_NET_NAME]
+#@ set reset_name [getenv RESET_NET_NAME]
+#@ set CLK_PERIOD [getenv CLOCK_PERIOD]
 #@ 
 #@ 
 #@ #/***********************************************************/
@@ -6657,16 +6663,16 @@ source -echo -verbose /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/synth/r
 #@ #/* when synthesizing your final project.                   */
 #@ #/***********************************************************/
 #@ set SYN_DIR ./
-#@ set search_path "/afs/umich.edu/class/eecs470/lib/synopsys/"
-#@ set target_library "lec25dscc25_TT.db"
-#@ set link_library [concat  "*" $target_library]
 #@ 
 #@ #/***********************************************************/
 #@ #/* Set some flags for optimisation */
 #@ 
 #@ set compile_top_all_paths "true"
 #@ set auto_wire_load_selection "false"
+#@ set compile_seqmap_synchronous_extraction "true"
 #@ 
+#@ # uncomment this and change number appropriately if on multi-core machine
+#@ #set_host_options -max_cores 2
 #@ 
 #@ #/***********************************************************/
 #@ #/*  Clk Periods/uncertainty/transition                     */
@@ -6747,7 +6753,7 @@ source -echo -verbose /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/synth/r
 #@   uniquify
 #@   ungroup -all -flatten
 #@   redirect $chk_file { check_design }
-#@   compile -map_effort high
+#@   compile -map_effort medium
 #@   write -hier -format verilog -output $netlist_file $design_name
 #@   write -hier -format ddc -output $ddc_file $design_name
 #@   redirect $rep_file { report_design -nosplit }

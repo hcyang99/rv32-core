@@ -1,0 +1,1307 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+                 Version O-2018.06 for linux64 - May 21, 2018 
+
+                    Copyright (c) 1988 - 2018 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+################################################################################
+## DO NOT EDIT THESE FILES BY HAND
+##
+## CONFIGURATION HAS BEEN MOVED TO THE MAKEFILE
+################################################################################
+set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/" ]
+./ /afs/umich.edu/class/eecs470/lib/synopsys/
+set target_library "lec25dscc25_TT.db"
+lec25dscc25_TT.db
+set link_library [concat  "*" $target_library]
+* lec25dscc25_TT.db
+#/***********************************************************/
+#/* Set some flags to suppress warnings we don't care about */
+set suppress_errors [concat $suppress_errors "UID-401"]
+UID-401
+suppress_message {"VER-130"}
+#/***********************************************************/
+#/* The following lines are set from environment variables
+#/* automatically by the Makefile
+#/***********************************************************/
+lappend search_path ../
+./ /afs/umich.edu/class/eecs470/lib/synopsys/ ../
+set headers [getenv HEADERS]
+sys_defs.svh ISA.svh 
+set sources [getenv SOURCES]
+verilog/ex_stage.sv
+read_file -f sverilog [list ${headers} ${sources}]
+Loading db file '/afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db'
+Loading db file '/usr/caen/synopsys-synth-2018.06/libraries/syn/gtech.db'
+Loading db file '/usr/caen/synopsys-synth-2018.06/libraries/syn/standard.sldb'
+  Loading link library 'lec25dscc25_TT'
+  Loading link library 'gtech'
+Loading sverilog files: '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/sys_defs.svh' '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/ISA.svh' '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv' 
+Detecting input file type automatically (-rtl or -netlist).
+Reading with Presto HDL Compiler (equivalent to -rtl option).
+Running PRESTO HDLC
+Compiling source file /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/sys_defs.svh
+Compiling source file /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/ISA.svh
+Compiling source file /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv:258: No module instance name. (VER-737)
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv:267: No module instance name. (VER-737)
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv:54: unsigned to signed assignment occurs. (VER-318)
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv:55: unsigned to signed assignment occurs. (VER-318)
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv:97: signed to unsigned assignment occurs. (VER-318)
+
+Statistics for case statements in always block at line 80 in file
+	'/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            87            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine alu line 60 in file
+		'/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     is_mult_reg     | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|      range_reg      | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine alu line 80 in file
+		'/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|     result_reg      | Latch |  32   |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv:80: Netlist for always_comb block contains a latch. (ELAB-974)
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv:154: unsigned to signed assignment occurs. (VER-318)
+Warning:  /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv:155: unsigned to signed assignment occurs. (VER-318)
+
+Statistics for case statements in always block at line 156 in file
+	'/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           158            |     no/auto      |
+===============================================
+
+Statistics for case statements in always block at line 208 in file
+	'/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           211            |    auto/auto     |
+===============================================
+
+Statistics for case statements in always block at line 223 in file
+	'/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           228            |     no/auto      |
+===============================================
+Presto compilation completed successfully.
+Current design is now '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/alu.db:alu'
+Loaded 3 designs.
+Current design is 'alu'.
+alu brcond ex_stage
+set design_name [getenv DESIGN_NAME]
+ex_stage
+set clock_name [getenv CLOCK_NET_NAME]
+clock
+set reset_name [getenv RESET_NET_NAME]
+reset
+set CLK_PERIOD [getenv CLOCK_PERIOD]
+10	
+#/***********************************************************/
+#/* The rest of this file may be left alone for most small  */
+#/* to moderate sized designs.  You may need to alter it    */
+#/* when synthesizing your final project.                   */
+#/***********************************************************/
+set SYN_DIR ./
+./
+#/***********************************************************/
+#/* Set some flags for optimisation */
+set compile_top_all_paths "true"
+true
+set auto_wire_load_selection "false"
+false
+set compile_seqmap_synchronous_extraction "true"
+true
+# uncomment this and change number appropriately if on multi-core machine
+#set_host_options -max_cores 2
+#/***********************************************************/
+#/*  Clk Periods/uncertainty/transition                     */
+set CLK_TRANSITION 0.1
+0.1
+set CLK_UNCERTAINTY 0.1
+0.1
+set CLK_LATENCY 0.1
+0.1
+#/* Input/output Delay values */
+set AVG_INPUT_DELAY 0.1
+0.1
+set AVG_OUTPUT_DELAY 0.1
+0.1
+#/* Critical Range (ns) */
+set CRIT_RANGE 1.0
+1.0
+#/***********************************************************/
+#/* Design Constrains: Not all used                         */
+set MAX_TRANSITION 1.0
+1.0
+set FAST_TRANSITION 0.1
+0.1
+set MAX_FANOUT 32
+32
+set MID_FANOUT 8
+8
+set LOW_FANOUT 1
+1
+set HIGH_DRIVE 0
+0
+set HIGH_LOAD 1.0
+1.0
+set AVG_LOAD 0.1
+0.1
+set AVG_FANOUT_LOAD 10
+10
+#/***********************************************************/
+#/*BASIC_INPUT = cb18os120_tsmc_max/nd02d1/A1
+#BASIC_OUTPUT = cb18os120_tsmc_max/nd02d1/ZN*/
+set DRIVING_CELL dffacs1
+dffacs1
+#/* DONT_USE_LIST = {   } */
+#/*************operation cons**************/
+#/*OP_WCASE = WCCOM;
+#OP_BCASE = BCCOM;*/
+set WIRE_LOAD "tsmcwire"
+tsmcwire
+set LOGICLIB lec25dscc25_TT
+lec25dscc25_TT
+#/*****************************/
+#/* Sourcing the file that sets the Search path and the libraries(target,link) */
+set sys_clk $clock_name
+clock
+set netlist_file [format "%s%s"  [format "%s%s"  $SYN_DIR $design_name] ".vg"]
+./ex_stage.vg
+set ddc_file [format "%s%s"  [format "%s%s"  $SYN_DIR $design_name] ".ddc"]
+./ex_stage.ddc
+set rep_file [format "%s%s"  [format "%s%s"  $SYN_DIR $design_name] ".rep"]
+./ex_stage.rep
+set dc_shell_status [ set chk_file [format "%s%s"  [format "%s%s"  $SYN_DIR $design_name] ".chk"] ]
+./ex_stage.chk
+#/* if we didnt find errors at this point, run */
+if {  $dc_shell_status != [list] } {
+   current_design $design_name
+  link
+  set_wire_load_model -name $WIRE_LOAD -lib $LOGICLIB $design_name
+  set_wire_load_mode top
+  set_fix_multiple_port_nets -outputs -buffer_constants
+  create_clock -period $CLK_PERIOD -name $sys_clk [find port $sys_clk]
+  set_clock_uncertainty $CLK_UNCERTAINTY $sys_clk
+  set_fix_hold $sys_clk
+  group_path -from [all_inputs] -name input_grp
+  group_path -to [all_outputs] -name output_grp
+  set_driving_cell  -lib_cell $DRIVING_CELL [all_inputs]
+  remove_driving_cell [find port $sys_clk]
+  set_fanout_load $AVG_FANOUT_LOAD [all_outputs]
+  set_load $AVG_LOAD [all_outputs]
+  set_input_delay $AVG_INPUT_DELAY -clock $sys_clk [all_inputs]
+  remove_input_delay -clock $sys_clk [find port $sys_clk]
+  set_output_delay $AVG_OUTPUT_DELAY -clock $sys_clk [all_outputs]
+  set_dont_touch $reset_name
+  set_resistance 0 $reset_name
+  set_drive 0 $reset_name
+  set_critical_range $CRIT_RANGE [current_design]
+  set_max_delay $CLK_PERIOD [all_outputs]
+  set MAX_FANOUT $MAX_FANOUT
+  set MAX_TRANSITION $MAX_TRANSITION
+  uniquify
+  ungroup -all -flatten
+  redirect $chk_file { check_design }
+  compile -map_effort medium
+  write -hier -format verilog -output $netlist_file $design_name
+  write -hier -format ddc -output $ddc_file $design_name
+  redirect $rep_file { report_design -nosplit }
+  redirect -append $rep_file { report_area }
+  redirect -append $rep_file { report_timing -max_paths 2 -input_pins -nets -transition_time -nosplit }
+  redirect -append $rep_file { report_constraint -max_delay -verbose -nosplit }
+  remove_design -all
+  read_file -format verilog $netlist_file
+  current_design $design_name
+  redirect -append $rep_file { report_reference -nosplit }
+  quit
+} else {
+   quit
+}
+Current design is 'ex_stage'.
+
+  Linking design 'ex_stage'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (3 designs)               /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/verilog/ex_stage.db, etc
+  lec25dscc25_TT (library)    /afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db
+
+Reading ddc file '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/mult.ddc'.
+Current design is 'ex_stage'.
+Information: Uniquified 3 instances of design 'alu'. (OPT-1056)
+Information: Uniquified 3 instances of design 'brcond'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW02_mult_0'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW02_mult_1'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW01_add_5'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW02_mult_2'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW01_add_6'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW02_mult_3'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW01_add_7'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW01_add_8'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW01_add_9'. (OPT-1056)
+Information: Uniquified 3 instances of design 'mult_DW01_add_10'. (OPT-1056)
+Information: Updating graph... (UID-83)
+Warning: Design 'ex_stage' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | O-2018.06-DWBB_201806.0 |     *     |
+| Licensed DW Building Blocks        |                         |           |
+============================================================================
+
+
+Information: There are 1212 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'ex_stage'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Implementation Selection
+  ----------------------------------
+  Processing 'ex_stage_DW_rash_0'
+  Processing 'ex_stage_DW01_ash_0'
+  Processing 'ex_stage_DW_rash_1'
+  Processing 'ex_stage_DW01_cmp2_0'
+  Processing 'ex_stage_DW01_cmp2_1'
+  Processing 'ex_stage_DW01_sub_0'
+  Processing 'ex_stage_DW01_add_0'
+  Processing 'ex_stage_DW_rash_2'
+  Processing 'ex_stage_DW01_ash_1'
+  Processing 'ex_stage_DW_rash_3'
+  Processing 'ex_stage_DW01_cmp2_2'
+  Processing 'ex_stage_DW01_cmp2_3'
+  Processing 'ex_stage_DW01_sub_1'
+  Processing 'ex_stage_DW01_add_1'
+  Processing 'ex_stage_DW_rash_4'
+  Processing 'ex_stage_DW01_ash_2'
+  Processing 'ex_stage_DW_rash_5'
+  Processing 'ex_stage_DW01_cmp2_4'
+  Processing 'ex_stage_DW01_cmp2_5'
+  Processing 'ex_stage_DW01_sub_2'
+  Processing 'ex_stage_DW01_add_2'
+  Processing 'ex_stage_DW01_cmp2_6'
+  Processing 'ex_stage_DW01_cmp6_0'
+  Processing 'ex_stage_DW01_cmp2_7'
+  Processing 'ex_stage_DW01_cmp6_1'
+  Processing 'ex_stage_DW01_cmp2_8'
+  Processing 'ex_stage_DW01_cmp6_2'
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+  Mapping Optimization (Phase 2)
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:00:51 2865600.2      7.37     785.6    2411.3                                0.00  
+    0:00:51 2865600.2      7.37     785.6    2411.3                                0.00  
+    0:00:53 3215416.3      7.16     653.4     984.5                                0.00  
+    0:01:29 3321601.3      2.56      98.1     159.5                                0.00  
+    0:01:30 3321485.2      2.56      98.0     159.5                                0.00  
+    0:01:30 3321485.2      2.56      98.0     159.5                                0.00  
+    0:01:30 3317644.9      2.56      97.8     159.5                                0.00  
+    0:01:31 3317644.9      2.56      97.8     159.5                                0.00  
+    0:01:48 2360631.7      4.00     189.1      39.9                                0.00  
+    0:01:53 2355115.7      3.63     168.6      37.7                                0.00  
+    0:01:56 2356857.5      3.47     141.1      37.6                                0.00  
+    0:01:58 2355090.8      3.37     133.0      37.6                                0.00  
+    0:01:59 2356965.4      3.36     135.0      37.6                                0.00  
+    0:02:00 2356152.5      3.36     135.1      37.6                                0.00  
+    0:02:02 2355903.7      3.36     131.3      37.6                                0.00  
+    0:02:02 2356293.5      3.36     130.5      37.6                                0.00  
+    0:02:03 2356708.2      3.36     130.6      37.6                                0.00  
+    0:02:04 2357322.0      3.36     129.7      37.6                                0.00  
+    0:02:04 2357380.1      3.36     130.0      37.6                                0.00  
+    0:02:05 2357620.6      3.36     130.0      37.6                                0.00  
+    0:02:05 2358043.6      3.36     129.5      37.6                                0.00  
+    0:02:06 2358168.1      3.36     129.2      37.6                                0.00  
+    0:02:06 2358367.1      3.36     129.2      37.6                                0.00  
+    0:02:07 2358367.1      3.36     129.2      37.6                                0.00  
+    0:02:07 2355878.9      3.36     129.2      37.6                                0.00  
+    0:02:07 2355878.9      3.36     129.2      37.6                                0.00  
+    0:02:08 2353871.7      3.36     129.2      33.4                                0.00  
+    0:02:08 2353893.9      3.36     129.2      33.2                                0.00  
+    0:02:08 2353827.5      3.36     129.2      33.1                                0.00  
+    0:02:08 2353711.4      3.36     129.2      33.1                                0.00  
+    0:02:09 2353653.3      3.36     129.2      33.1                                0.00  
+    0:02:09 2353595.3      3.36     129.2      33.0                                0.00  
+    0:02:09 2353595.3      3.36     129.2      33.0                                0.00  
+    0:02:09 2353595.3      3.36     129.2      33.0                                0.00  
+    0:02:09 2353595.3      3.36     129.2      33.0                                0.00  
+    0:02:09 2355436.6      3.36     128.3      33.0 __tmp212/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:10 2358430.9      3.36     127.6      33.0 __tmp214/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:10 2360628.9      3.36     126.8      33.0 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:10 2362387.4      3.36     126.6      46.0 __tmp214/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:11 2364519.0      3.36     126.2      46.0 __tmp212/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:11 2367712.4      2.86     109.9      46.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:12 2369802.6      2.62      93.6      69.1 __tmp212/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:12 2371677.1      2.62      93.2      69.1 __tmp214/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:12 2374770.9      2.62      93.0      69.1 __tmp212/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:13 2383919.6      2.62      92.3      69.1                                0.00  
+
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:02:13 2383919.6      2.62      92.3      69.1                                0.00  
+    0:02:13 2385503.9      2.62      92.2      69.1 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:13 2388282.5      2.62      91.7      69.1 __tmp214/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:14 2390314.6      2.62      91.4      69.1 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:14 2391260.2      2.62      91.1      69.1 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:14 2392952.3      2.62      91.1      69.1 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:16 2398252.4      2.23      72.8      69.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:17 2403544.2      2.06      64.5      69.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:18 2406679.5      2.01      61.5      69.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:18 2408272.0      1.99      60.4      69.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:18 2409391.8      1.96      58.3      69.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:19 2410602.8      1.94      57.1      69.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:19 2411979.6      1.91      55.4      69.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:19 2412618.3      1.89      54.5      69.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:20 2414426.5      1.88      53.7      69.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:20 2414783.1      1.87      52.7      69.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:20 2416118.6      1.86      52.4      69.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:21 2416790.4      1.85      51.8      69.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:21 2417860.4      1.83      50.5      69.3 __tmp212/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:22 2419444.6      1.83      50.5      69.3 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:22 2420406.8      1.83      50.4      69.3 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:22 2423085.9      1.83      50.3      69.3 __tmp212/mult0/mstage[1].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:22 2425532.7      1.83      50.2      69.3 __tmp216/mult0/mstage[2].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:23 2428966.6      1.83      50.0      69.3 __tmp216/mult0/mstage[2].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:23 2429986.8      1.82      49.4      69.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:23 2430534.2      1.80      48.1      69.4 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:24 2431454.9      1.78      47.5      69.4 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:24 2432450.2      1.76      47.0      69.4 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:24 2432483.4      1.76      46.8      69.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:24 2433545.1      1.74      46.1      69.4 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:25 2434598.5      1.73      45.6      69.4 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:25 2435129.3      1.71      45.1      69.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:25 2434872.2      1.70      44.4      69.4 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:26 2435900.7      1.69      43.8      69.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:26 2436638.9      1.69      43.5      69.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:26 2437476.7      1.68      43.0      69.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:26 2438662.8      1.67      42.8      69.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:27 2439210.2      1.67      42.2      69.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:27 2440313.3      1.66      41.2      69.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:27 2440794.4      1.65      40.7      69.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:27 2440753.0      1.64      40.6      69.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:28 2441482.9      1.64      40.4      69.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:28 2441756.6      1.63      40.1      69.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:28 2442511.4      1.62      39.7      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:29 2442992.4      1.61      39.1      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:29 2443606.2      1.61      38.8      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:29 2443962.9      1.60      38.6      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:29 2444087.3      1.60      38.1      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:30 2444477.1      1.58      37.7      70.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:31 2446666.9      1.57      37.3      70.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:31 2446882.5      1.57      37.1      70.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:31 2447463.1      1.56      36.9      70.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:31 2448035.4      1.56      36.6      70.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:32 2448276.0      1.55      36.4      70.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:32 2448624.3      1.54      36.0      70.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:32 2448989.3      1.54      35.8      70.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:33 2449063.9      1.54      35.7      70.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:33 2449047.4      1.54      35.7      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:33 2450415.9      1.52      35.0      70.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:34 2450482.3      1.52      34.7      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:34 2450789.2      1.52      34.6      70.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:34 2451038.0      1.51      34.4      70.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:34 2451436.1      1.50      33.8      70.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:02:34 2451767.9      1.49      33.6      70.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:34 2451767.9      1.48      33.5      70.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:35 2452348.5      1.48      33.5      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:35 2452365.1      1.48      33.4      70.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:35 2452788.1      1.48      32.9      70.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:35 2452862.8      1.47      32.8      70.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:36 2454413.8      1.46      32.7      70.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:36 2454919.8      1.45      32.6      70.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:36 2454496.8      1.44      32.0      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:37 2455284.8      1.43      31.8      72.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:37 2454977.9      1.42      31.6      72.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:37 2455400.9      1.42      31.3      72.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:38 2456188.8      1.41      31.0      72.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:38 2456645.0      1.40      30.5      72.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:38 2457590.6      1.39      30.2      72.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:38 2457781.4      1.39      29.9      72.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:39 2457839.4      1.39      29.8      72.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:39 2458204.4      1.38      29.8      72.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:39 2458544.5      1.38      29.5      78.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:39 2458901.1      1.37      29.0      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:39 2458892.8      1.36      28.9      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:40 2459382.2      1.36      28.7      78.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:40 2459539.8      1.36      28.5      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:40 2459954.5      1.35      28.4      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:40 2460692.7      1.35      28.0      78.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:40 2461978.3      1.34      27.9      78.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:41 2462517.5      1.34      27.6      78.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:41 2462849.3      1.33      27.5      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:41 2463073.2      1.33      27.3      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:41 2463297.2      1.33      27.3      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:41 2463562.6      1.32      27.1      78.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:41 2463355.2      1.32      27.0      78.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:41 2463960.7      1.32      26.3      78.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:42 2464217.8      1.32      26.2      78.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:42 2464483.3      1.32      25.9      78.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:42 2465387.3      1.29      25.5      78.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:42 2465826.9      1.28      25.3      78.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:42 2466357.8      1.28      25.2      78.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:43 2466556.9      1.27      25.1      78.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:43 2467693.2      1.27      25.0      78.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:43 2467792.7      1.27      25.0      78.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:43 2467966.9      1.26      24.7      78.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:43 2468033.3      1.26      24.6      78.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:44 2468348.4      1.25      24.4      78.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:44 2468812.9      1.24      24.1      78.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:44 2469484.8      1.23      24.0      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:44 2469584.3      1.23      23.9      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:44 2469609.2      1.23      23.9      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:45 2470023.9      1.23      23.9      78.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:45 2470405.5      1.23      23.7      78.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:45 2470911.4      1.22      23.4      77.9 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:46 2471450.6      1.21      23.2      78.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:46 2472039.5      1.21      23.1      78.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:47 2472860.6      1.21      23.0      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:47 2473441.2      1.20      22.7      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:48 2473897.4      1.20      22.6      55.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:48 2474967.4      1.19      22.5      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:49 2475614.4      1.19      22.2      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:49 2476394.0      1.18      22.0      55.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:49 2477049.3      1.18      22.0      55.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:50 2477123.9      1.17      21.8      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:50 2477571.8      1.17      21.7      55.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:50 2477762.6      1.17      21.7      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:50 2478749.6      1.17      21.6      55.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:51 2479180.9      1.17      21.5      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:51 2479595.7      1.16      21.5      55.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:51 2479836.2      1.16      21.3      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:52 2479910.9      1.16      21.3      55.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:52 2479794.7      1.16      21.3      55.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:52 2480591.0      1.16      21.2      55.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:52 2481080.4      1.16      21.2      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:52 2481188.2      1.16      21.2      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:52 2481901.5      1.15      20.9      55.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:53 2482341.1      1.15      20.6      55.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:53 2483104.2      1.13      20.4      55.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:54 2483203.7      1.13      20.3      55.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:54 2483883.9      1.13      20.3      55.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:54 2483975.1      1.13      20.1      55.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:54 2484132.7      1.12      20.0      55.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:55 2484248.8      1.12      20.0      55.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:55 2484348.4      1.11      19.8      55.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:56 2485285.6      1.11      19.6      55.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:56 2486363.9      1.11      19.6      55.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:56 2486322.4      1.10      19.5      55.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:57 2486994.3      1.10      19.3      54.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:57 2487044.0      1.10      19.3      54.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:57 2487226.5      1.10      19.2      54.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:57 2487815.4      1.09      19.2      55.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:57 2488089.1      1.09      19.1      55.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:58 2488396.0      1.09      19.0      55.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:58 2488371.2      1.09      18.9      55.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:58 2487790.5      1.09      18.9      57.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:59 2488006.2      1.09      18.9      57.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:59 2487973.0      1.08      18.9      57.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:59 2488669.8      1.08      18.8      57.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:59 2488918.6      1.08      18.7      57.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:02:59 2489034.7      1.08      18.7      57.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:00 2489250.4      1.08      18.6      56.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:00 2489897.3      1.08      18.6      59.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:00 2489806.1      1.07      18.5      59.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:01 2489806.1      1.07      18.5      59.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:01 2491033.7      1.07      18.5      59.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:01 2491863.1      1.07      17.9      59.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:01 2491697.2      1.07      17.8      59.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:01 2491888.0      1.07      17.3      59.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:02 2491970.9      1.06      17.3      59.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:02 2492269.5      1.06      17.2      59.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:02 2492709.1      1.03      16.8      59.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:03 2492875.0      1.02      16.8      59.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:03 2492982.8      1.00      16.7      59.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:03 2492958.0      1.00      16.6      59.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:04 2493588.3      0.99      16.4      59.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:04 2494168.9      0.99      16.3      59.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:05 2494616.8      0.98      16.4      59.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:05 2494990.1      0.97      16.3      59.5 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:05 2495711.7      0.96      16.0      59.5 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:05 2496292.3      0.96      16.0      59.5 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:05 2496259.1      0.96      15.9      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:06 2496649.0      0.95      15.9      59.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:06 2497229.6      0.95      15.7      59.7 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:06 2497370.6      0.95      15.6      59.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:06 2497636.0      0.95      15.5      59.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:06 2497644.3      0.94      15.5      59.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:06 2497801.9      0.94      15.4      59.7 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:07 2498150.3      0.94      15.4      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:07 2498598.2      0.93      15.3      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:07 2498921.6      0.93      15.2      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:07 2499236.8      0.93      15.1      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:07 2499502.2      0.93      15.1      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:07 2499444.2      0.93      15.0      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:08 2499419.3      0.92      14.9      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:08 2499494.0      0.92      14.9      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:08 2499693.0      0.92      14.9      59.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:08 2499518.8      0.92      14.8      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:08 2499858.9      0.92      14.8      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:09 2499717.9      0.92      14.8      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:09 2499975.0      0.92      14.7      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:09 2500182.4      0.92      14.7      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:09 2500157.5      0.91      14.6      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:09 2500688.3      0.91      14.6      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:09 2501078.2      0.91      14.6      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:10 2500937.2      0.91      14.3      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:10 2501451.4      0.91      14.1      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:10 2501667.1      0.91      14.1      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:10 2501799.8      0.89      13.7      59.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:11 2502836.6      0.87      13.4      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:11 2503334.3      0.87      13.3      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:11 2503533.3      0.86      13.2      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:12 2503574.8      0.86      13.2      59.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:12 2504279.8      0.85      12.9      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:13 2504702.8      0.85      12.8      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:13 2504653.1      0.85      12.6      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:13 2504644.8      0.84      12.5      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:13 2504976.6      0.83      12.5      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:13 2505797.7      0.83      12.4      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:13 2505524.0      0.83      12.4      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:14 2506817.9      0.83      12.4      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:14 2506784.7      0.83      12.3      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:14 2506817.9      0.82      12.3      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:14 2507091.6      0.82      12.2      59.8 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:14 2507796.7      0.81      12.1      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:14 2507871.3      0.81      12.1      59.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:14 2508095.3      0.81      12.1      59.9 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:15 2508451.9      0.81      12.0      59.9 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:15 2508833.5      0.81      11.7      59.9 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:15 2509115.5      0.80      11.6      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:15 2509239.9      0.79      11.5      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:16 2510144.0      0.79      11.3      59.9 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:16 2511023.2      0.78      11.2      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:16 2510857.3      0.77      11.2      60.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:16 2510600.2      0.77      11.1      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:17 2510981.7      0.76      11.0      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:17 2511479.4      0.76      11.0      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:17 2511562.3      0.76      11.1      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:17 2511960.4      0.76      11.0      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:18 2512018.5      0.75      11.0      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:18 2512300.5      0.75      11.0      59.9 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:18 2512706.9      0.75      10.9      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:19 2512972.4      0.75      10.8      59.9 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:19 2512906.1      0.74      10.7      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:19 2513005.7      0.74      10.8      60.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:20 2513121.8      0.73      10.7      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:20 2513412.1      0.73      10.7      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:20 2513337.4      0.73      10.6      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:21 2513594.6      0.73      10.5      60.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:21 2513652.6      0.72      10.5      60.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:21 2513559.2      0.72      10.5      60.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:22 2513725.1      0.72      10.4      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:22 2514596.0      0.72      10.4      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:22 2514969.3      0.72      10.4      60.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:22 2515168.3      0.72      10.3      60.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:22 2515160.1      0.72      10.3      60.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:23 2515549.9      0.71      10.3      60.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:23 2515408.9      0.71      10.2      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:23 2515715.8      0.71      10.2      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:23 2516288.1      0.71      10.2      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:23 2516611.6      0.71      10.2      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:24 2516818.9      0.71      10.1      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:24 2516818.9      0.71      10.1      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:24 2516877.0      0.71      10.1      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:24 2516959.9      0.71      10.0      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:25 2516959.9      0.71      10.0      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:25 2517175.6      0.71       9.9      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:25 2517648.4      0.70       9.9      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:25 2517971.9      0.70       9.9      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:26 2519406.8      0.69       9.7      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:26 2519572.7      0.69       9.6      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:26 2519738.6      0.68       9.6      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:27 2519929.3      0.68       9.6      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:27 2521098.8      0.68       9.5      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:27 2521206.7      0.68       9.5      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:27 2521480.4      0.68       9.4      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:27 2521546.7      0.67       9.4      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:28 2521646.3      0.67       9.4      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:28 2521596.5      0.67       9.4      60.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:28 2521555.0      0.67       9.3      60.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:29 2521704.3      0.67       9.3      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:29 2521704.3      0.67       9.3      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:29 2521530.2      0.67       9.3      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:29 2521861.9      0.67       9.3      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:29 2521994.6      0.67       9.3      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:30 2522102.5      0.67       9.2      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:30 2521920.0      0.67       9.2      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:30 2521853.6      0.66       9.1      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:30 2522865.6      0.66       9.1      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:30 2523761.4      0.66       9.0      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:31 2525005.5      0.65       9.0      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:31 2525030.4      0.65       9.0      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:31 2525810.1      0.65       8.9      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:31 2526175.0      0.65       8.9      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:31 2526183.3      0.65       8.9      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:31 2526423.9      0.65       8.8      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:32 2526374.1      0.65       8.8      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:32 2527444.1      0.65       8.8      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:32 2527809.0      0.65       8.8      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:32 2528281.8      0.64       8.7      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:32 2528489.2      0.64       8.7      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:33 2529467.9      0.64       8.6      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:33 2529796.9      0.64       8.6      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:33 2530012.5      0.63       8.5      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:33 2530452.1      0.63       8.5      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:33 2530850.3      0.63       8.5      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:33 2531381.1      0.63       8.5      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:34 2531497.2      0.63       8.4      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:34 2531505.5      0.63       8.4      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:34 2531638.2      0.62       8.3      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:35 2531928.5      0.62       8.3      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:35 2532019.8      0.62       8.2      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:35 2532608.7      0.62       8.2      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:36 2533147.8      0.62       8.2      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:36 2533313.7      0.62       8.2      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:36 2533910.9      0.62       7.9      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:36 2534873.1      0.61       7.9      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:37 2535594.7      0.60       7.8      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:03:37 2536523.6      0.60       7.7      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:37 2537502.4      0.60       7.7      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:03:37 2538124.5      0.59       7.7      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:03:38 2538157.6      0.59       7.5      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:38 2538356.7      0.58       7.4      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:03:38 2538340.1      0.58       7.4      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:39 2538555.8      0.58       7.3      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:39 2539302.3      0.57       6.9      60.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:39 2539310.6      0.57       6.5      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:40 2539692.1      0.52       6.2      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:40 2539291.3      0.51       6.0      60.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:41 2539714.3      0.51       6.0      60.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:41 2539913.4      0.51       6.0      60.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:41 2540236.9      0.50       6.0      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:42 2541223.9      0.50       6.0      60.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:42 2541273.7      0.50       5.9      60.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:42 2541348.3      0.49       5.9      60.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:42 2541472.7      0.49       5.9      60.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:43 2541680.1      0.49       5.8      60.4 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:43 2542011.9      0.49       5.7      60.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:43 2542293.9      0.48       5.7      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:43 2542990.6      0.48       5.7      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:43 2543106.7      0.48       5.5      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:44 2543173.1      0.48       5.4      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:44 2543438.5      0.47       5.3      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:44 2543189.8      0.47       5.2      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:45 2543156.6      0.47       5.2      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:45 2543413.7      0.46       5.2      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:45 2543886.5      0.46       5.1      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:45 2544798.9      0.46       5.1      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:45 2544898.4      0.46       5.1      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:45 2545528.8      0.46       5.1      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:46 2546308.5      0.46       5.1      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:46 2546880.8      0.45       5.0      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:46 2547005.2      0.45       5.0      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:46 2547710.3      0.45       5.0      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:47 2548431.9      0.44       4.9      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:47 2548340.6      0.44       4.9      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:47 2548597.8      0.44       4.9      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:48 2548979.3      0.44       4.8      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:48 2549460.4      0.43       4.7      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:48 2550339.6      0.43       4.7      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:48 2551227.1      0.43       4.7      60.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:49 2551177.3      0.42       4.4      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:49 2551135.8      0.42       4.4      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:49 2551135.8      0.42       4.4      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:49 2551268.6      0.42       4.3      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:49 2551675.0      0.41       4.3      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:49 2551451.0      0.41       4.3      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:49 2551509.1      0.41       4.3      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:50 2551401.3      0.41       4.3      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:50 2551791.1      0.41       4.3      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:50 2551898.9      0.41       4.3      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:50 2552604.0      0.41       4.2      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:51 2552662.0      0.40       4.1      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:51 2552944.0      0.40       4.1      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:51 2553355.9      0.39       3.9      60.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:52 2553364.2      0.38       3.8      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:52 2554049.9      0.38       3.8      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:52 2554107.9      0.38       3.8      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:52 2554083.0      0.38       3.8      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:53 2554000.1      0.37       3.7      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:53 2554920.8      0.37       3.7      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:53 2555161.3      0.37       3.7      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:53 2555534.6      0.37       3.7      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:54 2556256.2      0.37       3.6      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:54 2556654.3      0.36       3.6      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:54 2556687.5      0.36       3.6      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:54 2556828.5      0.36       3.6      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:55 2557060.7      0.36       3.5      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:55 2557309.6      0.36       3.5      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:55 2557483.7      0.35       3.5      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:55 2558255.1      0.35       3.5      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:55 2558280.0      0.35       3.4      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:56 2558595.2      0.35       3.4      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:56 2558819.1      0.35       3.4      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:56 2558835.7      0.34       3.4      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:56 2559283.6      0.34       3.3      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:56 2559797.9      0.34       3.3      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:56 2560113.1      0.34       3.3      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:57 2561257.7      0.34       3.2      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:57 2561373.8      0.33       3.2      60.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:57 2561556.3      0.33       3.2      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:57 2561266.0      0.33       3.2      60.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:57 2561755.4      0.33       3.2      60.4 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:58 2561689.0      0.33       3.1      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:58 2561929.5      0.33       3.1      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:58 2562211.6      0.33       3.1      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:58 2562734.1      0.33       3.1      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:59 2563231.8      0.33       3.1      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:59 2563414.2      0.32       3.0      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:03:59 2563762.6      0.32       3.0      60.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:00 2564368.1      0.32       3.0      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:00 2565496.1      0.32       2.9      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:00 2565570.8      0.31       2.9      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:00 2565579.1      0.31       2.9      60.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:01 2565330.2      0.31       2.9      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:01 2565429.8      0.31       2.9      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:01 2565604.0      0.31       2.9      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:01 2565570.8      0.31       2.9      60.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:01 2565869.4      0.31       2.8      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:01 2566043.6      0.31       2.8      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:02 2566184.6      0.30       2.8      60.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:02 2566831.5      0.30       2.8      60.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:02 2567121.8      0.30       2.8      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:02 2566922.8      0.30       2.7      61.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:02 2566897.9      0.30       2.7      61.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:03 2567329.2      0.30       2.7      61.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:03 2567362.4      0.30       2.7      61.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:03 2567586.3      0.30       2.6      61.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:04 2567478.5      0.30       2.6      61.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:04 2568034.2      0.30       2.6      61.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:04 2568034.2      0.30       2.6      61.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:04 2568598.2      0.29       2.6      61.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:04 2568822.2      0.29       2.6      61.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:05 2568838.8      0.29       2.6      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:05 2569062.7      0.29       2.5      61.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:05 2569154.0      0.29       2.5      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:05 2569145.7      0.28       2.5      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:05 2569245.2      0.28       2.5      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:06 2569784.3      0.28       2.5      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:06 2570033.2      0.28       2.5      61.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:06 2570240.5      0.28       2.4      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:06 2570929.0      0.28       2.4      61.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:07 2570729.9      0.28       2.4      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:07 2571642.3      0.28       2.4      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:07 2571998.9      0.28       2.4      61.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:07 2572596.1      0.27       2.4      61.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:07 2572952.8      0.27       2.5      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:08 2572753.7      0.27       2.5      61.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:08 2573118.7      0.27       2.5      61.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:08 2573691.0      0.27       2.4      61.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:09 2574047.7      0.26       2.4      61.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:09 2575167.4      0.26       2.4      61.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:09 2575507.5      0.26       2.4      61.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:09 2575565.5      0.26       2.4      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:09 2575872.4      0.26       2.3      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:09 2576005.2      0.26       2.3      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:10 2576585.8      0.26       2.3      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:10 2576585.8      0.26       2.3      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:10 2576743.4      0.26       2.3      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:10 2576876.1      0.25       2.3      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:10 2576934.1      0.25       2.3      62.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:11 2576726.8      0.25       2.2      62.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:11 2576859.5      0.25       2.2      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:11 2577149.8      0.25       2.2      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:11 2577174.7      0.25       2.2      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:11 2577664.0      0.24       2.2      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:11 2577780.2      0.24       2.2      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:11 2577771.9      0.24       2.2      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:12 2577954.3      0.24       2.1      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:12 2578526.7      0.24       2.1      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:12 2578841.8      0.24       2.1      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:12 2578949.7      0.24       2.2      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:12 2578982.8      0.24       2.2      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:12 2579240.0      0.24       2.2      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:13 2579347.8      0.24       2.2      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:13 2579298.0      0.24       2.2      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:13 2579273.1      0.24       2.2      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:13 2579248.3      0.24       2.2      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:13 2579513.7      0.24       2.2      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:13 2579455.6      0.24       2.2      62.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:14 2579770.8      0.24       2.1      62.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:14 2579812.3      0.23       2.2      62.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:14 2580027.9      0.23       2.2      62.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:14 2579878.6      0.23       2.2      62.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:14 2579878.6      0.23       2.1      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:14 2579762.5      0.23       2.1      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:15 2580193.8      0.23       2.1      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:15 2580334.8      0.23       2.1      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:15 2580554.8      0.23       2.1      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:15 2581185.2      0.23       2.1      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:16 2581434.0      0.22       2.0      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:16 2581881.9      0.22       2.0      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:16 2582056.1      0.22       2.0      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:16 2582246.9      0.22       2.0      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:16 2582669.9      0.21       1.9      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:16 2583524.2      0.21       1.9      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:16 2583773.0      0.21       1.9      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:17 2584602.5      0.21       1.9      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:17 2584992.3      0.21       1.9      62.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:17 2585423.6      0.21       1.8      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:17 2585788.6      0.21       1.8      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:17 2585713.9      0.20       1.8      62.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:17 2585514.9      0.20       1.8      62.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:18 2585398.7      0.20       1.8      63.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:18 2585672.4      0.20       1.7      63.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:18 2585639.3      0.20       1.7      63.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:18 2585664.2      0.20       1.7      63.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:18 2585821.7      0.20       1.7      63.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:18 2585788.6      0.20       1.7      63.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:18 2585838.3      0.19       1.7      63.7 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:19 2585888.1      0.19       1.6      63.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:19 2585821.7      0.19       1.6      63.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:19 2586327.7      0.19       1.6      63.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:19 2586941.5      0.19       1.6      63.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:19 2587140.6      0.19       1.5      63.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:19 2587165.4      0.19       1.5      63.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:20 2587679.7      0.18       1.5      64.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:20 2587853.9      0.18       1.5      64.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:20 2588061.2      0.18       1.5      64.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:20 2588252.0      0.18       1.4      64.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:20 2588285.2      0.18       1.4      64.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:20 2588542.3      0.17       1.4      64.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:20 2588666.7      0.17       1.4      64.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:20 2588741.4      0.17       1.4      65.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:21 2588882.4      0.17       1.3      65.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:21 2589894.3      0.17       1.3      65.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:21 2590126.5      0.17       1.3      65.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:21 2590333.9      0.17       1.3      65.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:21 2590773.5      0.16       1.3      65.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:21 2590972.6      0.16       1.2      65.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:21 2591188.2      0.16       1.2      65.8 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:22 2591238.0      0.16       1.1      65.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:22 2591105.3      0.16       1.1      65.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:22 2591171.6      0.15       1.1      65.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:22 2591238.0      0.15       1.1      65.8 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:22 2591279.5      0.15       1.1      65.7 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:22 2591287.8      0.15       1.0      65.7 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:22 2591296.1      0.14       1.0      65.7 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:23 2591229.7      0.14       1.0      65.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:23 2591611.2      0.14       0.9      65.7 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:23 2591818.6      0.14       0.9      65.7 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:23 2591934.7      0.14       0.9      65.7 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:23 2592283.1      0.13       0.9      65.7 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:23 2592191.9      0.13       0.9      65.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:24 2592332.9      0.13       0.9      65.6 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:24 2592440.7      0.13       0.8      65.6 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:24 2592258.2      0.13       0.8      65.6 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:24 2592117.2      0.12       0.8      69.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:24 2592142.1      0.12       0.8      69.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:24 2591943.0      0.12       0.8      69.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:24 2591976.2      0.12       0.8      69.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:24 2592009.4      0.12       0.8      69.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:25 2592133.8      0.12       0.7      69.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:25 2592540.2      0.12       0.7      70.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:25 2592697.8      0.11       0.7      70.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:25 2592988.1      0.11       0.7      70.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:26 2593112.5      0.11       0.7      70.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:26 2593037.9      0.11       0.7      70.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:26 2593154.0      0.11       0.7      70.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:26 2593245.2      0.11       0.7      70.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:27 2593195.5      0.11       0.6      70.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:27 2593485.8      0.10       0.6      70.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:27 2593543.8      0.10       0.6      70.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:27 2593485.8      0.10       0.6      70.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:27 2593585.3      0.10       0.6      71.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:28 2593925.4      0.10       0.6      71.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:28 2593958.6      0.10       0.6      71.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:28 2593983.4      0.10       0.6      71.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:29 2594149.3      0.10       0.6      71.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:29 2594564.1      0.09       0.6      71.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:29 2594663.6      0.09       0.5      71.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:30 2594962.2      0.09       0.5      71.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:30 2595036.8      0.09       0.5      71.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:30 2595211.0      0.09       0.5      71.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:30 2595858.0      0.09       0.5      71.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:30 2595700.4      0.09       0.5      71.3 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:30 2595700.4      0.08       0.5      71.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:30 2595899.5      0.08       0.5      71.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:31 2595833.1      0.08       0.5      71.3 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:31 2595799.9      0.08       0.5      71.3 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:31 2595858.0      0.08       0.5      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:31 2595775.0      0.08       0.5      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:31 2595733.6      0.08       0.5      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:31 2595534.5      0.08       0.4      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:31 2595899.5      0.08       0.4      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:31 2596081.9      0.08       0.4      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:31 2596032.2      0.07       0.4      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:32 2596032.2      0.07       0.4      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:32 2596048.8      0.07       0.4      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:32 2595932.6      0.07       0.4      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:33 2596115.1      0.07       0.4      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:33 2596372.2      0.07       0.4      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:34 2596339.1      0.07       0.4      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:34 2596480.1      0.07       0.4      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:34 2596579.6      0.07       0.4      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:34 2596645.9      0.07       0.4      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:34 2596637.7      0.07       0.4      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:35 2597102.1      0.07       0.4      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:35 2597093.8      0.07       0.4      72.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:35 2597326.1      0.07       0.4      72.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:35 2597176.8      0.07       0.4      72.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:36 2597243.1      0.07       0.4      72.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:36 2597317.8      0.07       0.4      72.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:37 2597483.7      0.06       0.4      72.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:37 2597516.9      0.06       0.4      72.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:38 2597608.1      0.06       0.3      72.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:39 2597583.2      0.06       0.3      72.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:39 2597682.8      0.06       0.3      72.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:40 2597798.9      0.06       0.3      72.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:40 2597898.4      0.06       0.3      72.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:40 2598105.8      0.06       0.3      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:40 2598205.3      0.06       0.3      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:40 2598296.5      0.06       0.3      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:41 2598611.7      0.06       0.3      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:41 2599018.2      0.06       0.3      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:41 2599026.4      0.06       0.3      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:41 2599242.1      0.05       0.3      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:41 2599283.6      0.05       0.3      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:41 2599482.6      0.05       0.3      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:42 2599731.5      0.05       0.3      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:42 2599764.6      0.05       0.3      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:42 2599781.2      0.05       0.3      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:42 2599831.0      0.05       0.3      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:42 2599922.2      0.05       0.3      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:42 2600021.8      0.05       0.2      71.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:42 2600030.1      0.05       0.2      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:43 2600113.0      0.04       0.2      70.9 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:43 2600171.1      0.04       0.2      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:43 2600237.4      0.04       0.2      71.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:43 2600619.0      0.04       0.2      71.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:43 2600801.4      0.04       0.2      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:43 2600851.2      0.04       0.2      71.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:44 2600992.2      0.04       0.2      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:44 2601083.5      0.04       0.2      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:44 2600842.9      0.04       0.2      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:44 2600925.9      0.04       0.2      71.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:44 2601290.8      0.04       0.2      71.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:44 2601265.9      0.03       0.2      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:44 2601299.1      0.03       0.2      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:44 2601265.9      0.03       0.2      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:44 2601108.3      0.03       0.2      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:45 2601174.7      0.03       0.2      71.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:45 2601365.5      0.03       0.2      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:45 2601315.7      0.03       0.2      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:45 2601340.6      0.03       0.2      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:45 2601473.3      0.03       0.2      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:45 2601348.9      0.03       0.2      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:45 2601241.1      0.03       0.2      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:45 2601415.2      0.03       0.1      71.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:46 2601008.8      0.03       0.1      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:46 2601066.9      0.03       0.1      71.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:46 2601091.8      0.03       0.1      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:46 2601133.2      0.03       0.1      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:46 2601158.1      0.03       0.1      71.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:46 2601224.5      0.03       0.1      71.1 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:47 2601183.0      0.03       0.1      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:47 2601149.8      0.03       0.1      71.1 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:47 2601191.3      0.02       0.1      71.1 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:47 2601216.2      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:47 2601265.9      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:47 2601382.1      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:48 2601465.0      0.02       0.1      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:48 2601348.9      0.02       0.1      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:48 2601440.1      0.02       0.1      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:48 2601564.5      0.02       0.1      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:48 2601531.4      0.02       0.1      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:48 2601788.5      0.02       0.1      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:48 2601888.0      0.02       0.1      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:49 2601921.2      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:49 2601921.2      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:49 2601979.3      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:49 2602261.3      0.02       0.1      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:49 2602253.0      0.02       0.1      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:49 2602170.0      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:49 2602136.8      0.02       0.1      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:50 2602170.0      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:50 2602394.0      0.02       0.1      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:50 2602775.5      0.02       0.1      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:50 2602792.1      0.02       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:50 2602808.7      0.01       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:50 2602758.9      0.01       0.1      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:51 2602474.2      0.01       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:51 2602474.2      0.01       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:51 2602383.0      0.01       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:51 2602532.3      0.01       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:51 2602565.5      0.01       0.1      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:51 2602565.5      0.01       0.1      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:51 2602524.0      0.01       0.1      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:51 2602524.0      0.01       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:52 2602615.2      0.01       0.0      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:52 2602648.4      0.01       0.0      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:52 2602731.4      0.01       0.0      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:52 2602756.2      0.01       0.0      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:52 2602532.3      0.01       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:52 2602615.2      0.01       0.0      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:53 2602548.9      0.01       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:53 2602598.7      0.01       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:53 2602582.1      0.01       0.0      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:53 2602399.6      0.01       0.0      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:53 2602366.4      0.01       0.0      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:53 2602507.4      0.01       0.0      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:53 2602540.6      0.01       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:53 2602631.8      0.01       0.0      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:54 2602598.7      0.00       0.0      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:54 2602490.8      0.00       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:54 2602606.9      0.00       0.0      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:54 2602582.1      0.00       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:54 2602706.5      0.00       0.0      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:54 2602723.1      0.00       0.0      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:54 2603112.9      0.00       0.0      71.2 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:54 2603129.5      0.00       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:55 2603428.1      0.00       0.0      71.2 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN      0.00  
+    0:04:55 2603428.1      0.00       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:55 2603428.1      0.00       0.0      71.2 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN      0.00  
+    0:04:55 2603411.5      0.00       0.0      71.2                                0.00  
+    0:04:56 2603270.5      0.00       0.0      71.3                                0.00  
+
+
+  Beginning Design Rule Fixing  (min_path)  (max_transition)  (max_fanout)
+  ----------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:04:57 2603270.5      0.00       0.0      71.3                              -87.70  
+    0:04:57 2605758.8      0.00       0.0      58.4 ex_packet_out[0][rs2_value][2]    -87.70  
+    0:04:58 2609084.9      0.00       0.0      53.7 ex_packet_out[0][rs2_value][31]    -87.70  
+    0:04:58 2612875.4      0.00       0.0      50.0 ex_packet_out[1][rs2_value][10]    -87.70  
+    0:04:58 2615958.1      0.00       0.0      46.9 net80214                     -87.70  
+    0:04:58 2618463.0      0.00       0.0      44.4 ex_packet_out[2][NPC][21]    -87.70  
+    0:04:58 2622212.1      0.00       0.0      41.7 ex_packet_out[0][NPC][14]    -87.70  
+    0:04:59 2623124.5      0.00       0.0      40.6 net81011                     -87.70  
+    0:04:59 2625969.5      0.00       0.0      39.6 net97476                     -87.70  
+    0:04:59 2626218.3      0.00       0.0      26.5 net102566                    -87.70  
+    0:05:00 2625596.2      0.00       0.0       1.5 net89938                     -87.70  
+    0:05:01 2625977.8      0.01       0.0       1.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -87.80  
+    0:05:01 2625712.3      0.01       0.0       1.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -87.80  
+    0:05:01 2625704.0      0.00       0.0       0.0                              -87.80  
+
+
+  Beginning Critical Range Optimization
+  -------------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:05:01 2625704.0      0.00       0.0       0.0                              -87.80  
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:05:01 2625704.0      0.00       0.0       0.0                              -87.80  
+    0:05:02 2625704.0      0.00       0.0       0.0                              -87.80  
+    0:05:04 2552058.1      0.10       0.5       0.0                              -86.77  
+    0:05:06 2532052.0      0.06       0.3       0.0                              -86.66  
+    0:05:07 2524106.0      0.06       0.3       0.0                              -86.66  
+    0:05:07 2522239.7      0.08       0.4       0.0                              -86.61  
+    0:05:08 2521543.0      0.08       0.4       0.0                              -86.61  
+    0:05:08 2521543.0      0.08       0.4       0.0                              -86.61  
+    0:05:09 2521974.3      0.05       0.3       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN    -86.61  
+    0:05:09 2522007.5      0.05       0.3       0.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.61  
+    0:05:10 2521858.2      0.03       0.2       0.0 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN    -86.62  
+    0:05:10 2522380.7      0.03       0.1       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN    -86.62  
+    0:05:10 2522405.6      0.03       0.1       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN    -86.62  
+    0:05:11 2522546.6      0.02       0.1       0.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.62  
+    0:05:11 2522554.9      0.02       0.1       0.0                              -86.62  
+    0:05:11 2522646.1      0.02       0.1       0.0                              -86.62  
+    0:05:11 2522646.1      0.02       0.1       0.0                              -86.62  
+    0:05:11 2522737.4      0.02       0.1       0.0                              -86.62  
+    0:05:11 2522787.1      0.02       0.1       0.0                              -86.62  
+    0:05:12 2522820.3      0.02       0.1       0.0                              -86.62  
+    0:05:12 2522704.2      0.02       0.1       0.0                              -86.62  
+    0:05:12 2522604.7      0.02       0.1       0.0                              -86.62  
+    0:05:12 2522828.6      0.01       0.1       0.0                              -86.62  
+    0:05:12 2523052.6      0.01       0.0       0.0                              -86.62  
+    0:05:12 2522933.8      0.01       0.0       0.0                              -86.62  
+    0:05:12 2522709.8      0.01       0.0       0.0                              -86.62  
+    0:05:13 2522817.6      0.01       0.0       0.0                              -86.62  
+    0:05:13 2522801.1      0.01       0.0       0.0                              -86.62  
+    0:05:13 2522908.9      0.01       0.0       0.0                              -86.62  
+    0:05:13 2522701.5      0.01       0.0       0.0                              -86.62  
+    0:05:13 2522502.5      0.01       0.0       0.0                              -86.62  
+    0:05:13 2522743.0      0.01       0.0       0.0                              -86.62  
+    0:05:13 2522693.2      0.00       0.0       0.0                              -86.62  
+    0:05:14 2522784.5      0.00       0.0       0.0                              -86.62  
+    0:05:14 2522817.6      0.00       0.0       0.0                              -86.62  
+    0:05:14 2522884.0      0.00       0.0       0.0                              -86.62  
+    0:05:14 2522942.1      0.00       0.0       0.0                              -86.62  
+    0:05:15 2523016.7      0.00       0.0       0.0                              -86.62  
+    0:05:17 2445090.7      0.52      10.9       0.1                              -86.28  
+    0:05:19 2431764.5      0.52      10.9       0.1                              -86.28  
+    0:05:19 2430628.2      0.52      10.7       0.1                              -86.28  
+    0:05:19 2430586.7      0.52      10.7       0.1                              -86.28  
+    0:05:19 2430586.7      0.52      10.7       0.1                              -86.28  
+    0:05:19 2430586.7      0.52      10.7       0.1                              -86.28  
+    0:05:19 2430586.7      0.52      10.7       0.1                              -86.28  
+    0:05:19 2430586.7      0.52      10.7       0.1                              -86.28  
+    0:05:21 2432643.7      0.42       6.3       0.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.28  
+    0:05:21 2433697.1      0.39       5.3       0.0 __tmp216/mult0/mstage[1].ms/partial_prod_reg[63]/DIN    -86.30  
+    0:05:21 2435488.7      0.25       3.9       0.0 __tmp212/mult0/mstage[1].ms/partial_prod_reg[63]/DIN    -86.29  
+    0:05:22 2437361.1      0.22       3.5       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.29  
+    0:05:23 2440427.8      0.20       2.7       0.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.29  
+    0:05:23 2442708.8      0.19       2.4       0.0 __tmp214/mult0/mstage[1].ms/partial_prod_reg[63]/DIN    -86.29  
+    0:05:24 2444367.7      0.16       2.2       0.0 __tmp214/mult0/mstage[1].ms/partial_prod_reg[63]/DIN    -86.38  
+    0:05:25 2446184.1      0.15       1.8       0.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.40  
+    0:05:25 2446997.0      0.13       1.6       0.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.40  
+    0:05:26 2455971.5      0.11       1.1       0.0 __tmp214/mult0/mstage[1].ms/partial_prod_reg[63]/DIN    -86.40  
+    0:05:27 2461006.3      0.10       0.7       0.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.38  
+    0:05:28 2462358.3      0.09       0.7       0.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.38  
+    0:05:29 2463884.4      0.08       0.6       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.38  
+    0:05:29 2464763.6      0.08       0.5       0.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.38  
+    0:05:29 2464979.3      0.07       0.5       0.0 __tmp214/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.38  
+    0:05:30 2465833.6      0.06       0.5       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN    -86.38  
+    0:05:31 2467235.4      0.04       0.4       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN    -86.38  
+    0:05:32 2468637.1      0.04       0.3       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN    -86.38  
+    0:05:32 2468877.7      0.04       0.3       0.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.38  
+    0:05:33 2469367.0      0.03       0.2       0.0 __tmp212/mult0/mstage[1].ms/partial_prod_reg[63]/DIN    -86.39  
+    0:05:33 2470403.8      0.03       0.1       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN    -86.37  
+    0:05:34 2470478.5      0.03       0.1       0.0 __tmp212/mult0/mstage[0].ms/partial_prod_reg[63]/DIN    -86.37  
+    0:05:34 2470636.1      0.02       0.1       0.0 __tmp216/mult0/mstage[0].ms/partial_prod_reg[62]/DIN    -86.37  
+    0:05:34 2471233.3      0.02       0.1       0.0                              -86.37  
+    0:05:34 2471697.8      0.02       0.1       0.0                              -86.37  
+    0:05:35 2472112.5      0.02       0.1       0.0                              -86.37  
+    0:05:35 2472499.5      0.01       0.1       0.0                              -86.37  
+    0:05:35 2472623.9      0.01       0.1       0.0                              -86.37  
+    0:05:36 2472864.5      0.01       0.0       0.0                              -86.37  
+    0:05:36 2473229.4      0.01       0.0       0.0                              -86.37  
+    0:05:36 2473254.3      0.01       0.0       0.0                              -86.37  
+    0:05:36 2474083.7      0.01       0.0       0.0                              -86.37  
+    0:05:37 2474282.8      0.00       0.0       0.0                              -86.37  
+    0:05:37 2474398.9      0.00       0.0       0.0                              -86.37  
+    0:05:37 2474249.6      0.00       0.0       0.0                              -86.37  
+    0:05:37 2474208.2      0.00       0.0       0.0                              -86.37  
+    0:05:38 2477998.7      0.00       0.0       0.0 __tmp212/mult0/mstage[1].ms/mcand_out_reg[34]/DIN    -75.18  
+    0:05:38 2480561.7      0.00       0.0       0.0 __tmp212/mult0/mstage[1].ms/mplier_out_reg[5]/DIN    -68.95  
+    0:05:38 2482842.6      0.00       0.0       0.0 __tmp212/mult0/mstage[1].ms/prod_in_reg_reg[43]/DIN    -63.53  
+    0:05:39 2484858.2      0.00       0.0       0.0 __tmp212/mult0/mstage[3].ms/prod_in_reg_reg[11]/DIN    -58.80  
+    0:05:39 2486790.8      0.00       0.0       0.0 __tmp212/mult0/mstage[3].ms/prod_in_reg_reg[6]/DIN    -54.29  
+    0:05:39 2488764.8      0.00       0.0       0.0 __tmp214/mult0/mstage[1].ms/mplier_out_reg[16]/DIN    -50.02  
+    0:05:40 2491485.4      0.00       0.0       0.0 __tmp214/mult0/mstage[1].ms/mplier_out_reg[0]/DIN    -43.15  
+    0:05:40 2493575.6      0.00       0.0       0.0 __tmp214/mult0/mstage[1].ms/prod_in_reg_reg[43]/DIN    -38.35  
+    0:05:40 2495549.6      0.00       0.0       0.0 __tmp214/mult0/mstage[3].ms/prod_in_reg_reg[11]/DIN    -33.74  
+    0:05:40 2497548.6      0.00       0.0       0.0 __tmp214/mult0/mstage[3].ms/prod_in_reg_reg[4]/DIN    -29.13  
+    0:05:41 2499481.2      0.00       0.0       0.0 __tmp216/mult0/mstage[1].ms/prod_in_reg_reg[15]/DIN    -24.97  
+    0:05:41 2502185.2      0.00       0.0       0.0 __tmp216/mult0/mstage[1].ms/mplier_out_reg[4]/DIN    -18.22  
+    0:05:41 2504408.1      0.00       0.0       0.0 __tmp214/mult0/mstage[1].ms/mplier_out_reg[10]/DIN    -12.99  
+    0:05:41 2506423.6      0.00       0.0       0.0 __tmp216/mult0/mstage[3].ms/prod_in_reg_reg[27]/DIN     -8.32  
+    0:05:41 2508397.7      0.00       0.0       0.0 __tmp216/mult0/mstage[3].ms/prod_in_reg_reg[4]/DIN     -3.78  
+    0:05:42 2510139.5      0.00       0.0       0.0                                0.00  
+
+
+  Beginning Critical Range Optimization
+  -------------------------------------
+
+                                  TOTAL                                                  
+   ELAPSED            WORST NEG   SETUP    DESIGN                              MIN DELAY 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT             COST    
+  --------- --------- --------- --------- --------- ------------------------- -----------
+    0:05:42 2510139.5      0.00       0.0       0.0                                0.00  
+    0:05:42 2510139.5      0.00       0.0       0.0                                0.00  
+Loading db file '/afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'ex_stage' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'clock': 1650 load(s), 1 driver(s)
+Writing verilog file '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/ex_stage.vg'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Writing ddc file './ex_stage.ddc'.
+Removing design 'ex_stage'
+Removing design 'ex_stage_DW01_ash_0'
+Removing design 'ex_stage_DW01_sub_0'
+Removing design 'ex_stage_DW01_add_0'
+Removing design 'ex_stage_DW01_ash_1'
+Removing design 'ex_stage_DW01_sub_1'
+Removing design 'ex_stage_DW01_add_1'
+Removing design 'ex_stage_DW01_ash_2'
+Removing design 'ex_stage_DW01_sub_2'
+Removing design 'ex_stage_DW01_add_2'
+Removing design 'ex_stage_DW01_cmp6_0'
+Removing design 'ex_stage_DW01_cmp6_1'
+Removing design 'ex_stage_DW01_cmp6_2'
+Removing library 'lec25dscc25_TT'
+Removing library 'gtech'
+Removing library 'standard.sldb'
+Loading db file '/afs/umich.edu/class/eecs470/lib/synopsys/lec25dscc25_TT.db'
+Loading db file '/usr/caen/synopsys-synth-2018.06/libraries/syn/gtech.db'
+Loading db file '/usr/caen/synopsys-synth-2018.06/libraries/syn/standard.sldb'
+  Loading link library 'lec25dscc25_TT'
+  Loading link library 'gtech'
+Loading verilog file '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/ex_stage.vg'
+Detecting input file type automatically (-rtl or -netlist).
+Running DC verilog reader
+Performing 'read' command.
+Compiling source file /afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/ex_stage.vg
+Reading with netlist reader (equivalent to -netlist option).
+Verilog netlist reader completed successfully.
+Current design is now '/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/ex_stage_DW01_ash_0.db:ex_stage_DW01_ash_0'
+Loaded 13 designs.
+Current design is 'ex_stage_DW01_ash_0'.
+Current design is 'ex_stage'.
+
+Thank you...
