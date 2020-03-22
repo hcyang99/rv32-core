@@ -25,7 +25,9 @@ LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
 # SIMULATION CONFIG
 
-SIMFILES	= #verilog/rob.sv
+SIMFILES	= sys_defs.svh \
+	verilog/rob.sv
+
 TESTBENCH	= sys_defs.svh \
 	testbench/rob_test.sv \
 	testbench/mt19937-64.c \

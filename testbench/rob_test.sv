@@ -24,6 +24,7 @@ module testbench;
     logic [`WAYS-1:0]                       CDB_direction;
     logic [`WAYS-1:0] [`XLEN-1:0]           CDB_target;
 
+    logic [`WAYS-1:0] [$clog2(`REGS)]        dest_ARN;
     logic [`WAYS-1:0] [$clog2(`PRF)]        dest_PRN;
     logic [`WAYS-1:0]                       reg_write;
     logic [`WAYS-1:0]                       is_branch;
@@ -39,18 +40,102 @@ module testbench;
     logic [`WAYS-1:0]                       valid_out;
     logic [$clog2(`ROB)-1:0]                num_free;
 
-/*
-    rob rob_instance{
 
-    };
-*/
-
-    task check_one_test;
+    rob rob_instance(
+        clock,
+        reset,
 
 
+        CDB_ROB_idx,
+        CDB_valid,
+        CDB_direction,
+        CDB_target,
+
+        dest_ARN,
+        dest_PRN,
+        reg_write,
+        is_branch,
+        valid,
+        PC,
+        inst_target,
+        prediction,
+
+        tail,
+        dest_PRN_out,
+        dest_ARN_out,
+        valid_out,
+        num_free
+    );
+
+    logic [$clog2(`ROB_NUM_TESTS)-1:0]  curr_test;
+    logic                               correct;
+
+    always_comb begin
+        int start = curr_test * (`WAYS * 12);
+        for(int i = 0; i < `WAYS; i++)
+        begin : foo
+            CDB_ROB_idx[i] = test_input[start + i * 12];
+            CDB_valid[i] = test_input[start + i * 12 + 1];
+            CDB_direction[i] = test_input[start + i * 12 + 2];
+            CDB_target[i] = test_input[start + i * 12 + 3];
+
+            dest_ARN[i] = test_input[start + i * 12 + 4];
+            dest_PRN[i] = test_input[start + i * 12 + 5];
+            reg_write[i] = test_input[start + i * 12 + 6];
+            is_branch[i] = test_input[start + i * 12 + 7];
+            valid[i] = test_input[start + i * 12 + 8];
+            PC[i] = test_input[start + i * 12 + 9];
+            inst_target[i] = test_input[start + i * 12 + 10];
+            prediction[i] = test_input[start + i * 12 + 11];
+        end
+    end
+
+    always_comb begin
+        correct = 1'b1;
+
+        if(tail != correct_out[(curr_test * (`WAYS * 3 + 2))])
+            correct = 1'b0;
+
+        for(int j = 0; j < `WAYS; j++)
+        begin: foo
+            if(valid_out != correct_out[(curr_test * (`WAYS * 3 + 2)) + 3 + (j * 3)])
+                correct = 1'b0;
+            if(valid_out) begin
+                if(dest_PRN_out != correct_out[(curr_test * (`WAYS * 3 + 2)) + 1 + (j * 3)])
+                    correct = 1'b0;
+                if(dest_ARN_out != correct_out[(curr_test * (`WAYS * 3 + 2)) + 2 + (j * 3)])
+                    correct = 1'b0;
+            end
+        end
+        if(num_free != correct_out[(curr_test * (`WAYS * 3 + 2)) + 1 + (`WAYS * 3)])
+            correct = 1'b0;
+    end
+
+    task check_correct;
+        #3
+        if(!correct) begin
+            $display("@@@ Incorrect at time %4.0f", $time);
+            $display("tail: %h", tail_ptr);
+            for(int i = 0; i < `WAYS; i++)
+            begin : foo
+                $display("dest_ARN: %h", dest_ARN[i]);
+                $display("dest_PRN: %h", dest_PRN[i]);
+                $display("valid_out: %h", valid_out[i]);
+            end
+            $display("num_free: %h", num_free);
+            $display("@@@ Failed");
+            $finish;
+        end
     endtask
 
-
+    always_ff @(posedge clock) begin
+        if(reset)
+            curr_test <= `SD 0;
+        else begin
+            curr_test <= `SD curr_test + 1;
+            check_correct;
+        end
+    end
 
     always begin
         #(`VERILOG_CLOCK_PERIOD/2.0);
@@ -81,7 +166,11 @@ module testbench;
         `SD;
 
         reset = 1'b0;
+
         $display("@@    %t  Deasserting System reset......\n@@\n@@", $realtime);
+
+        repeat(`ROB_NUM_TESTS) @(posedge clock);
+
 
         $finish;
     end

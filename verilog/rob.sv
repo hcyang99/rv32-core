@@ -1,45 +1,45 @@
 
 // struct definitions
 typedef struct packed{
-    uint64_t dest_ARN;
-    uint64_t dest_PRN;
-    uint64_t reg_write;
-    uint64_t is_branch;
-    uint64_t PC;
-    uint64_t target;
-    uint64_t branch_direction;
-    uint64_t mispredicted;
+    logic [$clog2(`REGS)-1:0]   dest_ARN;
+    logic [$clog2(`PRF)-1:0]    dest_PRN;
+    logic                       reg_write;
+    logic                       is_branch;
+    logic [`XLEN-1:0]           PC;
+    logic [`XLEN-1:0]           target;
+    logic                       branch_direction;
+    logic                       mispredicted;
     // TODO: include load and store stuff
-    uint64_t done;
+    logic                       done;
 }rob_entry;
 
 
 
 module rob(
-    input                                           clock;
-    input                                           reset;
+    input                                           clock,
+    input                                           reset,
 
     // wire declarations for rob inputs/outputs
-    input [`WAYS-1:0] [$clog2(`ROB)-1:0]            CDB_ROB_idx;
-    input [`WAYS-1:0]                               CDB_valid;
-    input [`WAYS-1:0]                               CDB_direction;
-    input [`WAYS-1:0] [`XLEN-1:0]                   CDB_target;
+    input [`WAYS-1:0] [$clog2(`ROB)-1:0]            CDB_ROB_idx,
+    input [`WAYS-1:0]                               CDB_valid,
+    input [`WAYS-1:0]                               CDB_direction,
+    input [`WAYS-1:0] [`XLEN-1:0]                   CDB_target,
 
-    input [`WAYS-1:0] [$clog2(`REGS)]               dest_ARN;
-    input [`WAYS-1:0] [$clog2(`PRF)]                dest_PRN;
-    input [`WAYS-1:0]                               reg_write;
-    input [`WAYS-1:0]                               is_branch;
-    input [`WAYS-1:0]                               valid;
-    input [`WAYS-1:0] [`XLEN-1:0]                   PC;
-    input [`WAYS-1:0] [`XLEN-1:0]                   inst_target;
-    input [`WAYS-1:0]                               prediction;
+    input [`WAYS-1:0] [$clog2(`REGS)-1:0]           dest_ARN,
+    input [`WAYS-1:0] [$clog2(`PRF)-1:0]            dest_PRN,
+    input [`WAYS-1:0]                               reg_write,
+    input [`WAYS-1:0]                               is_branch,
+    input [`WAYS-1:0]                               valid,
+    input [`WAYS-1:0] [`XLEN-1:0]                   PC,
+    input [`WAYS-1:0] [`XLEN-1:0]                   target,
+    input [`WAYS-1:0]                               branch_direction,
 
-    output logic [$clog2(`ROB)-1:0]                 tail;
-    output logic [`WAYS-1:0] [$clog2(`PRF)-1:0]     dest_PRN_out;
-    output logic [`WAYS-1:0] [$clog2(`REGS)-1:0]    dest_ARN_out;
-    output logic [`WAYS-1:0]                        valid_out;
-    output logic [$clog2(`ROB)-1:0]                 num_free;
-)
+    output logic [$clog2(`ROB)-1:0]                 tail,
+    output logic [`WAYS-1:0] [$clog2(`PRF)-1:0]     dest_PRN_out,
+    output logic [`WAYS-1:0] [$clog2(`REGS)-1:0]    dest_ARN_out,
+    output logic [`WAYS-1:0]                        valid_out,
+    output logic [$clog2(`ROB)-1:0]                 num_free
+);
 
 rob_entry [`ROB-1:0]                              entries;
 logic [$clog2(`ROB)-1:0]                          head;
@@ -48,7 +48,7 @@ logic [$clog2(`ROB)-1:0]                          next_head;
 logic [$clog2(`ROB)-1:0]                          next_tail;
 logic [$clog2(`WAYS)-1:0]                         num_dispatched;
 logic [$clog2(`WAYS)-1:0]                         num_committed;
-rob entry [`WAYS-1:0]                             new_entries;
+rob_entry [`WAYS-1:0]                             new_entries;
 logic                                             proc_nuke;
 
 // Dispatch combinational logic
@@ -108,9 +108,10 @@ end
 // Sequential Logic
 always_ff @(posedge clock) begin
     if(reset || proc_nuke) begin
-        num_free            <= `SD ($clog2(`ROB))'d`ROB;
-        head                <= `SD tail;
-        entries[head].done  <= `SD 1'b0;
+        num_free            <= `SD `ROB;
+        tail                <= `SD 0;
+        head                <= `SD 0;
+        entries[0].done  <= `SD 1'b0;
     end else begin
         for(int i = 0; i < `WAYS; i++) begin
             
@@ -124,7 +125,7 @@ always_ff @(posedge clock) begin
                 entries[CDB_ROB_idx[i]].done             <= `SD 1'b1;
                 entries[CDB_ROB_idx[i]].mispredicted     <= `SD
                     entries[CDB_ROB_idx[i]].branch_direction == CDB_direction[i] ?
-                    CDB_direction[i] == 0 || entries[CDB_ROB_idx[i]].target == CDB_target[i] ? 1'b0 : 1'b1;
+                    (CDB_direction[i] == 0 || entries[CDB_ROB_idx[i]].target == CDB_target[i] ? 1'b0 : 1'b1) : 1'b1;
                 entries[CDB_ROB_idx[i]].branch_direction <= `SD CDB_direction[i];
                 entries[CDB_ROB_idx[i]].target           <= `SD CDB_target[i];
             end
