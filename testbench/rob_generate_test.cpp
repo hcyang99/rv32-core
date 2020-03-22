@@ -114,6 +114,7 @@ extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, i
     // a small array we use to make sure that we don't broadcast to the same rob index
     // from more than one CDB's in the same cycle
     int * taken_robs = (int*)malloc(sizeof(int) * N_WAYS);
+    for(int i = 0; i < N_WAYS; ++i) taken_robs[i] = -1;
 
     // here's the main test case generation
     // the logic is fairly simple:
@@ -129,8 +130,7 @@ extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, i
             // rand % num_entries, then adjusted to be in the correct range
             inputs[j].CDB_ROB_idx   = ROB_SIZE == rob.num_free ? 0 : ((rand() % (ROB_SIZE - rob.num_free)) + rob.head_ptr) % ROB_SIZE;
 
-            // loops through taken_robs, set rob_taken to false (and thus setting valid to false)
-            // if we notice the same rob index in that list
+            // loops through taken_robs, set rob_taken to true if we notice the same rob index in that list
             // 
             // this will make sure that we're not broadcasting to the same rob entry from two
             // different CDB's in the same cycle
@@ -139,9 +139,10 @@ extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, i
                 if(taken_robs[k] == inputs[j].CDB_ROB_idx) rob_taken = 1;
             }
             inputs[j].CDB_valid     = ROB_SIZE == rob.num_free  ? 0 :
-                                      rob_taken                 ? 0 : rand() % 2;
+                                      rob_taken                 ? 0 :
+                                      rob.entries[inputs[j].CDB_ROB_idx].done ? 0 : rand() % 2;
 
-            // taken_robs is full of either a rob index being broadcasted to, or -1
+            // taken_robs may either hold -1, or a rob index being broadcasted to
             taken_robs[j]           = inputs[j].CDB_valid       ? inputs[j].CDB_ROB_idx : -1;
 
             inputs[j].CDB_direction = rand() % 2;
