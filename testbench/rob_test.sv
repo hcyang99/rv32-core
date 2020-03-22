@@ -24,7 +24,7 @@ module testbench;
     logic [`WAYS-1:0]                       CDB_direction;
     logic [`WAYS-1:0] [`XLEN-1:0]           CDB_target;
 
-    logic [`WAYS-1:0] [$clog2(`REGS)]        dest_ARN;
+    logic [`WAYS-1:0] [$clog2(`REGS)]       dest_ARN;
     logic [`WAYS-1:0] [$clog2(`PRF)]        dest_PRN;
     logic [`WAYS-1:0]                       reg_write;
     logic [`WAYS-1:0]                       is_branch;
@@ -34,7 +34,7 @@ module testbench;
     logic [`WAYS-1:0]                       prediction;
 
     // outputs
-    logic [`XLEN-1:0]                       tail_ptr;
+    logic [$clog2(`ROB)-1:0]                tail;
     logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRN_out;
     logic [`WAYS-1:0] [$clog2(`REGS)-1:0]   dest_ARN_out;
     logic [`WAYS-1:0]                       valid_out;
@@ -112,10 +112,10 @@ module testbench;
     end
 
     task check_correct;
-        #3
+        #2
         if(!correct) begin
             $display("@@@ Incorrect at time %4.0f", $time);
-            $display("tail: %h", tail_ptr);
+            $display("tail: %h", tail);
             for(int i = 0; i < `WAYS; i++)
             begin : foo
                 $display("dest_ARN: %h", dest_ARN[i]);
@@ -128,14 +128,14 @@ module testbench;
         end
     endtask
 
-    always_ff @(posedge clock) begin
+    /*always_ff @(posedge clock) begin
         if(reset)
             curr_test <= `SD 0;
         else begin
             curr_test <= `SD curr_test + 1;
             check_correct;
         end
-    end
+    end*/
 
     always begin
         #(`VERILOG_CLOCK_PERIOD/2.0);
@@ -145,6 +145,7 @@ module testbench;
     initial begin
         clock = 1'b0;
         reset = 1'b0;
+        curr_test = 0;
 
         // this testbench re-generates the test file and output key every time
         // we may seed the RNG using system time to generate different test cases
@@ -169,9 +170,14 @@ module testbench;
 
         $display("@@    %t  Deasserting System reset......\n@@\n@@", $realtime);
 
-        repeat(`ROB_NUM_TESTS) @(posedge clock);
-
-
+        //repeat(`ROB_NUM_TESTS) @(posedge clock);
+        for(int i = 0; i < `ROB_NUM_TESTS; i++) begin
+            @(posedge clock)
+            @(negedge clock)
+            check_correct;
+            if(curr_test < `ROB_NUM_TESTS - 1)
+                curr_test = curr_test + 1;
+        end
         $finish;
     end
 
