@@ -38,7 +38,7 @@ module testbench;
     logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRN_out;
     logic [`WAYS-1:0] [$clog2(`REGS)-1:0]   dest_ARN_out;
     logic [`WAYS-1:0]                       valid_out;
-    logic [$clog2(`ROB)-1:0]                num_free;
+    logic [$clog2(`ROB):0]                  num_free;
 
 
     rob rob_instance(
@@ -61,8 +61,8 @@ module testbench;
         prediction,
 
         tail,
-        dest_PRN_out,
         dest_ARN_out,
+        dest_PRN_out,
         valid_out,
         num_free
     );
@@ -70,10 +70,13 @@ module testbench;
     logic [$clog2(`ROB_NUM_TESTS)-1:0]  curr_test;
     logic                               correct;
 
+    int start;
+    assign start = curr_test * (`WAYS * 12);
+
     always_comb begin
-        int start = curr_test * (`WAYS * 12);
         for(int i = 0; i < `WAYS; i++)
         begin : foo
+            $display("TB CDB_valid[i]: %d", test_input[start + i * 12 + 1]);
             CDB_ROB_idx[i] = test_input[start + i * 12];
             CDB_valid[i] = test_input[start + i * 12 + 1];
             CDB_direction[i] = test_input[start + i * 12 + 2];
@@ -101,9 +104,9 @@ module testbench;
             if(valid_out != correct_out[(curr_test * (`WAYS * 3 + 2)) + 3 + (j * 3)])
                 correct = 1'b0;
             if(valid_out) begin
-                if(dest_PRN_out != correct_out[(curr_test * (`WAYS * 3 + 2)) + 1 + (j * 3)])
+                if(dest_ARN_out != correct_out[(curr_test * (`WAYS * 3 + 2)) + 1 + (j * 3)])
                     correct = 1'b0;
-                if(dest_ARN_out != correct_out[(curr_test * (`WAYS * 3 + 2)) + 2 + (j * 3)])
+                if(dest_PRN_out != correct_out[(curr_test * (`WAYS * 3 + 2)) + 2 + (j * 3)])
                     correct = 1'b0;
             end
         end
@@ -114,12 +117,12 @@ module testbench;
     task check_correct;
         #2
         if(!correct) begin
-            $display("@@@ Incorrect at time %4.0f", $time);
+            $display("@@@ Incorrect at time %4.0f and test num %d", $time, curr_test);
             $display("tail: %h", tail);
             for(int i = 0; i < `WAYS; i++)
             begin : foo
-                $display("dest_ARN: %h", dest_ARN[i]);
-                $display("dest_PRN: %h", dest_PRN[i]);
+                $display("dest_ARN: %h", dest_ARN_out[i]);
+                $display("dest_PRN: %h", dest_PRN_out[i]);
                 $display("valid_out: %h", valid_out[i]);
             end
             $display("num_free: %h", num_free);
@@ -172,9 +175,8 @@ module testbench;
 
         //repeat(`ROB_NUM_TESTS) @(posedge clock);
         for(int i = 0; i < `ROB_NUM_TESTS; i++) begin
-            @(posedge clock)
-            @(negedge clock)
             check_correct;
+            @(posedge clock)
             if(curr_test < `ROB_NUM_TESTS - 1)
                 curr_test = curr_test + 1;
         end

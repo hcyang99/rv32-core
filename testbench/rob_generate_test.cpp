@@ -60,6 +60,12 @@ typedef struct inp{
    
 }rob_inputs;
 
+typedef struct commit{
+    uint64_t dest_ARN;
+    uint64_t dest_PRN;
+    uint64_t valid;
+}commit_reg;
+
 // function declarations
 void generate_correct(rob_struct * , rob_inputs * , FILE *);
 
@@ -198,6 +204,7 @@ extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, i
 //      num_free
 
 void generate_correct(rob_struct * rob, rob_inputs * inputs, FILE * fptr){
+    
     // dispatch logic
     for(int i = 0; i < N_WAYS; ++i){
         if(inputs[i].valid){
@@ -219,30 +226,38 @@ void generate_correct(rob_struct * rob, rob_inputs * inputs, FILE * fptr){
             rob->entries[rob->tail_ptr] = new_entry;
             rob->tail_ptr = rob->tail_ptr == ROB_SIZE - 1 ? 0 : rob->tail_ptr + 1;
             --rob->num_free;
-        }
-       
+        }     
     }
-    
-    fprintf(fptr, "%016x\n", rob->tail_ptr);
-
 
     // CDB fun logic
     for(int i = 0; i < N_WAYS; ++i){
         if(inputs[i].CDB_valid){
             rob_entry * rob_i = &rob->entries[inputs[i].CDB_ROB_idx];
+            if(rob_i->branch_direction == inputs[i].CDB_direction) {
+                if(inputs[i].CDB_direction == 0 || rob_i->target == inputs[i].CDB_target) {
+                    rob_i->mispredicted = 0;
+                }
+                else rob_i->mispredicted = 1;
+            }
+            else rob_i->mispredicted = 1;
             rob_i->branch_direction = inputs[i].CDB_direction;
             rob_i->target = inputs[i].CDB_target;
             rob_i->done = 1;
         }
     }
-
+    
+    commit_reg * outputs = (commit_reg *) malloc(sizeof(commit_reg) * N_WAYS);
 
     // commit logic
     for(int i = 0; i < N_WAYS; ++i){
         if(rob->entries[rob->head_ptr].done){
-            if(rob->entries[rob->head_ptr].mispredicted){
+            outputs[i].dest_ARN = rob->entries[rob->head_ptr].dest_ARN;
+            outputs[i].dest_PRN = rob->entries[rob->head_ptr].dest_PRN;
+            outputs[i].valid = rob->entries[rob->head_ptr].reg_write;
+            if(rob->entries[rob->head_ptr].mispredicted && rob->entries[rob->head_ptr].is_branch){
                 rob->num_free = ROB_SIZE;
-                rob->tail_ptr = rob->head_ptr;
+                rob->head_ptr = 0;
+                rob->tail_ptr = 0;
                 rob->entries[rob->head_ptr].done = 0;
             }
             else{
@@ -250,13 +265,19 @@ void generate_correct(rob_struct * rob, rob_inputs * inputs, FILE * fptr){
                 rob->head_ptr = rob->head_ptr == ROB_SIZE - 1 ? 0 : rob->head_ptr + 1;
             }
         }
-        else{
-            fprintf(fptr, "%016x\n", rob->entries[rob->head_ptr].dest_ARN);
-            fprintf(fptr, "%016x\n", rob->entries[rob->head_ptr].dest_PRN);
-            fprintf(fptr, "%016x\n", rob->entries[rob->head_ptr].reg_write & rob->entries[rob->head_ptr].done);
+        else {
+            outputs[i].dest_ARN = 0xFACEFACE;
+            outputs[i].dest_PRN = 0xDEADBEEF;
+            outputs[i].valid = 0;
         }
     }
+
+    // Printing correct Outputs
+    fprintf(fptr, "%016x\n", rob->tail_ptr);
+    for(int i = 0; i < N_WAYS; ++i){
+        fprintf(fptr, "%016x\n", outputs[i].dest_ARN);
+        fprintf(fptr, "%016x\n", outputs[i].dest_PRN);
+        fprintf(fptr, "%016x\n", outputs[i].valid);
+    }
     fprintf(fptr, "%016x\n", rob->num_free);
-
-
 }
