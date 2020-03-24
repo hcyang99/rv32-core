@@ -232,28 +232,38 @@ void generate_correct(rob_struct * rob, rob_inputs * inputs, FILE * fptr){
     // CDB fun logic
     for(int i = 0; i < N_WAYS; ++i){
         if(inputs[i].CDB_valid){
+            // temporary pointer here to save some typing
             rob_entry * rob_i = &rob->entries[inputs[i].CDB_ROB_idx];
-            if(rob_i->branch_direction == inputs[i].CDB_direction) {
-                if(inputs[i].CDB_direction == 0 || rob_i->target == inputs[i].CDB_target) {
-                    rob_i->mispredicted = 0;
-                }
-                else rob_i->mispredicted = 1;
-            }
-            else rob_i->mispredicted = 1;
+
+            // logic for setting the mispredicted bit
+            // set to 1 if:
+            //      either we predicted the wrong direction,
+            //      or we had the right direction, but had the wrong target on a taken branch
+            rob_i->mispredicted = (rob_i->branch_direction != inputs[i].CDB_direction)
+                                || (inputs[i].CDB_direction && (rob_i->target != inputs[i].CDB_target));
+            
+            // copy stuff from the CDB broadcast, set the instruction to done
             rob_i->branch_direction = inputs[i].CDB_direction;
             rob_i->target = inputs[i].CDB_target;
             rob_i->done = 1;
         }
     }
     
+    // this here is used for storing information about what we're committing
+    // strictly for output reasons, doesn't really affect logic
     commit_reg * outputs = (commit_reg *) malloc(sizeof(commit_reg) * N_WAYS);
 
     // commit logic
     for(int i = 0; i < N_WAYS; ++i){
         if(rob->entries[rob->head_ptr].done){
+            // copy stuff into our commit_reg to use later in the output
             outputs[i].dest_ARN = rob->entries[rob->head_ptr].dest_ARN;
             outputs[i].dest_PRN = rob->entries[rob->head_ptr].dest_PRN;
             outputs[i].valid = rob->entries[rob->head_ptr].reg_write;
+
+            // here's the actual commit logic
+            // if the instruction is a mispredicted branch, reset the rob
+            // else just move the head and increment num_free
             if(rob->entries[rob->head_ptr].mispredicted && rob->entries[rob->head_ptr].is_branch){
                 rob->num_free = ROB_SIZE;
                 rob->head_ptr = 0;
@@ -266,6 +276,7 @@ void generate_correct(rob_struct * rob, rob_inputs * inputs, FILE * fptr){
             }
         }
         else {
+            // default (garbage) values for instructions that we're not committing
             outputs[i].dest_ARN = 0xFACEFACE;
             outputs[i].dest_PRN = 0xDEADBEEF;
             outputs[i].valid = 0;

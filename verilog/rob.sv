@@ -52,11 +52,13 @@ rob_entry [`WAYS-1:0]                               new_entries;
 logic                                               proc_nuke;
 logic [$clog2(`ROB):0]                              num_free;
 
-// Dispatch combinational logic
+// Combinational (next state) logic
 always_comb begin
+
+    // dispatch logic
     num_dispatched = 0;
     for(int i = 0; i < `WAYS; i++) begin
-    
+
         // Store inputs in ROB if valid
         if(valid[i]) begin
             new_entries[i].dest_ARN = dest_ARN[i];
@@ -74,7 +76,7 @@ always_comb begin
             num_dispatched = i + 1;
         end
     end
-    
+
     // Move tail based on number of valid inputs received
     next_tail = (tail + num_dispatched) % `ROB;
 
@@ -92,6 +94,7 @@ always_comb begin
             dest_PRN_out[i] = entries[(head + i) % `ROB].dest_PRN;
             dest_ARN_out[i] = entries[(head + i) % `ROB].dest_ARN;
             num_committed = i + 1;
+            next_num_free = next_num_free + 1;
             if(entries[(head + i) % `ROB].reg_write) 
                 valid_out[i] = 1;
             if(entries[(head + i) % `ROB].is_branch && entries[(head + i) % `ROB].mispredicted) begin
@@ -116,7 +119,7 @@ always_ff @(posedge clock) begin
         entries[0].done  <= `SD 1'b0;
     end else begin
         for(int i = 0; i < `WAYS; i++) begin
-            
+
             // Dispatch logic
             if(valid[i]) begin
                 entries[(tail + i) % `ROB] <= `SD new_entries[i];
@@ -126,8 +129,8 @@ always_ff @(posedge clock) begin
             if(CDB_valid[i]) begin
                 entries[CDB_ROB_idx[i]].done             <= `SD 1'b1;
                 entries[CDB_ROB_idx[i]].mispredicted     <= `SD
-                    entries[CDB_ROB_idx[i]].branch_direction == CDB_direction[i] ?
-                    (CDB_direction[i] == 0 || entries[CDB_ROB_idx[i]].target == CDB_target[i] ? 1'b0 : 1'b1) : 1'b1;
+                    (entries[CDB_ROB_idx[i]].branch_direction != CDB_direction[i]) ||
+                    (CDB_direction[i] == 1 && entries[CDB_ROB_idx[i]].target != CDB_target[i]);
                 entries[CDB_ROB_idx[i]].branch_direction <= `SD CDB_direction[i];
                 entries[CDB_ROB_idx[i]].target           <= `SD CDB_target[i];
             end

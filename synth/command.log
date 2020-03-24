@@ -1,7 +1,7 @@
 #@ # 
 #@ # Running dc_shell Version O-2018.06 for linux64 -- May 21, 2018
-#@ # Date:   Sat Feb 29 18:22:02 2020
-#@ # Run by: wlshen@caen-vnc-vm10.engin.umich.edu
+#@ # Date:   Tue Mar 24 14:37:34 2020
+#@ # Run by: wlshen@caen-vnc-vm17.engin.umich.edu
 #@ 
 
 source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
@@ -6624,11 +6624,11 @@ source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
 
 #@ # -- End source /usr/caen/synopsys-synth-2018.06/admin/setup/.synopsys_dc.setup
 
-source -echo -verbose /afs/umich.edu/user/w/l/wlshen/eecs470/group7w20/synth/./rs_line.tcl
-#@ # -- Starting source /afs/umich.edu/user/w/l/wlshen/eecs470/group7w20/synth/./rs_line.tcl
+source -echo -verbose /afs/umich.edu/user/w/l/wlshen/eecs470/group7w20/synth/./rob.tcl
+#@ # -- Starting source /afs/umich.edu/user/w/l/wlshen/eecs470/group7w20/synth/./rob.tcl
 
 #@ #/***********************************************************/
-#@ #/*   FILE        : rs_line.tcl                                  */
+#@ #/*   FILE        : rob.tcl                                 */
 #@ #/*   Description : Default Synopsys Design Compiler Script */
 #@ #/*   Usage       : dc_shell -tcl_mode -f default.tcl       */
 #@ #/*   You'll need to minimally set design_name & read files */
@@ -6638,9 +6638,12 @@ source -echo -verbose /afs/umich.edu/user/w/l/wlshen/eecs470/group7w20/synth/./r
 #@ #/* The following five lines must be updated for every      */
 #@ #/* new design                                              */
 #@ #/***********************************************************/
+#@ lappend search_path ../
 #@ 
-#@ read_file -f sverilog [list "../verilog/rs_line.sv"]
-#@ set design_name rs_line
+#@ set simfiles [getenv SIMFILES]
+#@ 
+#@ read_file -f sverilog [list ${simfiles}]
+#@ set design_name rob
 #@ set clock_name clock
 #@ set reset_name reset
 #@ set CLK_PERIOD 10

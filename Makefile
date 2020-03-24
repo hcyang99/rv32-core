@@ -34,7 +34,7 @@ TESTBENCH	= sys_defs.svh \
 	testbench/rob_generate_test.cpp
 
 # SYNTHESIS CONFIG
-SYNFILES	= RS_Line.vg
+SYNFILES	= synth/rob.vg
 
 # COVERAGE CONFIG
 COVERAGE	= line+tgl+branch
@@ -100,3 +100,7 @@ syn:	syn_simv
 RS_Line.vg: RS_Line.sv RS_Line.tcl
 	dc_shell-t -f RS_Line.tcl | tee RS_Line.out
 
+synth/rob.vg:	verilog/rob.sv synth/rob.tcl
+	cd synth && dc_shell-t -f ./rob.tcl | tee rob.out
+
+export SIMFILES
