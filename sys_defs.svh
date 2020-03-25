@@ -20,7 +20,7 @@
 `endif
 
 
-`define REGS		48
+`define REGS		32
 `define REG_LEN     64
 `define PRF         64
 `define ROB         16

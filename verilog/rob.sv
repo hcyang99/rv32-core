@@ -25,7 +25,7 @@ module rob(
     input [`WAYS-1:0]                               CDB_direction,
     input [`WAYS-1:0] [`XLEN-1:0]                   CDB_target,
 
-    input [`WAYS-1:0] [$clog2(`REGS)-1:0]           dest_ARN,
+    input [`WAYS-1:0] [4:0]                         dest_ARN,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]            dest_PRN,
     input [`WAYS-1:0]                               reg_write,
     input [`WAYS-1:0]                               is_branch,
@@ -35,10 +35,11 @@ module rob(
     input [`WAYS-1:0]                               branch_direction,
 
     output logic [$clog2(`ROB)-1:0]                 next_tail,
-    output logic [`WAYS-1:0] [$clog2(`PRF)-1:0]     dest_ARN_out,
-    output logic [`WAYS-1:0] [$clog2(`REGS)-1:0]    dest_PRN_out,
+    output logic [`WAYS-1:0] [4:0]                  dest_ARN_out,
+    output logic [`WAYS-1:0] [$clog2(`PRF)-1:0]     dest_PRN_out,
     output logic [`WAYS-1:0]                        valid_out,
-    output logic [$clog2(`ROB):0]                   next_num_free
+    output logic [$clog2(`ROB):0]                   next_num_free,
+    output logic                                    proc_nuke
 );
 
 rob_entry [`ROB-1:0]                                entries;
@@ -49,12 +50,12 @@ logic [$clog2(`ROB)-1:0]                            next_head;
 logic [$clog2(`WAYS)-1:0]                           num_dispatched;
 logic [$clog2(`WAYS)-1:0]                           num_committed;
 rob_entry [`WAYS-1:0]                               new_entries;
-logic                                               proc_nuke;
 logic [$clog2(`ROB):0]                              num_free;
 
 // Combinational (next state) logic
 always_comb begin
 
+    //$display("comb start!");
     // dispatch logic
     num_dispatched = 0;
     for(int i = 0; i < `WAYS; i++) begin
@@ -84,9 +85,9 @@ always_comb begin
     num_committed = 0;
     proc_nuke = 0;
     for(int i = 0; i < `WAYS; i++) begin
-        valid_out[i] = 0;
         dest_PRN_out[i] = 0;
         dest_ARN_out[i] = 0;
+        valid_out[i] = 0;
     end
     for(int i = 0; i < `WAYS; i++) begin
         next_num_free = num_free - num_dispatched + num_committed;
@@ -108,10 +109,12 @@ always_comb begin
 
     // Move head based on number of valid inputs received
     next_head = (head + num_committed) % `ROB;
+    //$display("comb end!");
 end
 
 // Sequential Logic
 always_ff @(posedge clock) begin
+    //$display("sequential start!");
     if(reset || proc_nuke) begin
         num_free            <= `SD `ROB;
         tail                <= `SD 0;
@@ -127,6 +130,7 @@ always_ff @(posedge clock) begin
 
             // CDB logic
             if(CDB_valid[i]) begin
+                //$display("ROB idx%d now done!", CDB_ROB_idx[i]);
                 entries[CDB_ROB_idx[i]].done             <= `SD 1'b1;
                 entries[CDB_ROB_idx[i]].mispredicted     <= `SD
                     (entries[CDB_ROB_idx[i]].branch_direction != CDB_direction[i]) ||
@@ -139,6 +143,7 @@ always_ff @(posedge clock) begin
         head                <= `SD next_head;
         num_free            <= `SD next_num_free;
     end
+    //$display("sequential end!");
 end
 
 endmodule

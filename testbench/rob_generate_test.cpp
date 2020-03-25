@@ -78,7 +78,7 @@ void generate_correct(rob_struct * , rob_inputs * , FILE *);
 //          CDB_target[XLEN]
 //          
 //          inst
-//              dest_ARN[clog2(NUM_REGS)]
+//              dest_ARN[32]
 //              dest_PRN[clog2(PRF_size)]
 //              reg_write
 //              is_branch
@@ -154,7 +154,7 @@ extern "C" void generate_test(int n_ways_in, int rob_size_in, int prf_size_in, i
             inputs[j].CDB_direction = rand() % 2;
             inputs[j].CDB_target    = genrand64_int64() % xlen_mod;
 
-            inputs[j].dest_ARN      = rand() % NUM_REGS;
+            inputs[j].dest_ARN      = rand() % 32;
             inputs[j].dest_PRN      = rand() % PRF_SIZE;
             inputs[j].reg_write     = rand() % 2;
             inputs[j].is_branch     = rand() % 2;
@@ -228,27 +228,7 @@ void generate_correct(rob_struct * rob, rob_inputs * inputs, FILE * fptr){
             --rob->num_free;
         }     
     }
-
-    // CDB fun logic
-    for(int i = 0; i < N_WAYS; ++i){
-        if(inputs[i].CDB_valid){
-            // temporary pointer here to save some typing
-            rob_entry * rob_i = &rob->entries[inputs[i].CDB_ROB_idx];
-
-            // logic for setting the mispredicted bit
-            // set to 1 if:
-            //      either we predicted the wrong direction,
-            //      or we had the right direction, but had the wrong target on a taken branch
-            rob_i->mispredicted = (rob_i->branch_direction != inputs[i].CDB_direction)
-                                || (inputs[i].CDB_direction && (rob_i->target != inputs[i].CDB_target));
-            
-            // copy stuff from the CDB broadcast, set the instruction to done
-            rob_i->branch_direction = inputs[i].CDB_direction;
-            rob_i->target = inputs[i].CDB_target;
-            rob_i->done = 1;
-        }
-    }
-    
+  
     // this here is used for storing information about what we're committing
     // strictly for output reasons, doesn't really affect logic
     commit_reg * outputs = (commit_reg *) malloc(sizeof(commit_reg) * N_WAYS);
@@ -280,6 +260,26 @@ void generate_correct(rob_struct * rob, rob_inputs * inputs, FILE * fptr){
             outputs[i].dest_ARN = 0xFACEFACE;
             outputs[i].dest_PRN = 0xDEADBEEF;
             outputs[i].valid = 0;
+        }
+    }
+
+    // CDB fun logic
+    for(int i = 0; i < N_WAYS; ++i){
+        if(inputs[i].CDB_valid){
+            // temporary pointer here to save some typing
+            rob_entry * rob_i = &rob->entries[inputs[i].CDB_ROB_idx];
+
+            // logic for setting the mispredicted bit
+            // set to 1 if:
+            //      either we predicted the wrong direction,
+            //      or we had the right direction, but had the wrong target on a taken branch
+            rob_i->mispredicted = (rob_i->branch_direction != inputs[i].CDB_direction)
+                                || (inputs[i].CDB_direction && (rob_i->target != inputs[i].CDB_target));
+            
+            // copy stuff from the CDB broadcast, set the instruction to done
+            rob_i->branch_direction = inputs[i].CDB_direction;
+            rob_i->target = inputs[i].CDB_target;
+            rob_i->done = 1;
         }
     }
 

@@ -24,7 +24,7 @@ module testbench;
     logic [`WAYS-1:0]                       CDB_direction;
     logic [`WAYS-1:0] [`XLEN-1:0]           CDB_target;
 
-    logic [`WAYS-1:0] [$clog2(`REGS)]       dest_ARN;
+    logic [`WAYS-1:0] [5]                   dest_ARN;
     logic [`WAYS-1:0] [$clog2(`PRF)]        dest_PRN;
     logic [`WAYS-1:0]                       reg_write;
     logic [`WAYS-1:0]                       is_branch;
@@ -35,16 +35,16 @@ module testbench;
 
     // outputs
     logic [$clog2(`ROB)-1:0]                tail;
-    logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_ARN_out;
-    logic [`WAYS-1:0] [$clog2(`REGS)-1:0]   dest_PRN_out;
+    logic [`WAYS-1:0] [4:0]                 dest_ARN_out;
+    logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRN_out;
     logic [`WAYS-1:0]                       valid_out;
     logic [$clog2(`ROB):0]                  num_free;
+    logic                                   proc_nuke;
 
-
+    // Module Declaration
     rob rob_instance(
         clock,
         reset,
-
 
         CDB_ROB_idx,
         CDB_valid,
@@ -64,7 +64,8 @@ module testbench;
         dest_ARN_out,
         dest_PRN_out,
         valid_out,
-        num_free
+        num_free,
+        proc_nuke
     );
 
     logic [$clog2(`ROB_NUM_TESTS)-1:0]  curr_test;
@@ -96,7 +97,8 @@ module testbench;
 
 
     task check_correct;
-        #(`VERILOG_CLOCK_PERIOD/2.0);
+        @(negedge clock);
+        //$display("checking test%d", curr_test);
 
         // sets the correct bit to 1 if module outputs are expected, 0 otherwise
         correct = 1'b1;
@@ -120,6 +122,7 @@ module testbench;
         // if our module failed
         if(!correct) begin
             $display("@@@ Incorrect at time %4.0f and test num %d", $time, curr_test);
+            $display("Module head: %h", rob_instance.head);
             $display("tail: %h, tail_correct: %h", tail, correct_out[(curr_test * (`WAYS * 3 + 2))]);
             for(int i = 0; i < `WAYS; i++)
             begin : foo
@@ -133,7 +136,7 @@ module testbench;
             end
             $display("num_free: %h, num_free_correct: %h", num_free, correct_out[(curr_test * (`WAYS * 3 + 2)) + 1 + (`WAYS * 3)]);
             $display("@@@ Failed");
-            //$finish;
+            $finish;
         end
     endtask
 
@@ -174,16 +177,15 @@ module testbench;
         curr_test = 0;
         $display("@@    %t  Deasserting System reset......\n@@\n@@", $realtime);
 
-        check_correct;
         // self-explanatory loop
         // checks correctness, waits until positive edge of clock, then increments test#
         for(int i = 0; i < `ROB_NUM_TESTS; i++) begin
-            @(posedge clock);
             check_correct;
+            @(posedge clock);
+            #2
             if(curr_test < `ROB_NUM_TESTS - 1)
                 curr_test = curr_test + 1;
         end
-        check_correct;
         $display("@@@ Passed");
         $finish;
     end
