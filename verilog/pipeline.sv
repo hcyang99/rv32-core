@@ -75,19 +75,64 @@ module pipeline (
 	
 	// Outputs from IF-Stage
 	logic [`XLEN-1:0] proc2Imem_addr;
-	IF_ID_PACKET if_packet;
+	IF_ID_PACKET[`WAYS-1 : 0] if_packet;
 
 	// Outputs from IF/ID Pipeline Register
-	IF_ID_PACKET if_id_packet;
+	IF_ID_PACKET[`WAYS-1 : 0] if_id_packet;
 
 	// Outputs from ID stage
-	ID_EX_PACKET id_packet;
+	ID_EX_PACKET [`WAYS-1 : 0] id_packet;
 
-	// Outputs from ID/EX Pipeline Register
-	ID_EX_PACKET id_ex_packet;
+	logic stall;
+	logic [`WAYS-1:0]	inst_next_valid;
+
+	logic [`WAYS-1:0]	opa_valid;
+	logic [`WAYS-1:0]	opb_valid;
+
+
+	// Outputs from ID/Rob Pipeline Register
+	ID_EX_PACKET[`WAYS-1 : 0] id_ex_packet;
+	logic rob_is_full;
 	
+  logic [`WAYS-1:0] [4:0]        							    dest_ARN;
+  logic [`WAYS-1:0] [$clog2(`PRF)-1:0]            dest_PRN;
+  logic [`WAYS-1:0]                               reg_write;
+  logic [`WAYS-1:0]                               is_branch;
+  logic [`WAYS-1:0]                               valid;
+  logic [`WAYS-1:0] [`XLEN-1:0]                   PC;
+  logic [`WAYS-1:0] [`XLEN-1:0]                   target;
+  logic [`WAYS-1:0]                               branch_direction;
+
+	ID_EX_PACKET [`WAYS-1 : 0] 								id_packet_tmp;
+//	logic 																					stall_tmp;							
+//	logic [`WAYS-1:0]																inst_next_valid_tmp;
+
+	logic [`WAYS-1:0]																opa_valid_tmp;
+	logic [`WAYS-1:0]																opb_valid_tmp;
+	logic [`WAYS-1:0]																reg_write_tmp;
+	
+
+
+	// Outputs from Rob-Stage
+  logic [$clog2(`ROB)-1:0]                 next_tail;
+  logic [`WAYS-1:0] [4:0] 						    dest_ARN_out;
+  logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRN_out;
+  logic [`WAYS-1:0]                        valid_out;
+  logic [$clog2(`ROB):0]                   next_num_free;
+	logic mis_predict;
+
+	// Outputs from Rs-Stage
+  ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
+
+  logic [$clog2(`RS):0]                num_is_free;
+
+
+
+
 	// Outputs from EX-Stage
-	EX_MEM_PACKET ex_packet;
+	EX_MEM_PACKET[`WAYS-1 : 0] ex_packet;
+		logic [`WAYS-1:0] 							ALU_occupied;
+
 	// Outputs from EX/MEM Pipeline Register
 	EX_MEM_PACKET ex_mem_packet;
 
@@ -163,21 +208,25 @@ module pipeline (
 //                                              //
 //////////////////////////////////////////////////
 
-	assign if_id_NPC        = if_id_packet.NPC;
-	assign if_id_IR         = if_id_packet.inst;
-	assign if_id_valid_inst = if_id_packet.valid;
-	assign if_id_enable = 1'b1; // always enabled
+//	assign if_id_NPC        = if_id_packet.NPC;
+//	assign if_id_IR         = if_id_packet.inst;
+//	assign if_id_valid_inst = if_id_packet.valid;
+
+
+
+	assign if_id_enable = ~stall & ~rob_is_full;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
-		if (reset) begin 
-			if_id_packet.inst  <= `SD `NOP;
-			if_id_packet.valid <= `SD `FALSE;
-            if_id_packet.NPC   <= `SD 0;
-            if_id_packet.PC    <= `SD 0;
+		if (reset | rob_is_full) begin 
+			if_id_packet <= `SD 0;
 		end else begin// if (reset)
 			if (if_id_enable) begin
 				if_id_packet <= `SD if_packet; 
-			end // if (if_id_enable)	
+			end else if (stall) begin
+				for(int i = 0; i < `WAYS; i = i + 1)begin
+					if_id_packet[i].valid <= `SD inst_next_valid[i];
+				end
+			end
 		end
 	end // always
 
@@ -191,54 +240,148 @@ module pipeline (
 	id_stage id_stage_0 (// Inputs
 		.clock(clock),
 		.reset(reset),
+
+		.reg_idx_wr_CDB(),
+		.wr_en_CDB(),
+
 		.if_id_packet_in(if_id_packet),
-		.wb_reg_wr_en_out   (wb_reg_wr_en_out),
-		.wb_reg_wr_idx_out  (wb_reg_wr_idx_out),
-		.wb_reg_wr_data_out (wb_reg_wr_data_out),
 		
 		// Outputs
-		.id_packet_out(id_packet)
+		.stall,
+		.inst_next_valid,
+		.id_packet_out(id_packet),
+		.opa_valid,
+		.opb_valid,
+		.dest_arn_valid(reg_write)
+
 	);
 
 
 //////////////////////////////////////////////////
 //                                              //
-//            ID/EX Pipeline Register           //
+//            ID/ROB Pipeline Register          //
 //                                              //
 //////////////////////////////////////////////////
 
-	assign id_ex_NPC        = id_ex_packet.NPC;
-	assign id_ex_IR         = id_ex_packet.inst;
-	assign id_ex_valid_inst = id_ex_packet.valid;
+//	assign id_ex_NPC        = id_ex_packet.NPC;
+//	assign id_ex_IR         = id_ex_packet.inst;
+//	assign id_ex_valid_inst = id_ex_packet.valid;
+assign rob_is_full = next_num_free < `WAYS;
 
-	assign id_ex_enable = 1'b1; // always enabled
+always_ff@(posedge clock) begin
+	if(rob_is_full) begin
+		id_packet_tmp 			<= `SD id_packet | id_packet_tmp;
+//		stall_tmp						<= `SD stall | stall_tmp;
+//		inst_next_valid_tmp <= `SD inst_next_valid | inst_next_valid_tmp;
+		opa_valid_tmp				<= `SD opa_valid | opa_valid_tmp;
+		opb_valid_tmp				<= `SD opb_valid | opb_valid_tmp;
+		reg_write_tmp				<= `SD reg_write | reg_write_tmp;
+	end else begin
+		id_packet_tmp <= `SD 0;
+		opa_valid_tmp <= `SD 0;
+		opb_valid_tmp <= `SD 0;
+		reg_write_tmp <= `SD 0;
+	end
+end
+
+
+
+	assign id_ex_enable = ~rob_is_full;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
-		if (reset) begin
-			id_ex_packet <= `SD '{{`XLEN{1'b0}},
-				{`XLEN{1'b0}}, 
-				{`XLEN{1'b0}}, 
-				{`XLEN{1'b0}}, 
-				OPA_IS_RS1, 
-				OPB_IS_RS2, 
-				`NOP,
-				`ZERO_REG,
-				ALU_ADD, 
-				1'b0, //rd_mem
-				1'b0, //wr_mem
-				1'b0, //cond
-				1'b0, //uncond
-				1'b0, //halt
-				1'b0, //illegal
-				1'b0, //csr_op
-				1'b0 //valid
-			}; 
+		if (reset | rob_is_full) begin
+			id_ex_packet <= `SD 0;
 		end else begin // if (reset)
 			if (id_ex_enable) begin
-				id_ex_packet <= `SD id_packet;
-			end // if
+				if(id_packet_tmp) begin
+	//				if(stall_tmp) begin
+						// previous is stall
+						id_ex_packet 		<= `SD id_packet_tmp | id_packet;
+						stall						<= `SD stall | stall_tmp;
+						inst_next_valid <= `SD inst_next_valid | inst_next_valid_tmp;
+						opa_valid				<= `SD opa_valid | opa_valid_tmp;
+						opb_valid				<= `SD opb_valid | opb_valid_tmp;
+						reg_write				<= `SD reg_write | reg_write_tmp;					
+				end else    id_ex_packet <= `SD id_packet;
+			end
 		end // else: !if(reset)
 	end // always
+
+
+//////////////////////////////////////////////////
+//                                              //
+//                   ROB-Stage                  //
+//                                              //
+//////////////////////////////////////////////////
+generate
+  for(genvar i = 0; i < `WAYS; i = i + 1) begin
+		assign dest_ARN[i]  = id_ex_packet[i].inst.r.rd;
+		assign dest_PRN[i]  = id_ex_packet[i].dest_PRF_idx;
+		assign is_branch[i] = id_ex_packet[i].cond_branch | id_ex_packet[i].uncond_branch;
+		assign valid[i]     = id_ex_packet[i].valid;
+		assign PC[i]				= id_ex_packet[i].PC;
+		assign target[i]		= id_ex_packet[i].NPC;
+		assign branch_direction[i] = 0;		
+	end
+endgenerate
+
+
+
+  rob Rob(
+    .clock,
+    .reset,
+
+    // wire declarations for rob inputs/outputs
+    .CDB_ROB_idx(),
+    .CDB_valid(),
+    .CDB_direction(),
+    .CDB_target(),
+
+    .dest_ARN,
+    .dest_PRN,
+    .reg_write,
+    .is_branch,
+    .valid,
+    .PC,
+    .target,
+    .branch_direction,
+
+    .next_tail,
+    .dest_ARN_out,
+    .dest_PRN_out,
+    .valid_out,
+    .next_num_free,
+		.mis_predict
+);
+//////////////////////////////////////////////////
+//                                              //
+//                   RS-Stage                   //
+//                                              //
+//////////////////////////////////////////////////
+
+ RS Rs (
+        // inputs
+        .clock,
+        .reset,
+        .CDB_Data,
+        .CDB_PRF_idx,
+        .CDB_valid,
+        .opa_valid_in(opa_valid),
+        .opb_valid_in(opb_valid),
+        .id_rs_packet_in(id_ex_packet),                            
+        .load_in(1),
+        .ALU_occupied,
+
+        // output
+        .rs_packet_out,
+
+        .num_is_free
+
+    );
+
+
+
+
 
 
 //////////////////////////////////////////////////
@@ -253,6 +396,7 @@ module pipeline (
 		.id_ex_packet_in(id_ex_packet),
 		// Outputs
 		.ex_packet_out(ex_packet)
+		.occupied_hub(ALU_occupied)
 	);
 
 

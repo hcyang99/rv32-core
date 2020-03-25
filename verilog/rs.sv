@@ -126,21 +126,18 @@ module RS(
     input [`WAYS-1:0]                           ALU_occupied,
     output ID_EX_PACKET [`WAYS-1:0]             rs_packet_out,
 
-    output logic [$clog2(`RS):0]                num_is_free,
-    
+    output logic [$clog2(`RS):0]                num_is_free
+);
 
 //debug
-    output logic [$clog2(`WAYS):0]              free_decrease,
-    output logic [$clog2(`RS):0]                num_is_free_next,
-    output logic [`RS-1:0]                      is_free_hub,
-    output logic [$clog2(`WAYS):0]              free_increase,
-    output logic   [`RS-1:0]                      reset_hub,
-    output    wor [`RS-1:0]                             reset_hub_tmp,
+    logic [$clog2(`WAYS):0]              free_decrease;
+    logic [$clog2(`RS):0]                num_is_free_next;
+    logic [`RS-1:0]                      is_free_hub;
+    logic [$clog2(`WAYS):0]              free_increase;
+    logic   [`RS-1:0]                      reset_hub;
+    wor [`RS-1:0]                             reset_hub_tmp;
 
-    output logic [`RS-1:0]                      ready_hub
-);
     // in hubs
-//    wor   [`RS-1:0]                           reset_hub;
     logic [$clog2(`WAYS):0]                     ALU_idx;
     logic [`RS-1:0]                             opa_valid_in_hub;
     logic [`RS-1:0]                             opb_valid_in_hub;
@@ -150,15 +147,7 @@ module RS(
 
     
     // out hubs
-//    logic [`RS-1:0]                             ready_hub;
-//    logic [`RS-1:0]                             is_free_hub;
-
-
-    // other internals
-//    reg   [$clog2(`RS):0]                       num_is_free;
-//    logic [$clog2(`RS):0]                       num_is_free_next;
-//    logic [$clog2(`WAYS):0]                     free_decrease;
-//    logic [$clog2(`WAYS):0]                     free_increase;
+    logic [`RS-1:0]                             ready_hub;
     logic [`WAYS-1:0] [`XLEN-1:0]               opa_in_processed;
     logic [`WAYS-1:0] [`XLEN-1:0]               opb_in_processed;
     logic [`WAYS-1:0] [`WAYS-1:0]               opa_is_from_CDB;

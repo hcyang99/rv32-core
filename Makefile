@@ -32,10 +32,13 @@ LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 #TESTBENCH	= testbench/rs_line_test.sv sys_defs.svh
 
 HEADERS 	= sys_defs.svh ISA.svh 
-SOURCES 	= verilog/rs.sv
+SOURCES 	= verilog/PRF.sv
 
-SIMFILES 	= sys_defs.svh ISA.svh verilog/ex_stage.sv verilog/mult.sv
-TESTBENCH   = testbench/ex_stage_test.sv
+#SIMFILES 	= sys_defs.svh ISA.svh verilog/ex_stage.sv verilog/mult.sv
+#TESTBENCH   = testbench/ex_stage_test.sv
+
+SIMFILES 	= sys_defs.svh ISA.svh verilog/PRF.sv
+TESTBENCH   = testbench/test_PRF.sv
 
 
 # SYNTHESIS CONFIG
