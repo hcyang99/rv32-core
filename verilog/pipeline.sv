@@ -72,6 +72,37 @@ module pipeline (
 
 );
 
+
+    // between processor and icache controller
+    // TODO: connect these ports
+    logic [`WAYS-1:0] [63:0] icache_to_proc_data;
+    logic [`WAYS-1:0] icache_to_proc_data_valid;
+    logic [`WAYS-1:0] [31:0] proc_to_icache_addr;
+    logic [`WAYS-1:0] proc_to_icache_en;
+
+
+    // between icache controller and icache mem
+    logic [4:0] icache_to_cachemem_index;
+    logic [7:0] icache_to_cachemem_tag;
+    logic icache_to_cachemem_en;
+    logic [`WAYS-1:0] [4:0] icache_to_cachemem_rd_idx;
+    logic [`WAYS-1:0] [7:0] icache_to_cachemem_rd_tag;
+    logic [`WAYS-1:0][63:0] cachemem_to_icache_data;
+    logic [`WAYS-1:0] cachemem_to_icache_valid;
+
+    // between icache controller and mem
+    logic [1:0] icache_to_mem_command;
+    logic [31:0] icache_to_mem_addr;
+    logic [3:0] mem_to_icache_response;
+    logic [3:0] mem_to_icache_tag;
+
+    // between icache mem and mem
+    logic [63:0] mem_to_cachemem_data;
+
+
+
+
+
 	// Pipeline register enables
 	logic   if_id_enable, id_ex_enable, ex_mem_enable, mem_wb_enable;
 	
@@ -80,7 +111,6 @@ module pipeline (
 
 
 	// Outputs from IF-Stage
-	logic [`WAYS-1:0][`XLEN-1:0] proc2Imem_addr;
 
 	IF_ID_PACKET[`WAYS-1 : 0] if_packet;
 
@@ -204,30 +234,50 @@ module pipeline (
 	assign proc2mem_data = {32'b0, proc2Dmem_data};
 
 
+	assign proc_to_icache_en = {`WAYS{1'b1}};
 
-icache Icache(
-    .clock,
-    .reset,
+    icache icache_0(
+        .clock(clock),
+        .reset(reset),
 
-    .Imem2proc_response,
-    .Imem2proc_data,
-    .Imem2proc_tag,
+        .Imem2proc_response(mem_to_icache_response),
+        .Imem2proc_tag(mem_to_icache_tag),
 
-    .proc2Icache_addr(proc2Imem_addr),
-    .cachemem_data, // read an instruction when it's not in a cache put it inside a cache
-    .cachemem_valid,
+        .proc2Icache_addr(proc_to_icache_addr),
+        .proc2Icache_en(proc_to_icache_en),
+        .cachemem_data(cachemem_to_icache_data), // read an instruction when it's not in a cache put it inside a cache
+        .cachemem_valid(cachemem_to_icache_valid),
 
-    .proc2Imem_command, 
-    .proc2Imem_addr,
+        .proc2Imem_command(icache_to_mem_command), 
+        .proc2Imem_addr(icache_to_mem_addr),
 
-    .Icache_data_out, // value is memory[proc2Icache_addr]
-    .Icache_valid_out,      // when this is high
+        .Icache_data_out(icache_to_proc_data), // value is memory[proc2Icache_addr]
+        .Icache_valid_out(icache_to_proc_data_valid),      // when this is high
 
-    .current_index,
-    .current_tag,
-    .data_write_enable
-  
-  );
+        .rd_idx(icache_to_cachemem_rd_idx),
+        .rd_tag(icache_to_cachemem_rd_tag),
+
+        .current_index(icache_to_cachemem_index),
+        .current_tag(icache_to_cachemem_tag),
+        .data_write_enable(icache_to_cachemem_en)
+    );
+
+    cache cache_0(
+        .clock(clock),
+        .reset(reset), 
+
+        .wr_en(icache_to_cachemem_en),
+        .wr_idx(icache_to_cachemem_index),
+        .wr_tag(icache_to_cachemem_tag),
+        .wr_data(mem_to_cachemem_data), 
+
+        .rd_idx(icache_to_cachemem_rd_idx),
+        .rd_tag(icache_to_cachemem_rd_tag),
+
+        .rd_data(cachemem_to_icache_data),
+        .rd_valid(cachemem_to_icache_valid)
+    );
+
 
 
 
@@ -254,11 +304,11 @@ icache Icache(
 		.pc_predicted(),
 		.ex_mem_take_branch(),//
 		.ex_mem_target_pc_with_predicted(),
-		.Icache2proc_data(Icache_data_out),
-        .Icache2proc_valid(Icache_valid_out),
+		.Icache2proc_data(icache_to_proc_data),
+        .Icache2proc_valid(icache_to_proc_data_valid),
 		
 		// Outputs
-		.proc2Imem_addr(proc2Imem_addr),
+		.proc2Imem_addr(proc_to_icache_addr),
 		.if_packet_out(if_packet)
 	);
 
