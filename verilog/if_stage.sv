@@ -16,8 +16,11 @@ module if_stage(
 	input         reset,                  // system reset
 	input         mem_wb_valid_inst,      // only go to next instruction when true
 	                                      // makes pipeline behave as single-cycle
-	input         ex_mem_take_branch,      // taken-branch signal
-	input  [`XLEN-1:0] ex_mem_target_pc,        // target pc: use if take_branch is TRUE
+
+
+	input         		ex_mem_take_branch,      // taken-branch signal
+	input  [`XLEN-1:0] 	ex_mem_target_pc,        // target pc: use if take_branch is TRUE
+	
 	input  [63:0] Imem2proc_data,          // Data coming back from instruction-memory
 	output logic [`XLEN-1:0] proc2Imem_addr,    // Address sent to Instruction memory
 	output IF_ID_PACKET if_packet_out         // Output data packet from IF going to ID, see sys_defs for signal information 

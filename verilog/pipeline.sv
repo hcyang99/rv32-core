@@ -18,12 +18,14 @@ module pipeline (
 
 	input         clock,                    // System clock
 	input         reset,                    // System reset
+
 	input [3:0]   mem2proc_response,        // Tag from memory about current request
 	input [63:0]  mem2proc_data,            // Data coming back from memory
 	input [3:0]   mem2proc_tag,              // Tag from memory about current reply
 	
 	output logic [1:0]  proc2mem_command,    // command sent to memory
 	output logic [`XLEN-1:0] proc2mem_addr,      // Address sent to memory
+
 	output logic [63:0] proc2mem_data,      // Data sent to memory
 	output MEM_SIZE proc2mem_size,          // data size sent to memory
 
@@ -174,6 +176,49 @@ module pipeline (
 	assign proc2mem_size =
 	     (proc2Dmem_command == BUS_NONE) ? DOUBLE : proc2Dmem_size;
 	assign proc2mem_data = {32'b0, proc2Dmem_data};
+
+
+
+module icache(
+    .clock,
+    .clear,
+    .reset,
+
+    .Imem2proc_response,
+    .Imem2proc_data,
+    .Imem2proc_tag,
+
+    .proc2Icache_addr,
+    .cachemem_data, // read an instruction when it's not in a cache put it inside a cache
+    .cachemem_valid,
+
+    .proc2Imem_command, 
+    output logic [31:0] proc2Imem_addr,
+
+    output logic [`WAYS-1:0][63:0] Icache_data_out, // value is memory[proc2Icache_addr]
+    output logic  [`WAYS-1:0] Icache_valid_out,      // when this is high
+
+    output logic  [4:0] current_index,
+    output logic  [7:0] current_tag,
+    output logic  [4:0] last_index,
+    output logic  [7:0] last_tag,
+    output logic  data_write_enable
+  
+  );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //////////////////////////////////////////////////
 //                                              //
@@ -342,6 +387,7 @@ endgenerate
     .reg_write,
     .is_branch,
     .valid,
+		
     .PC,
     .target,
     .branch_direction,

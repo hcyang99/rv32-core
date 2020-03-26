@@ -1,20 +1,22 @@
 
 module icache(
     input   clock,
+    input   clear,
     input   reset,
+
     input   [3:0] Imem2proc_response,
-    input  [63:0] Imem2proc_data,
+    input   [63:0] Imem2proc_data,
     input   [3:0] Imem2proc_tag,
 
-    input  [63:0] proc2Icache_addr,
-    input  [63:0] cachemem_data,
-    input   cachemem_valid,
+    input  [`WAYS-1:0][31:0] proc2Icache_addr,
+    input  [`WAYS-1:0][63:0] cachemem_data, // read an instruction when it's not in a cache put it inside a cache
+    input  [`WAYS-1:0] cachemem_valid,
 
-    output logic  [1:0] proc2Imem_command,
-    output logic [63:0] proc2Imem_addr,
+    output logic  [1:0] proc2Imem_command, 
+    output logic [31:0] proc2Imem_addr,
 
-    output logic [63:0] Icache_data_out, // value is memory[proc2Icache_addr]
-    output logic  Icache_valid_out,      // when this is high
+    output logic [`WAYS-1:0][63:0] Icache_data_out, // value is memory[proc2Icache_addr]
+    output logic  [`WAYS-1:0] Icache_valid_out,      // when this is high
 
     output logic  [4:0] current_index,
     output logic  [7:0] current_tag,
@@ -38,7 +40,7 @@ module icache(
 
   assign Icache_valid_out = cachemem_valid; 
 
-  assign proc2Imem_addr = {proc2Icache_addr[63:3],3'b0};
+  assign proc2Imem_addr = {proc2Icache_addr[31:3],3'b0};
   assign proc2Imem_command = (miss_outstanding && !changed_addr) ?  BUS_LOAD :
                                                                     BUS_NONE;
 
