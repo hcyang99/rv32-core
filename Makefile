@@ -20,16 +20,11 @@
 ## CONFIGURATION
 ################################################################################
 
-<<<<<<< HEAD
 VCS = SW_VCS=2017.12-SP2-1 vcs -sverilog +vc -Mupdate -line -full64 +define+DEBUG=1
-=======
-VCS = SW_VCS=2017.12-SP2-1 vcs -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson
->>>>>>> remotes/origin/rob_dev
 LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
 
 # SIMULATION CONFIG
 
-<<<<<<< HEAD
 #SIMFILES	= verilog/rs.sv module_provided/psl_get.v sys_defs.svh
 #TESTBENCH	= testbench/rs_final_test.sv sys_defs.svh
 
@@ -79,37 +74,6 @@ all:	simv
 
 .PHONY: all
 
-=======
-SIMFILES	= sys_defs.svh \
-	verilog/rob.sv
-
-TESTBENCH	= sys_defs.svh \
-	testbench/rob_test.sv \
-	testbench/mt19937-64.c \
-	testbench/rob_generate_test.cpp
-
-# SYNTHESIS CONFIG
-SYNFILES	= synth/rob.vg
-
-# COVERAGE CONFIG
-COVERAGE	= line+tgl+branch
-
-# Passed through to .tcl scripts:
-export CLOCK_NET_NAME = clock
-export RESET_NET_NAME = reset
-export CLOCK_PERIOD = 10	# TODO: You will want to make this more aggresive
-
-################################################################################
-## RULES
-################################################################################
-
-# Default target:
-all:	simv
-	./simv | tee program.out
-
-.PHONY: all
-
->>>>>>> remotes/origin/rob_dev
 # Simulation:
 
 sim:	simv $(ASSEMBLED)
@@ -122,10 +86,6 @@ coverage:
 	vcs -V -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson -debug_pp -cm $(COVERAGE) $(SIMFILES) $(TESTBENCH) -o simv
 	./simv -cm $(COVERAGE)
 	urg -dir simv.vdb -format text
-<<<<<<< HEAD
-=======
-	mv urgReport/hierarchy.txt coverage.txt
->>>>>>> remotes/origin/rob_dev
 
 .PHONY: sim
 
@@ -133,7 +93,6 @@ coverage:
 
 dve_simv:	$(HEADERS) $(SIMFILES) $(TESTBENCH)
 	$(VCS) +memcbk $^ -o $@ -gui
-<<<<<<< HEAD
 
 dve:	dve_simv $(ASSEMBLED)
 	./$<
@@ -153,23 +112,6 @@ nuke:	clean
 
 .PHONY: clean nuke dve
 
-=======
-
-dve:	dve_simv $(ASSEMBLED)
-	./$<
-
-clean:
-	rm -rvf simv *.daidir csrc vcs.key program.out \
-	syn_simv syn_simv.daidir syn_program.out \
-	dve *.vpd *.vcd *.dump ucli.key \
-	cm.log *.vdb urgReport
-
-nuke:	clean
-	rm -rvf *.vg *.rep *.db *.chk *.log *.out rob_test.mem DVEfiles/
-
-.PHONY: clean nuke dve
-
->>>>>>> remotes/origin/rob_dev
 # Synthesis
 
 syn_simv:	$(SYNFILES) $(TESTBENCH)
@@ -178,7 +120,6 @@ syn_simv:	$(SYNFILES) $(TESTBENCH)
 syn:	syn_simv
 	./syn_simv | tee syn_program.out
 
-<<<<<<< HEAD
 # test
 RS_Line.vg: verilog/rs.sv synth/syn.tcl
 	dc_shell-t -f synth/syn.tcl | tee RS_Line.out
@@ -206,12 +147,3 @@ ex_stage.vg: verilog/ex_stage.sv alu.vg brcond.vg synth/syn.tcl
 #alu.vg: 
 #export DESIGN_NAME = alu
 #	verilog/ex_stage.sv  synth/syn.tcl 
-=======
-RS_Line.vg: RS_Line.sv RS_Line.tcl
-	dc_shell-t -f RS_Line.tcl | tee RS_Line.out
-
-synth/rob.vg:	verilog/rob.sv synth/rob.tcl
-	cd synth && dc_shell-t -f ./rob.tcl | tee rob.out
-
-export SIMFILES
->>>>>>> remotes/origin/rob_dev
