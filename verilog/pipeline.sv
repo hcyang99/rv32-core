@@ -75,8 +75,13 @@ module pipeline (
 	// Pipeline register enables
 	logic   if_id_enable, id_ex_enable, ex_mem_enable, mem_wb_enable;
 	
+	// Inputs for IF-Stage
+	logic stall;
+
+
 	// Outputs from IF-Stage
-	logic [`XLEN-1:0] proc2Imem_addr;
+	logic [`WAYS-1:0][`XLEN-1:0] proc2Imem_addr;
+
 	IF_ID_PACKET[`WAYS-1 : 0] if_packet;
 
 	// Outputs from IF/ID Pipeline Register
@@ -85,7 +90,7 @@ module pipeline (
 	// Outputs from ID stage
 	ID_EX_PACKET [`WAYS-1 : 0] id_packet;
 
-	logic stall;
+	logic no_free_prf;
 	logic [`WAYS-1:0]	inst_next_valid;
 
 	logic [`WAYS-1:0]	opa_valid;
@@ -106,7 +111,7 @@ module pipeline (
   logic [`WAYS-1:0]                               branch_direction;
 
 	ID_EX_PACKET [`WAYS-1 : 0] 								id_packet_tmp;
-//	logic 																					stall_tmp;							
+//	logic 																					no_free_prf_tmp;							
 //	logic [`WAYS-1:0]																inst_next_valid_tmp;
 
 	logic [`WAYS-1:0]																opa_valid_tmp;
@@ -129,11 +134,32 @@ module pipeline (
   logic [$clog2(`RS):0]                num_is_free;
 
 
-
-
 	// Outputs from EX-Stage
-	EX_MEM_PACKET[`WAYS-1 : 0] ex_packet;
-		logic [`WAYS-1:0] 							ALU_occupied;
+	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet;
+	logic [`WAYS-1:0] 							ALU_occupied;
+  
+//--------------CDB--------------------
+ 
+  logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
+  logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx;
+  logic [`WAYS-1:0]                           CDB_valid;
+	logic [`WAYS-1:0] [$clog2(`ROB)-1:0]        CDB_ROB_idx;
+  logic [`WAYS-1:0]                           CDB_direction;
+  logic [`WAYS-1:0] [`XLEN-1:0]               CDB_target;
+
+  generate
+      for(genvar i = 0; i < `WAYS; i = i + 1) begin
+			   assign CDB_Data[i]      = ex_packet[i].alu_result;
+				 assign CDB_PRF_idx[i]   = ex_packet[i].dest_PRF_idx;
+				 assign CDB_valid[i]     = ex_packet[i].valid;
+				 assign CDB_ROB_idx[i]   = ex_packet[i].rob_idx;
+				 assign CDB_direction[i] = ex_packet[i].take_branch;
+				 assign CDB_target[i]    = ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;   			
+			end
+	endgenerate
+
+//-------------------------------------
+
 
 	// Outputs from EX/MEM Pipeline Register
 	EX_MEM_PACKET ex_mem_packet;
@@ -179,7 +205,7 @@ module pipeline (
 
 
 
-module icache(
+icache Icache(
     .clock,
     .clear,
     .reset,
@@ -188,34 +214,23 @@ module icache(
     .Imem2proc_data,
     .Imem2proc_tag,
 
-    .proc2Icache_addr,
+    .proc2Icache_addr(proc2Imem_addr),
     .cachemem_data, // read an instruction when it's not in a cache put it inside a cache
     .cachemem_valid,
 
     .proc2Imem_command, 
-    output logic [31:0] proc2Imem_addr,
+    .proc2Imem_addr,
 
-    output logic [`WAYS-1:0][63:0] Icache_data_out, // value is memory[proc2Icache_addr]
-    output logic  [`WAYS-1:0] Icache_valid_out,      // when this is high
+    .Icache_data_out, // value is memory[proc2Icache_addr]
+    .Icache_valid_out,      // when this is high
 
-    output logic  [4:0] current_index,
-    output logic  [7:0] current_tag,
-    output logic  [4:0] last_index,
-    output logic  [7:0] last_tag,
-    output logic  data_write_enable
+    .current_index,
+    .current_tag,
+    .last_index,
+    .last_tag,
+    .data_write_enable
   
   );
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -228,18 +243,21 @@ module icache(
 
 	//these are debug signals that are now included in the packet,
 	//breaking them out to support the legacy debug modes
-	assign if_NPC_out        = if_packet.NPC;
-	assign if_IR_out         = if_packet.inst;
-	assign if_valid_inst_out = if_packet.valid;
-	
+//	assign if_NPC_out        = if_packet.NPC;
+//	assign if_IR_out         = if_packet.inst;
+//	assign if_valid_inst_out = if_packet.valid;
+	assign stall = rob_is_full | no_free_prf;
+
 	if_stage if_stage_0 (
 		// Inputs
 		.clock (clock),
 		.reset (reset),
+		.stall,
 		.mem_wb_valid_inst(mem_wb_valid_inst),
-		.ex_mem_take_branch(ex_mem_packet.take_branch),
-		.ex_mem_target_pc(ex_mem_packet.alu_result),
-		.Imem2proc_data(mem2proc_data),
+		.pc_predicted(),
+		.ex_mem_take_branch(CDB_direction),//
+		.ex_mem_target_pc_with_predicted(CDB_target),//NOT SURE
+		.Imem2proc_data(Icache_data_out),
 		
 		// Outputs
 		.proc2Imem_addr(proc2Imem_addr),
@@ -259,7 +277,7 @@ module icache(
 
 
 
-	assign if_id_enable = ~stall & ~rob_is_full;
+	assign if_id_enable = ~no_free_prf & ~rob_is_full;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
 		if (reset | rob_is_full) begin 
@@ -267,7 +285,7 @@ module icache(
 		end else begin// if (reset)
 			if (if_id_enable) begin
 				if_id_packet <= `SD if_packet; 
-			end else if (stall) begin
+			end else if (no_free_prf) begin
 				for(int i = 0; i < `WAYS; i = i + 1)begin
 					if_id_packet[i].valid <= `SD inst_next_valid[i];
 				end
@@ -286,13 +304,14 @@ module icache(
 		.clock(clock),
 		.reset(reset),
 
-		.reg_idx_wr_CDB(),
-		.wr_en_CDB(),
+		.reg_idx_wr_CDB(CDB_PRF_idx),
+		.wr_en_CDB(CDB_valid),
+		.wr_dat_CDB(CDB_Data),
 
 		.if_id_packet_in(if_id_packet),
 		
 		// Outputs
-		.stall,
+		.no_free_prf,
 		.inst_next_valid,
 		.id_packet_out(id_packet),
 		.opa_valid,
@@ -316,7 +335,7 @@ assign rob_is_full = next_num_free < `WAYS;
 always_ff@(posedge clock) begin
 	if(rob_is_full) begin
 		id_packet_tmp 			<= `SD id_packet | id_packet_tmp;
-//		stall_tmp						<= `SD stall | stall_tmp;
+//		no_free_prf_tmp						<= `SD no_free_prf | no_free_prf_tmp;
 //		inst_next_valid_tmp <= `SD inst_next_valid | inst_next_valid_tmp;
 		opa_valid_tmp				<= `SD opa_valid | opa_valid_tmp;
 		opb_valid_tmp				<= `SD opb_valid | opb_valid_tmp;
@@ -339,10 +358,10 @@ end
 		end else begin // if (reset)
 			if (id_ex_enable) begin
 				if(id_packet_tmp) begin
-	//				if(stall_tmp) begin
-						// previous is stall
+	//				if(no_free_prf_tmp) begin
+						// previous is no_free_prf
 						id_ex_packet 		<= `SD id_packet_tmp | id_packet;
-						stall						<= `SD stall | stall_tmp;
+						no_free_prf						<= `SD no_free_prf | no_free_prf_tmp;
 						inst_next_valid <= `SD inst_next_valid | inst_next_valid_tmp;
 						opa_valid				<= `SD opa_valid | opa_valid_tmp;
 						opb_valid				<= `SD opb_valid | opb_valid_tmp;
@@ -377,10 +396,10 @@ endgenerate
     .reset,
 
     // wire declarations for rob inputs/outputs
-    .CDB_ROB_idx(),
-    .CDB_valid(),
-    .CDB_direction(),
-    .CDB_target(),
+    .CDB_ROB_idx,
+    .CDB_valid,
+    .CDB_direction,
+    .CDB_target,
 
     .dest_ARN,
     .dest_PRN,
@@ -444,7 +463,7 @@ endgenerate
 		.ex_packet_out(ex_packet)
 		.occupied_hub(ALU_occupied)
 	);
-
+/*
 
 //////////////////////////////////////////////////
 //                                              //
@@ -546,6 +565,6 @@ endgenerate
 		.reg_wr_idx_out(wb_reg_wr_idx_out),
 		.reg_wr_en_out(wb_reg_wr_en_out)
 	);
-
+*/
 endmodule  // module verisimple
 `endif // __PIPELINE_V__

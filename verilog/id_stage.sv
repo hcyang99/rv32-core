@@ -226,11 +226,12 @@ module id_stage(
 
   input [`WAYS-1:0] [$clog2(`PRF)-1:0]        reg_idx_wr_CDB,     // From CDB, these are now valid
   input [`WAYS-1:0]                           wr_en_CDB,
+	input [`WAYS-1:0] [`XLEN-1:0]               wr_dat_CDB,
 
 
 	input  IF_ID_PACKET [`WAYS-1:0] if_id_packet_in,
 	
-	output stall,
+	output no_free_prf,
 	output [`WAYS-1:0]	inst_next_valid,
 
 	output ID_EX_PACKET [`WAYS-1:0] id_packet_out,
@@ -258,7 +259,7 @@ module id_stage(
 
 		DEST_REG_SEL [`WAYS-1:0] dest_reg_select; 
 	
-		assign stall = (dest_PRF_valid != {`WAYS{1'b1}});
+		assign no_free_prf = (dest_PRF_valid != {`WAYS{1'b1}});
 		assign inst_next_valid = dest_arn_valid & ~dest_PRF_valid;
 
     generate
@@ -301,8 +302,9 @@ module id_stage(
     			.rda_idx(opa_prn[i]),
        		.rdb_idx(opb_prn[i]),
     
-					.wr_idx(),
-    			.wr_en(),
+					.wr_idx(reg_idx_wr_CDB),
+					.wr_dat(wr_dat_CDB),
+    			.wr_en(wr_en_CDB),
     			.rda_dat(opa_value[i]),
     			.rdb_dat(opb_value[i])
 					);
