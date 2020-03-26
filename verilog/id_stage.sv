@@ -228,6 +228,10 @@ module id_stage(
   input [`WAYS-1:0]                           wr_en_CDB,
 	input [`WAYS-1:0] [`XLEN-1:0]               wr_dat_CDB,
 
+	input [`WAYS-1:0] [4:0]                     RRAT_ARF_idx,
+	input [`WAYS-1:0]														RRAT_idx_valid,
+	input [`WAYS-1:0]	[$clog2(`PRF)-1:0]				RRAT_ARF_idx,
+	input																				except,
 
 	input  IF_ID_PACKET [`WAYS-1:0] if_id_packet_in,
 	
@@ -313,82 +317,10 @@ module id_stage(
 				end
 			endgenerate
 
-/*
-	FreeList freelist(
-   		.clock,
-   		.reset,
- 			.except(),
-    	.needed(dest_arn_valid),                 // # of free entries consumed by RAT
-
-    	.reg_idx_wr_RRAT_new(),     // From RRAT, these are entering RRAT
-    	.wr_en_RRAT_new(),         // REQUIRES: en bits after mis-branch are low
-   		.reg_idx_wr_RRAT_old(),     // From RRAT, these are leaving RRAT
-  		.wr_en_RRAT_old(),
-
-    	.available(),
-			.reg_idx_out(dest_PRF), 
-    	.reg_idx_out_valid(dest_PRF_valid)
-		);
-
- 	ValidList validlist(
-    	.clock,
-			.reset,
-    	.except(),
-    	.rda_idx(opa_prn),            // For Renaming
-			.rdb_idx(opb_prn),            // For Renaming
-
-			.reg_idx_wr_RAT(),     // From RAT, freshly renamed entries are invalid
-    	.wr_en_RAT(),
-
-    	.reg_idx_wr_CDB(),     // From CDB, these are now valid
-   		.wr_en_CDB(),					// ***** yhc: need to be handled inside when both CDB and 
-
-    	.reg_idx_wr_RRAT_new(),     // From RRAT, these are entering RRAT
-    	.wr_en_RRAT_new(),         // REQUIRES: en bits after mis-branch are low
-
-    	.reg_idx_wr_RRAT_old(),     // From RRAT, these are leaving RRAT
-    	.wr_en_RRAT_old(),
-
-    	.rda_valid(opa_valid_tmp),
-    	.rdb_valid(opb_valid_tmp)
-);
-
-
-	RAT_RRAT rat(
-     .clock,
-     .reset,
-     .except(),
-
- 			.rda_idx(opa_arn),            // rename queroutput logic [`WAYS-1:0]                    y 1
-    	.rdb_idx(opb_arn),            // rename query 2
-    
-    	.RAT_dest_idx(dest_arn),       // ARF # to be renamed
-   		.RAT_idx_valid(dest_arn_valid),
-
-    	.RRAT_ARF_idx(),       				// ARF # to be renamed
-    	.RRAT_idx_valid(), 
-    	.RRAT_PRF_idx(),       // PRF # 
-
-    	.PRF_idx_in(dest_PRF),         // from freelist
-			.PRF_idx_in_valid(dest_PRF_valid),   // from freelist
-
-//output
-    	.needed(),             // to freelist
-			.is_renamed(),         // to issue logic
-  		.RRAT_PRF_old(),       // to free/valid list
-    	.RRAT_PRF_old_en(),
-			.RRAT_PRF_new(),
-			.RRAT_PRF_new_en(),
-
-    	.rda_idx_out(opa_prn),        // PRF # 
-    	.rdb_idx_out(opb_prn)         // PRF #
-);
-*/
-
 	RAT_RRAT rat(
     .clock,
     .reset,
-    .except(),
+    .except,
 
     .rda_idx(opa_arn),            // rename query 1
     .rdb_idx(opb_arn),            // rename query 2
@@ -398,9 +330,9 @@ module id_stage(
     .reg_idx_wr_CDB,     // From CDB, these are now valid
     .wr_en_CDB,
 
-    .RRAT_ARF_idx(),       // ARF # to be renamed, from ROB
-    .RRAT_idx_valid(), 
-    .RRAT_PRF_idx(),       // PRF # 
+    .RRAT_ARF_idx,       // ARF # to be renamed, from ROB
+    .RRAT_idx_valid, 
+    .RRAT_PRF_idx,       // PRF # 
 
     .rename_result(dest_PRF),      // New PRF # renamed to
     .rename_result_valid(dest_PRF_valid), //*****
@@ -421,7 +353,7 @@ module id_stage(
 				DEST_RD:    id_packet_out[i].dest_PRF_idx = dest_PRF[i];
 				DEST_NONE:  id_packet_out[i].dest_PRF_idx = `ZERO_REG;
 				default:    id_packet_out[i].dest_PRF_idx = `ZERO_REG; 
-		endcase		
+			endcase		
 		end
 	end
 

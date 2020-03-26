@@ -122,11 +122,11 @@ module pipeline (
 
 	// Outputs from Rob-Stage
   logic [$clog2(`ROB)-1:0]                 next_tail;
-  logic [`WAYS-1:0] [4:0] 						    dest_ARN_out;
+  logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
   logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRN_out;
   logic [`WAYS-1:0]                        valid_out;
   logic [$clog2(`ROB):0]                   next_num_free;
-	logic mis_predict;
+	logic except;
 
 	// Outputs from Rs-Stage
   ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
@@ -306,6 +306,11 @@ icache Icache(
 		.wr_en_CDB(CDB_valid),
 		.wr_dat_CDB(CDB_Data),
 
+        .RRAT_ARF_idx,
+        .RRAT_idx_valid,
+        .RRAT_ARF_idx,
+        .except,
+
 		.if_id_packet_in(if_id_packet),
 		
 		// Outputs
@@ -414,7 +419,7 @@ endgenerate
     .dest_PRN_out,
     .valid_out,
     .next_num_free,
-		.mis_predict
+	.proc_nuke(except)
 );
 //////////////////////////////////////////////////
 //                                              //
