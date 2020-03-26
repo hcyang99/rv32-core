@@ -68,6 +68,14 @@ export DESIGN_NAME
 ## RULES
 ################################################################################
 
+# This tells make to cd up a level and invoke the sync2caen target in sync.mk there
+sync2caen:		
+	cd .. && $(MAKE) -f sync.mk sync2caen   
+.PHONY: sync2caen
+
+
+
+
 # Default target:
 all:	simv
 	./simv | tee program.out
