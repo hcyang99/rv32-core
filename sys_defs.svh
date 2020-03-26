@@ -19,6 +19,18 @@
 `define DUT(mod) mod
 `endif
 
+
+`define REGS		32
+`define REG_LEN     64
+`define PRF         64
+`define ROB         16
+`define RS          16
+
+`define OLEN        16
+`define PCLEN       32
+`define WAYS        3
+
+
 //////////////////////////////////////////////
 //
 // R10K algorithm
@@ -191,7 +203,7 @@ typedef enum logic [1:0] {
 `define TRUE  1'h1
 
 // RISCV ISA SPEC
-`define XLEN 32
+`define XLEN 64
 typedef union packed {
 	logic [31:0] inst;
 	struct packed {
