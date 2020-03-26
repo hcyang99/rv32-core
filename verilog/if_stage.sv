@@ -22,17 +22,18 @@ module if_stage(
 	input         	            	ex_mem_take_branch,      // taken-branch signal
 	input  [`WAYS-1:0] [`XLEN-1:0] 	ex_mem_target_pc_with_predicted,        // target pc: use if take_branch is TRUE
 	
-	input  [`WAYS-1] [63:0] Imem2proc_data,          // Data coming back from instruction-memory
+	input  [`WAYS-1:0] [63:0] Imem2proc_data,          // Data coming back from instruction-memory
+	input  [`WAYS-1:0]	Icache2proc_valid,
 
-	output logic [`WAYS-1][`XLEN-1:0] proc2Icache_addr,    // Address sent to Instruction cache
+	output logic [`WAYS-1:0][`XLEN-1:0] proc2Icache_addr,    // Address sent to Instruction cache
 
 
-	output IF_ID_PACKET [`WAYS-1] if_packet_out         // Output data packet from IF going to ID, see sys_defs for signal information 
+	output IF_ID_PACKET [`WAYS-1:0] if_packet_out         // Output data packet from IF going to ID, see sys_defs for signal information 
 );
 
 
-	logic   [`WAYS-1] [`XLEN-1:0] PC_reg;             // PC we are currently fetching	
-	logic   [`WAYS-1] [`XLEN-1:0] next_PC;
+	logic   [`WAYS-1:0] [`XLEN-1:0] PC_reg;             // PC we are currently fetching	
+	logic   [`WAYS-1:0] [`XLEN-1:0] next_PC;
 
 	logic           PC_enable;
 	
@@ -57,7 +58,7 @@ module if_stage(
 	// (halting is handled with the enable PC_enable;
 	
 	// The take-branch signal must override stalling (otherwise it may be lost)
-	assign PC_enable =  ~stall;
+	assign PC_enable =  ~stall && (Icache2proc_valid == {`WAYS{1'b1}});
 	
 	// Pass PC+4 down pipeline w/instruction
 
@@ -81,10 +82,9 @@ module if_stage(
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
 		for( int i = 0; i < `WAYS; i = i + 1) begin
-			if (reset) begin
-				if_packet_out[i].valid <= `SD 1;  // must start with something				
-			end
-			else if_packet_out[i].valid <= `SD mem_wb_valid_inst;		
+			if (reset) 								if_packet_out[i].valid <= `SD 1; else		
+			if (Icache2proc_valid == {`WAYS{1'b1}}) if_packet_out[i].valid <= `SD mem_wb_valid_inst; else
+													if_packet_out[i].valid <= `SD 0;
 		end
 	end
 endmodule  // module if_stage

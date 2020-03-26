@@ -207,7 +207,6 @@ module pipeline (
 
 icache Icache(
     .clock,
-    .clear,
     .reset,
 
     .Imem2proc_response,
@@ -226,8 +225,6 @@ icache Icache(
 
     .current_index,
     .current_tag,
-    .last_index,
-    .last_tag,
     .data_write_enable
   
   );
@@ -255,9 +252,10 @@ icache Icache(
 		.stall,
 		.mem_wb_valid_inst(mem_wb_valid_inst),
 		.pc_predicted(),
-		.ex_mem_take_branch(CDB_direction),//
-		.ex_mem_target_pc_with_predicted(CDB_target),//NOT SURE
-		.Imem2proc_data(Icache_data_out),
+		.ex_mem_take_branch(),//
+		.ex_mem_target_pc_with_predicted(),
+		.Icache2proc_data(Icache_data_out),
+        .Icache2proc_valid(Icache_valid_out),
 		
 		// Outputs
 		.proc2Imem_addr(proc2Imem_addr),
