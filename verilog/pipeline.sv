@@ -23,18 +23,18 @@ module pipeline (
 	input [63:0]  mem2proc_data,            // Data coming back from memory
 	input [3:0]   mem2proc_tag,              // Tag from memory about current reply
 	
-	output logic [1:0]  proc2mem_command,    // command sent to memory
-	output logic [`XLEN-1:0] proc2mem_addr,      // Address sent to memory
+	output logic [1:0]  			proc2mem_command,    // command sent to memory
+	output logic [`XLEN-1:0] 	proc2mem_addr,      // Address sent to memory
 
 	output logic [63:0] proc2mem_data,      // Data sent to memory
-	output MEM_SIZE proc2mem_size,          // data size sent to memory
+	output MEM_SIZE 		proc2mem_size,          // data size sent to memory
 
-	output logic [3:0]  pipeline_completed_insts,
-	output EXCEPTION_CODE   pipeline_error_status,
-	output logic [4:0]  pipeline_commit_wr_idx,
-	output logic [`XLEN-1:0] pipeline_commit_wr_data,
-	output logic        pipeline_commit_wr_en,
-	output logic [`XLEN-1:0] pipeline_commit_NPC,
+	output logic [3:0]  			pipeline_completed_insts,
+	output EXCEPTION_CODE   	pipeline_error_status,
+	output logic [4:0]  			pipeline_commit_wr_idx,
+	output logic [`XLEN-1:0] 	pipeline_commit_wr_data,
+	output logic        			pipeline_commit_wr_en,
+	output logic [`XLEN-1:0] 	pipeline_commit_NPC,
 	
 	
 	// TODO: testing hooks (these must be exported so we can test
@@ -47,10 +47,10 @@ module pipeline (
 
     // between processor and icache controller
     // TODO: connect these ports
-    logic [`WAYS-1:0] [63:0] icache_to_proc_data;
-    logic [`WAYS-1:0] icache_to_proc_data_valid;
-    logic [`WAYS-1:0] [31:0] proc_to_icache_addr;
-    logic [`WAYS-1:0] proc_to_icache_en;
+    logic [`WAYS-1:0] [63:0] 	icache_to_proc_data;
+    logic [`WAYS-1:0] 				icache_to_proc_data_valid;
+    logic [`WAYS-1:0] [31:0] 	proc_to_icache_addr;
+    logic [`WAYS-1:0] 				proc_to_icache_en;
 
 
     // between icache controller and icache mem
@@ -63,13 +63,13 @@ module pipeline (
     logic [`WAYS-1:0] cachemem_to_icache_valid;
 
     // between icache controller and mem
-    logic [1:0] icache_to_mem_command;
-    logic [31:0] icache_to_mem_addr;
-    logic [3:0] mem_to_icache_response;
-    logic [3:0] mem_to_icache_tag;
+    logic [1:0] 	icache_to_mem_command;
+    logic [31:0] 	icache_to_mem_addr;    // should be output of the pipeline
+    logic [3:0] 	mem_to_icache_response;
+    logic [3:0] 	mem_to_icache_tag;
 
     // between icache mem and mem
-    logic [63:0] mem_to_cachemem_data;
+    logic [63:0] mem_to_cachemem_data; // should be input of the pipeline
 
 
 

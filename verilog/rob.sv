@@ -31,15 +31,24 @@ module rob(
     input [`WAYS-1:0]                               is_branch,
     input [`WAYS-1:0]                               valid,
     input [`WAYS-1:0] [`XLEN-1:0]                   PC,
+
     input [`WAYS-1:0] [`XLEN-1:0]                   target,
     input [`WAYS-1:0]                               branch_direction,
 
     output logic [$clog2(`ROB)-1:0]                 next_tail,
+
     output logic [`WAYS-1:0] [4:0]                  dest_ARN_out,
     output logic [`WAYS-1:0] [$clog2(`PRF)-1:0]     dest_PRN_out,
     output logic [`WAYS-1:0]                        valid_out,
+
     output logic [$clog2(`ROB):0]                   next_num_free,
-    output logic                                    proc_nuke
+    output logic                                    proc_nuke,
+    output logic [`XLEN-1:0]                        next_pc,
+
+    output logic [`WAYS-1:0] [`XLEN-1:0]            PC_out,
+    output logic [`WAYS-1:0]                        direction_out,
+    output logic [`WAYS-1:0] [`XLEN-1:0]            target_out,
+    output logic [`WAYS-1:0]                        is_branch_out
 );
 
 rob_entry [`ROB-1:0]                                entries;
@@ -84,22 +93,45 @@ always_comb begin
     // Commit/Output combinational logic
     num_committed = 0;
     proc_nuke = 0;
+    next_pc = 0;
+
+    // Default outputs
     for(int i = 0; i < `WAYS; i++) begin
         dest_PRN_out[i] = 0;
         dest_ARN_out[i] = 0;
         valid_out[i] = 0;
+
+        PC_out[i] = 0;
+        direction_out[i] = 0;
+        target_out[i] = 0;
+        is_branch_out[i] = 0;
     end
     for(int i = 0; i < `WAYS; i++) begin
         next_num_free = num_free - num_dispatched + num_committed;
+
+        // If committing, set outputs and check for mispredicted branch
         if(entries[(head + i) % `ROB].done) begin
             dest_PRN_out[i] = entries[(head + i) % `ROB].dest_PRN;
             dest_ARN_out[i] = entries[(head + i) % `ROB].dest_ARN;
+            valid_out[i] = entries[(head + i) % `ROB].reg_write;
+
+            PC_out[i] = entries[(head + i) % `ROB].PC;
+            direction_out[i] = entries[(head + i) % `ROB].branch_direction;
+            target_out[i] = entries[(head + i) % `ROB].target;
+            is_branch_out[i] = entries[(head + i) % `ROB].is_branch;
+
             num_committed = i + 1;
             next_num_free = next_num_free + 1;
-            if(entries[(head + i) % `ROB].reg_write) 
-                valid_out[i] = 1;
+
+            // if(entries[(head + i) % `ROB].reg_write) 
+                // valid_out[i] = 1;
+
             if(entries[(head + i) % `ROB].is_branch && entries[(head + i) % `ROB].mispredicted) begin
                 proc_nuke = 1;
+                if(entries[(head + i) % `ROB].branch_direction)
+                    next_pc = entries[(head + i) % `ROB].target;
+                else
+                    next_pc = entries[(head + i) % `ROB].PC + 4;
                 next_tail = 0;
                 next_num_free = `ROB;
                 break;
@@ -113,6 +145,7 @@ always_comb begin
 end
 
 // Sequential Logic
+// synopsys sync_set_reset "reset" 
 always_ff @(posedge clock) begin
     //$display("sequential start!");
     if(reset || proc_nuke) begin
