@@ -14,6 +14,7 @@
 module if_stage(
 	input         clock,                  // system clock
 	input         reset,                  // system reset
+	input 			stall,
 	input         mem_wb_valid_inst,      // only go to next instruction when true
 	                                      // makes pipeline behave as single-cycle
 
@@ -69,17 +70,14 @@ module if_stage(
 	always_ff @(posedge clock) begin
 		if(reset)
 			PC_reg <= `SD 0;       // initial PC value is 0
-		else if(PC_enable) begin
-			if(ex_mem_take_branch)  PC_reg <= `SD next_PC; else
+		else if(PC_enable) begin 
+			if(~ex_mem_take_branch)  PC_reg <= `SD next_PC; else
 									PC_reg <= `SD ex_mem_target_pc_with_predicted;
 		
 		end
 	end  // always
 	
-	// This FF controls the stall signal that artificially forces
-	// fetch to stall until the previous instruction has completed
-	// This must be removed for Project 3
-	// synopsys sync_set_reset "reset"
+
 	always_ff @(posedge clock) begin
 		for( int i = 0; i < `WAYS; i = i + 1) begin
 			if (reset) 								if_packet_out[i].valid <= `SD 1; else		
@@ -87,4 +85,5 @@ module if_stage(
 													if_packet_out[i].valid <= `SD 0;
 		end
 	end
+	
 endmodule  // module if_stage
