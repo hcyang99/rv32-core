@@ -128,7 +128,7 @@ module pipeline (
   logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRN_out;
   logic [`WAYS-1:0]                        valid_out;
   logic [$clog2(`ROB):0]                   next_num_free;
-	logic except;
+  logic except;
 
 	// Outputs from Rs-Stage
   ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
