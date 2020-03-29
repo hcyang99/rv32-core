@@ -1,7 +1,6 @@
 // cachemem32x64
 
 `timescale 1ns/100ps
-`define WAYS 4
 
 module cache(
     input                       clock,

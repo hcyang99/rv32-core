@@ -1,6 +1,6 @@
-`define WAYS    4
-`define XLEN    32
-`define PRF     64
+//`define WAYS    4
+//`define XLEN    32
+//`define PRF     64
 
 module ValidList(
     input                                       clock,

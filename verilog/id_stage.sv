@@ -230,7 +230,7 @@ module id_stage(
 
 	input [`WAYS-1:0] [4:0]                     RRAT_ARF_idx,
 	input [`WAYS-1:0]							RRAT_idx_valid,
-	input [`WAYS-1:0] [$clog2(`PRF)-1:0]		RRAT_ARF_idx,
+	input [`WAYS-1:0] [$clog2(`PRF)-1:0]		RRAT_PRF_idx,
 	input										except,
 
 	input  IF_ID_PACKET [`WAYS-1:0] 			if_id_packet_in,

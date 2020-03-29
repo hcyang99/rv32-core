@@ -12,7 +12,7 @@ module testbench;
 
     logic quit;
 
-    psel_gen #(REQS,WIDTH) mypsel_gen(en,reset,req,gnt_bus);
+    rs_psel_gen #(REQS,WIDTH) mypsel_gen(en,reset,req,gnt_bus);
 
     initial 
     begin

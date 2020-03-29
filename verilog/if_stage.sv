@@ -68,7 +68,7 @@ module if_stage(
 
 	always_ff @(posedge clock) begin
 		if(reset) 				PC_reg <= `SD 0; else      // initial PC value is 0
-		if(ex_mem_take_branch) 	PC_reg <= `SD ex_mem_target_pc_with_predicted; else
+		if(rob_take_branch) 	PC_reg <= `SD rob_target_pc; else
 		if(PC_enable)			PC_reg <= `SD pc_predicted;
 	end  // always
 

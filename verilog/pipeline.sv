@@ -119,10 +119,7 @@ module pipeline (
   	logic [$clog2(`ROB)-1:0]                  next_tail;
   	logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
   	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
-
   	logic [`WAYS-1:0]                         valid_out;
-  	logic [`WAYS-1:0]                         direction_out;
-  	logic [`WAYS-1:0]                         target_out;
 
   	logic [$clog2(`ROB):0]                    next_num_free;
   	logic                                     except;
@@ -132,6 +129,10 @@ module pipeline (
   	logic [`WAYS-1:0]                         direction_out;
   	logic [`WAYS-1:0] [`XLEN-1:0]             target_out;
   	logic [`WAYS-1:0]                         valid_update;
+
+
+    logic                                     illegal_out;
+    logic                                     halt_out;
 	logic [$clog2(`WAYS):0]                   num_committed;
 
 
@@ -182,7 +183,7 @@ module pipeline (
 	assign proc2mem_addr = icache_to_mem_addr;
 	//if it's an instruction, then load a double word (64 bits)
 
-	assign proc2mem_data = MEM_SIZE'b0;
+	assign proc2mem_data = 64'b0;
 	assign proc2mem_size = DOUBLE;
 //-------------------------------------------------------------
 	assign pipeline_completed_insts = {{(4-$clog2(`WAYS)){1'b0}},num_committed};
@@ -314,7 +315,7 @@ module pipeline (
 
         .RRAT_ARF_idx,
         .RRAT_idx_valid,
-        .RRAT_ARF_idx,
+        .RRAT_PRF_idx,
         .except,
 		.predictions, // newly-added
 
@@ -427,6 +428,10 @@ endgenerate
     .PC_out,
     .direction_out,
     .target_out,
+	.is_branch_out(valid_update),
+
+	.illegal_out,
+	.halt_out,
 	.num_committed
 );
 //////////////////////////////////////////////////
@@ -471,7 +476,7 @@ endgenerate
 		.reset(reset),
 		.id_ex_packet_in(id_ex_packet),
 		// Outputs
-		.ex_packet_out(ex_packet)
+		.ex_packet_out(ex_packet),
 		.occupied_hub(ALU_occupied)
 	);
 

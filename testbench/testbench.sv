@@ -29,7 +29,6 @@ module testbench;
 //	logic [`XLEN-1:0] pipeline_commit_NPC;
 
 
-    int     wb_fileno;
 
     logic [63:0] debug_counter;
 

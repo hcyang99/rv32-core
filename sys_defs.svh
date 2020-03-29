@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //                                                                     //
-//   Modulename :  sys_defs.vh                                         //
+//   Modulename :  sys_defs.svh                                         //
 //                                                                     //
 //  Description :  This file has the macro-defines for macros used in  //
 //                 the pipeline design.                                //
@@ -188,14 +188,14 @@ typedef enum logic [1:0] {
 	BUS_STORE    = 2'h2
 } BUS_COMMAND;
 
-`ifndef CACHE_MODE
+//`ifndef CACHE_MODE // may need to be uncommented later
 typedef enum logic [1:0] {
 	BYTE = 2'h0,
 	HALF = 2'h1,
 	WORD = 2'h2,
 	DOUBLE = 2'h3
 } MEM_SIZE;
-`endif
+//`endif
 //
 // useful boolean single-bit definitions
 //

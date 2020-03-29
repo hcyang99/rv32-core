@@ -1,5 +1,3 @@
-`define WAYS 4
-`include "../sys_defs.svh"
 module icache(
     input clock,
     input reset,

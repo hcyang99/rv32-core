@@ -1,7 +1,7 @@
-`define WAYS    4
-`define XLEN    32
-`define PRF     64
-`define DEBUG
+//`define WAYS    4
+//`define XLEN    32
+//`define PRF     64
+//`define DEBUG
 
 module RAT_RRAT(
     input                                       clock,

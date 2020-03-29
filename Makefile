@@ -90,7 +90,7 @@ TESTBENCH = 	sys_defs.svh	\
 SIMFILES =		verilog/cache/cachemem.sv	\
 		verilog/branch_pred.sv	\
 		verilog/ex_stage.sv	\
-		verilog/freelist.sv \
+		verilog/freelist_for_wand.sv \
 		verilog/icache.sv \
 		verilog/id_stage.sv	\
 		verilog/if_stage.sv \
@@ -100,7 +100,10 @@ SIMFILES =		verilog/cache/cachemem.sv	\
 		verilog/RAT_RRAT.sv \
 		verilog/rob.sv	\
 		verilog/rs.sv \
-		verilog/validlist.sv
+		verilog/validlist.sv \
+		module_provided/freelist_psl_gen.v \
+		module_provided/rs_psl_gen.v \
+		module_provided/wand_sel.v
 
 SYNFILES = synth/pipeline.vg
 

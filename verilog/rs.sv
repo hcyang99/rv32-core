@@ -5,8 +5,6 @@ set the insruction as invalid
 2. observe that there is one clock period time delay in the output num_is_free,
 // output num_is_free_next
 **********************/
-`include "sys_defs.svh"
-//`define REG_LEN     64
 
 //`timescale 1ns/100ps
 
@@ -195,7 +193,7 @@ module RS(
         end
     end
 
-    psel_gen #(`WAYS,`RS) input_selector(.en(load_in),.reset(1'b0),.req(is_free_hub | reset_hub), .gnt_bus(in_gnt_bus));
+    rs_psel_gen #(`WAYS,`RS) input_selector(.en(load_in),.reset(1'b0),.req(is_free_hub | reset_hub), .gnt_bus(in_gnt_bus));
 
     
     // input selector
@@ -262,7 +260,7 @@ RS_Line lines [`RS-1:0] (
         .is_free(is_free_hub)
     );
 
-    psel_gen #(`WAYS,`RS) output_selector(.en(1'b1),.reset(reset),.req(ready_hub),.gnt_bus(out_gnt_bus));
+    rs_psel_gen #(`WAYS,`RS) output_selector(.en(1'b1),.reset(reset),.req(ready_hub),.gnt_bus(out_gnt_bus));
 
 
 /*
