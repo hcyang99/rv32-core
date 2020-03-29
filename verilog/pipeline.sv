@@ -28,13 +28,16 @@ module pipeline (
 
 	output logic [63:0] 	proc2mem_data,      // Data sent to memory
 	output MEM_SIZE 		proc2mem_size,          // data size sent to memory
+	
 
-	output logic [`WAYS-1:0][3:0]  			pipeline_completed_insts
+	output logic [3:0]  pipeline_completed_insts,
+	output EXCEPTION_CODE   pipeline_error_status,
+	output logic [4:0]  pipeline_commit_wr_idx,
+	output logic [`XLEN-1:0] pipeline_commit_wr_data,
+	output logic        pipeline_commit_wr_en,
+	output logic [`XLEN-1:0] pipeline_commit_NPC
 	
-	// TODO: testing hooks (these must be exported so we can test
-	// the synthesized version) data is tested by looking at
-	// the final values in memory
-	
+
 	
 );
 
@@ -58,7 +61,7 @@ module pipeline (
 
     // between icache controller and mem
     logic [1:0] 				icache_to_mem_command;
-    logic [`XLEN-1:0] 	icache_to_mem_addr;    // should be output of the pipeline
+    logic [`XLEN-1:0] 			icache_to_mem_addr;    // should be output of the pipeline
     logic [3:0] 				mem_to_icache_response;
     logic [3:0] 				mem_to_icache_tag;
 
@@ -69,9 +72,6 @@ module pipeline (
 
 		// Pipeline register enables
 		logic   if_id_enable, id_ex_enable, ex_mem_enable, mem_wb_enable;
-	
-		// Inputs for IF-Stage
-		logic stall;
 
 		// Outputs from IF-Stage
 
@@ -83,16 +83,15 @@ module pipeline (
 	// Outputs from ID stage
 	ID_EX_PACKET [`WAYS-1 : 0] id_packet;
 
-	logic no_free_prf;
-	logic [`WAYS-1:0]	inst_next_valid;
 
 	logic [`WAYS-1:0]	opa_valid;
 	logic [`WAYS-1:0]	opb_valid;
 
 
-	// Outputs from ID/Rob Pipeline Register
+	// Outputs from ID/Rob&RS Pipeline Register
 	ID_EX_PACKET[`WAYS-1 : 0] id_ex_packet;
 	logic rob_is_full;
+	logic rs_is_full;
 	
   logic [`WAYS-1:0] [4:0]        							    dest_ARN;
   logic [`WAYS-1:0] [$clog2(`PRF)-1:0]            dest_PRN;
@@ -104,7 +103,6 @@ module pipeline (
   logic [`WAYS-1:0]                               branch_direction;
 
 	ID_EX_PACKET [`WAYS-1 : 0] 								id_packet_tmp;
-//	logic 																					no_free_prf_tmp;							
 //	logic [`WAYS-1:0]																inst_next_valid_tmp;
 
 	logic [`WAYS-1:0]																opa_valid_tmp;
@@ -140,6 +138,11 @@ module pipeline (
 	// Outputs from EX-Stage
 	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet;
 	logic [`WAYS-1:0] 							ALU_occupied;
+
+
+
+
+	
   
 //--------------CDB--------------------
  
@@ -161,17 +164,34 @@ module pipeline (
 		end
 	endgenerate
 
-//-------------------------------------
+//-----------------------for milestone2 input-----------------------------
+	assign mem_to_icache_response = mem2proc_response;
+	assign mem2proc_data		  = mem_to_cachemem_data;
+	assign mem_to_icache_tag 	  = mem2proc_tag;
+
+//-----------------------for milestone2 input-----------------------------
 	
 //-----------------------for milestone2 output----------------------------
-	assign proc2mem_command = BUS_LOAD;
-	assign proc2mem_addr = proc2Imem_addr;
+	assign proc2mem_command = icache_to_mem_command;
+	assign proc2mem_addr = icache_to_mem_addr;
 	//if it's an instruction, then load a double word (64 bits)
 
-	assign proc2mem_size = DOUBLE;
 	assign proc2mem_data = MEM_SIZE'b0;
+	assign proc2mem_size = DOUBLE;
+//-------------------------------------------------------------
+	assign pipeline_completed_insts = 4'b;
+	assign pipeline_error_status =  mem_wb_illegal             ? ILLEGAL_INST :
+	                                mem_wb_halt                ? HALTED_ON_WFI :
+	                                (mem2proc_response==4'h0)  ? LOAD_ACCESS_FAULT :
+	                                NO_ERROR;
+	
+//	assign pipeline_commit_wr_idx = wb_reg_wr_idx_out;
+//	assign pipeline_commit_wr_data = wb_reg_wr_data_out;
+//	assign pipeline_commit_wr_en = wb_reg_wr_en_out;
+//	assign pipeline_commit_NPC = mem_wb_NPC;
 
-	assign pipeline_completed_insts = {3'b0, mem_wb_valid_inst}; // to-do
+
+
 
 //-----------------------for milestone2 output--------------------------------
 
@@ -235,14 +255,12 @@ module pipeline (
 //	assign if_NPC_out        = if_packet.NPC;
 //	assign if_IR_out         = if_packet.inst;
 //	assign if_valid_inst_out = if_packet.valid;
-	assign stall = rob_is_full | no_free_prf;
 
 	if_stage if_stage_0 (
 		// Inputs
 		.clock (clock),
 		.reset (reset),
-		.stall,
-		.mem_wb_valid_inst(mem_wb_valid_inst),
+		.stall(rob_is_full),
 
 		.pc_predicted(next_PC),
 		.ex_mem_take_branch(except),
@@ -256,7 +274,6 @@ module pipeline (
 		.if_packet_out(if_packet)
 	);
 
-
     branch_pred #(.SIZE(128)) predictor (
         .clock,
         .reset,
@@ -267,38 +284,12 @@ module pipeline (
         .direction_update(direction_out),
         .target_update(target_out),
         .valid_update,
-
+//output
         .next_PC,
         .predictions
     );
 
 
-//////////////////////////////////////////////////
-//                                              //
-//            IF/ID Pipeline Register           //
-//                                              //
-//////////////////////////////////////////////////
-
-//	assign if_id_NPC        = if_id_packet.NPC;
-//	assign if_id_IR         = if_id_packet.inst;
-//	assign if_id_valid_inst = if_id_packet.valid;
-
-
-	assign if_id_enable = ~no_free_prf & ~rob_is_full;
-	// synopsys sync_set_reset "reset"
-	always_ff @(posedge clock) begin
-		if (reset | rob_is_full) begin 
-			if_id_packet <= `SD 0;
-		end else begin// if (reset)
-			if (if_id_enable) begin
-				if_id_packet <= `SD if_packet; 
-			end else if (no_free_prf) begin
-				for(int i = 0; i < `WAYS; i = i + 1)begin
-					if_id_packet[i].valid <= `SD inst_next_valid[i];
-				end
-			end
-		end
-	end // always
 
    
 //////////////////////////////////////////////////
@@ -319,12 +310,12 @@ module pipeline (
         .RRAT_idx_valid,
         .RRAT_ARF_idx,
         .except,
+		.predictions, // newly-added
 
-		.if_id_packet_in(if_id_packet),
-		
+		.if_id_packet_in(if_packet),
+		.predictions,
+
 		// Outputs
-		.no_free_prf,
-		.inst_next_valid,
 		.id_packet_out(id_packet),
 		.opa_valid,
 		.opb_valid,
@@ -335,7 +326,7 @@ module pipeline (
 
 //////////////////////////////////////////////////
 //                                              //
-//            ID/ROB Pipeline Register          //
+//       ID/ROB & RS Pipeline Register          //
 //                                              //
 //////////////////////////////////////////////////
 
@@ -343,12 +334,10 @@ module pipeline (
 //	assign id_ex_IR         = id_ex_packet.inst;
 //	assign id_ex_valid_inst = id_ex_packet.valid;
 assign rob_is_full = next_num_free < `WAYS;
-
+assign rs_is_full  = num_is_free < `WAYS;
 always_ff@(posedge clock) begin
-	if(rob_is_full) begin
-		id_packet_tmp 			<= `SD id_packet | id_packet_tmp;
-//		no_free_prf_tmp						<= `SD no_free_prf | no_free_prf_tmp;
-//		inst_next_valid_tmp <= `SD inst_next_valid | inst_next_valid_tmp;
+	if(rob_is_full | rs_is_full) begin
+		id_packet_tmp 				<= `SD id_packet | id_packet_tmp;
 		opa_valid_tmp				<= `SD opa_valid | opa_valid_tmp;
 		opb_valid_tmp				<= `SD opb_valid | opb_valid_tmp;
 		reg_write_tmp				<= `SD reg_write | reg_write_tmp;
@@ -362,23 +351,14 @@ end
 
 
 
-	assign id_ex_enable = ~rob_is_full;
+	assign id_ex_enable = ~rob_is_full & ~rs_is_full;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
 		if (reset | rob_is_full) begin
 			id_ex_packet <= `SD 0;
 		end else begin // if (reset)
 			if (id_ex_enable) begin
-				if(id_packet_tmp) begin
-	//				if(no_free_prf_tmp) begin
-						// previous is no_free_prf
-						id_ex_packet 		<= `SD id_packet_tmp | id_packet;
-						no_free_prf						<= `SD no_free_prf | no_free_prf_tmp;
-						inst_next_valid <= `SD inst_next_valid | inst_next_valid_tmp;
-						opa_valid				<= `SD opa_valid | opa_valid_tmp;
-						opb_valid				<= `SD opb_valid | opb_valid_tmp;
-						reg_write				<= `SD reg_write | reg_write_tmp;					
-				end else    id_ex_packet <= `SD id_packet;
+				id_ex_packet <= `SD id_packet_tmp| id_packet;
 			end
 		end // else: !if(reset)
 	end // always
@@ -422,19 +402,19 @@ endgenerate
     .PC,
     .target,
     .branch_direction,
-
+// output
     .next_tail,
     .dest_ARN_out,
     .dest_PRN_out,
     .valid_out,
+
     .next_num_free,
 	.proc_nuke(except),
     .next_pc(except_next_PC),
 
     .PC_out,
     .direction_out,
-    .target_out,
-    .is_branch_out(valid_update)
+    .target_out
 );
 //////////////////////////////////////////////////
 //                                              //

@@ -23,10 +23,10 @@ module testbench;
 `endif
 	logic  [3:0] pipeline_completed_insts;
 	EXCEPTION_CODE   pipeline_error_status;
-	logic  [4:0] pipeline_commit_wr_idx;
-	logic [`XLEN-1:0] pipeline_commit_wr_data;
-	logic        pipeline_commit_wr_en;
-	logic [`XLEN-1:0] pipeline_commit_NPC;
+//	logic  [4:0] pipeline_commit_wr_idx;
+//	logic [`XLEN-1:0] pipeline_commit_wr_data;
+//	logic        pipeline_commit_wr_en;
+//	logic [`XLEN-1:0] pipeline_commit_NPC;
 
 
     int     wb_fileno;
@@ -52,11 +52,11 @@ module testbench;
         .proc2mem_size              (proc2mem_size),
 
 	    .pipeline_completed_insts  	(pipeline_completed_insts),
-	    .pipeline_error_status   	(pipeline_error_status),
-	    .pipeline_commit_wr_idx 	(pipeline_commit_wr_idx),
-	    .pipeline_commit_wr_data 	(pipeline_commit_wr_data),
-	    .pipeline_commit_wr_en      (pipeline_commit_wr_en),
-	    .pipeline_commit_NPC 	    (pipeline_commit_NPC)
+	    .pipeline_error_status   	(pipeline_error_status)
+//	    .pipeline_commit_wr_idx 	(pipeline_commit_wr_idx),
+//	    .pipeline_commit_wr_data 	(pipeline_commit_wr_data),
+//	    .pipeline_commit_wr_en      (pipeline_commit_wr_en),
+//	    .pipeline_commit_NPC 	    (pipeline_commit_NPC)
 
     );
 

@@ -11,6 +11,8 @@ typedef struct packed{
     logic                       mispredicted;
     // TODO: include load and store stuff
     logic                       done;
+    logic                       illegal;
+    logic                       halt;
 }rob_entry;
 
 
@@ -35,6 +37,9 @@ module rob(
     input [`WAYS-1:0] [`XLEN-1:0]                   target,
     input [`WAYS-1:0]                               branch_direction,
 
+    input [`WAYS-1:0]                               illegal,
+    input [`WAYS-1:0]                               halt,
+
     output logic [$clog2(`ROB)-1:0]                 next_tail,
 
     output logic [`WAYS-1:0] [4:0]                  dest_ARN_out,
@@ -48,7 +53,11 @@ module rob(
     output logic [`WAYS-1:0] [`XLEN-1:0]            PC_out,
     output logic [`WAYS-1:0]                        direction_out,
     output logic [`WAYS-1:0] [`XLEN-1:0]            target_out,
-    output logic [`WAYS-1:0]                        is_branch_out
+    output logic [`WAYS-1:0]                        is_branch_out,
+
+    output logic                                    illegal_out,
+    output logic                                    halt_out,
+    output logic [$clog2(`WAYS):0]                  num_committed
 );
 
 rob_entry [`ROB-1:0]                                entries;
@@ -57,7 +66,7 @@ logic [$clog2(`ROB)-1:0]                            tail;
 logic [$clog2(`ROB)-1:0]                            next_head;
 //logic [$clog2(`ROB)-1:0]                          next_tail;
 logic [$clog2(`WAYS)-1:0]                           num_dispatched;
-logic [$clog2(`WAYS)-1:0]                           num_committed;
+//logic [$clog2(`WAYS):0]                           num_committed;
 rob_entry [`WAYS-1:0]                               new_entries;
 logic [$clog2(`ROB):0]                              num_free;
 
@@ -80,6 +89,8 @@ always_comb begin
             new_entries[i].branch_direction = branch_direction[i];
             new_entries[i].mispredicted = 0;
             new_entries[i].done = 0;
+            new_entries[i].illegal = illegal[i];
+            new_entries[i].halt = halt[i];
 
             // Valid inputs should never come after invalid inputs
             // That means the last valid i + 1 is the number of valid inputs
@@ -94,6 +105,8 @@ always_comb begin
     num_committed = 0;
     proc_nuke = 0;
     next_pc = 0;
+    illegal = 0;
+    halt = 0;
 
     // Default outputs
     for(int i = 0; i < `WAYS; i++) begin
@@ -119,6 +132,9 @@ always_comb begin
             direction_out[i] = entries[(head + i) % `ROB].branch_direction;
             target_out[i] = entries[(head + i) % `ROB].target;
             is_branch_out[i] = entries[(head + i) % `ROB].is_branch;
+
+            illegal = illegal | entries[(head + i) % `ROB].illegal;
+            halt = halt | entries[(head + i) % `ROB].halt;
 
             num_committed = i + 1;
             next_num_free = next_num_free + 1;
