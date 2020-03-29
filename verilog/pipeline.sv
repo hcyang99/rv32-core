@@ -120,15 +120,25 @@ module pipeline (
 	logic [`WAYS-1:0]																opb_valid_tmp;
 	logic [`WAYS-1:0]																reg_write_tmp;
 	
+    
+    // Wires for Branch Predictor
+    logic [`XLEN-1:0]                       next_PC;
+    logic [`WAYS-1:0]                       predictions;
 
 
-	// Outputs from Rob-Stage
-  logic [$clog2(`ROB)-1:0]                 next_tail;
-  logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
-  logic [`WAYS-1:0] [$clog2(`PRF)-1:0]    dest_PRN_out;
-  logic [`WAYS-1:0]                        valid_out;
-  logic [$clog2(`ROB):0]                   next_num_free;
-  logic except;
+  // Outputs from Rob-Stage
+  logic [$clog2(`ROB)-1:0]                  next_tail;
+  logic [`WAYS-1:0] [4:0] 				    dest_ARN_out;
+  logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
+  logic [`WAYS-1:0]                         valid_out;
+  logic [$clog2(`ROB):0]                    next_num_free;
+  logic                                     except;
+  logic [`XLEN-1:0]                         except_next_PC;
+
+  logic [`WAYS-1:0] [`XLEN-1:0]             PC_out;
+  logic [`WAYS-1:0]                         direction_out;
+  logic [`WAYS-1:0] [`XLEN-1:0]             target_out;
+  logic [`WAYS-1:0]                         valid_update;
 
 	// Outputs from Rs-Stage
   ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
@@ -275,9 +285,9 @@ module pipeline (
 		.stall,
 		.mem_wb_valid_inst(mem_wb_valid_inst),
 
-		.pc_predicted(),
-		.ex_mem_take_branch(),
-		.ex_mem_target_pc_with_predicted(),
+		.pc_predicted(next_PC),
+		.ex_mem_take_branch(except),
+		.ex_mem_target_pc_with_predicted(except_next_PC),
 
 		.Icache2proc_data(icache_to_proc_data),
         .Icache2proc_valid(icache_to_proc_data_valid),
@@ -286,6 +296,22 @@ module pipeline (
 		.proc2Imem_addr(proc_to_icache_addr),
 		.if_packet_out(if_packet)
 	);
+
+
+    branch_pred #(.SIZE(128)) predictor (
+        .clock,
+        .reset,
+
+        .PC(if_packet[0].PC),
+
+        .PC_update(PC_out),
+        .direction_update(direction_out),
+        .target_update(target_out),
+        .valid_update,
+
+        .next_PC,
+        .predictions
+    );
 
 
 //////////////////////////////////////////////////
@@ -406,13 +432,13 @@ end
 //////////////////////////////////////////////////
 generate
   for(genvar i = 0; i < `WAYS; i = i + 1) begin
-		assign dest_ARN[i]  = id_ex_packet[i].inst.r.rd;
-		assign dest_PRN[i]  = id_ex_packet[i].dest_PRF_idx;
-		assign is_branch[i] = id_ex_packet[i].cond_branch | id_ex_packet[i].uncond_branch;
-		assign valid[i]     = id_ex_packet[i].valid;
+		assign dest_ARN[i]          = id_ex_packet[i].inst.r.rd;
+		assign dest_PRN[i]          = id_ex_packet[i].dest_PRF_idx;
+		assign is_branch[i]         = id_ex_packet[i].cond_branch | id_ex_packet[i].uncond_branch;
+		assign valid[i]             = id_ex_packet[i].valid;
 		assign PC[i]				= id_ex_packet[i].PC;
-		assign target[i]		= id_ex_packet[i].NPC;
-		assign branch_direction[i] = 0;		
+		assign target[i]		    = next_PC;
+		assign branch_direction[i]  = predictions[i];		
 	end
 endgenerate
 
@@ -443,7 +469,13 @@ endgenerate
     .dest_PRN_out,
     .valid_out,
     .next_num_free,
-	.proc_nuke(except)
+	.proc_nuke(except),
+    .next_pc(except_next_PC),
+
+    .PC_out,
+    .direction_out,
+    .target_out,
+    .is_branch_out(valid_update)
 );
 //////////////////////////////////////////////////
 //                                              //
