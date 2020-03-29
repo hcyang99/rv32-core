@@ -19,7 +19,7 @@ static FILE* ppfile = NULL;
 void print_header(char* str)
 {
   if (ppfile == NULL)
-    ppfile = fopen("pipeline.out", "w");
+    ppfile = fopen("processor.out", "w");
 
   fprintf(ppfile, "%s", str);
 }

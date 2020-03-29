@@ -1,0 +1,33 @@
+### APPEND THE FOLLOWING TO THE MAKEFILE
+
+
+SOURCE = test_progs/mult_no_lsq.s
+
+GCC = riscv gcc
+OBJDUMP = riscv objdump
+AS = riscv as
+ELF2HEX = riscv elf2hex
+CRT = crt.s
+LINKERS = linker.lds
+ASLINKERS = aslinker.lds
+
+compile: $(CRT) $(LINKERS)
+	$(GCC) $(CFLAGS) $(OFLAGS) $(CRT) $(SOURCE) -T $(LINKERS) -o program.elf
+	$(GCC) $(CFLAGS) $(DEBUG_FLAG) $(OFLAGS) $(CRT) $(SOURCE) -T $(LINKERS) -o program.debug.elf
+assemble: $(ASLINKERS)
+	$(GCC) $(ASFLAGS) $(SOURCE) -T $(ASLINKERS) -o program.elf 
+	cp program.elf program.debug.elf
+disassemble: program.debug.elf
+	$(OBJDUMP) $(OBJFLAGS) program.debug.elf > program.dump
+	$(OBJDUMP) $(OBJDFLAGS) program.debug.elf > program.debug.dump
+	rm program.debug.elf
+hex: program.elf
+	$(ELF2HEX) 8 8192 program.elf > program.mem
+
+program: compile disassemble hex
+	@:
+
+debug_program:
+	gcc -lm -g -std=gnu11 -DDEBUG $(SOURCE) -o debug_bin
+assembly: assemble disassemble hex
+	@:
