@@ -29,7 +29,7 @@ module pipeline (
 	output logic [63:0] proc2mem_data,      // Data sent to memory
 	output MEM_SIZE 		proc2mem_size,          // data size sent to memory
 
-	output logic [3:0]  			pipeline_completed_insts,
+	output logic [`WAYS-1:0][3:0]  			pipeline_completed_insts,
 	output EXCEPTION_CODE   	pipeline_error_status,
 	output logic [4:0]  			pipeline_commit_wr_idx,
 	output logic [`XLEN-1:0] 	pipeline_commit_wr_data,
@@ -54,37 +54,34 @@ module pipeline (
 
 
     // between icache controller and icache mem
-    logic [4:0] icache_to_cachemem_index;
-    logic [7:0] icache_to_cachemem_tag;
-    logic icache_to_cachemem_en;
+    logic [4:0] 						icache_to_cachemem_index;
+    logic [7:0] 						icache_to_cachemem_tag;
+    logic 									icache_to_cachemem_en;
     logic [`WAYS-1:0] [4:0] icache_to_cachemem_rd_idx;
     logic [`WAYS-1:0] [7:0] icache_to_cachemem_rd_tag;
     logic [`WAYS-1:0][63:0] cachemem_to_icache_data;
-    logic [`WAYS-1:0] cachemem_to_icache_valid;
+    logic [`WAYS-1:0] 			cachemem_to_icache_valid;
 
     // between icache controller and mem
-    logic [1:0] 	icache_to_mem_command;
-    logic [31:0] 	icache_to_mem_addr;    // should be output of the pipeline
-    logic [3:0] 	mem_to_icache_response;
-    logic [3:0] 	mem_to_icache_tag;
+    logic [1:0] 				icache_to_mem_command;
+    logic [`XLEN-1:0] 	icache_to_mem_addr;    // should be output of the pipeline
+    logic [3:0] 				mem_to_icache_response;
+    logic [3:0] 				mem_to_icache_tag;
 
     // between icache mem and mem
     logic [63:0] mem_to_cachemem_data; // should be input of the pipeline
 
 
 
-
-
-	// Pipeline register enables
-	logic   if_id_enable, id_ex_enable, ex_mem_enable, mem_wb_enable;
+		// Pipeline register enables
+		logic   if_id_enable, id_ex_enable, ex_mem_enable, mem_wb_enable;
 	
-	// Inputs for IF-Stage
-	logic stall;
+		// Inputs for IF-Stage
+		logic stall;
 
+		// Outputs from IF-Stage
 
-	// Outputs from IF-Stage
-
-	IF_ID_PACKET[`WAYS-1 : 0] if_packet;
+		IF_ID_PACKET[`WAYS-1 : 0] if_packet;
 
 	// Outputs from IF/ID Pipeline Register
 	IF_ID_PACKET[`WAYS-1 : 0] if_id_packet;
@@ -172,7 +169,7 @@ module pipeline (
 
 //-------------------------------------
 
-
+/*
 	// Outputs from EX/MEM Pipeline Register
 	EX_MEM_PACKET ex_mem_packet;
 
@@ -180,8 +177,8 @@ module pipeline (
 	logic [`XLEN-1:0] mem_result_out;
 	logic [`XLEN-1:0] proc2Dmem_addr;
 	logic [`XLEN-1:0] proc2Dmem_data;
-	logic [1:0]  proc2Dmem_command;
 	MEM_SIZE proc2Dmem_size;
+	logic [1:0]  proc2Dmem_command;
 
 	// Outputs from MEM/WB Pipeline Register
 	logic        mem_wb_halt;
@@ -194,8 +191,10 @@ module pipeline (
 	logic [`XLEN-1:0] wb_reg_wr_data_out;
 	logic  [4:0] wb_reg_wr_idx_out;
 	logic        wb_reg_wr_en_out;
-	
-	assign pipeline_completed_insts = {3'b0, mem_wb_valid_inst};
+*/
+
+
+
 	assign pipeline_error_status =  mem_wb_illegal             ? ILLEGAL_INST :
 	                                mem_wb_halt                ? HALTED_ON_WFI :
 	                                (mem2proc_response==4'h0)  ? LOAD_ACCESS_FAULT :
@@ -206,15 +205,20 @@ module pipeline (
 	assign pipeline_commit_wr_en = wb_reg_wr_en_out;
 	assign pipeline_commit_NPC = mem_wb_NPC;
 	
+//-----------------------for milestone2 output----------------------------
 	assign proc2mem_command =
 	     (proc2Dmem_command == BUS_NONE) ? BUS_LOAD : proc2Dmem_command;
 	assign proc2mem_addr =
 	     (proc2Dmem_command == BUS_NONE) ? proc2Imem_addr : proc2Dmem_addr;
 	//if it's an instruction, then load a double word (64 bits)
+
 	assign proc2mem_size =
 	     (proc2Dmem_command == BUS_NONE) ? DOUBLE : proc2Dmem_size;
 	assign proc2mem_data = {32'b0, proc2Dmem_data};
 
+	assign pipeline_completed_insts = {3'b0, mem_wb_valid_inst}; // to fo
+
+//-----------------------for milestone2 output--------------------------------
 
 	assign proc_to_icache_en = {`WAYS{1'b1}};
 
