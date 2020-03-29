@@ -105,8 +105,8 @@ always_comb begin
     num_committed = 0;
     proc_nuke = 0;
     next_pc = 0;
-    illegal = 0;
-    halt = 0;
+    illegal_out = 0;
+    halt_out = 0;
 
     // Default outputs
     for(int i = 0; i < `WAYS; i++) begin
@@ -133,8 +133,8 @@ always_comb begin
             target_out[i] = entries[(head + i) % `ROB].target;
             is_branch_out[i] = entries[(head + i) % `ROB].is_branch;
 
-            illegal = illegal | entries[(head + i) % `ROB].illegal;
-            halt = halt | entries[(head + i) % `ROB].halt;
+            illegal_out = illegal_out | entries[(head + i) % `ROB].illegal;
+            halt_out = halt_out | entries[(head + i) % `ROB].halt;
 
             num_committed = i + 1;
             next_num_free = next_num_free + 1;

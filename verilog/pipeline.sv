@@ -93,21 +93,21 @@ module pipeline (
 	logic rob_is_full;
 	logic rs_is_full;
 	
-  logic [`WAYS-1:0] [4:0]        							    dest_ARN;
-  logic [`WAYS-1:0] [$clog2(`PRF)-1:0]            dest_PRN;
-  logic [`WAYS-1:0]                               reg_write;
-  logic [`WAYS-1:0]                               is_branch;
-  logic [`WAYS-1:0]                               valid;
-  logic [`WAYS-1:0] [`XLEN-1:0]                   PC;
-  logic [`WAYS-1:0] [`XLEN-1:0]                   target;
-  logic [`WAYS-1:0]                               branch_direction;
+  	logic [`WAYS-1:0] [4:0]        				  	dest_ARN;
+  	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]            dest_PRN;
+  	logic [`WAYS-1:0]                               reg_write;
+  	logic [`WAYS-1:0]                               is_branch;
+  	logic [`WAYS-1:0]                               valid;
+  	logic [`WAYS-1:0]                               illegal;
+  	logic [`WAYS-1:0]                               halt;
+  	logic [`WAYS-1:0] [`XLEN-1:0]                   PC;
+  	logic [`WAYS-1:0] [`XLEN-1:0]                   target;
+  	logic [`WAYS-1:0]                               branch_direction;
 
-	ID_EX_PACKET [`WAYS-1 : 0] 								id_packet_tmp;
-//	logic [`WAYS-1:0]																inst_next_valid_tmp;
-
-	logic [`WAYS-1:0]																opa_valid_tmp;
-	logic [`WAYS-1:0]																opb_valid_tmp;
-	logic [`WAYS-1:0]																reg_write_tmp;
+ 	ID_EX_PACKET [`WAYS-1 : 0] 					 	id_packet_tmp;
+	logic [`WAYS-1:0]								opa_valid_tmp;
+	logic [`WAYS-1:0]								opb_valid_tmp;
+	logic [`WAYS-1:0]								reg_write_tmp;
 	
     
     // Wires for Branch Predictor
@@ -116,18 +116,24 @@ module pipeline (
 
 
   // Outputs from Rob-Stage
-  logic [$clog2(`ROB)-1:0]                  next_tail;
-  logic [`WAYS-1:0] [4:0] 				    dest_ARN_out;
-  logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
-  logic [`WAYS-1:0]                         valid_out;
-  logic [$clog2(`ROB):0]                    next_num_free;
-  logic                                     except;
-  logic [`XLEN-1:0]                         except_next_PC;
+  	logic [$clog2(`ROB)-1:0]                  next_tail;
+  	logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
+  	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
 
-  logic [`WAYS-1:0] [`XLEN-1:0]             PC_out;
-  logic [`WAYS-1:0]                         direction_out;
-  logic [`WAYS-1:0] [`XLEN-1:0]             target_out;
-  logic [`WAYS-1:0]                         valid_update;
+  	logic [`WAYS-1:0]                         valid_out;
+  	logic [`WAYS-1:0]                         direction_out;
+  	logic [`WAYS-1:0]                         target_out;
+
+  	logic [$clog2(`ROB):0]                    next_num_free;
+  	logic                                     except;
+  	logic [`XLEN-1:0]                         except_next_PC;
+
+  	logic [`WAYS-1:0] [`XLEN-1:0]             PC_out;
+  	logic [`WAYS-1:0]                         direction_out;
+  	logic [`WAYS-1:0] [`XLEN-1:0]             target_out;
+  	logic [`WAYS-1:0]                         valid_update;
+	logic [$clog2(`WAYS):0]                   num_committed;
+
 
 	// Outputs from Rs-Stage
   ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
@@ -179,9 +185,9 @@ module pipeline (
 	assign proc2mem_data = MEM_SIZE'b0;
 	assign proc2mem_size = DOUBLE;
 //-------------------------------------------------------------
-	assign pipeline_completed_insts = 4'b;
-	assign pipeline_error_status =  mem_wb_illegal             ? ILLEGAL_INST :
-	                                mem_wb_halt                ? HALTED_ON_WFI :
+	assign pipeline_completed_insts = {{(4-$clog2(`WAYS)){1'b0}},num_committed};
+	assign pipeline_error_status =  illegal_out             ? ILLEGAL_INST :
+	                                halt_out                ? HALTED_ON_WFI :
 	                                (mem2proc_response==4'h0)  ? LOAD_ACCESS_FAULT :
 	                                NO_ERROR;
 	
@@ -375,6 +381,8 @@ generate
 		assign dest_PRN[i]          = id_ex_packet[i].dest_PRF_idx;
 		assign is_branch[i]         = id_ex_packet[i].cond_branch | id_ex_packet[i].uncond_branch;
 		assign valid[i]             = id_ex_packet[i].valid;
+		assign illegal[i]			= id_ex_packet[i].illegal;
+		assign halt[i]				= id_ex_packet[i].halt;
 		assign PC[i]				= id_ex_packet[i].PC;
 		assign target[i]		    = next_PC;
 		assign branch_direction[i]  = predictions[i];		
@@ -402,6 +410,10 @@ endgenerate
     .PC,
     .target,
     .branch_direction,
+
+	.illegal,
+	.halt,
+
 // output
     .next_tail,
     .dest_ARN_out,
@@ -414,7 +426,8 @@ endgenerate
 
     .PC_out,
     .direction_out,
-    .target_out
+    .target_out,
+	.num_committed
 );
 //////////////////////////////////////////////////
 //                                              //
