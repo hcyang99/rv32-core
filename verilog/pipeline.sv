@@ -24,18 +24,12 @@ module pipeline (
 	input [3:0]   mem2proc_tag,              // Tag from memory about current reply
 	
 	output logic [1:0]  			proc2mem_command,    // command sent to memory
-	output logic [`XLEN-1:0] 	proc2mem_addr,      // Address sent to memory
+	output logic [`XLEN-1:0] 		proc2mem_addr,      // Address sent to memory
 
-	output logic [63:0] proc2mem_data,      // Data sent to memory
+	output logic [63:0] 	proc2mem_data,      // Data sent to memory
 	output MEM_SIZE 		proc2mem_size,          // data size sent to memory
 
-	output logic [`WAYS-1:0][3:0]  			pipeline_completed_insts,
-	output EXCEPTION_CODE   	pipeline_error_status,
-	output logic [4:0]  			pipeline_commit_wr_idx,
-	output logic [`XLEN-1:0] 	pipeline_commit_wr_data,
-	output logic        			pipeline_commit_wr_en,
-	output logic [`XLEN-1:0] 	pipeline_commit_NPC,
-	
+	output logic [`WAYS-1:0][3:0]  			pipeline_completed_insts
 	
 	// TODO: testing hooks (these must be exported so we can test
 	// the synthesized version) data is tested by looking at
@@ -149,74 +143,35 @@ module pipeline (
   
 //--------------CDB--------------------
  
-  logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
-  logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx;
-  logic [`WAYS-1:0]                           CDB_valid;
+  	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
+  	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx;
+  	logic [`WAYS-1:0]                           CDB_valid;
 	logic [`WAYS-1:0] [$clog2(`ROB)-1:0]        CDB_ROB_idx;
-  logic [`WAYS-1:0]                           CDB_direction;
-  logic [`WAYS-1:0] [`XLEN-1:0]               CDB_target;
+  	logic [`WAYS-1:0]                           CDB_direction;
+  	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_target;
 
-  generate
-      for(genvar i = 0; i < `WAYS; i = i + 1) begin
-			   assign CDB_Data[i]      = ex_packet[i].alu_result;
-				 assign CDB_PRF_idx[i]   = ex_packet[i].dest_PRF_idx;
-				 assign CDB_valid[i]     = ex_packet[i].valid;
-				 assign CDB_ROB_idx[i]   = ex_packet[i].rob_idx;
-				 assign CDB_direction[i] = ex_packet[i].take_branch;
-				 assign CDB_target[i]    = ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;   			
-			end
+  	generate
+      	for(genvar i = 0; i < `WAYS; i = i + 1) begin
+			assign CDB_Data[i]      = ex_packet[i].alu_result;
+			assign CDB_PRF_idx[i]   = ex_packet[i].dest_PRF_idx;
+			assign CDB_valid[i]     = ex_packet[i].valid;
+			assign CDB_ROB_idx[i]   = ex_packet[i].rob_idx;
+			assign CDB_direction[i] = ex_packet[i].take_branch;
+			assign CDB_target[i]    = ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;   			
+		end
 	endgenerate
 
 //-------------------------------------
-
-/*
-	// Outputs from EX/MEM Pipeline Register
-	EX_MEM_PACKET ex_mem_packet;
-
-	// Outputs from MEM-Stage
-	logic [`XLEN-1:0] mem_result_out;
-	logic [`XLEN-1:0] proc2Dmem_addr;
-	logic [`XLEN-1:0] proc2Dmem_data;
-	MEM_SIZE proc2Dmem_size;
-	logic [1:0]  proc2Dmem_command;
-
-	// Outputs from MEM/WB Pipeline Register
-	logic        mem_wb_halt;
-	logic        mem_wb_illegal;
-	logic  [4:0] mem_wb_dest_reg_idx;
-	logic [`XLEN-1:0] mem_wb_result;
-	logic        mem_wb_take_branch;
-	
-	// Outputs from WB-Stage  (These loop back to the register file in ID)
-	logic [`XLEN-1:0] wb_reg_wr_data_out;
-	logic  [4:0] wb_reg_wr_idx_out;
-	logic        wb_reg_wr_en_out;
-*/
-
-
-
-	assign pipeline_error_status =  mem_wb_illegal             ? ILLEGAL_INST :
-	                                mem_wb_halt                ? HALTED_ON_WFI :
-	                                (mem2proc_response==4'h0)  ? LOAD_ACCESS_FAULT :
-	                                NO_ERROR;
-	
-	assign pipeline_commit_wr_idx = wb_reg_wr_idx_out;
-	assign pipeline_commit_wr_data = wb_reg_wr_data_out;
-	assign pipeline_commit_wr_en = wb_reg_wr_en_out;
-	assign pipeline_commit_NPC = mem_wb_NPC;
 	
 //-----------------------for milestone2 output----------------------------
-	assign proc2mem_command =
-	     (proc2Dmem_command == BUS_NONE) ? BUS_LOAD : proc2Dmem_command;
-	assign proc2mem_addr =
-	     (proc2Dmem_command == BUS_NONE) ? proc2Imem_addr : proc2Dmem_addr;
+	assign proc2mem_command = BUS_LOAD;
+	assign proc2mem_addr = proc2Imem_addr;
 	//if it's an instruction, then load a double word (64 bits)
 
-	assign proc2mem_size =
-	     (proc2Dmem_command == BUS_NONE) ? DOUBLE : proc2Dmem_size;
-	assign proc2mem_data = {32'b0, proc2Dmem_data};
+	assign proc2mem_size = DOUBLE;
+	assign proc2mem_data = MEM_SIZE'b0;
 
-	assign pipeline_completed_insts = {3'b0, mem_wb_valid_inst}; // to fo
+	assign pipeline_completed_insts = {3'b0, mem_wb_valid_inst}; // to-do
 
 //-----------------------for milestone2 output--------------------------------
 
