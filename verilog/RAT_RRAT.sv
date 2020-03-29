@@ -122,7 +122,7 @@ module RAT_RRAT(
 
 
         .reg_idx_wr_RRAT_new(RRAT_PRF_idx),             // From RRAT, these are entering RRAT
-        .wr_en_RRAT(RRAT_idx_valid),                    // REQUIRES: en bits after mis-branch are low
+        .wr_en_RRAT(RRAT_idx_valid),  // need to change!  // REQUIRES: en bits after mis-branch are low
         .reg_idx_wr_RRAT_old(RRAT_PRF_old_from_rat),    // From RRAT, these are leaving RRAT
 
         /* outputs */
