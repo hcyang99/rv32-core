@@ -18,9 +18,9 @@ module testbench;
 	logic  [3:0] mem2proc_response;
 	logic [63:0] mem2proc_data;
 	logic  [3:0] mem2proc_tag;
-`ifndef CACHE_MODE
+//`ifndef CACHE_MODE
 	MEM_SIZE     proc2mem_size;
-`endif
+//`endif
 	logic  [3:0] pipeline_completed_insts;
 	EXCEPTION_CODE   pipeline_error_status;
 //	logic  [4:0] pipeline_commit_wr_idx;
@@ -162,7 +162,7 @@ module testbench;
 
 
 
-			 print_cycles();
+//			 print_cycles();
 /*			 print_stage(" ", if_IR_out, if_NPC_out[31:0], {31'b0,if_valid_inst_out});
 			 print_stage("|", if_id_IR, if_id_NPC[31:0], {31'b0,if_id_valid_inst});
 			 print_stage("|", id_ex_IR, id_ex_NPC[31:0], {31'b0,id_ex_valid_inst});
@@ -176,7 +176,7 @@ module testbench;
 */			
 			
 
-
+/*
 			// print the writeback information to writeback.out
 			if(pipeline_completed_insts>0) begin
                 for(int i = 0; i < `WAYS; i++) begin
@@ -189,7 +189,7 @@ module testbench;
 					    $fdisplay(wb_fileno, "PC=%x, ---", core.PC_out[i]);
                 end
 			end
-
+*/
 			// deal with any halting conditions
 			if(pipeline_error_status != NO_ERROR || debug_counter > 50000000) begin
 				$display("@@@ Unified Memory contents hex on left, decimal on right: ");
@@ -211,7 +211,7 @@ module testbench;
 				endcase
 				$display("@@@\n@@");
 				show_clk_count;
-				print_close(); // close the pipe_print output file
+//				print_close(); // close the pipe_print output file
 				$fclose(wb_fileno);
 				#100 $finish;
 			end

@@ -238,19 +238,20 @@ module id_stage(
 
 
 	output ID_EX_PACKET [`WAYS-1:0] 			id_packet_out,
-	output [`WAYS-1:0]							opa_valid,
-	output [`WAYS-1:0]							opb_valid,
-	output [`WAYS-1:0]  						dest_arn_valid
+	output logic [`WAYS-1:0]					opa_valid,
+	output logic [`WAYS-1:0]					opb_valid,
+	output logic [`WAYS-1:0]  					dest_arn_valid
 
 );
 
-		logic [`WAYS-1:0][4:0]  dest_arn;
 
 		logic [`WAYS-1:0] [$clog2(`PRF)-1:0] 	dest_PRF;
 		logic [`WAYS-1:0]						dest_PRF_valid;
 
 		logic [`WAYS-1:0][4:0]					opa_arn;
 		logic [`WAYS-1:0][4:0]					opb_arn;
+		logic [`WAYS-1:0][4:0]  				dest_arn;
+
 		logic [`WAYS-1:0][$clog2(`PRF)-1:0] 	opa_prn;
 		logic [`WAYS-1:0][$clog2(`PRF)-1:0] 	opb_prn;
 		logic [`WAYS-1:0][`XLEN-1:0]			opa_value;
@@ -316,21 +317,21 @@ module id_stage(
 			endgenerate
 
 	RAT_RRAT rat(
-    .clock,
-    .reset,
-    .except,
+    .clock(clock),
+    .reset(reset),
+    .except(except),
 
     .rda_idx(opa_arn),            // rename query 1
     .rdb_idx(opb_arn),            // rename query 2
     .RAT_dest_idx(dest_arn),       // ARF # to be renamed
     .RAT_idx_valid(dest_arn_valid),      // how many ARF # to rename?
 
-    .reg_idx_wr_CDB,     // From CDB, these are now valid
-    .wr_en_CDB,
+    .reg_idx_wr_CDB(reg_idx_wr_CDB),     // From CDB, these are now valid
+    .wr_en_CDB(wr_en_CDB),
 
-    .RRAT_ARF_idx,       // ARF # to be renamed, from ROB
-    .RRAT_idx_valid, 
-    .RRAT_PRF_idx,       // PRF # 
+    .RRAT_ARF_idx(RRAT_ARF_idx),       // ARF # to be renamed, from ROB
+    .RRAT_idx_valid(RRAT_idx_valid), 
+    .RRAT_PRF_idx(RRAT_PRF_idx),       // PRF # 
 
     .rename_result(dest_PRF),      // New PRF # renamed to
     .rename_result_valid(dest_PRF_valid), //***** SHOULD BE ALL 1s for M2
@@ -348,7 +349,7 @@ module id_stage(
 			for(int i = 0; i < `WAYS ; i = i + 1) id_packet_out[i].valid = 0;
 			for(int i = 0; i < `WAYS ; i = i + 1) begin
 				if(predictions[i] == 0) begin
-					id_packet_out.valid[i] = inst_valid_tmp[i];
+					id_packet_out[i].valid = inst_valid_tmp[i];
 				end else break;
 			end
 		end

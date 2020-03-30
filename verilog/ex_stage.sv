@@ -242,7 +242,7 @@ module ex_stage(
 	generate
 		genvar i;
 		for (i=0; i<`WAYS; i++) begin
-			alu(// Inputs
+			alu alu_0(// Inputs
 				.clock(clock),
 				.reset(reset),
 				.en(id_ex_packet_in[i].valid),
@@ -257,7 +257,7 @@ module ex_stage(
 				
 			);
 
-			brcond (// Inputs
+			brcond brcond_0(// Inputs
 				.rs1(id_ex_packet_in[i].rs1_value), 
 				.rs2(id_ex_packet_in[i].rs2_value),
 				.func(id_ex_packet_in[i].inst.b.funct3), // inst bits to determine check
