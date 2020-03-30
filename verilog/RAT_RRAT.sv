@@ -112,8 +112,8 @@ module RAT_RRAT(
         .reset(reset),
         .except(except),
 
-        .rda_idx(rda_idx),                              // For Renaming
-        .rdb_idx(rdb_idx),                              // For Renaming
+        .rda_idx(rda_idx_out),                              // For Renaming
+        .rdb_idx(rdb_idx_out),                              // For Renaming
         .reg_idx_wr_RAT(PRF_idx_from_free),             // From RAT, freshly renamed entries are invalid
         .wr_en_RAT(is_renamed),
 
