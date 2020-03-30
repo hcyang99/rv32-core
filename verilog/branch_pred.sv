@@ -51,13 +51,13 @@ module branch_pred #(parameter SIZE=128) (
             for(int i = 0; i < `WAYS; i++) begin
                 if(valid_update[i]) begin
                     if(direction_update[i]) begin
-                        BTB_valid[PC_update[$clog2(SIZE)+1:2]] = 1;
-                        BTB[PC_update[$clog2(SIZE)+1:2]] = target_update;
-                        if(PHT[PC_update[$clog2(SIZE)+1:2]] < 2'b11)
-                            PHT[PC_update[$clog2(SIZE)+1:2]] = PHT[PC_update[$clog2(SIZE)+1:2]] + 1;
+                        BTB_valid[PC_update[i][$clog2(SIZE)+1:2]] = 1;
+                        BTB[PC_update[i][$clog2(SIZE)+1:2]] = target_update;
+                        if(PHT[PC_update[i][$clog2(SIZE)+1:2]] < 2'b11)
+                            PHT[PC_update[i][$clog2(SIZE)+1:2]] = PHT[PC_update[i][$clog2(SIZE)+1:2]] + 1;
                     end else begin
-                        if(PHT[PC_update[$clog2(SIZE)+1:2]] > 2'b00)
-                            PHT[PC_update[$clog2(SIZE)+1:2]] = PHT[PC_update[$clog2(SIZE)+1:2]] - 1;
+                        if(PHT[PC_update[i][$clog2(SIZE)+1:2]] > 2'b00)
+                            PHT[PC_update[i][$clog2(SIZE)+1:2]] = PHT[PC_update[i][$clog2(SIZE)+1:2]] - 1;
                     end
                 end // if valid_update
             end // loop
