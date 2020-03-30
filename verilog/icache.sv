@@ -1,9 +1,10 @@
+`define WAYS 4
+`include "../sys_defs.svh"
 module icache(
     input clock,
     input reset,
 
     input [3:0] Imem2proc_response,
-    input [63:0] Imem2proc_data,
     input [3:0] Imem2proc_tag,
 
     input [`WAYS-1:0][31:0] proc2Icache_addr,
@@ -17,13 +18,16 @@ module icache(
     output logic [`WAYS-1:0][63:0] Icache_data_out, // value is memory[proc2Icache_addr]
     output logic  [`WAYS-1:0] Icache_valid_out,      // when this is high
 
+    output logic [`WAYS-1:0] [4:0] rd_idx,
+    output logic [`WAYS-1:0] [7:0] rd_tag,
+
     output reg  [4:0] current_index,
     output reg  [7:0] current_tag,
     // output logic  [4:0] last_index,
     // output logic  [7:0] last_tag,
     output logic  data_write_enable
 );
- 
+
 reg [3:0] current_mem_tag;
 logic [`WAYS-1:0] miss_outstanding;
 reg wait_for_mem_reg;
@@ -36,6 +40,14 @@ logic [7:0] current_tag_wire;
 assign miss_outstanding = ~(proc2Icache_en & ~cachemem_valid);
 assign Icache_data_out = cachemem_data;
 assign Icache_valid_out = cachemem_valid; 
+
+generate;
+    genvar gi;
+    for (gi = 0; gi < `WAYS; ++gi) begin
+        assign rd_idx[gi] = proc2Icache_addr[gi][7:3];
+        assign rd_tag[gi] = proc2Icache_addr[gi][15:8];
+    end
+endgenerate
 
 always_comb begin
     proc2Imem_command = BUS_NONE;
