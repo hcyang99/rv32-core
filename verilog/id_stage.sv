@@ -228,7 +228,7 @@ module id_stage(
   	input [`WAYS-1:0]                           wr_en_CDB,
 	input [`WAYS-1:0] [`XLEN-1:0]               wr_dat_CDB,
 
-	input [`WAYS-1:0] [4:0]                     RRAT_ARF_idx,
+	input [`WAYS-1:0] [4:0]                     RRAT_ARF_idx,   // ARF # to be renamed, from ROB
 	input [`WAYS-1:0]							RRAT_idx_valid,
 	input [`WAYS-1:0] [$clog2(`PRF)-1:0]		RRAT_PRF_idx,
 	input										except,
@@ -238,19 +238,20 @@ module id_stage(
 
 
 	output ID_EX_PACKET [`WAYS-1:0] 			id_packet_out,
-	output [`WAYS-1:0]							opa_valid,
-	output [`WAYS-1:0]							opb_valid,
-	output [`WAYS-1:0]  						dest_arn_valid
+	output logic [`WAYS-1:0]					opa_valid,
+	output logic [`WAYS-1:0]					opb_valid,
+	output logic [`WAYS-1:0]  					dest_arn_valid
 
 );
 
-		logic [`WAYS-1:0][4:0]  dest_arn;
 
 		logic [`WAYS-1:0] [$clog2(`PRF)-1:0] 	dest_PRF;
 		logic [`WAYS-1:0]						dest_PRF_valid;
 
 		logic [`WAYS-1:0][4:0]					opa_arn;
 		logic [`WAYS-1:0][4:0]					opb_arn;
+		logic [`WAYS-1:0][4:0]  				dest_arn;
+
 		logic [`WAYS-1:0][$clog2(`PRF)-1:0] 	opa_prn;
 		logic [`WAYS-1:0][$clog2(`PRF)-1:0] 	opb_prn;
 		logic [`WAYS-1:0][`XLEN-1:0]			opa_value;
@@ -298,39 +299,38 @@ module id_stage(
 						.illegal(id_packet_out[i].illegal),
 						.valid_inst(inst_valid_tmp[i])
 					);
-
-				PRF prf(
-    			.clock(clock),
-    			.reset(reset),
-    			.rda_idx(opa_prn[i]),
-       			.rdb_idx(opb_prn[i]),
-    
-				.wr_idx(reg_idx_wr_CDB),
-				.wr_dat(wr_dat_CDB),
-    			.wr_en(wr_en_CDB),
-    			.rda_dat(opa_value[i]),
-    			.rdb_dat(opb_value[i])
-				);
-
 				end
 			endgenerate
 
+	PRF prf(
+	.clock(clock),
+	.reset(reset),
+	.rda_idx(opa_prn),
+	.rdb_idx(opb_prn),
+    
+	.wr_idx(reg_idx_wr_CDB),
+	.wr_dat(wr_dat_CDB),
+	.wr_en(wr_en_CDB),
+	.rda_dat(opa_value),
+	.rdb_dat(opb_value)
+	);
+
 	RAT_RRAT rat(
-    .clock,
-    .reset,
-    .except,
+    .clock(clock),
+    .reset(reset),
+    .except(except),
 
     .rda_idx(opa_arn),            // rename query 1
     .rdb_idx(opb_arn),            // rename query 2
     .RAT_dest_idx(dest_arn),       // ARF # to be renamed
     .RAT_idx_valid(dest_arn_valid),      // how many ARF # to rename?
 
-    .reg_idx_wr_CDB,     // From CDB, these are now valid
-    .wr_en_CDB,
+    .reg_idx_wr_CDB(reg_idx_wr_CDB),     // From CDB, these are now valid
+    .wr_en_CDB(wr_en_CDB),
 
-    .RRAT_ARF_idx,       // ARF # to be renamed, from ROB
-    .RRAT_idx_valid, 
-    .RRAT_PRF_idx,       // PRF # 
+    .RRAT_ARF_idx(RRAT_ARF_idx),       // ARF # to be renamed, from ROB
+    .RRAT_idx_valid(RRAT_idx_valid), 
+    .RRAT_PRF_idx(RRAT_PRF_idx),       // PRF # 
 
     .rename_result(dest_PRF),      // New PRF # renamed to
     .rename_result_valid(dest_PRF_valid), //***** SHOULD BE ALL 1s for M2
@@ -348,7 +348,7 @@ module id_stage(
 			for(int i = 0; i < `WAYS ; i = i + 1) id_packet_out[i].valid = 0;
 			for(int i = 0; i < `WAYS ; i = i + 1) begin
 				if(predictions[i] == 0) begin
-					id_packet_out.valid[i] = inst_valid_tmp[i];
+					id_packet_out[i].valid = inst_valid_tmp[i];
 				end else break;
 			end
 		end
@@ -372,7 +372,7 @@ module id_stage(
 			if(id_packet_out[i].opa_select == OPA_IS_RS1) begin
 				opa_valid[i] = opa_valid_tmp[i];
 				id_packet_out[i].rs1_value = opa_valid[i]? opa_value[i]:opa_prn[i];
-				for(int j = 0; i < `WAYS; 	j = j +1) begin
+				for(int j = 0; j < `WAYS; 	j = j +1) begin
 					if( j < i && dest_arn_valid[j] && dest_arn[j] == opa_arn[i]) begin
 						opa_valid[i] = 0;
 						id_packet_out[i].rs1_value = dest_PRF[j];
@@ -382,7 +382,7 @@ module id_stage(
 			if(id_packet_out[i].opb_select == OPB_IS_RS2 | id_packet_out[i].wr_mem | id_packet_out[i].rd_mem) begin
 				opb_valid[i] = opb_valid_tmp[i];
 				id_packet_out[i].rs2_value = opb_valid[i]? opb_value[i]:opb_prn[i];
-				for(int j = 0; i < `WAYS; j = j +1) begin
+				for(int j = 0; j < `WAYS; j = j +1) begin
 					if( j < i && dest_arn_valid[j] && dest_arn[j] == opb_arn[i]) begin
 						opb_valid[i] = 0;
 						id_packet_out[i].rs2_value = dest_PRF[j];

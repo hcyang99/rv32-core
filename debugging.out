@@ -1,0 +1,167 @@
+vcs -V -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson -debug_pp  sys_defs.svh ISA.svh testbench/mem.sv testbench/testbench.sv testbench/pipe_print.c	  verilog/cache/cachemem.sv verilog/branch_pred.sv verilog/ex_stage.sv verilog/freelist.sv verilog/icache.sv verilog/id_stage.sv verilog/if_stage.sv verilog/mult.sv verilog/PRF.sv verilog/processor.sv verilog/RAT_RRAT.sv verilog/rob.sv verilog/rs.sv verilog/validlist.sv module_provided/freelist_psl_gen.v module_provided/rs_psl_gen.v module_provided/wand_sel.v	-o simv
+/usr/caen/vcs-2017.12-SP2-1/linux64/bin/vcs1 -Mcc=gcc -Mcplusplus=g++ -Masflags= -Mcfl= -pipe -fPIC -O -I/usr/caen/vcs-2017.12-SP2-1/include  -Mxcflags= -pipe -fPIC -I/usr/caen/vcs-2017.12-SP2-1/include -Mldflags= -rdynamic  -Mout=simv -Mamsrun="" -Mvcsaceobjs="" -Mobjects=" /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so " -Mexternalobj= -Msaverestoreobj=/usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcs_save_restore_new.o -Mcrt0= -Mcrtn="" -Mcsrc="testbench/pipe_print.c " -Mupdate -Msyslibs=-ldl  -V +vc -line -full64 +vcs+vcdpluson -Xcbug=0x1 -Xpiyushb1=0x80 -o simv -picarchive +vcsd +itf+/usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcsdp.tab +cli+1 -debug=4 +memcbk -sverilog +vpi -gen_obj sys_defs.svh ISA.svh testbench/mem.sv testbench/testbench.sv verilog/cache/cachemem.sv verilog/branch_pred.sv verilog/ex_stage.sv verilog/freelist.sv verilog/icache.sv verilog/id_stage.sv verilog/if_stage.sv verilog/mult.sv verilog/PRF.sv verilog/processor.sv verilog/RAT_RRAT.sv verilog/rob.sv verilog/rs.sv verilog/validlist.sv module_provided/freelist_psl_gen.v module_provided/rs_psl_gen.v module_provided/wand_sel.v  
+                         Chronologic VCS (TM)
+      Version N-2017.12-SP2-1_Full64 -- Sun Mar 29 22:22:30 2020
+               Copyright (c) 1991-2017 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file 'sys_defs.svh'
+Parsing design file 'ISA.svh'
+Parsing design file 'testbench/mem.sv'
+Parsing design file 'testbench/testbench.sv'
+Parsing design file 'verilog/cache/cachemem.sv'
+Parsing design file 'verilog/branch_pred.sv'
+Parsing design file 'verilog/ex_stage.sv'
+Parsing design file 'verilog/freelist.sv'
+Parsing design file 'verilog/icache.sv'
+Parsing design file 'verilog/id_stage.sv'
+Parsing design file 'verilog/if_stage.sv'
+Parsing design file 'verilog/mult.sv'
+Parsing design file 'verilog/PRF.sv'
+Parsing design file 'verilog/processor.sv'
+Parsing design file 'verilog/RAT_RRAT.sv'
+Parsing design file 'verilog/rob.sv'
+Parsing design file 'verilog/rs.sv'
+Parsing design file 'verilog/validlist.sv'
+Parsing design file 'module_provided/freelist_psl_gen.v'
+Parsing design file 'module_provided/rs_psl_gen.v'
+Parsing design file 'module_provided/wand_sel.v'
+Top Level Modules:
+       testbench
+TimeScale is 1 ns / 100 ps
+
+Warning-[TFIPC] Too few instance port connections
+verilog/id_stage.sv, 318
+"RAT_RRAT rat( .clock (clock),  .reset (reset),  .except (except),  .rda_idx (opa_arn),  .rdb_idx (opb_arn),  .RAT_dest_idx (dest_arn),  .RAT_idx_valid (dest_arn_valid),  .reg_idx_wr_CDB (reg_idx_wr_CDB),  .wr_en_CDB (wr_en_CDB),  .RRAT_ARF_idx (RRAT_ARF_idx),  .RRAT_idx_valid (RRAT_idx_valid),  .RRAT_PRF_idx (RRAT_PRF_idx),  .rename_result (dest_PRF),  .rename_result_valid (dest_PRF_valid),  .rda_idx_out (opa_prn),  .rdb_idx_out (opb_prn),  .rda_valid (opa_valid_tmp),  .rdb_valid (opb_valid_tmp));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+testbench/testbench.sv, 38
+"processor core( .clock (clock),  .reset (reset),  .mem2proc_response (mem2proc_response),  .mem2proc_data (mem2proc_data),  .mem2proc_tag (mem2proc_tag),  .proc2mem_command (proc2mem_command),  .proc2mem_addr (proc2mem_addr),  .proc2mem_data (proc2mem_data),  .proc2mem_size (proc2mem_size),  .pipeline_completed_insts (pipeline_completed_insts),  .pipeline_error_status (pipeline_error_status));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 54
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 55
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 56
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 57
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 57
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 59
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 60
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 60
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/RAT_RRAT.sv, 109
+"ValidList vlist( .clock (clock),  .reset (reset),  .except (except),  .rda_idx (rda_idx),  .rdb_idx (rdb_idx),  .reg_idx_wr_RAT (PRF_idx_from_free),  .wr_en_RAT (is_renamed),  .reg_idx_wr_CDB (reg_idx_wr_CDB),  .wr_en_CDB (wr_en_CDB),  .reg_idx_wr_RRAT_new (RRAT_PRF_idx),  .wr_en_RRAT (RRAT_idx_valid),  .reg_idx_wr_RRAT_old (RRAT_PRF_old_from_rat),  .rda_valid (rda_valid),  .rdb_valid (rdb_valid),  .valid_RAT_reg_out (valid_RAT_reg_out),  .valid_RRAT_reg_out (valid_RRAT_reg_out));"
+  The following 15-bit expression is connected to 18-bit port "rda_idx" of 
+  module "ValidList", instance "vlist".
+  Expression: rda_idx
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/RAT_RRAT.sv, 109
+"ValidList vlist( .clock (clock),  .reset (reset),  .except (except),  .rda_idx (rda_idx),  .rdb_idx (rdb_idx),  .reg_idx_wr_RAT (PRF_idx_from_free),  .wr_en_RAT (is_renamed),  .reg_idx_wr_CDB (reg_idx_wr_CDB),  .wr_en_CDB (wr_en_CDB),  .reg_idx_wr_RRAT_new (RRAT_PRF_idx),  .wr_en_RRAT (RRAT_idx_valid),  .reg_idx_wr_RRAT_old (RRAT_PRF_old_from_rat),  .rda_valid (rda_valid),  .rdb_valid (rdb_valid),  .valid_RAT_reg_out (valid_RAT_reg_out),  .valid_RRAT_reg_out (valid_RRAT_reg_out));"
+  The following 15-bit expression is connected to 18-bit port "rdb_idx" of 
+  module "ValidList", instance "vlist".
+  Expression: rdb_idx
+  	use +lint=PCWM for more details
+
+Starting vcs inline pass...
+12 modules and 0 UDP read.
+recompiling module testbench
+recompiling module rob
+recompiling module RS_Line
+recompiling module RS
+recompiling module rs_psel_gen
+recompiling module wand_sel
+6 of 12 modules done
+	However, due to incremental compilation, only 6 modules need to be compiled. 
+  /usr/caen/vcs-2017.12-SP2-1/linux64/bin/vcselab -o simv -nobanner 
+make[1]: Entering directory `/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/csrc'
+make[1]: Leaving directory `/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/csrc'
+( cd csrc ; make -f Makefile SNPS_VCS_TMPDIR=/tmp/vcs_20200330022229_23994 product )
+make[1]: Entering directory `/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/csrc'
+rm -f _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -o .//../simv.daidir//_csrc0.so objs/amcQw_d.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv    -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ -Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic  -Wl,-rpath=/usr/caen/vcs-2017.12-SP2-1/linux64/lib -L/usr/caen/vcs-2017.12-SP2-1/linux64/lib -lcmsg  pipe_print.o     _24767_archive_1.so _prev_archive_1.so _csrc0.so  SIM_l.o  _csrc0.so    rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          -lzerosoft_rt_stubs -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcs_tls.o   -Wl,-whole-archive -lvcsucli -Wl,-no-whole-archive          /usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+../simv up to date
+make[1]: Leaving directory `/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/csrc'
+CPU time: 1.294 seconds to compile + .470 seconds to elab + .294 seconds to link
+./simv | tee program.out
+Chronologic VCS simulator copyright 1991-2017
+Contains Synopsys proprietary information.
+Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Mar 29 22:22 2020
+VCD+ Writer N-2017.12-SP2-1_Full64 Copyright (c) 1991-2017 by Synopsys Inc.
+@@
+@@
+@@                     0  Asserting System reset......
+@@
+@@                     0 : System STILL at reset, can't show anything
+@@

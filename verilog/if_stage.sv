@@ -22,7 +22,7 @@ module if_stage(
 	input         	    rob_take_branch,      // taken-branch signal
 	input  [`XLEN-1:0] 	rob_target_pc,        // target pc: use if take_branch is TRUE
 	
-	input  [`WAYS-1:0] [63:0] 	Imem2proc_data,          // Data coming back from instruction-memory
+	input  [`WAYS-1:0] [63:0] 	Icache2proc_data,          // Data coming back from instruction-memory
 	input  [`WAYS-1:0]			Icache2proc_valid,
 
 	output logic [`WAYS-1:0][`XLEN-1:0] proc2Icache_addr,    // Address sent to Instruction cache
@@ -42,14 +42,21 @@ module if_stage(
 	// this mux is because the Imem gives us 64 bits not 32 bits
 	generate
 		for (genvar i = 0 ; i <`WAYS; i = i + 1) begin
-			assign PC_reg_hub[i] = (i == 0)? PC_reg: PC_reg_hub[i-1];
 			assign proc2Icache_addr[i] 	 = {PC_reg_hub[i][`XLEN-1:3], 3'b0};
-			assign if_packet_out[i].inst = PC_reg_hub[i][2] ? Imem2proc_data[i][63:32] : Imem2proc_data[i][31:0];
+			assign if_packet_out[i].inst = PC_reg_hub[i][2] ? Icache2proc_data[i][63:32] : Icache2proc_data[i][31:0];
 			assign if_packet_out[i].NPC  = PC_reg_hub[i] + 4;
 			assign if_packet_out[i].PC   = PC_reg_hub[i];
 		end
 	endgenerate
 	
+	always_comb begin
+		for(int i = 0; i < `WAYS; i = i + 1) begin
+			if(i == 0) 	PC_reg_hub[i] = PC_reg; else
+			  			PC_reg_hub[i] = PC_reg_hub[i-1];
+		end
+	end
+
+
 	// default next PC value
 	
 	// next PC is target_pc if there is a taken branch or

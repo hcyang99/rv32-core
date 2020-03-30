@@ -1,7 +1,7 @@
-`define WAYS    4
-`define XLEN    32
-`define PRF     64
-`define DEBUG
+//`define WAYS    4
+//`define XLEN    32
+//`define PRF     64
+//`define DEBUG
 
 // todo: optimize this
 module ValidList(

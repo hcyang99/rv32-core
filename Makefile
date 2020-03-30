@@ -86,17 +86,18 @@ TESTBENCH = 	sys_defs.svh	\
 		ISA.svh         \
 		testbench/mem.sv  \
 		testbench/testbench.sv	\
-		testbench/pipe_print.c	 
+		testbench/pipe_print.c
+
 SIMFILES =		verilog/cache/cachemem.sv	\
 		verilog/branch_pred.sv	\
 		verilog/ex_stage.sv	\
-		verilog/freelist_for_wand.sv \
+		verilog/freelist.sv \
 		verilog/icache.sv \
 		verilog/id_stage.sv	\
 		verilog/if_stage.sv \
 		verilog/mult.sv \
-		verilog/pipeline.sv	\
 		verilog/PRF.sv	\
+		verilog/processor.sv	\
 		verilog/RAT_RRAT.sv \
 		verilog/rob.sv	\
 		verilog/rs.sv \

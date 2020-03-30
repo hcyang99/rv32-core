@@ -14,7 +14,7 @@
 
 `timescale 1ns/100ps
 
-module pipeline (
+module processor (
 
 	input         clock,                    // System clock
 	input         reset,                    // System reset
@@ -36,9 +36,9 @@ module pipeline (
 	output logic [`XLEN-1:0] pipeline_commit_wr_data,
 	output logic        pipeline_commit_wr_en,
 	output logic [`XLEN-1:0] pipeline_commit_NPC
-	
 
-	
+
+
 );
 
 
@@ -270,14 +270,14 @@ module pipeline (
 		.stall(rob_is_full),
 
 		.pc_predicted(next_PC),
-		.ex_mem_take_branch(except),
-		.ex_mem_target_pc_with_predicted(except_next_PC),
+		.rob_take_branch(except),
+		.rob_target_pc(except_next_PC),
 
 		.Icache2proc_data(icache_to_proc_data),
         .Icache2proc_valid(icache_to_proc_data_valid),
 		
 		// Outputs
-		.proc2Imem_addr(proc_to_icache_addr),
+		.proc2Icache_addr(proc_to_icache_addr),
 		.if_packet_out(if_packet)
 	);
 
@@ -313,19 +313,18 @@ module pipeline (
 		.wr_en_CDB(CDB_valid),
 		.wr_dat_CDB(CDB_Data),
 
-        .RRAT_ARF_idx,
-        .RRAT_idx_valid,
-        .RRAT_PRF_idx,
-        .except,
-		.predictions, // newly-added
+        .RRAT_ARF_idx (dest_ARN_out),  // ARF # to be renamed, from ROB
+        .RRAT_idx_valid (valid_out),
+        .RRAT_PRF_idx (dest_PRN_out),
+        .except (except),
 
 		.if_id_packet_in(if_packet),
-		.predictions,
+		.predictions (predictions), // newly-added
 
 		// Outputs
 		.id_packet_out(id_packet),
-		.opa_valid,
-		.opb_valid,
+		.opa_valid (opa_valid),
+		.opb_valid (opb_valid),
 		.dest_arn_valid(reg_write)
 
 	);
@@ -447,10 +446,11 @@ endgenerate
         .CDB_Data,
         .CDB_PRF_idx,
         .CDB_valid,
+		
         .opa_valid_in(opa_valid),
         .opb_valid_in(opb_valid),
         .id_rs_packet_in(id_ex_packet),                            
-        .load_in(1),
+        .load_in(~rob_is_full & ~rs_is_full),
         .ALU_occupied,
 
         // output
