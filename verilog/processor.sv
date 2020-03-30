@@ -27,7 +27,9 @@ module processor (
 	output logic [`XLEN-1:0] 		proc2mem_addr,      // Address sent to memory
 
 	output logic [63:0] 	proc2mem_data,      // Data sent to memory
+`ifndef CACHE_MODE
 	output MEM_SIZE 		proc2mem_size,          // data size sent to memory
+`endif
 	
 
 	output logic [3:0]  pipeline_completed_insts,
@@ -35,11 +37,31 @@ module processor (
 	output logic [4:0]  pipeline_commit_wr_idx,
 	output logic [`XLEN-1:0] pipeline_commit_wr_data,
 	output logic        pipeline_commit_wr_en,
-	output logic [`XLEN-1:0] pipeline_commit_NPC
+	output logic [`XLEN-1:0] pipeline_commit_NPC,
+// newly-added, for debugging
+	output logic [`WAYS-1:0]	if_valid_inst_out,
+	output logic [`WAYS-1:0] [`XLEN-1:0] if_IR_out,
 
+	output logic [`WAYS-1:0]	id_valid_inst_out,
+	output logic [`WAYS-1:0] [`XLEN-1:0] id_IR_out,
 
+	output logic [`WAYS-1:0]	id_ex_valid_inst,
+	output logic [`WAYS-1:0] [`XLEN-1:0] id_ex_IR,
 
+	output logic [`WAYS-1:0]	rob_direction_out,
+    output logic [`WAYS-1:0] [`XLEN-1:0] rob_PC_out,
+	output logic [$clog2(`ROB):0]  rob_next_num_free,
+	
+	output logic [`WAYS-1:0]    rs_valid_inst_out,
+	output logic [`WAYS-1:0] [`XLEN-1:0] rs_IR_out,
+    output logic [$clog2(`RS):0]    rs_num_is_free,
+
+	output logic [`WAYS-1:0]    ex_valid_inst_out,
+	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out;
 );
+
+	
+
 
 
     // between processor and icache controller
@@ -101,8 +123,6 @@ module processor (
   	logic [`WAYS-1:0]                               illegal;
   	logic [`WAYS-1:0]                               halt;
   	logic [`WAYS-1:0] [`XLEN-1:0]                   PC;
-  	logic [`WAYS-1:0] [`XLEN-1:0]                   target;
-  	logic [`WAYS-1:0]                               branch_direction;
 
  	ID_EX_PACKET [`WAYS-1 : 0] 					 	id_packet_tmp;
 	logic [`WAYS-1:0]								opa_valid_tmp;
@@ -184,7 +204,10 @@ module processor (
 	//if it's an instruction, then load a double word (64 bits)
 
 	assign proc2mem_data = 64'b0;
+`ifndef CACHE_MODE	
 	assign proc2mem_size = DOUBLE;
+`endif
+
 //-------------------------------------------------------------
 	assign pipeline_completed_insts = {{(4-$clog2(`WAYS)){1'b0}},num_committed};
 	assign pipeline_error_status =  illegal_out             ? ILLEGAL_INST :
@@ -260,8 +283,12 @@ module processor (
 	//these are debug signals that are now included in the packet,
 	//breaking them out to support the legacy debug modes
 //	assign if_NPC_out        = if_packet.NPC;
-//	assign if_IR_out         = if_packet.inst;
-//	assign if_valid_inst_out = if_packet.valid;
+generate
+ for(genvar i = 0; i < `WAYS; i = i + 1) begin
+	assign if_IR_out[i]         = if_packet[i].inst;
+	assign if_valid_inst_out[i] = if_packet[i].valid;
+ end
+endgenerate
 
 	if_stage if_stage_0 (
 		// Inputs
@@ -304,7 +331,14 @@ module processor (
 //                  ID-Stage                    //
 //                                              //
 //////////////////////////////////////////////////
+generate
+ for(genvar i = 0; i < `WAYS; i = i + 1) begin
+	assign id_IR_out[i]         = id_packet[i].inst;
+	assign id_valid_inst_out[i] = id_packet[i].valid;
+ end
+endgenerate
 	
+
 	id_stage id_stage_0 (// Inputs
 		.clock(clock),
 		.reset(reset),
@@ -336,9 +370,14 @@ module processor (
 //                                              //
 //////////////////////////////////////////////////
 
-//	assign id_ex_NPC        = id_ex_packet.NPC;
-//	assign id_ex_IR         = id_ex_packet.inst;
-//	assign id_ex_valid_inst = id_ex_packet.valid;
+generate
+ for(genvar i = 0; i < `WAYS; i = i + 1) begin
+	assign id_ex_IR[i]         = id_ex_packet[i].inst;
+	assign id_ex_valid_inst[i] = id_ex_packet[i].valid;
+ end
+endgenerate
+
+
 assign rob_is_full = next_num_free < `WAYS;
 assign rs_is_full  = num_is_free < `WAYS;
 always_ff@(posedge clock) begin
@@ -384,12 +423,13 @@ generate
 		assign illegal[i]			= id_ex_packet[i].illegal;
 		assign halt[i]				= id_ex_packet[i].halt;
 		assign PC[i]				= id_ex_packet[i].PC;
-		assign target[i]		    = next_PC;
-		assign branch_direction[i]  = predictions[i];		
 	end
 endgenerate
 
 
+assign rob_next_num_free = next_num_free;
+assign rob_direction_out = direction_out;
+assign rob_PC_out        = PC_out;
 
   rob Rob(
     .clock,
@@ -408,8 +448,8 @@ endgenerate
     .valid,
 		
     .PC,
-    .target,
-    .branch_direction,
+    .target (rob_PC_out), 
+    .branch_direction (predictions),
 
 	.illegal,
 	.halt,
@@ -438,6 +478,15 @@ endgenerate
 //                   RS-Stage                   //
 //                                              //
 //////////////////////////////////////////////////
+
+generate
+	for(genvar i = 0; i < `WAYS； i = i + 1) begin
+		assign rs_valid_inst_out[i] = rs_packet_out[i].valid;
+		assign rs_IR_out[i]			= rs_packet_out[i].inst;
+	end
+endgenerate
+
+assign rs_num_is_free = num_is_free;
 
  RS Rs (
         // inputs
@@ -470,6 +519,12 @@ endgenerate
 //                  EX-Stage                    //
 //                                              //
 //////////////////////////////////////////////////
+generate
+	for(genvar i = 0; i < `WAYS; i = i + 1) begin
+		ex_valid_inst_out[i] = ex_packet[i].valid;
+		ex_alu_result_out[i] = ex_packet[i].alu_result;
+	end
+endgenerate
 	ex_stage ex_stage_0 (
 		// Inputs
 		.clock(clock),

@@ -30,9 +30,9 @@ module testbench;
 	logic  [3:0] mem2proc_response;
 	logic [63:0] mem2proc_data;
 	logic  [3:0] mem2proc_tag;
-//`ifndef CACHE_MODE
+`ifndef CACHE_MODE
 	MEM_SIZE     proc2mem_size;
-//`endif
+`endif
 	logic  [3:0] pipeline_completed_insts;
 	EXCEPTION_CODE   pipeline_error_status;
 	logic  [4:0] pipeline_commit_wr_idx;
@@ -60,7 +60,9 @@ module testbench;
         .proc2mem_command           (proc2mem_command),
         .proc2mem_addr              (proc2mem_addr),
         .proc2mem_data              (proc2mem_data),
+`ifndef CACHE_MODE
         .proc2mem_size              (proc2mem_size),
+`endif
 
 	    .pipeline_completed_insts  	(pipeline_completed_insts),
 	    .pipeline_error_status   	(pipeline_error_status),
@@ -137,7 +139,7 @@ module testbench;
 	// till simulation ends
 	always @(posedge clock) begin
 		if(reset) begin
-			$display("@@ %t : System at reset", $realtime); // FOR DEBUG
+//			$display("@@ %t : System at reset", $realtime); // FOR DEBUG
 			clock_count <= `SD 0;
 			instr_count <= `SD 0;
 		end else begin
@@ -225,7 +227,6 @@ module testbench;
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
 		@(posedge clock);
-		$display("here");
         @(posedge clock);
 
         $readmemh("program.mem", memory.unified_memory);
