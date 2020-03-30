@@ -1,0 +1,376 @@
+vcs -V -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson -debug_pp  sys_defs.svh ISA.svh testbench/mem.sv testbench/testbench.sv testbench/pipe_print.c	  verilog/cache/cachemem.sv verilog/branch_pred.sv verilog/ex_stage.sv verilog/freelist.sv verilog/icache.sv verilog/id_stage.sv verilog/if_stage.sv verilog/mult.sv verilog/PRF.sv verilog/processor.sv verilog/RAT_RRAT.sv verilog/rob.sv verilog/rs.sv verilog/validlist.sv module_provided/freelist_psl_gen.v module_provided/rs_psl_gen.v module_provided/wand_sel.v	-o simv
+/usr/caen/vcs-2017.12-SP2-1/linux64/bin/vcs1 -Mcc=gcc -Mcplusplus=g++ -Masflags= -Mcfl= -pipe -fPIC -O -I/usr/caen/vcs-2017.12-SP2-1/include  -Mxcflags= -pipe -fPIC -I/usr/caen/vcs-2017.12-SP2-1/include -Mldflags= -rdynamic  -Mout=simv -Mamsrun="" -Mvcsaceobjs="" -Mobjects=" /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so " -Mexternalobj= -Msaverestoreobj=/usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcs_save_restore_new.o -Mcrt0= -Mcrtn="" -Mcsrc="testbench/pipe_print.c " -Mupdate -Msyslibs=-ldl  -V +vc -line -full64 +vcs+vcdpluson -Xcbug=0x1 -Xpiyushb1=0x80 -o simv -picarchive +vcsd +itf+/usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcsdp.tab +cli+1 -debug=4 +memcbk -sverilog +vpi -gen_obj sys_defs.svh ISA.svh testbench/mem.sv testbench/testbench.sv verilog/cache/cachemem.sv verilog/branch_pred.sv verilog/ex_stage.sv verilog/freelist.sv verilog/icache.sv verilog/id_stage.sv verilog/if_stage.sv verilog/mult.sv verilog/PRF.sv verilog/processor.sv verilog/RAT_RRAT.sv verilog/rob.sv verilog/rs.sv verilog/validlist.sv module_provided/freelist_psl_gen.v module_provided/rs_psl_gen.v module_provided/wand_sel.v  
+                         Chronologic VCS (TM)
+      Version N-2017.12-SP2-1_Full64 -- Sun Mar 29 21:09:26 2020
+               Copyright (c) 1991-2017 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file 'sys_defs.svh'
+Parsing design file 'ISA.svh'
+Parsing design file 'testbench/mem.sv'
+Parsing design file 'testbench/testbench.sv'
+Parsing design file 'verilog/cache/cachemem.sv'
+Parsing design file 'verilog/branch_pred.sv'
+Parsing design file 'verilog/ex_stage.sv'
+Parsing design file 'verilog/freelist.sv'
+Parsing design file 'verilog/icache.sv'
+Parsing design file 'verilog/id_stage.sv'
+Parsing design file 'verilog/if_stage.sv'
+Parsing design file 'verilog/mult.sv'
+Parsing design file 'verilog/PRF.sv'
+Parsing design file 'verilog/processor.sv'
+Parsing design file 'verilog/RAT_RRAT.sv'
+Parsing design file 'verilog/rob.sv'
+Parsing design file 'verilog/rs.sv'
+Parsing design file 'verilog/validlist.sv'
+Parsing design file 'module_provided/freelist_psl_gen.v'
+Parsing design file 'module_provided/rs_psl_gen.v'
+Parsing design file 'module_provided/wand_sel.v'
+Top Level Modules:
+       testbench
+TimeScale is 1 ns / 100 ps
+
+Warning-[TFIPC] Too few instance port connections
+verilog/id_stage.sv, 319
+"RAT_RRAT rat( .clock (clock),  .reset (reset),  .except (except),  .rda_idx (opa_arn),  .rdb_idx (opb_arn),  .RAT_dest_idx (dest_arn),  .RAT_idx_valid (dest_arn_valid),  .reg_idx_wr_CDB (reg_idx_wr_CDB),  .wr_en_CDB (wr_en_CDB),  .RRAT_ARF_idx (RRAT_ARF_idx),  .RRAT_idx_valid (RRAT_idx_valid),  .RRAT_PRF_idx (RRAT_PRF_idx),  .rename_result (dest_PRF),  .rename_result_valid (dest_PRF_valid),  .rda_idx_out (opa_prn),  .rdb_idx_out (opb_prn),  .rda_valid (opa_valid_tmp),  .rdb_valid (opb_valid_tmp));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[TFIPC] Too few instance port connections
+testbench/testbench.sv, 38
+"processor core( .clock (clock),  .reset (reset),  .mem2proc_response (mem2proc_response),  .mem2proc_data (mem2proc_data),  .mem2proc_tag (mem2proc_tag),  .proc2mem_command (proc2mem_command),  .proc2mem_addr (proc2mem_addr),  .proc2mem_data (proc2mem_data),  .proc2mem_size (proc2mem_size),  .pipeline_completed_insts (pipeline_completed_insts),  .pipeline_error_status (pipeline_error_status));"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 54
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 55
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 56
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 57
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 57
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 59
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 60
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/branch_pred.sv, 60
+"PC_update[($clog2(SIZE) + 1):2]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : predictor 
+  In module : branch_pred.
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/ex_stage.sv, 68
+"mult mult0( .clock (clock),  .reset (reset),  .start (start),  .sign (sign),  .mcand (opa),  .mplier (opb),  .product (product),  .done (mult_done));"
+  The following 64-bit expression is connected to 32-bit port "mcand" of 
+  module "mult", instance "mult0".
+  Expression: opa
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/ex_stage.sv, 68
+"mult mult0( .clock (clock),  .reset (reset),  .start (start),  .sign (sign),  .mcand (opa),  .mplier (opb),  .product (product),  .done (mult_done));"
+  The following 64-bit expression is connected to 32-bit port "mplier" of 
+  module "mult", instance "mult0".
+  Expression: opb
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/ex_stage.sv, 68
+"mult mult0( .clock (clock),  .reset (reset),  .start (start),  .sign (sign),  .mcand (opa),  .mplier (opb),  .product (product),  .done (mult_done));"
+  The following 128-bit expression is connected to 64-bit port "product" of 
+  module "mult", instance "mult0".
+  Expression: product
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/RAT_RRAT.sv, 109
+"ValidList vlist( .clock (clock),  .reset (reset),  .except (except),  .rda_idx (rda_idx),  .rdb_idx (rdb_idx),  .reg_idx_wr_RAT (PRF_idx_from_free),  .wr_en_RAT (is_renamed),  .reg_idx_wr_CDB (reg_idx_wr_CDB),  .wr_en_CDB (wr_en_CDB),  .reg_idx_wr_RRAT_new (RRAT_PRF_idx),  .wr_en_RRAT (RRAT_idx_valid),  .reg_idx_wr_RRAT_old (RRAT_PRF_old_from_rat),  .rda_valid (rda_valid),  .rdb_valid (rdb_valid),  .valid_RAT_reg_out (valid_RAT_reg_out),  .valid_RRAT_reg_out (valid_RRAT_reg_out));"
+  The following 15-bit expression is connected to 18-bit port "rda_idx" of 
+  module "ValidList", instance "vlist".
+  Expression: rda_idx
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/RAT_RRAT.sv, 109
+"ValidList vlist( .clock (clock),  .reset (reset),  .except (except),  .rda_idx (rda_idx),  .rdb_idx (rdb_idx),  .reg_idx_wr_RAT (PRF_idx_from_free),  .wr_en_RAT (is_renamed),  .reg_idx_wr_CDB (reg_idx_wr_CDB),  .wr_en_CDB (wr_en_CDB),  .reg_idx_wr_RRAT_new (RRAT_PRF_idx),  .wr_en_RRAT (RRAT_idx_valid),  .reg_idx_wr_RRAT_old (RRAT_PRF_old_from_rat),  .rda_valid (rda_valid),  .rdb_valid (rdb_valid),  .valid_RAT_reg_out (valid_RAT_reg_out),  .valid_RRAT_reg_out (valid_RRAT_reg_out));"
+  The following 15-bit expression is connected to 18-bit port "rdb_idx" of 
+  module "ValidList", instance "vlist".
+  Expression: rdb_idx
+  	use +lint=PCWM for more details
+
+
+Warning-[IWNF] Implicit wire has no fanin
+verilog/processor.sv, 316
+  Implicit wire 'RRAT_ARF_idx' does not have any driver, please make sure this
+  is intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+verilog/processor.sv, 317
+  Implicit wire 'RRAT_idx_valid' does not have any driver, please make sure 
+  this is intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+verilog/processor.sv, 318
+  Implicit wire 'RRAT_PRF_idx' does not have any driver, please make sure this
+  is intended.
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/processor.sv, 207
+"icache icache_0( .clock (clock),  .reset (reset),  .Imem2proc_response (mem_to_icache_response),  .Imem2proc_tag (mem_to_icache_tag),  .proc2Icache_addr (proc_to_icache_addr),  .proc2Icache_en (proc_to_icache_en),  .cachemem_data (cachemem_to_icache_data),  .cachemem_valid (cachemem_to_icache_valid),  .proc2Imem_command (icache_to_mem_command),  .proc2Imem_addr (icache_to_mem_addr),  .Icache_data_out (icache_to_proc_data),  .Icache_valid_out (icache_to_proc_data_valid),  .rd_idx (icache_to_cachemem_rd_idx),  .rd_tag (icache_to_cachemem_rd_tag),  .current_index (icache_to_cachemem_index),  .current_tag (icache_to_cachemem_tag),  .data_write_enable (icache_to_cachemem_en));"
+  The following 64-bit expression is connected to 32-bit port "proc2Imem_addr"
+  of module "icache", instance "icache_0".
+  Expression: icache_to_mem_addr
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/processor.sv, 266
+"if_stage if_stage_0( .clock (clock),  .reset (reset),  .stall (rob_is_full),  .pc_predicted (next_PC),  .rob_take_branch (except),  .rob_target_pc (except_next_PC),  .Icache2proc_data (icache_to_proc_data),  .Icache2proc_valid (icache_to_proc_data_valid),  .proc2Icache_addr (proc_to_icache_addr),  .if_packet_out (if_packet));"
+  The following 96-bit expression is connected to 192-bit port 
+  "proc2Icache_addr" of module "if_stage", instance "if_stage_0".
+  Expression: proc_to_icache_addr
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/processor.sv, 308
+"id_stage id_stage_0( .clock (clock),  .reset (reset),  .reg_idx_wr_CDB (CDB_PRF_idx),  .wr_en_CDB (CDB_valid),  .wr_dat_CDB (CDB_Data),  .RRAT_ARF_idx (RRAT_ARF_idx),  .RRAT_idx_valid (RRAT_idx_valid),  .RRAT_PRF_idx (RRAT_PRF_idx),  .except (except),  .if_id_packet_in (if_packet),  .predictions (predictions),  .id_packet_out (id_packet),  .opa_valid (opa_valid),  .opb_valid (opb_valid),  .dest_arn_valid (reg_write));"
+  The following 1-bit expression is connected to 15-bit port "RRAT_ARF_idx" of
+  module "id_stage", instance "id_stage_0".
+  Expression: RRAT_ARF_idx
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/processor.sv, 308
+"id_stage id_stage_0( .clock (clock),  .reset (reset),  .reg_idx_wr_CDB (CDB_PRF_idx),  .wr_en_CDB (CDB_valid),  .wr_dat_CDB (CDB_Data),  .RRAT_ARF_idx (RRAT_ARF_idx),  .RRAT_idx_valid (RRAT_idx_valid),  .RRAT_PRF_idx (RRAT_PRF_idx),  .except (except),  .if_id_packet_in (if_packet),  .predictions (predictions),  .id_packet_out (id_packet),  .opa_valid (opa_valid),  .opb_valid (opb_valid),  .dest_arn_valid (reg_write));"
+  The following 1-bit expression is connected to 3-bit port "RRAT_idx_valid" 
+  of module "id_stage", instance "id_stage_0".
+  Expression: RRAT_idx_valid
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/processor.sv, 308
+"id_stage id_stage_0( .clock (clock),  .reset (reset),  .reg_idx_wr_CDB (CDB_PRF_idx),  .wr_en_CDB (CDB_valid),  .wr_dat_CDB (CDB_Data),  .RRAT_ARF_idx (RRAT_ARF_idx),  .RRAT_idx_valid (RRAT_idx_valid),  .RRAT_PRF_idx (RRAT_PRF_idx),  .except (except),  .if_id_packet_in (if_packet),  .predictions (predictions),  .id_packet_out (id_packet),  .opa_valid (opa_valid),  .opb_valid (opb_valid),  .dest_arn_valid (reg_write));"
+  The following 1-bit expression is connected to 18-bit port "RRAT_PRF_idx" of
+  module "id_stage", instance "id_stage_0".
+  Expression: RRAT_PRF_idx
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/processor.sv, 442
+"RS Rs( .opa_valid_in (opa_valid),  .opb_valid_in (opb_valid),  .id_rs_packet_in (id_ex_packet),  .load_in (1),  .clock (clock),  .reset (reset),  .CDB_Data (CDB_Data),  .CDB_PRF_idx (CDB_PRF_idx),  .CDB_valid (CDB_valid),  .ALU_occupied (ALU_occupied),  .rs_packet_out (rs_packet_out),  .num_is_free (num_is_free));"
+  The following 32-bit expression is connected to 1-bit port "load_in" of 
+  module "RS", instance "Rs".
+  Expression: 1
+  	use +lint=PCWM for more details
+
+
+Warning-[SIOB] Select index out of bounds
+verilog/if_stage.sv, 45
+"PC_reg_hub[(0 - 1)]"
+  The select index is out of declared bounds : [2:0].
+  In module instance : if_stage_0 
+  In module : if_stage.
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[0].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[0]),  .rdb_idx (opb_prn[0]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[0]),  .rdb_dat (opb_value[0]));"
+  The following 6-bit expression is connected to 18-bit port "rda_idx" of 
+  module "PRF", instance "genblk2[0].prf".
+  Expression: opa_prn[0]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[0].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[0]),  .rdb_idx (opb_prn[0]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[0]),  .rdb_dat (opb_value[0]));"
+  The following 6-bit expression is connected to 18-bit port "rdb_idx" of 
+  module "PRF", instance "genblk2[0].prf".
+  Expression: opb_prn[0]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[0].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[0]),  .rdb_idx (opb_prn[0]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[0]),  .rdb_dat (opb_value[0]));"
+  The following 64-bit expression is connected to 192-bit port "rda_dat" of 
+  module "PRF", instance "genblk2[0].prf".
+  Expression: opa_value[0]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[0].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[0]),  .rdb_idx (opb_prn[0]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[0]),  .rdb_dat (opb_value[0]));"
+  The following 64-bit expression is connected to 192-bit port "rdb_dat" of 
+  module "PRF", instance "genblk2[0].prf".
+  Expression: opb_value[0]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[1].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[1]),  .rdb_idx (opb_prn[1]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[1]),  .rdb_dat (opb_value[1]));"
+  The following 6-bit expression is connected to 18-bit port "rda_idx" of 
+  module "PRF", instance "genblk2[1].prf".
+  Expression: opa_prn[1]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[1].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[1]),  .rdb_idx (opb_prn[1]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[1]),  .rdb_dat (opb_value[1]));"
+  The following 6-bit expression is connected to 18-bit port "rdb_idx" of 
+  module "PRF", instance "genblk2[1].prf".
+  Expression: opb_prn[1]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[1].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[1]),  .rdb_idx (opb_prn[1]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[1]),  .rdb_dat (opb_value[1]));"
+  The following 64-bit expression is connected to 192-bit port "rda_dat" of 
+  module "PRF", instance "genblk2[1].prf".
+  Expression: opa_value[1]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[1].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[1]),  .rdb_idx (opb_prn[1]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[1]),  .rdb_dat (opb_value[1]));"
+  The following 64-bit expression is connected to 192-bit port "rdb_dat" of 
+  module "PRF", instance "genblk2[1].prf".
+  Expression: opb_value[1]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[2].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[2]),  .rdb_idx (opb_prn[2]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[2]),  .rdb_dat (opb_value[2]));"
+  The following 6-bit expression is connected to 18-bit port "rda_idx" of 
+  module "PRF", instance "genblk2[2].prf".
+  Expression: opa_prn[2]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[2].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[2]),  .rdb_idx (opb_prn[2]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[2]),  .rdb_dat (opb_value[2]));"
+  The following 6-bit expression is connected to 18-bit port "rdb_idx" of 
+  module "PRF", instance "genblk2[2].prf".
+  Expression: opb_prn[2]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[2].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[2]),  .rdb_idx (opb_prn[2]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[2]),  .rdb_dat (opb_value[2]));"
+  The following 64-bit expression is connected to 192-bit port "rda_dat" of 
+  module "PRF", instance "genblk2[2].prf".
+  Expression: opa_value[2]
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+verilog/id_stage.sv, 303
+" PRF genblk2[2].prf( .clock (clock),  .reset (reset),  .rda_idx (opa_prn[2]),  .rdb_idx (opb_prn[2]),  .wr_idx (reg_idx_wr_CDB),  .wr_dat (wr_dat_CDB),  .wr_en (wr_en_CDB),  .rda_dat (opa_value[2]),  .rdb_dat (opb_value[2]));"
+  The following 64-bit expression is connected to 192-bit port "rdb_dat" of 
+  module "PRF", instance "genblk2[2].prf".
+  Expression: opb_value[2]
+  	use +lint=PCWM for more details
+
+Starting vcs inline pass...
+13 modules and 0 UDP read.
+recompiling module testbench
+	However, due to incremental compilation, only 1 module needs to be compiled. 
+  /usr/caen/vcs-2017.12-SP2-1/linux64/bin/vcselab -o simv -nobanner 
+make[1]: Entering directory `/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/csrc'
+make[1]: Leaving directory `/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/csrc'
+( cd csrc ; make -f Makefile SNPS_VCS_TMPDIR=/tmp/vcs_20200330010925_21396 product )
+make[1]: Entering directory `/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/csrc'
+rm -f _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -o .//../simv.daidir//_csrc0.so objs/amcQw_d.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv    -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ -Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic  -Wl,-rpath=/usr/caen/vcs-2017.12-SP2-1/linux64/lib -L/usr/caen/vcs-2017.12-SP2-1/linux64/lib -lcmsg  pipe_print.o     _22159_archive_1.so _prev_archive_1.so _csrc0.so  SIM_l.o  _csrc0.so    rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          -lzerosoft_rt_stubs -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcs_tls.o   -Wl,-whole-archive -lvcsucli -Wl,-no-whole-archive          /usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+../simv up to date
+make[1]: Leaving directory `/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20/csrc'
+CPU time: 1.050 seconds to compile + .482 seconds to elab + .313 seconds to link
+./simv | tee program.out
+Chronologic VCS simulator copyright 1991-2017
+Contains Synopsys proprietary information.
+Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Mar 29 21:09 2020
+VCD+ Writer N-2017.12-SP2-1_Full64 Copyright (c) 1991-2017 by Synopsys Inc.
+@@
+@@
+@@                     0  Asserting System reset......
+@@
+@@                     0 : System STILL at reset, can't show anything
+@@
