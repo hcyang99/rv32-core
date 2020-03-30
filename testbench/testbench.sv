@@ -232,6 +232,7 @@ module testbench;
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
         @(posedge clock);
+//		$display("at here!!!");
         @(posedge clock);
 		
         $readmemh("program.mem", memory.unified_memory);

@@ -313,9 +313,9 @@ module processor (
 		.wr_en_CDB(CDB_valid),
 		.wr_dat_CDB(CDB_Data),
 
-        .RRAT_ARF_idx (RRAT_ARF_idx),
-        .RRAT_idx_valid (RRAT_idx_valid),
-        .RRAT_PRF_idx (RRAT_PRF_idx),
+        .RRAT_ARF_idx (dest_ARN_out),  // ARF # to be renamed, from ROB
+        .RRAT_idx_valid (valid_out),
+        .RRAT_PRF_idx (dest_PRN_out),
         .except (except),
 
 		.if_id_packet_in(if_packet),
@@ -446,10 +446,11 @@ endgenerate
         .CDB_Data,
         .CDB_PRF_idx,
         .CDB_valid,
+		
         .opa_valid_in(opa_valid),
         .opb_valid_in(opb_valid),
         .id_rs_packet_in(id_ex_packet),                            
-        .load_in(1),
+        .load_in(~rob_is_full & ~rs_is_full),
         .ALU_occupied,
 
         // output

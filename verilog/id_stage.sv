@@ -228,7 +228,7 @@ module id_stage(
   	input [`WAYS-1:0]                           wr_en_CDB,
 	input [`WAYS-1:0] [`XLEN-1:0]               wr_dat_CDB,
 
-	input [`WAYS-1:0] [4:0]                     RRAT_ARF_idx,
+	input [`WAYS-1:0] [4:0]                     RRAT_ARF_idx,   // ARF # to be renamed, from ROB
 	input [`WAYS-1:0]							RRAT_idx_valid,
 	input [`WAYS-1:0] [$clog2(`PRF)-1:0]		RRAT_PRF_idx,
 	input										except,
@@ -299,22 +299,21 @@ module id_stage(
 						.illegal(id_packet_out[i].illegal),
 						.valid_inst(inst_valid_tmp[i])
 					);
-
-				PRF prf(
-    			.clock(clock),
-    			.reset(reset),
-    			.rda_idx(opa_prn[i]),
-       			.rdb_idx(opb_prn[i]),
-    
-				.wr_idx(reg_idx_wr_CDB),
-				.wr_dat(wr_dat_CDB),
-    			.wr_en(wr_en_CDB),
-    			.rda_dat(opa_value[i]),
-    			.rdb_dat(opb_value[i])
-				);
-
 				end
 			endgenerate
+
+	PRF prf(
+	.clock(clock),
+	.reset(reset),
+	.rda_idx(opa_prn),
+	.rdb_idx(opb_prn),
+    
+	.wr_idx(reg_idx_wr_CDB),
+	.wr_dat(wr_dat_CDB),
+	.wr_en(wr_en_CDB),
+	.rda_dat(opa_value),
+	.rdb_dat(opb_value)
+	);
 
 	RAT_RRAT rat(
     .clock(clock),
