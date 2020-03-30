@@ -40,7 +40,7 @@ module mem (
 	
 	logic acquire_tag;
 	logic bus_filled;
-	
+
 
 // Implement the Memory function
 `ifdef CACHE_MODE
@@ -97,7 +97,7 @@ module mem (
 		bus_filled             = 1'b0;
 		acquire_tag            = ((proc2mem_command == BUS_LOAD) ||
 		                          (proc2mem_command == BUS_STORE)) && valid_address;
-		
+
 		for(int i=1;i<=`NUM_MEM_TAGS;i=i+1) begin
 			if(cycles_left[i]>16'd0) begin
 				cycles_left[i] = cycles_left[i]-16'd1;

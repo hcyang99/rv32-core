@@ -372,7 +372,7 @@ module id_stage(
 			if(id_packet_out[i].opa_select == OPA_IS_RS1) begin
 				opa_valid[i] = opa_valid_tmp[i];
 				id_packet_out[i].rs1_value = opa_valid[i]? opa_value[i]:opa_prn[i];
-				for(int j = 0; i < `WAYS; 	j = j +1) begin
+				for(int j = 0; j < `WAYS; 	j = j +1) begin
 					if( j < i && dest_arn_valid[j] && dest_arn[j] == opa_arn[i]) begin
 						opa_valid[i] = 0;
 						id_packet_out[i].rs1_value = dest_PRF[j];
@@ -382,7 +382,7 @@ module id_stage(
 			if(id_packet_out[i].opb_select == OPB_IS_RS2 | id_packet_out[i].wr_mem | id_packet_out[i].rd_mem) begin
 				opb_valid[i] = opb_valid_tmp[i];
 				id_packet_out[i].rs2_value = opb_valid[i]? opb_value[i]:opb_prn[i];
-				for(int j = 0; i < `WAYS; j = j +1) begin
+				for(int j = 0; j < `WAYS; j = j +1) begin
 					if( j < i && dest_arn_valid[j] && dest_arn[j] == opb_arn[i]) begin
 						opb_valid[i] = 0;
 						id_packet_out[i].rs2_value = dest_PRF[j];

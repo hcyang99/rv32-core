@@ -1,11 +1,23 @@
 
 
+`timescale 1ns/100ps
+
+extern void print_header(string str);
+extern void print_cycles();
+extern void print_stage(string div, int inst, int npc, int valid_inst);
+extern void print_reg(int wb_reg_wr_data_out_hi, int wb_reg_wr_data_out_lo,
+                      int wb_reg_wr_idx_out, int wb_reg_wr_en_out);
+extern void print_membus(int proc2mem_command, int mem2proc_response,
+                         int proc2mem_addr_hi, int proc2mem_addr_lo,
+                         int proc2mem_data_hi, int proc2mem_data_lo);
+extern void print_close();
+
 
 module testbench;
 
 
 
-    /* ------------------------- wire & variable declarations ------------------------- */
+    // ------------------------- wire & variable declarations -------------------------
     logic   clock;
     logic   reset;
     logic [31:0] clock_count;
@@ -23,17 +35,17 @@ module testbench;
 //`endif
 	logic  [3:0] pipeline_completed_insts;
 	EXCEPTION_CODE   pipeline_error_status;
-//	logic  [4:0] pipeline_commit_wr_idx;
-//	logic [`XLEN-1:0] pipeline_commit_wr_data;
-//	logic        pipeline_commit_wr_en;
-//	logic [`XLEN-1:0] pipeline_commit_NPC;
+	logic  [4:0] pipeline_commit_wr_idx;
+	logic [`XLEN-1:0] pipeline_commit_wr_data;
+	logic        pipeline_commit_wr_en;
+	logic [`XLEN-1:0] pipeline_commit_NPC;
 
 
 
     logic [63:0] debug_counter;
 
 
-    /* ------------------------- module instances ------------------------- */
+    // ------------------------- module instances ------------------------- 
 
     processor core(
         // Inputs
@@ -51,11 +63,11 @@ module testbench;
         .proc2mem_size              (proc2mem_size),
 
 	    .pipeline_completed_insts  	(pipeline_completed_insts),
-	    .pipeline_error_status   	(pipeline_error_status)
-//	    .pipeline_commit_wr_idx 	(pipeline_commit_wr_idx),
-//	    .pipeline_commit_wr_data 	(pipeline_commit_wr_data),
-//	    .pipeline_commit_wr_en      (pipeline_commit_wr_en),
-//	    .pipeline_commit_NPC 	    (pipeline_commit_NPC)
+	    .pipeline_error_status   	(pipeline_error_status),
+	    .pipeline_commit_wr_idx 	(pipeline_commit_wr_idx),
+	    .pipeline_commit_wr_data 	(pipeline_commit_wr_data),
+	    .pipeline_commit_wr_en      (pipeline_commit_wr_en),
+	    .pipeline_commit_NPC 	    (pipeline_commit_NPC)
 
     );
 
@@ -79,18 +91,7 @@ module testbench;
     );
 
 
-    /* ------------------------- testbench logic & tasks ------------------------- */
-
-    // Generate System Clock
-    always begin
-        #(`VERILOG_CLOCK_PERIOD/2.0);
-        clock = ~clock;
-    end
-
-
-    // TASKS
-
-
+    // ------------------------- testbench logic & tasks ------------------------- 
 
 	// Task to display # of elapsed clock edges
 	task show_clk_count;
@@ -129,41 +130,34 @@ module testbench;
 
 
 
+
+    // ------------------------- always @ clock logic ------------------------- 
+
 	// Count the number of posedges and number of instructions completed
 	// till simulation ends
 	always @(posedge clock) begin
 		if(reset) begin
+			$display("@@ %t : System at reset", $realtime); // FOR DEBUG
 			clock_count <= `SD 0;
 			instr_count <= `SD 0;
 		end else begin
 			clock_count <= `SD (clock_count + 1);
 			instr_count <= `SD (instr_count + pipeline_completed_insts);
 		end
-	end  
-	
+	end
 
-    // CLOCK LOGIC
 
-	
 	always @(negedge clock) begin
         if(reset) begin
-			$display("@@\n@@  %t : System STILL at reset, can't show anything\n@@",
-			         $realtime);
-            debug_counter <= 0;
+			$display("@@\n@@  %t : System STILL at reset, can't show anything\n@@", $realtime);
+            debug_counter <= `SD 0;
         end else begin
 			`SD;
 			`SD;
-			
+/*
 			 // print the processor stuff via c code to the processor.out
-
-
-
-
-
-
-
 //			 print_cycles();
-/*			 print_stage(" ", if_IR_out, if_NPC_out[31:0], {31'b0,if_valid_inst_out});
+			 print_stage(" ", if_IR_out, if_NPC_out[31:0], {31'b0,if_valid_inst_out});
 			 print_stage("|", if_id_IR, if_id_NPC[31:0], {31'b0,if_id_valid_inst});
 			 print_stage("|", id_ex_IR, id_ex_NPC[31:0], {31'b0,id_ex_valid_inst});
 			 print_stage("|", ex_mem_IR, ex_mem_NPC[31:0], {31'b0,ex_mem_valid_inst});
@@ -173,23 +167,23 @@ module testbench;
 			 print_membus({30'b0,proc2mem_command}, {28'b0,mem2proc_response},
 				32'b0, proc2mem_addr[31:0],
 				proc2mem_data[63:32], proc2mem_data[31:0]);
-*/			
-			
+*/
 
-/*  //reasons for commenting this: there is an error: cross module definition
+
+			// cross module referencing error fixed
 			// print the writeback information to writeback.out
 			if(pipeline_completed_insts>0) begin
                 for(int i = 0; i < `WAYS; i++) begin
                     if(core.valid_out[i])
                         $fdisplay(wb_fileno, "PC=%x, REG[%d]=%x",
                             core.PC_out[i],
-                            core.destARN[i],
-                            core.PRF.register[core.destPRN[i]]); // TODO: replace placeholder names
+                            core.dest_ARN_out[i],
+                            core.id_stage_0.prf.registers[core.dest_PRN_out[i]]);
                     else
 					    $fdisplay(wb_fileno, "PC=%x, ---", core.PC_out[i]);
                 end
 			end
-*/
+
 			// deal with any halting conditions
 			if(pipeline_error_status != NO_ERROR || debug_counter > 50000000) begin
 				$display("@@@ Unified Memory contents hex on left, decimal on right: ");
@@ -215,11 +209,10 @@ module testbench;
 				$fclose(wb_fileno);
 				#100 $finish;
 			end
+
             debug_counter <= debug_counter + 1;
 		end  // if(reset)   
 	end 
-
-
 
 
 
@@ -227,14 +220,14 @@ module testbench;
     initial begin
 
         clock = 1'b0;
-        reset = 1'b0;
-
+        reset = 1'b1;
+		
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
+		@(posedge clock);
+		$display("here");
         @(posedge clock);
-//		$display("at here!!!");
-        @(posedge clock);
-		
+
         $readmemh("program.mem", memory.unified_memory);
 
         @(posedge clock);
@@ -246,8 +239,19 @@ module testbench;
         $display("@@  %t  Deasserting System reset......\n@@\n@@", $realtime);
 
         wb_fileno = $fopen("writeback.out");
-
+        print_header("                                                                            D-MEM Bus &\n");
+        print_header("Cycle:      IF      |     ID      |     EX      |     MEM     |     WB      Reg Result");
     end
+
+
+
+
+    // Generate System Clock
+    always begin
+        #(`VERILOG_CLOCK_PERIOD/2.0);
+        clock = ~clock;
+    end
+
 
 
 endmodule

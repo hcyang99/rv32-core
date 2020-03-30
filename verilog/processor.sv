@@ -36,9 +36,9 @@ module processor (
 	output logic [`XLEN-1:0] pipeline_commit_wr_data,
 	output logic        pipeline_commit_wr_en,
 	output logic [`XLEN-1:0] pipeline_commit_NPC
-	
 
-	
+
+
 );
 
 

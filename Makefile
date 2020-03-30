@@ -86,7 +86,8 @@ TESTBENCH = 	sys_defs.svh	\
 		ISA.svh         \
 		testbench/mem.sv  \
 		testbench/testbench.sv	\
-		testbench/pipe_print.c	 
+		testbench/pipe_print.c
+
 SIMFILES =		verilog/cache/cachemem.sv	\
 		verilog/branch_pred.sv	\
 		verilog/ex_stage.sv	\
