@@ -176,7 +176,7 @@ module testbench;
 */			
 			
 
-/*
+/*  //reasons for commenting this: there is an error: cross module definition
 			// print the writeback information to writeback.out
 			if(pipeline_completed_insts>0) begin
                 for(int i = 0; i < `WAYS; i++) begin
