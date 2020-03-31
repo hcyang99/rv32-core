@@ -199,7 +199,7 @@ module processor (
 
 //-----------------------for milestone2 input-----------------------------
 	assign mem_to_icache_response = mem2proc_response;
-	assign mem2proc_data		  = mem_to_cachemem_data;
+	assign mem_to_cachemem_data   = mem2proc_data;
 	assign mem_to_icache_tag 	  = mem2proc_tag;
 
 //-----------------------for milestone2 input-----------------------------
