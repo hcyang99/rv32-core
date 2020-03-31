@@ -83,6 +83,7 @@ end
 always_ff @ (posedge clock) begin
 $display("proc2Icache_addr[0]: %h",proc2Icache_addr[0]);
 $display("miss_outstanding: %b",miss_outstanding);
+$display("cachemem_valid: %b",cachemem_valid);
     if (reset) begin
         wait_for_mem_reg <= 0;
     end
