@@ -75,8 +75,8 @@ module if_stage(
 	
 
 	always_ff @(posedge clock) begin
-	$display("PC_reg_hub[0]: %h PC_reg_hub[1]: %h PC_reg_hub[2]: %h",PC_reg_hub[0],PC_reg_hub[1],PC_reg_hub[2]);
-	$display("proc2Icache_addr[0]: %h proc2Icache_addr[1]: %h proc2Icache_addr[2]: %h",proc2Icache_addr[0],proc2Icache_addr[1],proc2Icache_addr[2]);
+//	$display("PC_reg_hub[0]: %h PC_reg_hub[1]: %h PC_reg_hub[2]: %h",PC_reg_hub[0],PC_reg_hub[1],PC_reg_hub[2]);
+//	$display("proc2Icache_addr[0]: %h proc2Icache_addr[1]: %h proc2Icache_addr[2]: %h",proc2Icache_addr[0],proc2Icache_addr[1],proc2Icache_addr[2]);
 		if(reset) 				PC_reg <= `SD 0; else      // initial PC value is 0
 		if(rob_take_branch) 	PC_reg <= `SD rob_target_pc; else
 		if(PC_enable)			PC_reg <= `SD pc_predicted;

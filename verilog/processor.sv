@@ -60,7 +60,7 @@ module processor (
 	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out
 );
 
-	
+
 
 
 
