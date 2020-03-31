@@ -1,5 +1,3 @@
-`include "sys_defs.svh"
-
 //`timescale 1ns/100ps
 
 module testbench;

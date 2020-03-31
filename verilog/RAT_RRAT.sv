@@ -1,7 +1,6 @@
 //`define WAYS    4
 //`define XLEN    32
 //`define PRF     64
-//`define DEBUG
 
 module RAT_RRAT(
     input                                       clock,
@@ -27,20 +26,17 @@ module RAT_RRAT(
     output logic [`WAYS-1:0] [$clog2(`PRF)-1:0] rdb_idx_out,        // PRF #
     output logic [`WAYS-1:0]                    rda_valid,
     output logic [`WAYS-1:0]                    rdb_valid
-
-    /* Debug Outputs */
-    `ifdef DEBUG
-    ,
-    output logic [`PRF-1:0]                     valid_RAT_reg_out,  // from valid list
-    output logic [`PRF-1:0]                     valid_RRAT_reg_out,
-
-    output logic [`PRF-1:0]                     free_RAT_reg_out,   // from free list
-    output logic [`PRF-1:0]                     free_RRAT_reg_out,
-
-    output logic [31:0] [$clog2(`PRF)-1:0]      RAT_reg_out,        // from RAT/RRAT internals
-    output logic [31:0] [$clog2(`PRF)-1:0]      RRAT_reg_out
-    `endif
 );
+
+    logic [`PRF-1:0]                     valid_RAT_reg_out;  // from valid list
+    logic [`PRF-1:0]                     valid_RRAT_reg_out;
+
+    logic [`PRF-1:0]                     free_RAT_reg_out;   // from free list
+    logic [`PRF-1:0]                     free_RRAT_reg_out;
+
+    logic [31:0] [$clog2(`PRF)-1:0]      RAT_reg_out;        // from RAT/RRAT internals
+    logic [31:0] [$clog2(`PRF)-1:0]      RRAT_reg_out;
+
     // internal buses
     logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        RRAT_PRF_old_from_rat;     // rat bcasts
     logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        PRF_idx_from_free;         

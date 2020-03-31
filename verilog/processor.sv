@@ -123,17 +123,23 @@ module processor (
   	logic [`WAYS-1:0]                               illegal;
   	logic [`WAYS-1:0]                               halt;
   	logic [`WAYS-1:0] [`XLEN-1:0]                   PC;
+  	logic [`WAYS-1:0] [`XLEN-1:0]                   target;
 
  	ID_EX_PACKET [`WAYS-1 : 0] 					 	id_packet_tmp;
 	logic [`WAYS-1:0]								opa_valid_tmp;
 	logic [`WAYS-1:0]								opb_valid_tmp;
 	logic [`WAYS-1:0]								reg_write_tmp;
 	
-    
-    // Wires for Branch Predictor
-    logic [`XLEN-1:0]                       next_PC;
-    logic [`WAYS-1:0]                       predictions;
+    logic [`XLEN-1:0]                       		id_ex_next_PC;
+    logic [`XLEN-1:0]                       		id_next_PC_tmp;
 
+    logic [`WAYS-1:0]                       		id_ex_predictions;
+    logic [`WAYS-1:0]                       		id_predictions_tmp;
+
+    // Wires for Branch Predictor
+    logic [`XLEN-1:0]                       id_next_PC;
+
+    logic [`WAYS-1:0]                       id_predictions;
 
   // Outputs from Rob-Stage
   	logic [$clog2(`ROB)-1:0]                  next_tail;
@@ -296,7 +302,7 @@ endgenerate
 		.reset (reset),
 		.stall(rob_is_full),
 
-		.pc_predicted(next_PC),
+		.pc_predicted(id_next_PC),
 		.rob_take_branch(except),
 		.rob_target_pc(except_next_PC),
 
@@ -310,7 +316,7 @@ endgenerate
 
     branch_pred #(.SIZE(128)) predictor (
         .clock,
-        .reset,
+        .reset(reset),
 
         .PC(if_packet[0].PC),
 
@@ -319,8 +325,8 @@ endgenerate
         .target_update(target_out),
         .valid_update,
 //output
-        .next_PC,
-        .predictions
+        .next_PC(id_next_PC),
+        .predictions(id_predictions)
     );
 
 
@@ -353,7 +359,7 @@ endgenerate
         .except (except),
 
 		.if_id_packet_in(if_packet),
-		.predictions (predictions), // newly-added
+		.predictions (id_predictions), // newly-added
 
 		// Outputs
 		.id_packet_out(id_packet),
@@ -386,11 +392,15 @@ always_ff@(posedge clock) begin
 		opa_valid_tmp				<= `SD opa_valid | opa_valid_tmp;
 		opb_valid_tmp				<= `SD opb_valid | opb_valid_tmp;
 		reg_write_tmp				<= `SD reg_write | reg_write_tmp;
+		id_next_PC_tmp           	<= `SD id_next_PC | id_next_PC_tmp;
+		id_predictions_tmp			<= `SD id_predictions | id_predictions_tmp;
 	end else begin
 		id_packet_tmp <= `SD 0;
 		opa_valid_tmp <= `SD 0;
 		opb_valid_tmp <= `SD 0;
 		reg_write_tmp <= `SD 0;
+		id_next_PC_tmp <= `SD 0;
+		id_predictions_tmp <= `SD 0;
 	end
 end
 
@@ -401,9 +411,13 @@ end
 	always_ff @(posedge clock) begin
 		if (reset | rob_is_full) begin
 			id_ex_packet <= `SD 0;
+			id_ex_next_PC <= `SD 0;
+			id_ex_predictions <= `SD {`WAYS{1'b0}};
 		end else begin // if (reset)
 			if (id_ex_enable) begin
-				id_ex_packet <= `SD id_packet_tmp| id_packet;
+				id_ex_packet 		<= `SD id_packet_tmp | id_packet;
+				id_ex_next_PC       <= `SD id_next_PC | id_next_PC_tmp;
+				id_ex_predictions	<= `SD id_predictions | id_predictions_tmp;
 			end
 		end // else: !if(reset)
 	end // always
@@ -423,6 +437,7 @@ generate
 		assign illegal[i]			= id_ex_packet[i].illegal;
 		assign halt[i]				= id_ex_packet[i].halt;
 		assign PC[i]				= id_ex_packet[i].PC;
+		assign target[i]			= id_ex_next_PC;
 	end
 endgenerate
 
@@ -448,8 +463,8 @@ assign rob_PC_out        = PC_out;
     .valid,
 		
     .PC,
-    .target (rob_PC_out), 
-    .branch_direction (predictions),
+    .target, 
+    .branch_direction (id_ex_predictions),
 
 	.illegal,
 	.halt,

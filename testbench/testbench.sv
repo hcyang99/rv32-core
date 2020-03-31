@@ -177,7 +177,7 @@ module testbench;
 	// till simulation ends
 	always @(posedge clock) begin
 		if(reset) begin
-//			$display("@@ %t : System at reset", $realtime); // FOR DEBUG
+	//		$display("@@ %t : System at reset", $realtime); // FOR DEBUG
 			clock_count <= `SD 0;
 			instr_count <= `SD 0;
 		end else begin
@@ -261,7 +261,9 @@ module testbench;
 
         clock = 1'b0;
         reset = 1'b1;
-		
+		$monitor("proc2mem_command:%02b|proc2mem_addr:%08h|mem2proc_response:%02d|mem2proc_tag:%02d", 
+			proc2mem_command, proc2mem_addr, mem2proc_response, mem2proc_tag);
+
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
 		@(posedge clock);

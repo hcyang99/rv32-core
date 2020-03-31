@@ -40,6 +40,14 @@ module if_stage(
 
 
 	// this mux is because the Imem gives us 64 bits not 32 bits
+	
+	always_comb begin
+		for(int i = 0; i < `WAYS; i = i + 1) begin
+			if(i == 0) 	PC_reg_hub[i] = PC_reg; else
+			  			PC_reg_hub[i] = PC_reg_hub[i-1] + 4;
+		end
+	end
+
 	generate
 		for (genvar i = 0 ; i <`WAYS; i = i + 1) begin
 			assign proc2Icache_addr[i] 	 = {PC_reg_hub[i][`XLEN-1:3], 3'b0};
@@ -48,13 +56,6 @@ module if_stage(
 			assign if_packet_out[i].PC   = PC_reg_hub[i];
 		end
 	endgenerate
-	
-	always_comb begin
-		for(int i = 0; i < `WAYS; i = i + 1) begin
-			if(i == 0) 	PC_reg_hub[i] = PC_reg; else
-			  			PC_reg_hub[i] = PC_reg_hub[i-1];
-		end
-	end
 
 
 	// default next PC value
@@ -74,6 +75,8 @@ module if_stage(
 	
 
 	always_ff @(posedge clock) begin
+	$display("PC_reg_hub[0]: %h PC_reg_hub[1]: %h PC_reg_hub[2]: %h",PC_reg_hub[0],PC_reg_hub[1],PC_reg_hub[2]);
+	$display("proc2Icache_addr[0]: %h proc2Icache_addr[1]: %h proc2Icache_addr[2]: %h",proc2Icache_addr[0],proc2Icache_addr[1],proc2Icache_addr[2]);
 		if(reset) 				PC_reg <= `SD 0; else      // initial PC value is 0
 		if(rob_take_branch) 	PC_reg <= `SD rob_target_pc; else
 		if(PC_enable)			PC_reg <= `SD pc_predicted;
