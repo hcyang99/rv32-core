@@ -33,6 +33,7 @@ generate;
 endgenerate
 
 always_ff @(posedge clock) begin
+$display("rd_valid: %b",rd_valid);
     if (reset)
         valid <= 31'b0;
     else if (wr_en)
