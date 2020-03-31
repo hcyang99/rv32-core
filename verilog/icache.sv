@@ -30,11 +30,12 @@ reg [3:0] current_mem_tag;
 logic [`WAYS-1:0] miss_outstanding;
 reg wait_for_mem_reg;
 logic wait_for_mem_next;
-logic send_request = (miss_outstanding != 0) & (~wait_for_mem_reg);
+logic send_request;
 logic update_mem_tag;
 logic [4:0] current_index_wire;
 logic [7:0] current_tag_wire;
 
+assign send_request = (miss_outstanding != 0) & (~wait_for_mem_reg);
 assign miss_outstanding = proc2Icache_en & (~cachemem_valid);
 assign Icache_data_out = cachemem_data;
 assign Icache_valid_out = cachemem_valid; 
