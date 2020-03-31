@@ -24,7 +24,6 @@ module branch_pred #(parameter SIZE=128) (
 
     // Combinational/Output logic
     always_comb begin
-        
         // Default output is all not taken
         next_PC = PC + (`WAYS * 4);
         predictions = 0;
@@ -42,6 +41,7 @@ module branch_pred #(parameter SIZE=128) (
     // Sequential Logic
     // synopsys sync_set_reset "reset"
     always_ff @(posedge clock) begin
+    $display("PC: %h next_PC: %h", PC,next_PC);
         if(reset) begin
             BTB_valid = 0;
             for(int i = 0; i < SIZE; i++) begin

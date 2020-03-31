@@ -81,6 +81,8 @@ always_comb begin
 end
 
 always_ff @ (posedge clock) begin
+$display("proc2Icache_addr[0]: %h",proc2Icache_addr[0]);
+$display("miss_outstanding: %b",miss_outstanding);
     if (reset) begin
         wait_for_mem_reg <= 0;
     end

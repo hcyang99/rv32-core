@@ -409,6 +409,7 @@ end
 	assign id_ex_enable = ~rob_is_full & ~rs_is_full;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
+	$display("proc2mem_command: %b",proc2mem_command);
 		if (reset | rob_is_full) begin
 			id_ex_packet <= `SD 0;
 			id_ex_next_PC <= `SD 0;
