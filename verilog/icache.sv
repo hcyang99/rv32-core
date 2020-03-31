@@ -35,7 +35,7 @@ logic update_mem_tag;
 logic [4:0] current_index_wire;
 logic [7:0] current_tag_wire;
 
-assign miss_outstanding = ~(proc2Icache_en & ~cachemem_valid);
+assign miss_outstanding = proc2Icache_en & (~cachemem_valid);
 assign Icache_data_out = cachemem_data;
 assign Icache_valid_out = cachemem_valid; 
 
