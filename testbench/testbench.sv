@@ -40,7 +40,25 @@ module testbench;
 	logic        pipeline_commit_wr_en;
 	logic [`XLEN-1:0] pipeline_commit_NPC;
 
+	logic [`WAYS-1:0]	if_valid_inst_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] if_IR_out;
 
+	logic [`WAYS-1:0]	id_valid_inst_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] id_IR_out;
+
+	logic [`WAYS-1:0]	id_ex_valid_inst;
+	logic [`WAYS-1:0] [`XLEN-1:0] id_ex_IR;
+
+	logic [`WAYS-1:0]	rob_direction_out;
+    logic [`WAYS-1:0] [`XLEN-1:0] rob_PC_out;
+	logic [$clog2(`ROB):0]  rob_next_num_free;
+	
+	logic [`WAYS-1:0]    rs_valid_inst_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] rs_IR_out;
+    logic [$clog2(`RS):0]    rs_num_is_free;
+
+	logic [`WAYS-1:0]    ex_valid_inst_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out;
 
     logic [63:0] debug_counter;
 
@@ -69,7 +87,27 @@ module testbench;
 	    .pipeline_commit_wr_idx 	(pipeline_commit_wr_idx),
 	    .pipeline_commit_wr_data 	(pipeline_commit_wr_data),
 	    .pipeline_commit_wr_en      (pipeline_commit_wr_en),
-	    .pipeline_commit_NPC 	    (pipeline_commit_NPC)
+	    .pipeline_commit_NPC 	    (pipeline_commit_NPC),
+// newly-added for debugging
+	.if_valid_inst_out,
+	.if_IR_out,
+
+	.id_valid_inst_out,
+	.id_IR_out,
+
+	.id_ex_valid_inst,
+	.id_ex_IR,
+
+	.rob_direction_out,
+    .rob_PC_out,
+	.rob_next_num_free,
+	
+	.rs_valid_inst_out,
+	.rs_IR_out,
+    .rs_num_is_free,
+
+	.ex_valid_inst_out,
+	.ex_alu_result_out
 
     );
 

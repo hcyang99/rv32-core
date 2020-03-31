@@ -57,7 +57,7 @@ module processor (
     output logic [$clog2(`RS):0]    rs_num_is_free,
 
 	output logic [`WAYS-1:0]    ex_valid_inst_out,
-	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out;
+	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out
 );
 
 	
@@ -480,7 +480,7 @@ assign rob_PC_out        = PC_out;
 //////////////////////////////////////////////////
 
 generate
-	for(genvar i = 0; i < `WAYS； i = i + 1) begin
+	for(genvar i = 0; i < `WAYS; i = i + 1) begin
 		assign rs_valid_inst_out[i] = rs_packet_out[i].valid;
 		assign rs_IR_out[i]			= rs_packet_out[i].inst;
 	end
@@ -521,8 +521,8 @@ assign rs_num_is_free = num_is_free;
 //////////////////////////////////////////////////
 generate
 	for(genvar i = 0; i < `WAYS; i = i + 1) begin
-		ex_valid_inst_out[i] = ex_packet[i].valid;
-		ex_alu_result_out[i] = ex_packet[i].alu_result;
+		assign ex_valid_inst_out[i] = ex_packet[i].valid;
+		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
 	end
 endgenerate
 	ex_stage ex_stage_0 (
