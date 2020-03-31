@@ -58,7 +58,7 @@ always_comb begin
             if (miss_outstanding[i]) begin
                 proc2Imem_command = BUS_LOAD;
                 proc2Imem_addr = {proc2Icache_addr[i][31:3], 3'b0};
-                {current_tag_wire, current_index_wire} = {proc2Icache_addr[i][15:3], 3'b0};
+                {current_tag_wire, current_index_wire} = proc2Icache_addr[i][15:3];
             end
         end
     end
