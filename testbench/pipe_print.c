@@ -12,30 +12,11 @@
 
 #define NOOP_INST 0x00000013
 
-static int cycle_count = 0;
 static FILE* ppfile = NULL;
 
-
-void print_header(char* str)
-{
-  if (ppfile == NULL)
-    ppfile = fopen("processor.out", "w");
-
-  fprintf(ppfile, "%s", str);
-}
-
-void print_cycles()
-{
-  /* we'll enforce the printing of a header */
-  if (ppfile != NULL)
-    fprintf(ppfile, "\n%5d:", cycle_count++);
-}
-
-
-void print_stage(char* div, int inst, int npc, int valid_inst)
-{
+char* decode(int inst, int valid_inst){
   int opcode, funct3, funct7, funct12;
-  char *str;
+  char* str;
   
   if(!valid_inst)
     str = "-";
@@ -148,9 +129,48 @@ void print_stage(char* div, int inst, int npc, int valid_inst)
     default: str = "invalid"; break;
     }
   }
+  return str;
+}
+
+void print_header(char* str)
+{
+  if (ppfile == NULL)
+    ppfile = fopen("processor.out", "w");
+
+  fprintf(ppfile, "%s", str);
+}
+
+void print_cycles(int cycle_count)
+{
+  /* we'll enforce the printing of a header */
+  if (ppfile != NULL)
+    fprintf(ppfile, "\n%5d:", cycle_count);
+}
+
+
+void print_stage(char* div, int inst, int valid_inst)
+{
+  char *str = decode(inst, valid_inst);
 
   if (ppfile != NULL)
-    fprintf(ppfile, "%s%4d:%-8s", div, npc, str);
+    fprintf(ppfile, "%s     %-8s", div, str);
+}
+
+void print_rs(char* div, int inst, int valid_inst, int num_free)
+{
+  char* str = decode(inst, valid_inst);
+
+  if (ppfile != NULL)
+    fprintf(ppfile, "%s%8s %4d", div, str, num_free);
+
+}
+
+void print_rob(char* div, int direction, int PC, int num_free)
+{
+  
+  if (ppfile != NULL)
+    fprintf(ppfile, "%s%4d  %08x%4d", div, direction, PC, num_free);
+
 }
 
 void print_close()

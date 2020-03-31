@@ -3,8 +3,10 @@
 `timescale 1ns/100ps
 
 extern void print_header(string str);
-extern void print_cycles();
-extern void print_stage(string div, int inst, int npc, int valid_inst);
+extern void print_cycles(int cycle_count);
+extern void print_stage(string div, int inst, int valid_inst);
+extern void print_rs(string div, int inst, int valid_inst, int num_free);
+extern void print_rob(string div, int direction, int PC, int num_free);
 extern void print_reg(int wb_reg_wr_data_out_hi, int wb_reg_wr_data_out_lo,
                       int wb_reg_wr_idx_out, int wb_reg_wr_en_out);
 extern void print_membus(int proc2mem_command, int mem2proc_response,
@@ -194,20 +196,24 @@ module testbench;
         end else begin
 			`SD;
 			`SD;
-/*
-			 // print the processor stuff via c code to the processor.out
-//			 print_cycles();
-			 print_stage(" ", if_IR_out, if_NPC_out[31:0], {31'b0,if_valid_inst_out});
-			 print_stage("|", if_id_IR, if_id_NPC[31:0], {31'b0,if_id_valid_inst});
-			 print_stage("|", id_ex_IR, id_ex_NPC[31:0], {31'b0,id_ex_valid_inst});
-			 print_stage("|", ex_mem_IR, ex_mem_NPC[31:0], {31'b0,ex_mem_valid_inst});
-			 print_stage("|", mem_wb_IR, mem_wb_NPC[31:0], {31'b0,mem_wb_valid_inst});
-			 print_reg(32'b0, pipeline_commit_wr_data[31:0],
-				{27'b0,pipeline_commit_wr_idx}, {31'b0,pipeline_commit_wr_en});
-			 print_membus({30'b0,proc2mem_command}, {28'b0,mem2proc_response},
-				32'b0, proc2mem_addr[31:0],
-				proc2mem_data[63:32], proc2mem_data[31:0]);
-*/
+
+			// print the processor stuff via c code to the processor.out
+			for(int i = 0; i < `WAYS; i++) begin
+				print_cycles(clock_count);
+				print_stage(" ", if_IR_out[i], {31'b0,if_valid_inst_out[i]});
+				print_stage("|", id_IR_out[i], {31'b0,id_valid_inst_out[i]});
+				print_stage("|", id_ex_IR[i], {31'b0,id_ex_valid_inst[i]});
+				print_rob("|", {31'b0, rob_direction_out[i]}, rob_PC_out[i], {28'b0, rob_next_num_free});
+				print_rs("|", rs_IR_out[i], {31'b0,rs_valid_inst_out[i]}, {28'b0, rs_num_is_free});
+				print_stage("|", id_ex_IR[i], {31'b0,ex_valid_inst_out[i]});
+
+				print_reg(32'b0, pipeline_commit_wr_data[31:0],
+					{27'b0,pipeline_commit_wr_idx}, {31'b0,pipeline_commit_wr_en});
+				print_membus({30'b0,proc2mem_command}, {28'b0,mem2proc_response},
+					32'b0, proc2mem_addr[31:0],
+					proc2mem_data[63:32], proc2mem_data[31:0]);
+			end
+
 
 
 			// cross module referencing error fixed
@@ -225,7 +231,7 @@ module testbench;
 			end
 
 			// deal with any halting conditions
-			if(pipeline_error_status != NO_ERROR || debug_counter > 50000000) begin
+			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT) || debug_counter > 50000) begin
 				$display("@@@ Unified Memory contents hex on left, decimal on right: ");
 				show_mem_with_decimal(0,`MEM_64BIT_LINES - 1); 
 				// 8Bytes per line, 16kB total
@@ -261,7 +267,7 @@ module testbench;
 
         clock = 1'b0;
         reset = 1'b1;
-		
+
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
 		@(posedge clock);
@@ -278,8 +284,8 @@ module testbench;
         $display("@@  %t  Deasserting System reset......\n@@\n@@", $realtime);
 
         wb_fileno = $fopen("writeback.out");
-        print_header("                                                                            D-MEM Bus &\n");
-        print_header("Cycle:      IF      |     ID      |     EX      |     MEM     |     WB      Reg Result");
+        print_header("                                                        ROB              RS 				  D-MEM Bus &\n");
+        print_header("Cycle:      IF      |     ID      |     EX      | DIR    PC     NF |   IR     NF |    EX_OUT     Reg Result");
     end
 
 
