@@ -268,8 +268,8 @@ module testbench;
 
         clock = 1'b0;
         reset = 1'b1;
-	$monitor("time: %4.0f if_valid_inst_out: %b id_valid_inst_out: %b id_IR_out[0]: %h pipeline_completed_insts: %d instr_count: %d",
-	$time,if_valid_inst_out,id_valid_inst_out,id_IR_out[0],pipeline_completed_insts,instr_count);
+	$monitor("time: %4.0f if_valid_inst_out: %b id_valid_inst_out: %b id_IR_out[0]: %h ex_valid_inst_out: %b",
+	$time,if_valid_inst_out,id_valid_inst_out,id_IR_out[0],ex_valid_inst_out);
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
 		@(posedge clock);

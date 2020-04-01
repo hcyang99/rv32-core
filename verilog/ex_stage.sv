@@ -78,6 +78,7 @@ module alu(
 	);
 
 	always_comb begin
+	$display("occupied: %b",occupied);
 		start = 0;
 		is_mult_next = is_mult;
 		range_next	 = range;
@@ -206,10 +207,11 @@ module ex_stage(
 	// ALU opA mux
 	//
 	always_comb begin
+		$display("occupied_hub: %b",occupied_hub);
 		for( int i = 0; i < `WAYS; ++i) begin
 		if(id_ex_packet_in[i].inst == `XLEN'hfc0312e3) begin
 		$display("-------------------");
-		$display("at bne: take_branch: %b cond_branch: %b brcond_result:%b rs1_value: %h rs2_value: %h",ex_packet_out[i].take_branch,id_ex_packet_in[i].cond_branch,brcond_result[i],id_ex_packet_in[i].rs1_value,id_ex_packet_in[i].rs2_value);
+//		$display("at bne: take_branch: %b cond_branch: %b brcond_result:%b rs1_value: %h rs2_value: %h",ex_packet_out[i].take_branch,id_ex_packet_in[i].cond_branch,brcond_result[i],id_ex_packet_in[i].rs1_value,id_ex_packet_in[i].rs2_value);
 	end
 			opa_mux_out[i] = `XLEN'hdeadfbac;
 			case (id_ex_packet_in[i].opa_select)

@@ -436,8 +436,8 @@ end
 				id_ex_reg_write		<= `SD id_reg_write | id_reg_write_tmp;
 				for(int i = 0; i < `WAYS; i = i + 1) begin
 				if(id_ex_packet[i].inst == `XLEN'hfc0312e3) begin
-					$display("--------------");
-					$display("at bne: rs1_value: %h rs2_value: %h",id_ex_packet[i].rs1_value,id_ex_packet[i].rs2_value);
+//					$display("--------------");
+//					$display("at bne: rs1_value: %h rs2_value: %h",id_ex_packet[i].rs1_value,id_ex_packet[i].rs2_value);
 				end
 					id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
 				end
@@ -563,6 +563,7 @@ generate
 		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
 	end
 endgenerate
+
 	ex_stage ex_stage_0 (
 		// Inputs
 		.clock(clock),
