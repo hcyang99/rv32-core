@@ -417,6 +417,7 @@ end
 //	$display("proc2mem_command: %b",proc2mem_command);
 //	$display("opa_valid: %b opb_valid: %b",opa_valid,opb_valid);
 //	$display("next_tail: %d", next_tail);
+	$display("valid: %b",valid);
 		if (reset | rob_is_full | rs_is_full) begin
 			id_ex_packet 		<= `SD 0;
 			id_ex_next_PC 		<= `SD 0;
