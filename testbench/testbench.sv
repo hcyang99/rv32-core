@@ -178,6 +178,7 @@ module testbench;
 	// Count the number of posedges and number of instructions completed
 	// till simulation ends
 	always @(posedge clock) begin
+	$display("time: %4.0f",$time);
 		if(reset) begin
 	//		$display("@@ %t : System at reset", $realtime); // FOR DEBUG
 			clock_count <= `SD 0;
@@ -267,9 +268,8 @@ module testbench;
 
         clock = 1'b0;
         reset = 1'b1;
-		$monitor("proc2mem_command:%02b|proc2mem_addr:%08h|mem2proc_response:%02d|mem2proc_tag:%02d", 
-			proc2mem_command, proc2mem_addr, mem2proc_response, mem2proc_tag);
-
+	$monitor("time: %4.0f if_valid_inst_out: %b if_IR_out[0]: %h id_valid_inst_out: %b id_IR_out[0]: %h",
+	$time,if_valid_inst_out,if_IR_out[0],id_valid_inst_out,id_IR_out[0]);
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
 		@(posedge clock);

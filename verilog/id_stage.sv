@@ -56,6 +56,7 @@ module decoder(
 		// - invalid instructions should clear valid_inst.
 		// - These defaults are equivalent to a noop
 		// * see sys_defs.vh for the constants used here
+//		$display("inst: %h valid_inst_in: %b",inst,valid_inst_in);
 		opa_select = OPA_IS_RS1;
 		opb_select = OPB_IS_RS2;
 		alu_func = ALU_ADD;
@@ -224,8 +225,8 @@ module id_stage(
 	input         clock,              // system clock
 	input         reset,              // system reset
 
-  	input [`WAYS-1:0] [$clog2(`PRF)-1:0]        reg_idx_wr_CDB,     // From CDB, these are now valid
-  	input [`WAYS-1:0]                           wr_en_CDB,
+  input [`WAYS-1:0] [$clog2(`PRF)-1:0]        reg_idx_wr_CDB,     // From CDB, these are now valid
+  input [`WAYS-1:0]                           wr_en_CDB,
 	input [`WAYS-1:0] [`XLEN-1:0]               wr_dat_CDB,
 
 	input [`WAYS-1:0] [4:0]                     RRAT_ARF_idx,   // ARF # to be renamed, from ROB
@@ -342,6 +343,8 @@ module id_stage(
 );
 
 	always_comb begin
+//	$display("if_id_packet_in[0].inst: %h",if_id_packet_in[0].inst);
+//	$display("find_taken: %b inst_valid_tmp: %b",find_taken,inst_valid_tmp);
 		if(!find_taken) begin
 			for(int i = 0; i < `WAYS ; i = i + 1) id_packet_out[i].valid =  inst_valid_tmp[i];
 		end else begin

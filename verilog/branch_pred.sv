@@ -41,7 +41,7 @@ module branch_pred #(parameter SIZE=128) (
     // Sequential Logic
     // synopsys sync_set_reset "reset"
     always_ff @(posedge clock) begin
-    $display("PC: %h next_PC: %h", PC,next_PC);
+//    $display("PC: %h next_PC: %h", PC,next_PC);
         if(reset) begin
             BTB_valid = 0;
             for(int i = 0; i < SIZE; i++) begin

@@ -58,7 +58,7 @@ always_comb begin
             if (miss_outstanding[i]) begin
                 proc2Imem_command = BUS_LOAD;
                 proc2Imem_addr = {proc2Icache_addr[i][31:3], 3'b0};
-                {current_tag_wire, current_index_wire} = {proc2Icache_addr[i][15:3], 3'b0};
+                {current_tag_wire, current_index_wire} = proc2Icache_addr[i][15:3];
             end
         end
     end
@@ -82,9 +82,9 @@ always_comb begin
 end
 
 always_ff @ (posedge clock) begin
-$display("proc2Icache_addr[0]: %h",proc2Icache_addr[0]);
-$display("miss_outstanding: %b",miss_outstanding);
-$display("cachemem_valid: %b",cachemem_valid);
+//$display("proc2Icache_addr[0]: %h",proc2Icache_addr[0]);
+//$display("miss_outstanding: %b",miss_outstanding);
+//$display("cachemem_valid: %b",cachemem_valid);
     if (reset) begin
         wait_for_mem_reg <= 0;
     end

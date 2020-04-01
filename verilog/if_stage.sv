@@ -51,9 +51,9 @@ module if_stage(
 	generate
 		for (genvar i = 0 ; i <`WAYS; i = i + 1) begin
 			assign proc2Icache_addr[i] 	 = {PC_reg_hub[i][`XLEN-1:3], 3'b0};
-			assign if_packet_out[i].inst = PC_reg_hub[i][2] ? Icache2proc_data[i][63:32] : Icache2proc_data[i][31:0];
-			assign if_packet_out[i].NPC  = PC_reg_hub[i] + 4;
-			assign if_packet_out[i].PC   = PC_reg_hub[i];
+//			assign if_packet_out[i].inst = PC_reg_hub[i][2] ? Icache2proc_data[i][63:32] : Icache2proc_data[i][31:0];
+//			assign if_packet_out[i].NPC  = PC_reg_hub[i] + 4;
+//			assign if_packet_out[i].PC   = PC_reg_hub[i];
 		end
 	endgenerate
 
@@ -75,10 +75,10 @@ module if_stage(
 	
 
 	always_ff @(posedge clock) begin
-	$display("PC_reg_hub[0]: %h PC_reg_hub[1]: %h PC_reg_hub[2]: %h",PC_reg_hub[0],PC_reg_hub[1],PC_reg_hub[2]);
+//	$display("PC_reg_hub[0]: %h PC_reg_hub[1]: %h PC_reg_hub[2]: %h",PC_reg_hub[0],PC_reg_hub[1],PC_reg_hub[2]);
 //	$display("proc2Icache_addr[0]: %h proc2Icache_addr[1]: %h proc2Icache_addr[2]: %h",proc2Icache_addr[0],proc2Icache_addr[1],proc2Icache_addr[2]);
-	$display("Icache2proc_data[0]: %h",Icache2proc_data[0]);
-	$display("pc_predicted: %h rob_take_branch: %b Icache2proc_valid: %b",pc_predicted,rob_take_branch,Icache2proc_valid);
+//	$display("Icache2proc_data[0]: %h",Icache2proc_data[0]);
+//	$display("pc_predicted: %h Icache2proc_valid: %b",pc_predicted,Icache2proc_valid);
 		if(reset) 				PC_reg <= `SD 0; else      // initial PC value is 0
 		if(rob_take_branch) 	PC_reg <= `SD rob_target_pc; else
 		if(PC_enable)			PC_reg <= `SD pc_predicted;
@@ -87,6 +87,9 @@ module if_stage(
 
 	always_ff @(posedge clock) begin
 		for( int i = 0; i < `WAYS; i = i + 1) begin
+			if_packet_out[i].inst <= `SD PC_reg_hub[i][2] ? Icache2proc_data[i][63:32] : Icache2proc_data[i][31:0];
+			if_packet_out[i].NPC  <= `SD PC_reg_hub[i] + 4;
+			if_packet_out[i].PC   <= `SD PC_reg_hub[i];
 			if (reset | (Icache2proc_valid == {`WAYS{1'b1}})) 	begin
 				if_packet_out[i].valid <= `SD 1;
 			end	else begin
