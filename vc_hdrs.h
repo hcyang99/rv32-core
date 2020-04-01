@@ -42,6 +42,7 @@ void print_cycles(int cycle_count);
 void print_stage(const char* div, int inst, int valid_inst);
 void print_rs(const char* div, int inst, int valid_inst, int num_free);
 void print_rob(const char* div, int direction, int PC, int num_free);
+void print_ex_out(const char* div, int alu_result, int valid);
 void print_reg(int wb_reg_wr_data_out_hi, int wb_reg_wr_data_out_lo, int wb_reg_wr_idx_out, int wb_reg_wr_en_out);
 void print_membus(int proc2mem_command, int mem2proc_response, int proc2mem_addr_hi, int proc2mem_addr_lo, int proc2mem_data_hi, int proc2mem_data_lo);
 void print_close();

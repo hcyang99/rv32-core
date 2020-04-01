@@ -153,7 +153,7 @@ void print_stage(char* div, int inst, int valid_inst)
   char *str = decode(inst, valid_inst);
 
   if (ppfile != NULL)
-    fprintf(ppfile, "%s     %-8s", div, str);
+    fprintf(ppfile, "%s %2d  %-8s", div, valid_inst, str);
 }
 
 void print_rs(char* div, int inst, int valid_inst, int num_free)
@@ -171,6 +171,11 @@ void print_rob(char* div, int direction, int PC, int num_free)
   if (ppfile != NULL)
     fprintf(ppfile, "%s%4d  %08x%4d", div, direction, PC, num_free);
 
+}
+
+void print_ex_out(char* div, int alu_result, int valid){
+  if(ppfile != NULL)
+    fprintf(ppfile, "%s%3d %8d  ", div, valid, alu_result);
 }
 
 void print_close()

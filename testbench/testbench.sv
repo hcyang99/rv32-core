@@ -7,6 +7,7 @@ extern void print_cycles(int cycle_count);
 extern void print_stage(string div, int inst, int valid_inst);
 extern void print_rs(string div, int inst, int valid_inst, int num_free);
 extern void print_rob(string div, int direction, int PC, int num_free);
+extern void print_ex_out(string div, int alu_result, int valid);
 extern void print_reg(int wb_reg_wr_data_out_hi, int wb_reg_wr_data_out_lo,
                       int wb_reg_wr_idx_out, int wb_reg_wr_en_out);
 extern void print_membus(int proc2mem_command, int mem2proc_response,
@@ -206,7 +207,7 @@ module testbench;
 				print_stage("|", id_ex_IR[i], {31'b0,id_ex_valid_inst[i]});
 				print_rob("|", {31'b0, rob_direction_out[i]}, rob_PC_out[i], {28'b0, rob_next_num_free});
 				print_rs("|", rs_IR_out[i], {31'b0,rs_valid_inst_out[i]}, {28'b0, rs_num_is_free});
-				print_stage("|", id_ex_IR[i], {31'b0,ex_valid_inst_out[i]});
+				print_ex_out("|", ex_alu_result_out[i], {31'b0,ex_valid_inst_out[i]});
 
 				print_reg(32'b0, pipeline_commit_wr_data[31:0],
 					{27'b0,pipeline_commit_wr_idx}, {31'b0,pipeline_commit_wr_en});
@@ -286,8 +287,8 @@ module testbench;
         $display("@@  %t  Deasserting System reset......\n@@\n@@", $realtime);
 
         wb_fileno = $fopen("writeback.out");
-        print_header("                                                        ROB              RS 				  D-MEM Bus &\n");
-        print_header("Cycle:      IF      |     ID      |     EX      | DIR    PC     NF |   IR     NF |    EX_OUT     Reg Result");
+        print_header("            IF            ID            EX              ROB              RS           EX_OUT     D-MEM Bus &\n");
+        print_header("Cycle:  VLD    IR   | VLD    IR   | VLD    IR   | DIR    PC     NF |   IR     NF | VLD      ALU  Reg Result");
     end
 
 
