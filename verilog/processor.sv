@@ -417,7 +417,8 @@ end
 //	$display("proc2mem_command: %b",proc2mem_command);
 //	$display("opa_valid: %b opb_valid: %b",opa_valid,opb_valid);
 //	$display("next_tail: %d", next_tail);
-	$display("valid: %b",valid);
+//	$display("valid: %b",valid);
+//	$display("CDB_direction : %b",CDB_direction);
 		if (reset | rob_is_full | rs_is_full) begin
 			id_ex_packet 		<= `SD 0;
 			id_ex_next_PC 		<= `SD 0;
@@ -434,6 +435,10 @@ end
 				id_ex_opb_valid		<= `SD id_opb_valid | id_opb_valid_tmp;
 				id_ex_reg_write		<= `SD id_reg_write | id_reg_write_tmp;
 				for(int i = 0; i < `WAYS; i = i + 1) begin
+				if(id_ex_packet[i].inst == `XLEN'hfc0312e3) begin
+					$display("--------------");
+					$display("at bne: rs1_value: %h rs2_value: %h",id_ex_packet[i].rs1_value,id_ex_packet[i].rs2_value);
+				end
 					id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
 				end
 			end
@@ -562,7 +567,7 @@ endgenerate
 		// Inputs
 		.clock(clock),
 		.reset(reset),
-		.id_ex_packet_in(id_ex_packet),
+		.id_ex_packet_in(rs_packet_out),
 		// Outputs
 		.ex_packet_out(ex_packet),
 		.occupied_hub(ALU_occupied)

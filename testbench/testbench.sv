@@ -137,13 +137,12 @@ module testbench;
     // ------------------------- testbench logic & tasks ------------------------- 
 
 	// Task to display # of elapsed clock edges
-	task show_clk_count (input last_inst_count);
+	task show_clk_count (input[3:0] last_inst_count);
 		real cpi;
-		
 		begin
 			cpi = (clock_count + 1.0) / (instr_count + last_inst_count -1);
 			$display("@@  %0d cycles / %0d instrs = %f CPI\n@@",
-			          clock_count+1, instr_count, cpi);
+			          clock_count+1, instr_count + last_inst_count -1, cpi);
 			$display("@@  %4.2f ns total time to execute\n@@\n",
 			          clock_count*`VERILOG_CLOCK_PERIOD);
 		end

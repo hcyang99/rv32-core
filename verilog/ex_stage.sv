@@ -207,6 +207,10 @@ module ex_stage(
 	//
 	always_comb begin
 		for( int i = 0; i < `WAYS; ++i) begin
+		if(id_ex_packet_in[i].inst == `XLEN'hfc0312e3) begin
+		$display("-------------------");
+		$display("at bne: take_branch: %b cond_branch: %b brcond_result:%b rs1_value: %h rs2_value: %h",ex_packet_out[i].take_branch,id_ex_packet_in[i].cond_branch,brcond_result[i],id_ex_packet_in[i].rs1_value,id_ex_packet_in[i].rs2_value);
+	end
 			opa_mux_out[i] = `XLEN'hdeadfbac;
 			case (id_ex_packet_in[i].opa_select)
 				OPA_IS_RS1:  opa_mux_out[i] = id_ex_packet_in[i].rs1_value;
