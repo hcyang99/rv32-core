@@ -188,6 +188,13 @@ always_ff @(posedge clock) begin
                 entries[CDB_ROB_idx[i]].target           <= `SD CDB_target[i];
             end
         end
+
+        // Commit logic
+        for(int i = 0; i < num_committed; i++) begin
+            entries[(head + i) % `ROB].done <= 0;
+        end
+
+        // Other state updates
         tail                <= `SD next_tail;
         head                <= `SD next_head;
         num_free            <= `SD next_num_free;
