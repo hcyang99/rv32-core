@@ -63,7 +63,8 @@ module testbench;
 	logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out;
 
     logic [63:0] debug_counter;
-
+	logic [`WAYS-1:0] 	OPA_VALID;
+	logic [`WAYS-1:0] 	OPB_VALID;
 
     // ------------------------- module instances ------------------------- 
 
@@ -268,8 +269,8 @@ module testbench;
 
         clock = 1'b0;
         reset = 1'b1;
-	$monitor("time: %4.0f if_valid_inst_out: %b if_IR_out[0]: %h id_valid_inst_out: %b id_IR_out[0]: %h",
-	$time,if_valid_inst_out,if_IR_out[0],id_valid_inst_out,id_IR_out[0]);
+	$monitor("time: %4.0f if_valid_inst_out: %b id_valid_inst_out: %b id_IR_out[0]: %h pipeline_completed_insts: %d instr_count: %d",
+	$time,if_valid_inst_out,id_valid_inst_out,id_IR_out[0],pipeline_completed_insts,instr_count);
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
 		@(posedge clock);

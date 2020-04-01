@@ -258,8 +258,10 @@ module id_stage(
 		logic [`WAYS-1:0][`XLEN-1:0]			opb_value;
 		logic [`WAYS-1:0]     					opa_valid_tmp;
 		logic [`WAYS-1:0]								opb_valid_tmp;
-		logic [`WAYS-1:0]						inst_valid_tmp;
+		logic [`WAYS-1:0]				inst_valid_tmp;
 		logic 									find_taken;
+
+
 
 		DEST_REG_SEL [`WAYS-1:0] dest_reg_select; 
 	
@@ -344,7 +346,6 @@ module id_stage(
 	always_comb begin
 //	$display("if_id_packet_in[0].inst: %h",if_id_packet_in[0].inst);
 //	$display("find_taken: %b inst_valid_tmp: %b",find_taken,inst_valid_tmp);
-//		$display("opa_valid_tmp: %b opb_valid_tmp: %b",opa_valid_tmp,opb_valid_tmp);
 		if(!find_taken) begin
 			for(int i = 0; i < `WAYS ; i = i + 1) id_packet_out[i].valid =  inst_valid_tmp[i];
 		end else begin
@@ -395,12 +396,7 @@ module id_stage(
 		end
 	end
 
-	always_ff@(posedge clock) begin
 
-		$display("opa_valid_tmp: %b opb_valid_tmp: %b",opa_valid_tmp,opb_valid_tmp);
-		$display("opa_valid: %b opb_valid: %b",opa_valid,opb_valid);
-
-	end
 
 
    

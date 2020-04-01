@@ -58,6 +58,7 @@ module processor (
 
 	output logic [`WAYS-1:0]    ex_valid_inst_out,
 	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out
+
 );
 
 
@@ -105,13 +106,11 @@ module processor (
 	// Outputs from ID stage
 	ID_EX_PACKET [`WAYS-1 : 0] id_packet;
 
-
-	logic [`WAYS-1:0]	opa_valid;
-	logic [`WAYS-1:0]	opb_valid;
+	logic [`WAYS-1:0]	id_opa_valid;
+	logic [`WAYS-1:0]	id_opb_valid;
 
 
 	// Outputs from ID/Rob&RS Pipeline Register
-	ID_EX_PACKET[`WAYS-1 : 0] id_ex_packet;
 	logic rob_is_full;
 	logic rs_is_full;
 	
@@ -126,9 +125,16 @@ module processor (
   	logic [`WAYS-1:0] [`XLEN-1:0]                   target;
 
  	ID_EX_PACKET [`WAYS-1 : 0] 					 	id_packet_tmp;
-	logic [`WAYS-1:0]								opa_valid_tmp;
-	logic [`WAYS-1:0]								opb_valid_tmp;
-	logic [`WAYS-1:0]								reg_write_tmp;
+	ID_EX_PACKET[`WAYS-1 : 0] 						id_ex_packet;
+
+	logic [`WAYS-1:0]								id_opa_valid_tmp;
+	logic [`WAYS-1:0]								id_ex_opa_valid;
+
+	logic [`WAYS-1:0]								id_opb_valid_tmp;
+	logic [`WAYS-1:0]								id_ex_opb_valid;
+
+	logic [`WAYS-1:0]								id_reg_write_tmp;
+	logic [`WAYS-1:0]								id_ex_reg_write;
 	
     logic [`XLEN-1:0]                       		id_ex_next_PC;
     logic [`XLEN-1:0]                       		id_next_PC_tmp;
@@ -172,8 +178,7 @@ module processor (
 	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet;
 	logic [`WAYS-1:0] 							ALU_occupied;
 
-
-
+//-----------------------for debug--------------
 
 	
   
@@ -363,9 +368,9 @@ endgenerate
 
 		// Outputs
 		.id_packet_out(id_packet),
-		.opa_valid (opa_valid),
-		.opb_valid (opb_valid),
-		.dest_arn_valid(reg_write)
+		.opa_valid (id_opa_valid),
+		.opb_valid (id_opb_valid),
+		.dest_arn_valid(id_reg_write)
 
 	);
 
@@ -389,18 +394,18 @@ assign rs_is_full  = num_is_free < `WAYS;
 always_ff@(posedge clock) begin
 	if(rob_is_full | rs_is_full) begin
 		id_packet_tmp 				<= `SD id_packet | id_packet_tmp;
-		opa_valid_tmp				<= `SD opa_valid | opa_valid_tmp;
-		opb_valid_tmp				<= `SD opb_valid | opb_valid_tmp;
-		reg_write_tmp				<= `SD reg_write | reg_write_tmp;
+		id_opa_valid_tmp			<= `SD id_opa_valid | id_opa_valid_tmp;
+		id_opb_valid_tmp			<= `SD id_opb_valid | id_opb_valid_tmp;
+		id_reg_write_tmp			<= `SD id_reg_write | id_reg_write_tmp;
 		id_next_PC_tmp           	<= `SD id_next_PC | id_next_PC_tmp;
 		id_predictions_tmp			<= `SD id_predictions | id_predictions_tmp;
 	end else begin
-		id_packet_tmp <= `SD 0;
-		opa_valid_tmp <= `SD 0;
-		opb_valid_tmp <= `SD 0;
-		reg_write_tmp <= `SD 0;
-		id_next_PC_tmp <= `SD 0;
-		id_predictions_tmp <= `SD 0;
+		id_packet_tmp 		<= `SD 0;
+		id_opa_valid_tmp 	<= `SD 0;
+		id_opb_valid_tmp 	<= `SD 0;
+		id_reg_write_tmp 	<= `SD 0;
+		id_next_PC_tmp 		<= `SD 0;
+		id_predictions_tmp 	<= `SD 0;
 	end
 end
 
@@ -411,15 +416,25 @@ end
 	always_ff @(posedge clock) begin
 //	$display("proc2mem_command: %b",proc2mem_command);
 //	$display("opa_valid: %b opb_valid: %b",opa_valid,opb_valid);
-		if (reset | rob_is_full) begin
-			id_ex_packet <= `SD 0;
-			id_ex_next_PC <= `SD 0;
-			id_ex_predictions <= `SD {`WAYS{1'b0}};
+//	$display("next_tail: %d", next_tail);
+		if (reset | rob_is_full | rs_is_full) begin
+			id_ex_packet 		<= `SD 0;
+			id_ex_next_PC 		<= `SD 0;
+			id_ex_predictions 	<= `SD {`WAYS{1'b0}};
+			id_ex_opa_valid		<= `SD 0;
+			id_ex_opb_valid		<= `SD 0;
+			id_ex_reg_write		<= `SD 0;
 		end else begin // if (reset)
 			if (id_ex_enable) begin
 				id_ex_packet 		<= `SD id_packet_tmp | id_packet;
 				id_ex_next_PC       <= `SD id_next_PC | id_next_PC_tmp;
 				id_ex_predictions	<= `SD id_predictions | id_predictions_tmp;
+				id_ex_opa_valid		<= `SD id_opa_valid | id_opa_valid_tmp;
+				id_ex_opb_valid		<= `SD id_opb_valid | id_opb_valid_tmp;
+				id_ex_reg_write		<= `SD id_reg_write | id_reg_write_tmp;
+				for(int i = 0; i < `WAYS; i = i + 1) begin
+					id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
+				end
 			end
 		end // else: !if(reset)
 	end // always
@@ -460,7 +475,7 @@ assign rob_PC_out        = PC_out;
 
     .dest_ARN,
     .dest_PRN,
-    .reg_write,
+    .reg_write(id_ex_reg_write),
     .is_branch,
     .valid,
 		
@@ -513,8 +528,8 @@ assign rs_num_is_free = num_is_free;
         .CDB_PRF_idx,
         .CDB_valid,
 		
-        .opa_valid_in(opa_valid),
-        .opb_valid_in(opb_valid),
+        .opa_valid_in(id_ex_opa_valid),
+        .opb_valid_in(id_ex_opb_valid),
         .id_rs_packet_in(id_ex_packet),                            
         .load_in(~rob_is_full & ~rs_is_full),
         .ALU_occupied,

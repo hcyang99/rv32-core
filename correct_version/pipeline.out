@@ -1,0 +1,334 @@
+                                                                            D-MEM Bus &
+Cycle:      IF      |     ID      |     EX      |     MEM     |     WB      Reg Result
+    0:    4:addi    |   0:-       |   0:-       |   0:-       |   0:-       BUS_LOAD  MEM[0] accepted 1
+    1:    8:lui     |   4:addi    |   0:-       |   0:-       |   0:-       BUS_LOAD  MEM[0] accepted 1
+    2:   12:addi    |   8:lui     |   4:addi    |   0:-       |   0:-       BUS_LOAD  MEM[8] accepted 1
+    3:   16:slli    |  12:addi    |   8:lui     |   4:addi    |   0:-       BUS_LOAD  MEM[8] accepted 1
+    4:   20:lui     |  16:slli    |  12:addi    |   8:lui     |   4:addi    r2=8  BUS_LOAD  MEM[16] accepted 1
+    5:   24:addi    |  20:lui     |  16:slli    |  12:addi    |   8:lui     r3=8192  BUS_LOAD  MEM[16] accepted 1
+    6:   28:or      |  24:addi    |  20:lui     |  16:slli    |  12:addi    r3=10171  BUS_LOAD  MEM[24] accepted 1
+    7:   32:lui     |  28:or      |  24:addi    |  20:lui     |  16:slli    r3=666566656  BUS_LOAD  MEM[24] accepted 1
+    8:   36:addi    |  32:lui     |  28:or      |  24:addi    |  20:lui     r1=12288  BUS_LOAD  MEM[32] accepted 1
+    9:   40:slli    |  36:addi    |  32:lui     |  28:or      |  24:addi    r1=12006  BUS_LOAD  MEM[32] accepted 1
+   10:   44:or      |  40:slli    |  36:addi    |  32:lui     |  28:or      r3=666578662  BUS_LOAD  MEM[40] accepted 1
+   11:   48:addi    |  44:or      |  40:slli    |  36:addi    |  32:lui     r1=4096  BUS_LOAD  MEM[40] accepted 1
+   12:   52:slli    |  48:addi    |  44:or      |  40:slli    |  36:addi    r1=2171  BUS_LOAD  MEM[48] accepted 1
+   13:   56:or      |  52:slli    |  48:addi    |  44:or      |  40:slli    r3=-1293000704  BUS_LOAD  MEM[48] accepted 1
+   14:   60:addi    |  56:or      |  52:slli    |  48:addi    |  44:or      r3=-1292998533  BUS_LOAD  MEM[56] accepted 1
+   15:   64:slli    |  60:addi    |  56:or      |  52:slli    |  48:addi    r1=176  BUS_LOAD  MEM[56] accepted 1
+   16:   68:or      |  64:slli    |  60:addi    |  56:or      |  52:slli    r3=-427315200  BUS_LOAD  MEM[64] accepted 1
+   17:   72:lui     |  68:or      |  64:slli    |  60:addi    |  56:or      r3=-427315024  BUS_LOAD  MEM[64] accepted 1
+   18:   76:addi    |  72:lui     |  68:or      |  64:slli    |  60:addi    r1=253  BUS_LOAD  MEM[72] accepted 1
+   19:   80:slli    |  76:addi    |  72:lui     |  68:or      |  64:slli    r3=-2018463744  BUS_LOAD  MEM[72] accepted 1
+   20:   84:addi    |  80:slli    |  76:addi    |  72:lui     |  68:or      r3=-2018463491  BUS_LOAD  MEM[80] accepted 1
+   21:   88:or      |  84:addi    |  80:slli    |  76:addi    |  72:lui     r4=4096  BUS_LOAD  MEM[80] accepted 1
+   22:   92:addi    |  88:or      |  84:addi    |  80:slli    |  76:addi    r4=2896  BUS_LOAD  MEM[88] accepted 1
+   23:   96:slli    |  92:addi    |  88:or      |  84:addi    |  80:slli    r4=11862016  BUS_LOAD  MEM[88] accepted 1
+   24:  100:or      |  96:slli    |  92:addi    |  88:or      |  84:addi    r1=1267  BUS_LOAD  MEM[96] accepted 1
+   25:  104:addi    | 100:or      |  96:slli    |  92:addi    |  88:or      r4=11863283  BUS_LOAD  MEM[96] accepted 1
+   26:  108:addi    | 104:addi    | 100:or      |  96:slli    |  92:addi    r1=45  BUS_LOAD  MEM[104] accepted 1
+   27:  112:slti    | 108:addi    | 104:addi    | 100:or      |  96:slli    r4=189812528  BUS_LOAD  MEM[104] accepted 1
+   28:  116:mul     | 112:slti    | 108:addi    | 104:addi    | 100:or      r4=189812541  BUS_LOAD  MEM[112] accepted 1
+   29:  120:add     | 116:mul     | 112:slti    | 108:addi    | 104:addi    r5=0  BUS_LOAD  MEM[112] accepted 1
+   30:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=1  BUS_LOAD  MEM[120] accepted 1
+   31:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+   32:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=1032161256  BUS_LOAD  MEM[128] accepted 1
+   33:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=1221973797  BUS_LOAD  MEM[128] accepted 1
+   34:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=1806634897  BUS_LOAD  MEM[136] accepted 1
+   35:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=1996447438  BUS_LOAD  MEM[136] accepted 1
+   36:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-80850538  BUS_LOAD  MEM[144] accepted 1
+   37:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=108962003  BUS_LOAD  MEM[144] accepted 1
+   38:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=1338376327  BUS_LOAD  MEM[152] accepted 1
+   39:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=1528188868  BUS_LOAD  MEM[152] accepted 1
+   40:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=18645  BUS_LOAD  MEM[160] accepted 1
+   41:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=30463  BUS_LOAD  MEM[160] accepted 1
+   42:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=1662  BUS_LOAD  MEM[168] accepted 1
+   43:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=23318  BUS_LOAD  MEM[168] accepted 1
+   44:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=61  BUS_LOAD  MEM[176] accepted 1
+   45:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+   46:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+   47:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+   48:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+   49:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=2  BUS_LOAD  MEM[120] accepted 1
+   50:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+   51:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-1901882188  BUS_LOAD  MEM[128] accepted 1
+   52:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-1712069647  BUS_LOAD  MEM[128] accepted 1
+   53:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=-1620183763  BUS_LOAD  MEM[136] accepted 1
+   54:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=-1430371222  BUS_LOAD  MEM[136] accepted 1
+   55:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=2079489218  BUS_LOAD  MEM[144] accepted 1
+   56:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-2025665537  BUS_LOAD  MEM[144] accepted 1
+   57:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=1368582915  BUS_LOAD  MEM[152] accepted 1
+   58:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=1558395456  BUS_LOAD  MEM[152] accepted 1
+   59:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=39411  BUS_LOAD  MEM[160] accepted 1
+   60:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=43710  BUS_LOAD  MEM[160] accepted 1
+   61:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=34626  BUS_LOAD  MEM[168] accepted 1
+   62:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=23779  BUS_LOAD  MEM[168] accepted 1
+   63:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=77  BUS_LOAD  MEM[176] accepted 1
+   64:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+   65:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+   66:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+   67:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+   68:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=3  BUS_LOAD  MEM[120] accepted 1
+   69:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+   70:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-795045568  BUS_LOAD  MEM[128] accepted 1
+   71:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-605233027  BUS_LOAD  MEM[128] accepted 1
+   72:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=1952435081  BUS_LOAD  MEM[136] accepted 1
+   73:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=2142247622  BUS_LOAD  MEM[136] accepted 1
+   74:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=361928110  BUS_LOAD  MEM[144] accepted 1
+   75:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=551740651  BUS_LOAD  MEM[144] accepted 1
+   76:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=-869413825  BUS_LOAD  MEM[152] accepted 1
+   77:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=-679601284  BUS_LOAD  MEM[152] accepted 1
+   78:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=56300  BUS_LOAD  MEM[160] accepted 1
+   79:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=32688  BUS_LOAD  MEM[160] accepted 1
+   80:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=8418  BUS_LOAD  MEM[168] accepted 1
+   81:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=55166  BUS_LOAD  MEM[168] accepted 1
+   82:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=93  BUS_LOAD  MEM[176] accepted 1
+   83:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+   84:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+   85:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+   86:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+   87:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=4  BUS_LOAD  MEM[120] accepted 1
+   88:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+   89:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-205100660  BUS_LOAD  MEM[128] accepted 1
+   90:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-15288119  BUS_LOAD  MEM[128] accepted 1
+   91:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=-1045508443  BUS_LOAD  MEM[136] accepted 1
+   92:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=-855695902  BUS_LOAD  MEM[136] accepted 1
+   93:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-1240733606  BUS_LOAD  MEM[144] accepted 1
+   94:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-1050921065  BUS_LOAD  MEM[144] accepted 1
+   95:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=1462419515  BUS_LOAD  MEM[152] accepted 1
+   96:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=1652232056  BUS_LOAD  MEM[152] accepted 1
+   97:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=65302  BUS_LOAD  MEM[160] accepted 1
+   98:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=52479  BUS_LOAD  MEM[160] accepted 1
+   99:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=49500  BUS_LOAD  MEM[168] accepted 1
+  100:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=25211  BUS_LOAD  MEM[168] accepted 1
+  101:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=109  BUS_LOAD  MEM[176] accepted 1
+  102:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  103:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  104:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  105:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  106:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=5  BUS_LOAD  MEM[120] accepted 1
+  107:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  108:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-658454120  BUS_LOAD  MEM[128] accepted 1
+  109:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-468641579  BUS_LOAD  MEM[128] accepted 1
+  110:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=-1956119935  BUS_LOAD  MEM[136] accepted 1
+  111:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=-1766307394  BUS_LOAD  MEM[136] accepted 1
+  112:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-1955364666  BUS_LOAD  MEM[144] accepted 1
+  113:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-1765552125  BUS_LOAD  MEM[144] accepted 1
+  114:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=899064567  BUS_LOAD  MEM[152] accepted 1
+  115:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=1088877108  BUS_LOAD  MEM[152] accepted 1
+  116:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=58385  BUS_LOAD  MEM[160] accepted 1
+  117:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=38584  BUS_LOAD  MEM[160] accepted 1
+  118:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=38595  BUS_LOAD  MEM[168] accepted 1
+  119:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=16614  BUS_LOAD  MEM[168] accepted 1
+  120:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=125  BUS_LOAD  MEM[176] accepted 1
+  121:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  122:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  123:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  124:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  125:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=6  BUS_LOAD  MEM[120] accepted 1
+  126:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  127:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-629072540  BUS_LOAD  MEM[128] accepted 1
+  128:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-439259999  BUS_LOAD  MEM[128] accepted 1
+  129:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=-1336472803  BUS_LOAD  MEM[136] accepted 1
+  130:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=-1146660262  BUS_LOAD  MEM[136] accepted 1
+  131:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=375532274  BUS_LOAD  MEM[144] accepted 1
+  132:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=565344815  BUS_LOAD  MEM[144] accepted 1
+  133:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=-894234509  BUS_LOAD  MEM[152] accepted 1
+  134:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=-704421968  BUS_LOAD  MEM[152] accepted 1
+  135:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=58833  BUS_LOAD  MEM[160] accepted 1
+  136:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=48039  BUS_LOAD  MEM[160] accepted 1
+  137:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=8626  BUS_LOAD  MEM[168] accepted 1
+  138:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=54787  BUS_LOAD  MEM[168] accepted 1
+  139:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=141  BUS_LOAD  MEM[176] accepted 1
+  140:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  141:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  142:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  143:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  144:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=7  BUS_LOAD  MEM[120] accepted 1
+  145:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  146:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=1813942512  BUS_LOAD  MEM[128] accepted 1
+  147:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=2003755053  BUS_LOAD  MEM[128] accepted 1
+  148:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=480410745  BUS_LOAD  MEM[136] accepted 1
+  149:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=670223286  BUS_LOAD  MEM[136] accepted 1
+  150:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=1847620318  BUS_LOAD  MEM[144] accepted 1
+  151:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=2037432859  BUS_LOAD  MEM[144] accepted 1
+  152:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=963798191  BUS_LOAD  MEM[152] accepted 1
+  153:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=1153610732  BUS_LOAD  MEM[152] accepted 1
+  154:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=30574  BUS_LOAD  MEM[160] accepted 1
+  155:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=10226  BUS_LOAD  MEM[160] accepted 1
+  156:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=31088  BUS_LOAD  MEM[168] accepted 1
+  157:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=17602  BUS_LOAD  MEM[168] accepted 1
+  158:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=157  BUS_LOAD  MEM[176] accepted 1
+  159:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  160:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  161:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  162:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  163:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=8  BUS_LOAD  MEM[120] accepted 1
+  164:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  165:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-161607620  BUS_LOAD  MEM[128] accepted 1
+  166:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=28204921  BUS_LOAD  MEM[128] accepted 1
+  167:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=-47740267  BUS_LOAD  MEM[136] accepted 1
+  168:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=142072274  BUS_LOAD  MEM[136] accepted 1
+  169:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=1116906634  BUS_LOAD  MEM[144] accepted 1
+  170:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=1306719175  BUS_LOAD  MEM[144] accepted 1
+  171:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=-1967932501  BUS_LOAD  MEM[152] accepted 1
+  172:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=-1778119960  BUS_LOAD  MEM[152] accepted 1
+  173:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=430  BUS_LOAD  MEM[160] accepted 1
+  174:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=2167  BUS_LOAD  MEM[160] accepted 1
+  175:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=19938  BUS_LOAD  MEM[168] accepted 1
+  176:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=38404  BUS_LOAD  MEM[168] accepted 1
+  177:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=173  BUS_LOAD  MEM[176] accepted 1
+  178:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  179:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  180:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  181:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  182:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=9  BUS_LOAD  MEM[120] accepted 1
+  183:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  184:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-520206520  BUS_LOAD  MEM[128] accepted 1
+  185:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-330393979  BUS_LOAD  MEM[128] accepted 1
+  186:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=798372209  BUS_LOAD  MEM[136] accepted 1
+  187:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=988184750  BUS_LOAD  MEM[136] accepted 1
+  188:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-404435978  BUS_LOAD  MEM[144] accepted 1
+  189:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-214623437  BUS_LOAD  MEM[144] accepted 1
+  190:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=1983836519  BUS_LOAD  MEM[152] accepted 1
+  191:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=-2121318236  BUS_LOAD  MEM[152] accepted 1
+  192:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=60494  BUS_LOAD  MEM[160] accepted 1
+  193:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=15078  BUS_LOAD  MEM[160] accepted 1
+  194:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=62261  BUS_LOAD  MEM[168] accepted 1
+  195:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=33167  BUS_LOAD  MEM[168] accepted 1
+  196:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=189  BUS_LOAD  MEM[176] accepted 1
+  197:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  198:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  199:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  200:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  201:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=10  BUS_LOAD  MEM[120] accepted 1
+  202:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  203:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=1942200852  BUS_LOAD  MEM[128] accepted 1
+  204:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=2132013393  BUS_LOAD  MEM[128] accepted 1
+  205:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=-347263731  BUS_LOAD  MEM[136] accepted 1
+  206:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=-157451190  BUS_LOAD  MEM[136] accepted 1
+  207:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=2012656930  BUS_LOAD  MEM[144] accepted 1
+  208:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-2092497825  BUS_LOAD  MEM[144] accepted 1
+  209:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=-1434410525  BUS_LOAD  MEM[152] accepted 1
+  210:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=-1244597984  BUS_LOAD  MEM[152] accepted 1
+  211:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=32531  BUS_LOAD  MEM[160] accepted 1
+  212:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=63133  BUS_LOAD  MEM[160] accepted 1
+  213:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=33607  BUS_LOAD  MEM[168] accepted 1
+  214:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=46544  BUS_LOAD  MEM[168] accepted 1
+  215:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=205  BUS_LOAD  MEM[176] accepted 1
+  216:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  217:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  218:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  219:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  220:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=11  BUS_LOAD  MEM[120] accepted 1
+  221:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  222:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-79410016  BUS_LOAD  MEM[128] accepted 1
+  223:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=110402525  BUS_LOAD  MEM[128] accepted 1
+  224:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=1593178473  BUS_LOAD  MEM[136] accepted 1
+  225:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=1782991014  BUS_LOAD  MEM[136] accepted 1
+  226:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-712512498  BUS_LOAD  MEM[144] accepted 1
+  227:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-522699957  BUS_LOAD  MEM[144] accepted 1
+  228:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=788932895  BUS_LOAD  MEM[152] accepted 1
+  229:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=978745436  BUS_LOAD  MEM[152] accepted 1
+  230:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=1684  BUS_LOAD  MEM[160] accepted 1
+  231:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=27206  BUS_LOAD  MEM[160] accepted 1
+  232:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=57560  BUS_LOAD  MEM[168] accepted 1
+  233:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=14934  BUS_LOAD  MEM[168] accepted 1
+  234:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=221  BUS_LOAD  MEM[176] accepted 1
+  235:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  236:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  237:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  238:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  239:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=12  BUS_LOAD  MEM[120] accepted 1
+  240:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  241:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=1567896300  BUS_LOAD  MEM[128] accepted 1
+  242:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=1757708841  BUS_LOAD  MEM[128] accepted 1
+  243:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=-1092562299  BUS_LOAD  MEM[136] accepted 1
+  244:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=-902749758  BUS_LOAD  MEM[136] accepted 1
+  245:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=488881338  BUS_LOAD  MEM[144] accepted 1
+  246:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=678693879  BUS_LOAD  MEM[144] accepted 1
+  247:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=1035576091  BUS_LOAD  MEM[152] accepted 1
+  248:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=1225388632  BUS_LOAD  MEM[152] accepted 1
+  249:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=26820  BUS_LOAD  MEM[160] accepted 1
+  250:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=51761  BUS_LOAD  MEM[160] accepted 1
+  251:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=10356  BUS_LOAD  MEM[168] accepted 1
+  252:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=18697  BUS_LOAD  MEM[168] accepted 1
+  253:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=237  BUS_LOAD  MEM[176] accepted 1
+  254:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  255:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  256:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  257:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  258:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=13  BUS_LOAD  MEM[120] accepted 1
+  259:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  260:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=166789368  BUS_LOAD  MEM[128] accepted 1
+  261:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=356601909  BUS_LOAD  MEM[128] accepted 1
+  262:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=2143329  BUS_LOAD  MEM[136] accepted 1
+  263:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=191955870  BUS_LOAD  MEM[136] accepted 1
+  264:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-808635610  BUS_LOAD  MEM[144] accepted 1
+  265:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-618823069  BUS_LOAD  MEM[144] accepted 1
+  266:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=-1361187881  BUS_LOAD  MEM[152] accepted 1
+  267:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=-1171375340  BUS_LOAD  MEM[152] accepted 1
+  268:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=5441  BUS_LOAD  MEM[160] accepted 1
+  269:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=2929  BUS_LOAD  MEM[160] accepted 1
+  270:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=56093  BUS_LOAD  MEM[168] accepted 1
+  271:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=47662  BUS_LOAD  MEM[168] accepted 1
+  272:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=253  BUS_LOAD  MEM[176] accepted 1
+  273:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  274:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  275:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  276:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  277:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=14  BUS_LOAD  MEM[120] accepted 1
+  278:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  279:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-233954620  BUS_LOAD  MEM[128] accepted 1
+  280:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-44142079  BUS_LOAD  MEM[128] accepted 1
+  281:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=1013406461  BUS_LOAD  MEM[136] accepted 1
+  282:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=1203219002  BUS_LOAD  MEM[136] accepted 1
+  283:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-1016390830  BUS_LOAD  MEM[144] accepted 1
+  284:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-826578289  BUS_LOAD  MEM[144] accepted 1
+  285:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=-741695661  BUS_LOAD  MEM[152] accepted 1
+  286:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=-551883120  BUS_LOAD  MEM[152] accepted 1
+  287:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=64862  BUS_LOAD  MEM[160] accepted 1
+  288:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=18359  BUS_LOAD  MEM[160] accepted 1
+  289:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=52923  BUS_LOAD  MEM[168] accepted 1
+  290:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=57114  BUS_LOAD  MEM[168] accepted 1
+  291:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=269  BUS_LOAD  MEM[176] accepted 1
+  292:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  293:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  294:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  295:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  296:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=15  BUS_LOAD  MEM[120] accepted 1
+  297:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=1  BUS_LOAD  MEM[120] accepted 1
+  298:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-190790576  BUS_LOAD  MEM[128] accepted 1
+  299:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-978035  BUS_LOAD  MEM[128] accepted 1
+  300:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=2057388633  BUS_LOAD  MEM[136] accepted 1
+  301:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=-2047766122  BUS_LOAD  MEM[136] accepted 1
+  302:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-1527512770  BUS_LOAD  MEM[144] accepted 1
+  303:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-1337700229  BUS_LOAD  MEM[144] accepted 1
+  304:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=1550326159  BUS_LOAD  MEM[152] accepted 1
+  305:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=1740138700  BUS_LOAD  MEM[152] accepted 1
+  306:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=65521  BUS_LOAD  MEM[160] accepted 1
+  307:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=34289  BUS_LOAD  MEM[160] accepted 1
+  308:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=45124  BUS_LOAD  MEM[168] accepted 1
+  309:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=26552  BUS_LOAD  MEM[168] accepted 1
+  310:  180:-       |   0:-       |   0:-       | 168:bne     | 164:addi    r1=285  BUS_LOAD  MEM[176] accepted 1
+  311:  108:addi    | 180:-       |   0:-       |   0:-       | 168:bne     BUS_LOAD  MEM[104] accepted 1
+  312:  112:slti    | 108:addi    | 180:-       |   0:-       |   0:-       BUS_LOAD  MEM[104] accepted 1
+  313:  116:mul     | 112:slti    | 108:addi    | 180:-       |   0:-       BUS_LOAD  MEM[112] accepted 1
+  314:  120:add     | 116:mul     | 112:slti    | 108:addi    | 180:-       BUS_LOAD  MEM[112] accepted 1
+  315:  124:mul     | 120:add     | 116:mul     | 112:slti    | 108:addi    r5=16  BUS_LOAD  MEM[120] accepted 1
+  316:  128:add     | 124:mul     | 120:add     | 116:mul     | 112:slti    r6=0  BUS_LOAD  MEM[120] accepted 1
+  317:  132:mul     | 128:add     | 124:mul     | 120:add     | 116:mul     r11=-376712804  BUS_LOAD  MEM[128] accepted 1
+  318:  136:add     | 132:mul     | 128:add     | 124:mul     | 120:add     r11=-186900263  BUS_LOAD  MEM[128] accepted 1
+  319:  140:mul     | 136:add     | 132:mul     | 128:add     | 124:mul     r12=1481746037  BUS_LOAD  MEM[136] accepted 1
+  320:  144:add     | 140:mul     | 136:add     | 132:mul     | 128:add     r12=1671558578  BUS_LOAD  MEM[136] accepted 1
+  321:  148:srli    | 144:add     | 140:mul     | 136:add     | 132:mul     r13=-1738919702  BUS_LOAD  MEM[144] accepted 1
+  322:  152:srli    | 148:srli    | 144:add     | 140:mul     | 136:add     r13=-1549107161  BUS_LOAD  MEM[144] accepted 1
+  323:  156:srli    | 152:srli    | 148:srli    | 144:add     | 140:mul     r2=-1553238389  BUS_LOAD  MEM[152] accepted 1
+  324:  160:srli    | 156:srli    | 152:srli    | 148:srli    | 144:add     r2=-1363425848  BUS_LOAD  MEM[152] accepted 1
+  325:  164:addi    | 160:srli    | 156:srli    | 152:srli    | 148:srli    r11=62684  BUS_LOAD  MEM[160] accepted 1
+  326:  168:bne     | 164:addi    | 160:srli    | 156:srli    | 152:srli    r12=25505  BUS_LOAD  MEM[160] accepted 1
+  327:  172:wfi     | 168:bne     | 164:addi    | 160:srli    | 156:srli    r13=41898  BUS_LOAD  MEM[168] accepted 1
+  328:  176:invalid | 172:wfi     | 168:bne     | 164:addi    | 160:srli    r14=44731  BUS_LOAD  MEM[168] accepted 1
+  329:  180:invalid | 176:invalid | 172:wfi     | 168:bne     | 164:addi    r1=301  BUS_LOAD  MEM[176] accepted 1
+  330:  184:invalid | 180:invalid | 176:-       | 172:wfi     | 168:bne     BUS_LOAD  MEM[176] accepted 1
+  331:  188:-       | 184:invalid | 180:-       | 176:-       | 172:wfi     BUS_LOAD  MEM[184] accepted 1

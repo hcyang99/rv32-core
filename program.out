@@ -1,0 +1,187 @@
+Chronologic VCS simulator copyright 1991-2017
+Contains Synopsys proprietary information.
+Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Mar 31 23:16 2020
+VCD+ Writer N-2017.12-SP2-1_Full64 Copyright (c) 1991-2017 by Synopsys Inc.
+@@
+@@
+@@                     0  Asserting System reset......
+@@
+@@                     0 : System STILL at reset, can't show anything
+@@
+time:    0 if_valid_inst_out: xxx id_valid_inst_out: xxx id_IR_out[0]: xxxxxxxx pipeline_completed_insts:  0 instr_count:          x
+time:    5
+time:    6 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx pipeline_completed_insts:  0 instr_count:          0
+@@
+@@                   100 : System STILL at reset, can't show anything
+@@
+time:   15
+@@
+@@                   200 : System STILL at reset, can't show anything
+@@
+time:   25
+time:   26 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 pipeline_completed_insts:  0 instr_count:          0
+@@
+@@                   300 : System STILL at reset, can't show anything
+@@
+time:   35
+@@                   360  Deasserting System reset......
+@@
+@@
+time:   45
+time:   46 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 pipeline_completed_insts:  0 instr_count:          0
+time:   55
+time:   65
+time:   75
+time:   85
+time:   95
+time:  105
+time:  115
+time:  125
+time:  135
+time:  145
+time:  155
+time:  156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00800113 pipeline_completed_insts:  0 instr_count:          0
+time:  165
+time:  175
+time:  185
+time:  195
+time:  205
+time:  215
+time:  225
+time:  235
+time:  245
+time:  255
+time:  265
+time:  266 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00800113 pipeline_completed_insts:  0 instr_count:          0
+time:  275
+time:  276 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 pipeline_completed_insts:  0 instr_count:          0
+time:  285
+time:  286 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 pipeline_completed_insts:  3 instr_count:          0
+time:  295
+time:  296 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 pipeline_completed_insts:  0 instr_count:          3
+time:  305
+time:  315
+time:  325
+time:  335
+time:  345
+time:  355
+time:  365
+time:  375
+time:  385
+time:  386 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 01019193 pipeline_completed_insts:  0 instr_count:          3
+time:  395
+time:  396 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx pipeline_completed_insts:  0 instr_count:          3
+time:  405
+time:  406 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx pipeline_completed_insts:  3 instr_count:          3
+time:  415
+time:  416 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx pipeline_completed_insts:  0 instr_count:          6
+time:  425
+time:  435
+time:  445
+time:  455
+time:  465
+time:  475
+time:  485
+time:  495
+time:  505
+time:  506 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0011e1b3 pipeline_completed_insts:  0 instr_count:          6
+time:  515
+time:  525
+time:  535
+time:  545
+time:  555
+time:  565
+time:  575
+time:  585
+time:  595
+time:  605
+time:  615
+time:  616 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0011e1b3 pipeline_completed_insts:  0 instr_count:          6
+time:  625
+time:  626 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 pipeline_completed_insts:  0 instr_count:          6
+time:  635
+time:  636 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 pipeline_completed_insts:  3 instr_count:          6
+time:  645
+time:  646 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 pipeline_completed_insts:  0 instr_count:          9
+time:  655
+time:  665
+time:  675
+time:  685
+time:  695
+time:  705
+time:  715
+time:  725
+time:  735
+time:  736 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00c19193 pipeline_completed_insts:  0 instr_count:          9
+time:  745
+time:  746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx pipeline_completed_insts:  0 instr_count:          9
+time:  755
+time:  756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx pipeline_completed_insts:  3 instr_count:          9
+time:  765
+time:  766 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx pipeline_completed_insts:  0 instr_count:         12
+time:  775
+time:  785
+time:  795
+time:  805
+time:  815
+time:  825
+time:  835
+time:  845
+time:  855
+time:  856 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 pipeline_completed_insts:  0 instr_count:         12
+time:  865
+time:  875
+time:  885
+time:  895
+time:  905
+time:  915
+time:  925
+time:  935
+time:  945
+time:  955
+time:  965
+time:  966 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00c19193 pipeline_completed_insts:  0 instr_count:         12
+time:  975
+time:  976 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 pipeline_completed_insts:  0 instr_count:         12
+time:  985
+time:  986 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 pipeline_completed_insts:  3 instr_count:         12
+@@@ Unified Memory contents hex on left, decimal on right: 
+@@@
+@@@ mem[    0] = 000021b700800113 : 37069871120659
+@@@ mem[    8] = 010191937bb18193 : 72499131636089235
+@@@ mem[   16] = ee608093000030b7 : 17176870347639632055
+@@@ mem[   24] = 000010b70011e1b3 : 18378166231475
+@@@ mem[   32] = 00c1919387b08093 : 54484733327868051
+@@@ mem[   40] = 0b0000930011e1b3 : 792634165778571699
+@@@ mem[   48] = 0011e1b300c19193 : 5033233532162451
+@@@ mem[   56] = 0000000010500073 : 273678451
+@@@
+@@@
+@@                  9920 : System halted
+@@
+@@@ System halted on WFI instruction
+@@@
+@@
+@@  96 cycles / 12 instrs = 8.000000 CPI
+@@
+@@  950.00 ns total time to execute
+@@
+
+time:  995
+time:  996 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 pipeline_completed_insts:  0 instr_count:         15
+time: 1005
+time: 1015
+time: 1025
+time: 1035
+time: 1045
+time: 1055
+time: 1065
+time: 1075
+time: 1085
+time: 1086 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 pipeline_completed_insts:  0 instr_count:         15
+$finish called from file "testbench/testbench.sv", line 258.
+$finish at simulation time                10920
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1092000 ps
+CPU Time:      0.380 seconds;       Data structure size:   0.3Mb
+Tue Mar 31 23:16:54 2020
