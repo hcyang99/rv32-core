@@ -410,6 +410,7 @@ end
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
 //	$display("proc2mem_command: %b",proc2mem_command);
+//	$display("opa_valid: %b opb_valid: %b",opa_valid,opb_valid);
 		if (reset | rob_is_full) begin
 			id_ex_packet <= `SD 0;
 			id_ex_next_PC <= `SD 0;

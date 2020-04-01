@@ -245,7 +245,6 @@ module id_stage(
 
 );
 
-
 		logic [`WAYS-1:0] [$clog2(`PRF)-1:0] 	dest_PRF;
 		logic [`WAYS-1:0]						dest_PRF_valid;
 
@@ -258,7 +257,7 @@ module id_stage(
 		logic [`WAYS-1:0][`XLEN-1:0]			opa_value;
 		logic [`WAYS-1:0][`XLEN-1:0]			opb_value;
 		logic [`WAYS-1:0]     					opa_valid_tmp;
-		logic [`WAYS-1:0]						opb_valid_tmp;
+		logic [`WAYS-1:0]								opb_valid_tmp;
 		logic [`WAYS-1:0]						inst_valid_tmp;
 		logic 									find_taken;
 
@@ -345,6 +344,7 @@ module id_stage(
 	always_comb begin
 //	$display("if_id_packet_in[0].inst: %h",if_id_packet_in[0].inst);
 //	$display("find_taken: %b inst_valid_tmp: %b",find_taken,inst_valid_tmp);
+//		$display("opa_valid_tmp: %b opb_valid_tmp: %b",opa_valid_tmp,opb_valid_tmp);
 		if(!find_taken) begin
 			for(int i = 0; i < `WAYS ; i = i + 1) id_packet_out[i].valid =  inst_valid_tmp[i];
 		end else begin
@@ -382,7 +382,7 @@ module id_stage(
 					end
 				end
 			end else opa_valid[i] = 1;
-			if(id_packet_out[i].opb_select == OPB_IS_RS2 | id_packet_out[i].wr_mem | id_packet_out[i].rd_mem) begin
+			if(id_packet_out[i].opb_select == OPB_IS_RS2 | id_packet_out[i].wr_mem) begin
 				opb_valid[i] = opb_valid_tmp[i];
 				id_packet_out[i].rs2_value = opb_valid[i]? opb_value[i]:opb_prn[i];
 				for(int j = 0; j < `WAYS; j = j +1) begin
@@ -391,12 +391,16 @@ module id_stage(
 						id_packet_out[i].rs2_value = dest_PRF[j];
 					end
 				end
-				if(id_packet_out[i].rd_mem) opb_valid[i] = 1;
-			end
+			end else opb_valid[i] = 1;
 		end
 	end
 
+	always_ff@(posedge clock) begin
 
+		$display("opa_valid_tmp: %b opb_valid_tmp: %b",opa_valid_tmp,opb_valid_tmp);
+		$display("opa_valid: %b opb_valid: %b",opa_valid,opb_valid);
+
+	end
 
 
    
