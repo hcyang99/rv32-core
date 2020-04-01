@@ -272,10 +272,10 @@ module id_stage(
     			assign id_packet_out[i].inst = if_id_packet_in[i].inst;
    	 			assign id_packet_out[i].NPC  = if_id_packet_in[i].NPC;
     			assign id_packet_out[i].PC   = if_id_packet_in[i].PC;
-				assign dest_arn[i] 			 = if_id_packet_in[i].inst.r.rd;
-				assign opa_arn[i]			 = if_id_packet_in[i].inst.r.rs1;
-				assign opb_arn[i]			 = if_id_packet_in[i].inst.r.rs2;
-				assign dest_arn_valid[i]	 = (dest_reg_select[i] == DEST_RD);
+					assign dest_arn[i] 			 = if_id_packet_in[i].inst.r.rd;
+					assign opa_arn[i]			 = if_id_packet_in[i].inst.r.rs1;
+					assign opb_arn[i]			 = if_id_packet_in[i].inst.r.rs2;
+					assign dest_arn_valid[i]	 = (dest_reg_select[i] == DEST_RD);
 		end
 	endgenerate
 
@@ -362,6 +362,9 @@ module id_stage(
 	// the dest_reg_select output from decoder
 	always_comb begin
 		for(int i = 0; i < `WAYS ; i = i + 1) begin
+		if(if_id_packet_in[i].inst == `XLEN'hfc0312e3) begin
+			$display("opa_value[i]: %h opb_value[i]: %h rs1_value: %h rs2_value: %h",opa_value[i],opb_value[i],id_packet_out[i].rs1_value,id_packet_out[i].rs2_value);
+		end
 			case (dest_reg_select[i])
 				DEST_RD:    id_packet_out[i].dest_PRF_idx = dest_PRF[i];
 				DEST_NONE:  id_packet_out[i].dest_PRF_idx = `ZERO_REG;
@@ -375,6 +378,9 @@ module id_stage(
 		// to be update later with LSQ
 			if(id_packet_out[i].opa_select == OPA_IS_RS1) begin
 				opa_valid[i] = opa_valid_tmp[i];
+				if(if_id_packet_in[i].inst == `XLEN'hfc0312e3) begin
+					$display("opa_valid: %b opa_valid_tmp: %b opa_arn: %h",opa_valid[i],opa_valid_tmp,opa_arn[i]);
+				end
 				id_packet_out[i].rs1_value = opa_valid[i]? opa_value[i]:opa_prn[i];
 				for(int j = 0; j < `WAYS; 	j = j +1) begin
 					if( j < i && dest_arn_valid[j] && dest_arn[j] == opa_arn[i]) begin

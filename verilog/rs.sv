@@ -230,7 +230,7 @@ module RS(
 //        $display("opa_valid_in_hub[0]: %b opb_valid_in_hub[0]: %b",opa_valid_in_hub[0],opb_valid_in_hub[0]);
 //        $display("load_in_hub: %b",load_in_hub);
 //        $display("free_decrease: %d free_increase: %d",free_decrease,free_increase); 
-        $display("ALU_occupied: %b load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b",ALU_occupied,load_in,is_free_hub, load_in_hub,ready_hub); 
+//        $display("ALU_occupied: %b load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b",ALU_occupied,load_in,is_free_hub, load_in_hub,ready_hub); 
 //        $display("reset_hub: %b",reset_hub);
         if (reset) begin
             num_is_free <= `RS;
