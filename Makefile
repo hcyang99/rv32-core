@@ -146,7 +146,7 @@ clean:
 	rm -rf vis_simv vis_simv.daidir
 	rm -rf dve* inter.vpd DVEfiles
 	rm -rf syn_simv syn_simv.daidir syn_program.out
-	rm -rf synsimv synsimv.daidir csrc vcdplus.vpd vcs.key synprog.out pipeline.out writeback.out vc_hdrs.h
+	rm -rf synsimv synsimv.daidir csrc vcdplus.vpd vcs.key synprog.out processor.out writeback.out vc_hdrs.h
 	rm -f *.elf *.dump *.mem debug_bin
 
 nuke:	clean
