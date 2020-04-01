@@ -48,9 +48,9 @@ assign free_RRAT_next = (free_RRAT_reg & free_RRAT_next_decreased) | free_RRAT_n
 
 // free_RRAT_next; optimized
 always_comb begin
-    free_RRAT_next_decreased = free_RRAT_reg;
-    free_RRAT_next_increased = free_RRAT_reg;
-    free_RAT_next_increased = free_RAT_reg;
+    free_RRAT_next_decreased = {`PRF{1'b1}};
+    free_RRAT_next_increased = 0;
+    free_RAT_next_increased = 0;
     for (int i = 0; i < `WAYS; ++i) begin
         if (wr_en_RRAT[i]) begin
             free_RRAT_next_decreased[reg_idx_wr_RRAT_new[i]] = 1'b0;
@@ -75,7 +75,7 @@ genvar gi;
 // end
 
 freelist_psel_gen ps(
-    .req(free_RAT_reg),
+    .req(free_RAT_next),
     .result(reg_idx_out_raw),
     .result_valid(reg_idx_out_valid_raw),
     .gnt_bus(),
@@ -101,7 +101,7 @@ assign free_RAT_next = (free_RAT_reg & free_RAT_next_decreased) | free_RAT_next_
 
 // free_RAT_next
 always_comb begin
-    free_RAT_next_decreased = free_RAT_reg;
+    free_RAT_next_decreased = {`PRF{1'b1}};
     for (int i = 0; i < `WAYS; ++i) begin
         if (reg_idx_out_valid[i] & needed[i]) begin
              free_RAT_next_decreased[reg_idx_out[i]] = 1'b0;
