@@ -419,6 +419,7 @@ end
 //	$display("next_tail: %d", next_tail);
 //	$display("valid: %b",valid);
 //	$display("CDB_direction : %b",CDB_direction);
+
 		if (reset | rob_is_full | rs_is_full) begin
 			id_ex_packet 		<= `SD 0;
 			id_ex_next_PC 		<= `SD 0;
@@ -434,13 +435,19 @@ end
 				id_ex_opa_valid		<= `SD id_opa_valid | id_opa_valid_tmp;
 				id_ex_opb_valid		<= `SD id_opb_valid | id_opb_valid_tmp;
 				id_ex_reg_write		<= `SD id_reg_write | id_reg_write_tmp;
-				for(int i = 0; i < `WAYS; i = i + 1) begin
-				if(id_ex_packet[i].inst == `XLEN'hfc0312e3) begin
+for(int i = 0; i < `WAYS; i = i + 1) begin
+				if(id_ex_packet[i].inst == `XLEN'h00128293) begin
 					$display("--------------");
-					$display("at bne: rs1_value: %h id_ex_opa_valid: %b rs2_value: %h id_ex_opa_valid: %b",id_ex_packet[i].rs1_value,id_ex_opa_valid[i],id_ex_packet[i].rs2_value,id_ex_opb_valid[i]);
+					$display("at new branch addr: rs1_value: %h id_ex_opa_valid: %b rs2_value: %h id_ex_opa_valid: %b",id_ex_packet[i].rs1_value,id_ex_opa_valid[i],id_ex_packet[i].rs2_value,id_ex_opb_valid[i]);
 				end
-					id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
+				if(id_packet[i].inst == `XLEN'h00128293) begin
+					$display("--------------");
+					$display("at new branch addr: rs1_value: %h id_opa_valid: %b rs2_value: %h id_opa_valid: %b",id_packet[i].rs1_value,id_opa_valid[i],id_packet[i].rs2_value,id_opb_valid[i]);					
 				end
+				id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
+
+end
+
 			end
 		end // else: !if(reset)
 	end // always
@@ -529,7 +536,7 @@ assign rs_num_is_free = num_is_free;
  RS Rs (
         // inputs
         .clock,
-        .reset,
+        .reset(reset | except),
         .CDB_Data,
         .CDB_PRF_idx,
         .CDB_valid,

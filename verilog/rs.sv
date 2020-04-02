@@ -73,31 +73,31 @@ module RS_Line(
     always_ff @ (posedge clock) begin
 //    $display("in small module, load_in: %b inst_valid_in: %b",load_in,inst_valid_in);
         if(load_in & id_rs_packet_in.valid)begin
-            is_free <= 0;
-            opa_valid_reg <= opa_valid_in;
-            opb_valid_reg <= opb_valid_in;
+            is_free <= `SD 0;
+            opa_valid_reg <= `SD opa_valid_in;
+            opb_valid_reg <= `SD opb_valid_in;
         end
         else if (reset | (~id_rs_packet_in.valid & load_in)) begin
-            is_free <= 1;
-            opa_valid_reg <= 0;
-            opb_valid_reg <= 0;
+            is_free <= `SD 1;
+            opa_valid_reg <= `SD 0;
+            opb_valid_reg <= `SD 0;
         end
         else begin
-            opa_valid_reg <=  opa_valid_reg_feed;
-            opb_valid_reg <=  opb_valid_reg_feed;
+            opa_valid_reg <= `SD  opa_valid_reg_feed;
+            opb_valid_reg <= `SD  opb_valid_reg_feed;
         end
     end
 
     always_ff @ (posedge clock) begin
         if (load_in & id_rs_packet_in.valid) begin
-            rs_packet_out <= id_rs_packet_in;
+            rs_packet_out <= `SD id_rs_packet_in;
         end 
         else if (reset | (~id_rs_packet_in.valid & load_in)) begin
-            rs_packet_out <= 0;
+            rs_packet_out <= `SD 0;
         end 
         else begin
-            rs_packet_out.rs1_value <=  opa_reg_feed;
-            rs_packet_out.rs2_value <=  opb_reg_feed;
+            rs_packet_out.rs1_value <= `SD  opa_reg_feed;
+            rs_packet_out.rs2_value <= `SD  opb_reg_feed;
         end
     end
     
@@ -227,16 +227,16 @@ module RS(
 //        $display("opa_in_processed[1]: %h opb_in_processed[1]: %h",opa_in_processed[1],opb_in_processed[1]);
 //        $display("opa_valid_in_processed: %b opb_valid_in_processed: %b",opa_valid_in_processed, opb_valid_in_processed);
 //        $display("opa_in_hub[0]: %h opb_in_hub[0]: %h",opa_in_hub[0],opb_in_hub[0]);
-//        $display("opa_valid_in_hub[0]: %b opb_valid_in_hub[0]: %b",opa_valid_in_hub[0],opb_valid_in_hub[0]);
+//        $display("opa_valid_in_hub: %b opb_valid_in_hub: %b",opa_valid_in_hub,opb_valid_in_hub);
 //        $display("load_in_hub: %b",load_in_hub);
 //        $display("free_decrease: %d free_increase: %d",free_decrease,free_increase); 
 //        $display("ALU_occupied: %b load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b",ALU_occupied,load_in,is_free_hub, load_in_hub,ready_hub); 
 //        $display("reset_hub: %b",reset_hub);
         if (reset) begin
-            num_is_free <= `RS;
+            num_is_free <= `SD `RS;
         end
         else begin
-            num_is_free <= num_is_free_next;
+            num_is_free <= `SD num_is_free_next;
         end
 
     end

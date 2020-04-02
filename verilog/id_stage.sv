@@ -362,9 +362,6 @@ module id_stage(
 	// the dest_reg_select output from decoder
 	always_comb begin
 		for(int i = 0; i < `WAYS ; i = i + 1) begin
-		if(if_id_packet_in[i].inst == `XLEN'hfc0312e3) begin
-			$display("opa_value[i]: %h opb_value[i]: %h rs1_value: %h rs2_value: %h",opa_value[i],opb_value[i],id_packet_out[i].rs1_value,id_packet_out[i].rs2_value);
-		end
 			case (dest_reg_select[i])
 				DEST_RD:    id_packet_out[i].dest_PRF_idx = dest_PRF[i];
 				DEST_NONE:  id_packet_out[i].dest_PRF_idx = `ZERO_REG;
@@ -376,12 +373,13 @@ module id_stage(
 	always_comb begin
 		for(int i = 0; i < `WAYS; i = i + 1) begin
 		// to be update later with LSQ
-			if(id_packet_out[i].opa_select == OPA_IS_RS1) begin
+			if(id_packet_out[i].opa_select == OPA_IS_RS1 | id_packet_out[i].cond_branch) begin
 				opa_valid[i] = opa_valid_tmp[i];
-				if(if_id_packet_in[i].inst == `XLEN'hfc0312e3) begin
-					$display("opa_valid: %b opa_valid_tmp: %b opa_arn: %h",opa_valid[i],opa_valid_tmp,opa_arn[i]);
+				if(opa_valid[i]) begin
+					id_packet_out[i].rs1_value = opa_value[i];
+				end else begin
+					id_packet_out[i].rs1_value = opa_prn[i];
 				end
-				id_packet_out[i].rs1_value = opa_valid[i]? opa_value[i]:opa_prn[i];
 				for(int j = 0; j < `WAYS; 	j = j +1) begin
 					if( j < i && dest_arn_valid[j] && dest_arn[j] == opa_arn[i]) begin
 						opa_valid[i] = 0;
@@ -389,7 +387,7 @@ module id_stage(
 					end
 				end
 			end else opa_valid[i] = 1;
-			if(id_packet_out[i].opb_select == OPB_IS_RS2 | id_packet_out[i].wr_mem) begin
+			if(id_packet_out[i].opb_select == OPB_IS_RS2 | id_packet_out[i].wr_mem | id_packet_out[i].cond_branch) begin
 				opb_valid[i] = opb_valid_tmp[i];
 				id_packet_out[i].rs2_value = opb_valid[i]? opb_value[i]:opb_prn[i];
 				for(int j = 0; j < `WAYS; j = j +1) begin
@@ -403,7 +401,14 @@ module id_stage(
 	end
 
 
-
-
+always_ff @(posedge clock) begin
+for(int i = 0; i < `WAYS ; i = i + 1) begin
+		if(if_id_packet_in[i].inst == `XLEN'h00128293) begin
+			$display("opa_value[i]: %h opb_value[i]: %h rs1_value: %h rs2_value: %h",opa_value[i],opb_value[i],id_packet_out[i].rs1_value,id_packet_out[i].rs2_value);
+			$display("opa_valid: %b opa_valid_tmp: %b opa_arn: %h opb_arn: %h",opa_valid[i],opa_valid_tmp,opa_arn[i],opb_arn[i]);
+			$display("opa_prn: %h opb_prn: %h dest_arn_valid: %b",opa_prn[i],opb_prn[i],dest_arn_valid);		
+		end
+end
+end
    
 endmodule // module id_stage
