@@ -187,9 +187,7 @@ generate
     genvar idx;
 
     for (i = 0; i < 32; ++i) begin
-        assign RAT_RRAT_rst[i] 
-            = (i % `WAYS) * (`PRF / `WAYS) 
-            + ((i % `WAYS > `PRF % `WAYS) ? (`PRF % `WAYS) : (i % `WAYS)) + i / `WAYS;
+        assign RAT_RRAT_rst[i] = i;
     end
 endgenerate
 
