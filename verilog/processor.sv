@@ -411,7 +411,7 @@ end
 
 
 
-	assign id_ex_enable = ~rob_is_full & ~rs_is_full;
+	assign id_ex_enable = ~rob_is_full & ~rs_is_full & ~except;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
 //	$display("proc2mem_command: %b",proc2mem_command);
@@ -419,6 +419,7 @@ end
 //	$display("next_tail: %d", next_tail);
 //	$display("valid: %b",valid);
 //	$display("CDB_direction : %b",CDB_direction);
+					$display("except: %b",except);
 
 		if (reset | rob_is_full | rs_is_full) begin
 			id_ex_packet 		<= `SD 0;
@@ -438,11 +439,11 @@ end
 for(int i = 0; i < `WAYS; i = i + 1) begin
 				if(id_ex_packet[i].inst == `XLEN'h00128293) begin
 					$display("--------------");
-					$display("at new branch addr: rs1_value: %h id_ex_opa_valid: %b rs2_value: %h id_ex_opa_valid: %b",id_ex_packet[i].rs1_value,id_ex_opa_valid[i],id_ex_packet[i].rs2_value,id_ex_opb_valid[i]);
+					$display("at new branch addr: rs1_value: %h id_ex_opa_valid: %b rs2_value: %h id_ex_opb_valid: %b",id_ex_packet[i].rs1_value,id_ex_opa_valid[i],id_ex_packet[i].rs2_value,id_ex_opb_valid[i]);
 				end
 				if(id_packet[i].inst == `XLEN'h00128293) begin
 					$display("--------------");
-					$display("at new branch addr: rs1_value: %h id_opa_valid: %b rs2_value: %h id_opa_valid: %b",id_packet[i].rs1_value,id_opa_valid[i],id_packet[i].rs2_value,id_opb_valid[i]);					
+					$display("at new branch addr: rs1_value: %h id_opa_valid: %b rs2_value: %h id_opb_valid: %b",id_packet[i].rs1_value,id_opa_valid[i],id_packet[i].rs2_value,id_opb_valid[i]);					
 				end
 				id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
 

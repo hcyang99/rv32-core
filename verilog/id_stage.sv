@@ -402,12 +402,14 @@ module id_stage(
 
 
 always_ff @(posedge clock) begin
+$display("except in id_stage: %b",except);
 for(int i = 0; i < `WAYS ; i = i + 1) begin
 		if(if_id_packet_in[i].inst == `XLEN'h00128293) begin
 			$display("opa_value[i]: %h opb_value[i]: %h rs1_value: %h rs2_value: %h",opa_value[i],opb_value[i],id_packet_out[i].rs1_value,id_packet_out[i].rs2_value);
 			$display("opa_valid: %b opa_valid_tmp: %b opa_arn: %h opb_arn: %h",opa_valid[i],opa_valid_tmp,opa_arn[i],opb_arn[i]);
 			$display("opa_prn: %h opb_prn: %h dest_arn_valid: %b",opa_prn[i],opb_prn[i],dest_arn_valid);		
 		end
+		if(opa_prn == $log2(`PRF)'h2c)
 end
 end
    
