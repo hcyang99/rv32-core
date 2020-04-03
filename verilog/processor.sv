@@ -167,7 +167,7 @@ module processor (
 // 	logic [`WAYS-1:0]                         valid_out;
 
   	logic [$clog2(`ROB):0]                    next_num_free;
-  	logic                                     except;
+//  	logic                                     except;
   	logic [`XLEN-1:0]                         except_next_PC;
 
   	logic [`WAYS-1:0] [`XLEN-1:0]             PC_out;
@@ -189,12 +189,9 @@ module processor (
 
 	// Outputs from EX-Stage
 	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet;
-	logic [`WAYS-1:0] 							ALU_occupied;
+//	logic [`WAYS-1:0] 							ALU_occupied;
 
-//-----------------------for debug--------------
-
-
-  
+ 
 //--------------CDB--------------------
  
   	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
@@ -398,6 +395,8 @@ generate
  for(genvar i = 0; i < `WAYS; i = i + 1) begin
 	assign id_ex_IR[i]         = id_ex_packet[i].inst;
 	assign id_ex_valid_inst[i] = id_ex_packet[i].valid;
+	assign id_ex_rs1_value[i]  = id_ex_packet[i].rs1_value;
+	assgin id_ex_rs2_value[i]  = id_ex_packet[i].rs2_value;
  end
 endgenerate
 
@@ -432,7 +431,7 @@ end
 //	$display("next_tail: %d", next_tail);
 //	$display("valid: %b",valid);
 //	$display("CDB_direction : %b",CDB_direction);
-					$display("except: %b",except);
+//					$display("except: %b",except);
 
 		if (reset | rob_is_full | rs_is_full) begin
 			id_ex_packet 		<= `SD 0;
@@ -547,6 +546,9 @@ generate
 	for(genvar i = 0; i < `WAYS; i = i + 1) begin
 		assign rs_valid_inst_out[i] = rs_packet_out[i].valid;
 		assign rs_IR_out[i]			= rs_packet_out[i].inst;
+		assign load_in_hub			= Rs.load_in_hub;
+		assign is_free_hub			= Rs.is_free_hub;
+		assign ready_hub			= Rs.ready_hub;
 	end
 endgenerate
 
@@ -587,6 +589,7 @@ generate
 	for(genvar i = 0; i < `WAYS; i = i + 1) begin
 		assign ex_valid_inst_out[i] = ex_packet[i].valid;
 		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
+		assign brand_result[i]		= ex_packet[i].take_branch;
 	end
 endgenerate
 
