@@ -39,28 +39,44 @@ module processor (
 	output logic        pipeline_commit_wr_en,
 	output logic [`XLEN-1:0] pipeline_commit_NPC,
 // newly-added, for debugging
+// if
 	output logic [`WAYS-1:0]	if_valid_inst_out,
 	output logic [`WAYS-1:0] [`XLEN-1:0] if_IR_out,
-
+// id
 	output logic [`WAYS-1:0]	id_valid_inst_out,
 	output logic [`WAYS-1:0] [`XLEN-1:0] id_IR_out,
+	output logic [`WAYS-1:0]	id_opa_valid,
+	output logic [`WAYS-1:0]	id_opb_valid,
 
+// id_ex
 	output logic [`WAYS-1:0]	id_ex_valid_inst,
 	output logic [`WAYS-1:0] [`XLEN-1:0] id_ex_IR,
+	output logic [`WAYS-1:0]	id_ex_opa_valid,
+	output logic [`WAYS-1:0]	id_ex_opb_valid,
+	output logic [`WAYS-1:0][`XLEN-1:0] id_ex_rs1_value,
+	output logic [`WAYS-1:0][`XLEN-1:0] id_ex_rs2_value,
 
+// rob
+	output logic except,
 	output logic [`WAYS-1:0]	rob_direction_out,
     output logic [`WAYS-1:0] [`XLEN-1:0] rob_PC_out,
 	output logic [$clog2(`ROB):0]  rob_next_num_free,
-	
+	output logic [`WAYS-1:0] [4:0]    dest_ARN_out,    	
+	output logic [`WAYS-1:0]          valid_out,
+
+// rs	
 	output logic [`WAYS-1:0]    rs_valid_inst_out,
 	output logic [`WAYS-1:0] [`XLEN-1:0] rs_IR_out,
     output logic [$clog2(`RS):0]    rs_num_is_free,
+	output logic [`RS-1:0]		load_in_hub,
+	output logic [`RS-1:0]		is_free_hub,
+	output logic [`RS-1:0]		ready_hub,	
 
+// ex_stage
 	output logic [`WAYS-1:0]    ex_valid_inst_out,
 	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out,
-
-	output logic [`WAYS-1:0] OPA_VALID,
-	output logic [`WAYS-1:0] OPB_VALID
+	output logic [`WAYS-1:0] 	ALU_occupied;
+	output logic [`WAYS-1:0] 	brand_result;
 
 );
 
@@ -106,8 +122,7 @@ module processor (
 	// Outputs from ID stage
 	ID_EX_PACKET [`WAYS-1 : 0] id_packet;
 
-	logic [`WAYS-1:0]	id_opa_valid;
-	logic [`WAYS-1:0]	id_opb_valid;
+
 
 
 	// Outputs from ID/Rob&RS Pipeline Register
@@ -128,10 +143,8 @@ module processor (
 	ID_EX_PACKET[`WAYS-1 : 0] 						id_ex_packet;
 
 	logic [`WAYS-1:0]								id_opa_valid_tmp;
-	logic [`WAYS-1:0]								id_ex_opa_valid;
 
 	logic [`WAYS-1:0]								id_opb_valid_tmp;
-	logic [`WAYS-1:0]								id_ex_opb_valid;
 
 	logic [`WAYS-1:0]								id_reg_write_tmp;
 	logic [`WAYS-1:0]								id_ex_reg_write;
@@ -149,9 +162,9 @@ module processor (
 
   // Outputs from Rob-Stage
   	logic [$clog2(`ROB)-1:0]                  next_tail;
-  	logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
+//  	logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
   	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
-  	logic [`WAYS-1:0]                         valid_out;
+// 	logic [`WAYS-1:0]                         valid_out;
 
   	logic [$clog2(`ROB):0]                    next_num_free;
   	logic                                     except;
@@ -179,10 +192,6 @@ module processor (
 	logic [`WAYS-1:0] 							ALU_occupied;
 
 //-----------------------for debug--------------
-
-	
-assign OPA_VALID = id_opa_valid;
-assign OPB_VALID = id_opb_valid;
 
 
   
