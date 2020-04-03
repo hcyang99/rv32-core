@@ -56,34 +56,38 @@ verilog/processor.sv
 verilog/rob.sv
 verilog/rs.sv
 verilog/validlist.sv
-48
-sysc_uni_pwd=/home/wlshen/eecs470/group7w20
-_LMFILES_=/usr/caen/misc/modules/gcc/6.2.0:/usr/caen/misc/modules/vcs/2017.12-SP2-1
-XDG_SESSION_ID=6086
-XDG_RUNTIME_DIR=/run/user/99554550
-XDG_DATA_DIRS=/home/wlshen/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
-VSLS_SESSION_KEEPALIVE_INTERVAL=20
-VSCODE_IPC_HOOK_CLI=/tmp/vscode-ipc-e6cf7596-f3ed-4b2a-93e2-e2a4ae4b6c6c.sock
+61
+sysc_uni_pwd=/home/sunsusan/Desktop/group7w20
+_LMFILES_=/usr/caen/misc/modules/vcs/2017.12-SP2-1
+XMODIFIERS=@im=ibus
+XDG_SESSION_TYPE=x11
+XDG_SESSION_ID=689
+XDG_SESSION_DESKTOP=gnome-classic
+XDG_RUNTIME_DIR=/run/user/114191087
+XDG_MENU_PREFIX=gnome-
+XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/:/usr/caen/misc/menus
+XDG_CURRENT_DESKTOP=GNOME-Classic:GNOME
+XAUTHORITY=/run/gdm/auth-for-sunsusan-B7uzeo/database
+VTE_VERSION=5202
 VMR_MODE_FLAG=64
-VERBOSE_LOGGING=true
 VCS_MODE_FLAG=64
 VCS_HOME=/usr/caen/vcs-2017.12-SP2-1
 VCS_DEPTH=0
 VCS_ARG_ADDED_FOR_TMP=1
 VCS_ARCH=linux64
+USERNAME=sunsusan
 UNAME=/bin/uname
 TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
-TERM_PROGRAM_VERSION=1.43.1
-TERM_PROGRAM=vscode
-SSH_CONNECTION=24.128.190.254 56976 141.213.74.60 22
-SSH_CLIENT=24.128.190.254 56976 22
+SSH_AUTH_SOCK=/run/user/114191087/keyring/ssh
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SSH_AGENT_PID=8502
 SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/8313,unix/unix:/tmp/.ICE-unix/8313
 SCRNAME=vcs
 SCRIPT_NAME=vcs
 QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+QT_IM_MODULE=ibus
 QT_GRAPHICSSYSTEM_CHECKED=1
-PIPE_LOGGING=true
 OVA_UUM=0
 MSI2LMP_LIBRARY=/usr/share/lammps/frc_files
 MODULESHOME=/usr/share/Modules
@@ -91,49 +95,58 @@ MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/caen/misc/module
 MFLAGS=
 MAKELEVEL=1
 MAKEFLAGS=
-LOADEDMODULES=gcc/6.2.0:vcs/2017.12-SP2-1
+LOADEDMODULES=vcs/2017.12-SP2-1
 LESSOPEN=||/usr/bin/lesspipe.sh %s
-LD_RUN_PATH=/usr/um/gcc-6.2.0/lib64
 LC_ALL=C
 LAMMPS_POTENTIALS=/usr/share/lammps/potentials
-KRB5CCNAME=FILE:/tmp/krb5cc_99554550_RiGEUl
+KRB5CCNAME=FILE:/tmp/krb5cc_114191087_e4bOll
 KDEDIRS=/usr
+IMSETTINGS_MODULE=none
+IMSETTINGS_INTEGRATE_DESKTOP=yes
+ICEAUTHORITY=/run/user/114191087/iceauthority
 HISTCONTROL=ignoredups
-DOTNET_ROOT=/home/wlshen/.vscode-server/data/User/globalStorage/ms-vsliveshare.vsliveshare/dotnet-3.1.1
+GNOME_TERMINAL_SERVICE=:1.86
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/158f97d6_544d_48c8_a8b7_a923af84376e
+GNOME_SHELL_SESSION_MODE=classic
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GJS_DEBUG_OUTPUT=stderr
+GDM_LANG=en_US.UTF-8
+GDMSESSION=gnome-classic
+DESKTOP_SESSION=gnome-classic
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-adLTfprxrd,guid=959e2d1ffbce217a2f1341ef5e8771c3
 COLORTERM=truecolor
 CINNAMON_2D=1
 BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
-AMD_ENTRYPOINT=vs/server/remoteExtensionHostProcess
 0
 22
-1585776512 module_provided/wand_sel.v
-1585776512 module_provided/rs_psl_gen.v
-1585776512 module_provided/freelist_psl_gen.v
-1585776513 verilog/validlist.sv
-1585876331 verilog/rs.sv
-1585776513 verilog/rob.sv
-1585876331 verilog/RAT_RRAT.sv
-1585876581 verilog/processor.sv
-1585776513 verilog/PRF.sv
-1585776513 verilog/mult.sv
-1585776513 verilog/if_stage.sv
-1585876331 verilog/id_stage.sv
-1585776513 verilog/icache.sv
-1585776513 verilog/freelist.sv
-1585876331 verilog/ex_stage.sv
-1585776513 verilog/branch_pred.sv
-1585776513 verilog/cache/cachemem.sv
-1585909870 testbench/testbench.sv
-1585776513 testbench/mem.sv
-1585776511 ISA.svh
-1585776513 sys_defs.svh
+1585238522 module_provided/wand_sel.v
+1585532326 module_provided/rs_psl_gen.v
+1585532326 module_provided/freelist_psl_gen.v
+1585532327 verilog/validlist.sv
+1585936511 verilog/rs.sv
+1585748939 verilog/rob.sv
+1585840692 verilog/RAT_RRAT.sv
+1585936519 verilog/processor.sv
+1585534891 verilog/PRF.sv
+1585244081 verilog/mult.sv
+1585699359 verilog/if_stage.sv
+1585858436 verilog/id_stage.sv
+1585693765 verilog/icache.sv
+1585767561 verilog/freelist.sv
+1585866045 verilog/ex_stage.sv
+1585693726 verilog/branch_pred.sv
+1585693133 verilog/cache/cachemem.sv
+1585938117 testbench/testbench.sv
+1585596868 testbench/mem.sv
+1583032744 ISA.svh
+1585598860 sys_defs.svh
 1531624678 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcsdp.tab
 6
-1585909845 testbench/pipe_print.c
+1585935480 testbench/pipe_print.c
 0 
 1531625631 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so
 1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
 1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
 1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
-1585909874 simv.daidir
+1585938125 simv.daidir

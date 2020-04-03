@@ -74,9 +74,9 @@ module testbench;
 	logic [`WAYS-1:0]    rs_valid_inst_out;
 	logic [`WAYS-1:0] [`XLEN-1:0] rs_IR_out;
     logic [$clog2(`RS):0]    rs_num_is_free;
-	logic [`RS-1:0]		load_in_hub;
-	logic [`RS-1:0]		is_free_hub;
-	logic [`RS-1:0]		ready_hub;
+	logic [`RS-1:0]		rs_load_in_hub;
+	logic [`RS-1:0]		rs_is_free_hub;
+	logic [`RS-1:0]		rs_is_free_hub;
 
 // ex_stage
 	logic [`WAYS-1:0]    ex_valid_inst_out;
@@ -137,9 +137,9 @@ module testbench;
 	.rs_valid_inst_out,
 	.rs_IR_out,
     .rs_num_is_free,
-	.load_in_hub,
-	.is_free_hub,
-	.ready_hub,
+	.rs_load_in_hub(rs_load_in_hub),
+	.rs_is_free_hub(rs_is_free_hub),
+	.rs_ready_hub(rs_ready_hub),
 
 	.ex_valid_inst_out,
 	.ex_alu_result_out,
@@ -240,7 +240,7 @@ module testbench;
 				print_stage("|", id_ex_IR[i], {31'b0,id_ex_valid_inst[i]});
 				print_opaopb({31'b0, id_ex_opa_valid[i]}, {31'b0, id_ex_opb_valid[i]}, id_ex_rs1_value[i], id_ex_rs2_value[i]);
 				print_rob("|", {31'b0, except}, {31'b0, rob_direction_out[i]}, rob_PC_out[i], {27'b0, rob_next_num_free}, {27'b0, dest_ARN_out[i]}, {31'b0, valid_out[i]});
-				print_rs("|", rs_IR_out[i], {31'b0,rs_valid_inst_out[i]}, {27'b0, rs_num_is_free}, {16'b0, load_in_hub}, {16'b0, is_free_hub}, {16'b0, ready_hub});
+				print_rs("|", rs_IR_out[i], {31'b0,rs_valid_inst_out[i]}, {27'b0, rs_num_is_free}, {16'b0, rs_load_in_hub}, {16'b0, rs_is_free_hub}, {16'b0, rs_is_free_hub});
 				print_ex_out("|", ex_alu_result_out[i], {31'b0,ex_valid_inst_out[i]}, {31'b0, ALU_occupied[i]}, {31'b0, brand_result[i]});
 
 				print_reg(32'b0, pipeline_commit_wr_data[31:0],

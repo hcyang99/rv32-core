@@ -68,9 +68,9 @@ module processor (
 	output logic [`WAYS-1:0]    rs_valid_inst_out,
 	output logic [`WAYS-1:0] [`XLEN-1:0] rs_IR_out,
     output logic [$clog2(`RS):0]    rs_num_is_free,
-	output logic [`RS-1:0]		load_in_hub,
-	output logic [`RS-1:0]		is_free_hub,
-	output logic [`RS-1:0]		ready_hub,	
+	output logic [`RS-1:0]		rs_load_in_hub,
+	output logic [`RS-1:0]		rs_is_free_hub,
+	output logic [`RS-1:0]		rs_ready_hub,	
 
 // ex_stage
 	output logic [`WAYS-1:0]    ex_valid_inst_out,
@@ -396,7 +396,7 @@ generate
 	assign id_ex_IR[i]         = id_ex_packet[i].inst;
 	assign id_ex_valid_inst[i] = id_ex_packet[i].valid;
 	assign id_ex_rs1_value[i]  = id_ex_packet[i].rs1_value;
-	assgin id_ex_rs2_value[i]  = id_ex_packet[i].rs2_value;
+	assign id_ex_rs2_value[i]  = id_ex_packet[i].rs2_value;
  end
 endgenerate
 
@@ -546,9 +546,6 @@ generate
 	for(genvar i = 0; i < `WAYS; i = i + 1) begin
 		assign rs_valid_inst_out[i] = rs_packet_out[i].valid;
 		assign rs_IR_out[i]			= rs_packet_out[i].inst;
-		assign load_in_hub			= Rs.load_in_hub;
-		assign is_free_hub			= Rs.is_free_hub;
-		assign ready_hub			= Rs.ready_hub;
 	end
 endgenerate
 
@@ -571,7 +568,10 @@ assign rs_num_is_free = num_is_free;
         // output
         .rs_packet_out,
 
-        .num_is_free
+        .num_is_free,
+		.load_in_hub(rs_load_in_hub),
+		.is_free_hub(rs_is_free_hub),
+		.ready_hub(rs_ready_hub)
 
     );
 

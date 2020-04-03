@@ -124,13 +124,18 @@ module RS(
     input [`WAYS-1:0]                           ALU_occupied,
     output ID_EX_PACKET [`WAYS-1:0]             rs_packet_out,
 
-    output logic [$clog2(`RS):0]                num_is_free
+    output logic [$clog2(`RS):0]                num_is_free,
+// for debugging
+    output wor   [`RS-1:0]                      load_in_hub,
+    output logic [`RS-1:0]                      is_free_hub,
+    output logic [`RS-1:0]                      ready_hub
+
+
 );
 
 //debug
     logic [$clog2(`WAYS):0]              free_decrease;
     logic [$clog2(`RS):0]                num_is_free_next;
-    logic [`RS-1:0]                      is_free_hub;
     logic [$clog2(`WAYS):0]              free_increase;
     logic   [`RS-1:0]                      reset_hub;
     wor [`RS-1:0]                             reset_hub_tmp;
@@ -139,13 +144,11 @@ module RS(
     logic [$clog2(`WAYS):0]                     ALU_idx;
     logic [`RS-1:0]                             opa_valid_in_hub;
     logic [`RS-1:0]                             opb_valid_in_hub;
-    wor   [`RS-1:0]                             load_in_hub;
     ID_EX_PACKET [`RS-1:0]                      id_rs_packet_in_hub;
     ID_EX_PACKET [`RS-1:0]                      rs_packet_out_hub;
 
     
     // out hubs
-    logic [`RS-1:0]                             ready_hub;
     logic [`WAYS-1:0] [`XLEN-1:0]               opa_in_processed;
     logic [`WAYS-1:0] [`XLEN-1:0]               opb_in_processed;
     logic [`WAYS-1:0] [`WAYS-1:0]               opa_is_from_CDB;
@@ -230,7 +233,7 @@ module RS(
 //        $display("opa_valid_in_hub: %b opb_valid_in_hub: %b",opa_valid_in_hub,opb_valid_in_hub);
 //        $display("load_in_hub: %b",load_in_hub);
 //        $display("free_decrease: %d free_increase: %d",free_decrease,free_increase); 
-        $display("ALU_occupied: %b load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b",ALU_occupied,load_in,is_free_hub, load_in_hub,ready_hub); 
+//        $display("ALU_occupied: %b load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b",ALU_occupied,load_in,is_free_hub, load_in_hub,ready_hub); 
 //        $display("reset_hub: %b",reset_hub);
         if (reset) begin
             num_is_free <= `SD `RS;
