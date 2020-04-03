@@ -75,8 +75,8 @@ module processor (
 // ex_stage
 	output logic [`WAYS-1:0]    ex_valid_inst_out,
 	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out,
-	output logic [`WAYS-1:0] 	ALU_occupied;
-	output logic [`WAYS-1:0] 	brand_result;
+	output logic [`WAYS-1:0] 	ALU_occupied,
+	output logic [`WAYS-1:0] 	brand_result
 
 );
 

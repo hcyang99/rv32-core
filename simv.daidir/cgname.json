@@ -1,9 +1,9 @@
 {
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
+    "brcond": [
+        "brcond",
+        "VqGv5",
         "module",
-        7
+        6
     ],
     "_vcs_unit__1327612396": [
         "_vcs_unit__1327612396",
@@ -11,59 +11,11 @@
         "module",
         1
     ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
-        "module",
-        12
-    ],
     "std": [
         "std",
         "reYIK",
         "module",
         2
-    ],
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
-        "module",
-        13
-    ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
-        "module",
-        8
-    ],
-    "rob": [
-        "rob",
-        "vtxDx",
-        "module",
-        11
-    ],
-    "wand_sel_0000": [
-        "wand_sel_0000",
-        "hckDL",
-        "module",
-        15
-    ],
-    "mem": [
-        "mem",
-        "FSbWZ",
-        "module",
-        3
-    ],
-    "alu": [
-        "alu",
-        "C26kq",
-        "module",
-        5
-    ],
-    "processor_0000": [
-        "processor_0000",
-        "UzNI6",
-        "module",
-        10
     ],
     "testbench": [
         "testbench",
@@ -71,11 +23,59 @@
         "module",
         4
     ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
+    "processor_0000": [
+        "processor_0000",
+        "UzNI6",
         "module",
-        6
+        10
+    ],
+    "mem": [
+        "mem",
+        "FSbWZ",
+        "module",
+        3
+    ],
+    "rob": [
+        "rob",
+        "vtxDx",
+        "module",
+        11
+    ],
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
+        "module",
+        13
+    ],
+    "alu": [
+        "alu",
+        "C26kq",
+        "module",
+        5
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        7
+    ],
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
+        "module",
+        12
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        17
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        8
     ],
     "mult_stage": [
         "mult_stage",
@@ -89,16 +89,16 @@
         "module",
         14
     ],
+    "wand_sel_0000": [
+        "wand_sel_0000",
+        "hckDL",
+        "module",
+        15
+    ],
     "wand_sel_0001": [
         "wand_sel_0001",
         "ci1CE",
         "module",
         16
-    ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
-        "module",
-        17
     ]
 }

@@ -156,26 +156,49 @@ void print_stage(char* div, int inst, int valid_inst)
     fprintf(ppfile, "%s %2d  %-8s", div, valid_inst, str);
 }
 
-void print_rs(char* div, int inst, int valid_inst, int num_free)
+void print_valids(int opa_valid, int opb_valid)
+{
+  if(ppfile != NULL){
+    fprintf(ppfile, "% 2d %2d", opa_valid, opb_valid);
+  }
+}
+
+void print_opaopb(int opa_valid, int opb_valid, int rs1_value, int rs2_value)
+{
+  if (ppfile != NULL){
+    if(opa_valid)
+      fprintf(ppfile,"%8d", rs1_value);
+    else
+      fprintf(ppfile,"    ----");
+
+    if(opb_valid)
+      fprintf(ppfile,"%8d", rs2_value);
+    else
+      fprintf(ppfile,"    ----");
+  }
+}
+
+
+void print_rs(char* div, int inst, int valid_inst, int num_free, int load_in_hub, int is_free_hub, int ready_hub)
 {
   char* str = decode(inst, valid_inst);
 
   if (ppfile != NULL)
-    fprintf(ppfile, "%s%8s %4d", div, str, num_free);
+    fprintf(ppfile, "%s%8s %4d %04x %04x %04x", div, str, num_free, load_in_hub, is_free_hub, ready_hub);
 
 }
 
-void print_rob(char* div, int direction, int PC, int num_free)
+void print_rob(char* div, int except, int direction, int PC, int num_free, int dest_ARN_out, int valid_out)
 {
   
   if (ppfile != NULL)
-    fprintf(ppfile, "%s%4d  %08x%4d", div, direction, PC, num_free);
+    fprintf(ppfile, "%s%4d  %08x%4d %2d   %-4d %2d", div, direction, PC, num_free, except, dest_ARN_out, valid_out);
 
 }
 
-void print_ex_out(char* div, int alu_result, int valid){
+void print_ex_out(char* div, int alu_result, int valid, int alu_occupied, int brand_results){
   if(ppfile != NULL)
-    fprintf(ppfile, "%s%3d %8d  ", div, valid, alu_result);
+    fprintf(ppfile, "%s%3d %8d %2d %2d   ", div, valid, alu_result, alu_occupied, brand_results);
 }
 
 void print_close()
