@@ -57,12 +57,12 @@ module processor (
     output logic [$clog2(`RS):0]    rs_num_is_free,
 
 	output logic [`WAYS-1:0]    ex_valid_inst_out,
-	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out
+	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out,
+
+	output logic [`WAYS-1:0] OPA_VALID,
+	output logic [`WAYS-1:0] OPB_VALID
 
 );
-
-
-
 
 
     // between processor and icache controller
@@ -181,6 +181,10 @@ module processor (
 //-----------------------for debug--------------
 
 	
+assign OPA_VALID = id_opa_valid;
+assign OPB_VALID = id_opb_valid;
+
+
   
 //--------------CDB--------------------
  
@@ -415,7 +419,7 @@ end
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
 //	$display("proc2mem_command: %b",proc2mem_command);
-//	$display("opa_valid: %b opb_valid: %b",opa_valid,opb_valid);
+//	$display("opa_valid: %b opb_valid: %b",id_opa_valid,id_opb_valid);
 //	$display("next_tail: %d", next_tail);
 //	$display("valid: %b",valid);
 //	$display("CDB_direction : %b",CDB_direction);
@@ -437,6 +441,7 @@ end
 				id_ex_opb_valid		<= `SD id_opb_valid | id_opb_valid_tmp;
 				id_ex_reg_write		<= `SD id_reg_write | id_reg_write_tmp;
 for(int i = 0; i < `WAYS; i = i + 1) begin
+/*
 				if(id_ex_packet[i].inst == `XLEN'h00128293) begin
 					$display("--------------");
 					$display("at new branch addr: rs1_value: %h id_ex_opa_valid: %b rs2_value: %h id_ex_opb_valid: %b",id_ex_packet[i].rs1_value,id_ex_opa_valid[i],id_ex_packet[i].rs2_value,id_ex_opb_valid[i]);
@@ -444,6 +449,10 @@ for(int i = 0; i < `WAYS; i = i + 1) begin
 				if(id_packet[i].inst == `XLEN'h00128293) begin
 					$display("--------------");
 					$display("at new branch addr: rs1_value: %h id_opa_valid: %b rs2_value: %h id_opb_valid: %b",id_packet[i].rs1_value,id_opa_valid[i],id_packet[i].rs2_value,id_opb_valid[i]);					
+				end
+*/
+				if(rs_packet_out[i].inst == `XLEN'hfc0312e3) begin
+					$display("CDB_valid: %b CDB_direction: %b CDB_target: %h",CDB_valid[i],CDB_direction[i],CDB_target[i]);
 				end
 				id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
 

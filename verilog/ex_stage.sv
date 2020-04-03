@@ -198,7 +198,7 @@ module ex_stage(
 			assign ex_packet_out[i].halt 			= id_ex_packet_in[i].halt;
 			assign ex_packet_out[i].illegal 		= id_ex_packet_in[i].illegal;
 			assign ex_packet_out[i].csr_op 			= id_ex_packet_in[i].csr_op;
-			assign ex_packet_out[i].valid 			= id_ex_packet_in[i].valid;
+			assign ex_packet_out[i].valid 			= id_ex_packet_in[i].valid & ~occupied_hub[i];
 			assign ex_packet_out[i].mem_size 		= id_ex_packet_in[i].inst.r.funct3;
 			// ultimate "take branch" signal:
 	 		//	unconditional, or conditional and the condition is true
@@ -213,11 +213,7 @@ module ex_stage(
 	//
 	always_comb begin
 //		$display("occupied_hub: %b",occupied_hub);
-		for( int i = 0; i < `WAYS; ++i) begin
-		if(id_ex_packet_in[i].inst == `XLEN'hfc0312e3) begin
-		$display("-------------------");
-		$display("at bne: take_branch: %b cond_branch: %b brcond_result:%b rs1_value: %h rs2_value: %h",ex_packet_out[i].take_branch,id_ex_packet_in[i].cond_branch,brcond_result[i],id_ex_packet_in[i].rs1_value,id_ex_packet_in[i].rs2_value);
-	end
+			for( int i = 0; i < `WAYS; ++i) begin
 			opa_mux_out[i] = `XLEN'hdeadfbac;
 			case (id_ex_packet_in[i].opa_select)
 				OPA_IS_RS1:  opa_mux_out[i] = id_ex_packet_in[i].rs1_value;
@@ -279,7 +275,19 @@ module ex_stage(
 		end
 	endgenerate
 
-
+	always_ff@(posedge clock) begin
+			for( int i = 0; i < `WAYS; ++i) begin
+		if(id_ex_packet_in[i].inst == `XLEN'hfc0312e3) begin
+		$display("-------------------");
+		$display("at bne: take_branch: %b cond_branch: %b brcond_result:%b rs1_value: %h rs2_value: %h valid: %b",
+		ex_packet_out[i].take_branch,
+		id_ex_packet_in[i].cond_branch,
+		brcond_result[i],
+		id_ex_packet_in[i].rs1_value,id_ex_packet_in[i].rs2_value,
+		id_ex_packet_in[i].valid);
+		end
+	end
+end
 
 
 

@@ -409,7 +409,6 @@ for(int i = 0; i < `WAYS ; i = i + 1) begin
 			$display("opa_valid: %b opa_valid_tmp: %b opa_arn: %h opb_arn: %h",opa_valid[i],opa_valid_tmp,opa_arn[i],opb_arn[i]);
 			$display("opa_prn: %h opb_prn: %h dest_arn_valid: %b",opa_prn[i],opb_prn[i],dest_arn_valid);		
 		end
-		if(opa_prn == $log2(`PRF)'h2c)
 end
 end
    

@@ -111,8 +111,10 @@ module testbench;
     .rs_num_is_free,
 
 	.ex_valid_inst_out,
-	.ex_alu_result_out
+	.ex_alu_result_out,
 
+	.OPA_VALID,
+	.OPB_VALID
     );
 
 
@@ -269,8 +271,8 @@ module testbench;
 
         clock = 1'b0;
         reset = 1'b1;
-	$monitor("time: %4.0f if_valid_inst_out: %b id_valid_inst_out: %b id_IR_out[0]: %h ex_valid_inst_out: %b",
-	$time,if_valid_inst_out,id_valid_inst_out,id_IR_out[0],ex_valid_inst_out);
+	$monitor("time: %4.0f if_valid_inst_out: %b id_valid_inst_out: %b id_IR_out[0]: %h id_opa_valid: %b id_opb_valid: %b ex_valid_inst_out: %b",
+	$time,if_valid_inst_out,id_valid_inst_out,id_IR_out[0],OPA_VALID, OPB_VALID,ex_valid_inst_out);
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
 		@(posedge clock);
