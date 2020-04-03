@@ -319,8 +319,8 @@ module testbench;
         $display("@@  %t  Deasserting System reset......\n@@\n@@", $realtime);
 
         wb_fileno = $fopen("writeback.out");
-        print_header("            IF               ID                   ID_EX                                ROB                               RS                  EX_OUT        D-MEM Bus &\n");
-        print_header("Cycle:  VLD    IR   | VLD    IR   V1 V2| VLD    IR     OP_A    OP_B  | DIR    PC     NF EXC   ARN VLD|   IR     NF   LD   FR   RD| VLD     ALU OC BR    Reg Result");
+        print_header("            IF               ID                           ID_EX                                   ROB                             RS                    EX_OUT          D-MEM Bus &\n");
+        print_header("Cycle:  VLD    IR   | VLD    IR   V1 V2| VLD    IR  VLD         OP_A  VLD       OP_B| DIR    PC     NF EXC   ARN VLD|    IR     NF  LD   FR   RD | VLD     ALU OC BR    Reg Result");
     end
 
 
