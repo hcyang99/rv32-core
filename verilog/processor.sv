@@ -65,12 +65,12 @@ module processor (
 	output logic [`WAYS-1:0]          valid_out,
 
 // rs	
-	output logic [`WAYS-1:0]    rs_valid_inst_out,
-	output logic [`WAYS-1:0] [`XLEN-1:0] rs_IR_out,
-    output logic [$clog2(`RS):0]    rs_num_is_free,
-	output logic [`RS-1:0]		rs_load_in_hub,
-	output logic [`RS-1:0]		rs_is_free_hub,
-	output logic [`RS-1:0]		rs_ready_hub,	
+	output logic [`WAYS-1:0]                rs_valid_inst_out,
+	output logic [`WAYS-1:0] [`XLEN-1:0]    rs_IR_out,
+    output logic [$clog2(`RS):0]            rs_num_is_free,
+	output logic [`RS-1:0]		            rs_load_in_hub,
+	output logic [`RS-1:0]		            rs_is_free_hub,
+	output logic [`RS-1:0]		            rs_ready_hub,	
 
 // ex_stage
 	output logic [`WAYS-1:0]    ex_valid_inst_out,
@@ -121,7 +121,7 @@ module processor (
 
 	// Outputs from ID stage
 	ID_EX_PACKET [`WAYS-1 : 0] id_packet;
-
+    logic [`WAYS-1:0]               id_reg_write;
 
 
 
@@ -161,12 +161,12 @@ module processor (
     logic [`WAYS-1:0]                       id_predictions;
 
   // Outputs from Rob-Stage
-  	logic [$clog2(`ROB)-1:0]                  next_tail;
-//  	logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
+  	logic [$clog2(`ROB)-1:0]                  tail;
+//      logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
   	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
 // 	logic [`WAYS-1:0]                         valid_out;
 
-  	logic [$clog2(`ROB):0]                    next_num_free;
+  	logic [$clog2(`ROB):0]                    num_free;
 //  	logic                                     except;
   	logic [`XLEN-1:0]                         except_next_PC;
 
@@ -401,7 +401,7 @@ generate
 endgenerate
 
 
-assign rob_is_full = next_num_free < `WAYS;
+assign rob_is_full = num_free < `WAYS;
 assign rs_is_full  = num_is_free < `WAYS;
 always_ff@(posedge clock) begin
 	if(rob_is_full | rs_is_full) begin
@@ -462,7 +462,7 @@ for(int i = 0; i < `WAYS; i = i + 1) begin
 				if(rs_packet_out[i].inst == `XLEN'hfc0312e3) begin
 					$display("CDB_valid: %b CDB_direction: %b CDB_target: %h",CDB_valid[i],CDB_direction[i],CDB_target[i]);
 				end
-				id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
+				id_ex_packet[i].rob_idx <= `SD (tail + i)%`ROB;
 
 end
 
@@ -490,7 +490,7 @@ generate
 endgenerate
 
 
-assign rob_next_num_free = next_num_free;
+assign rob_next_num_free = num_free;
 assign rob_direction_out = direction_out;
 assign rob_PC_out        = PC_out;
 
@@ -518,12 +518,12 @@ assign rob_PC_out        = PC_out;
 	.halt,
 
 // output
-    .next_tail,
+    .tail,
     .dest_ARN_out,
     .dest_PRN_out,
     .valid_out,
 
-    .next_num_free,
+    .num_free,
 	.proc_nuke(except),
     .next_pc(except_next_PC),
 
