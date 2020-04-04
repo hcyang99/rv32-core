@@ -162,12 +162,9 @@ module processor (
 
   // Outputs from Rob-Stage
   	logic [$clog2(`ROB)-1:0]                  tail;
-//  	logic [`WAYS-1:0] [4:0] 				  dest_ARN_out;
   	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
-// 	logic [`WAYS-1:0]                         valid_out;
 
   	logic [$clog2(`ROB):0]                    num_free;
-//  	logic                                     except;
   	logic [`XLEN-1:0]                         except_next_PC;
 
   	logic [`WAYS-1:0] [`XLEN-1:0]             PC_out;
@@ -186,12 +183,13 @@ module processor (
 
   logic [$clog2(`RS):0]                num_is_free;
 
-
-	// Outputs from EX-Stage
+// Outputs from Rs_ex_register
+	ID_EX_PACKET[`WAYS-1 : 0]      ex_packet_in_tmp;	
+	ID_EX_PACKET[`WAYS-1 : 0]      ex_packet_in;
+// Outputs from EX-Stage
 	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet;
-//	logic [`WAYS-1:0] 							ALU_occupied;
 
- 
+	
 //--------------CDB--------------------
  
   	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
@@ -458,10 +456,11 @@ for(int i = 0; i < `WAYS; i = i + 1) begin
 					$display("--------------");
 					$display("at new branch addr: rs1_value: %h id_opa_valid: %b rs2_value: %h id_opb_valid: %b",id_packet[i].rs1_value,id_opa_valid[i],id_packet[i].rs2_value,id_opb_valid[i]);					
 				end
-*/
+
 				if(rs_packet_out[i].inst == `XLEN'hfc0312e3) begin
 					$display("CDB_valid: %b CDB_direction: %b CDB_target: %h",CDB_valid[i],CDB_direction[i],CDB_target[i]);
 				end
+*/
 				id_ex_packet[i].rob_idx <= `SD (tail + i)%`ROB;
 
 end
@@ -590,14 +589,26 @@ generate
 		assign ex_valid_inst_out[i] = ex_packet[i].valid;
 		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
 		assign brand_result[i]		= ex_packet[i].take_branch;
+		assign ex_packet_in[i]		= ALU_occupied[i]? ex_packet_in_tmp[i]:rs_packet_out[i];
 	end
 endgenerate
+
+
+always_ff @(posedge clock) begin
+ 	for(int i = 0; i < `WAYS; i = i + 1) begin
+  		if(~ALU_occupied[i]) begin
+		  // not occupied
+   			ex_packet_in_tmp[i] <= `SD rs_packet_out[i];
+  		end
+ 	end
+end
+
 
 	ex_stage ex_stage_0 (
 		// Inputs
 		.clock(clock),
 		.reset(reset),
-		.id_ex_packet_in(rs_packet_out),
+		.id_ex_packet_in(ex_packet_in),
 		// Outputs
 		.ex_packet_out(ex_packet),
 		.occupied_hub(ALU_occupied)

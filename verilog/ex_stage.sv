@@ -67,27 +67,41 @@ module alu(
 		.done(mult_done)
 	);
 
-	assign occupied 	= (state == MULT) | (state == MULT_NOT_DONE);
-	assign valid_out 	= (state == NOT_MULT) | (state == MULT_DONE);
-	assign start		= (state == MULT);
 
 	always_comb begin
+		valid_out = 0;
+		start = 0;
+		occupied = 0;
 		case (state)
-			INITIAL | NOT_MULT | MULT_DONE:	begin
+			INITIAL, NOT_MULT, MULT_DONE:	begin
 				if(~valid_in) 			next_state = INITIAL; 	else
-				if(is_mult)				next_state = MULT; 		else	
-				 						next_state = NOT_MULT;
+				if(~is_mult)	begin
+					valid_out = 1;
+					next_state = NOT_MULT; 
+				end	else begin 
+					start = 1;
+					occupied = 1;
+					next_state = MULT;
+				end
 			end
 			MULT:						next_state = MULT_NOT_DONE;
 			MULT_NOT_DONE:	begin
-				if(mult_done)	next_state = MULT_DONE; 		else
-								next_state = MULT_NOT_DONE;
+				if(mult_done)	begin
+					valid_out = 1;
+					occupied  = 0;
+					next_state = MULT_DONE; 
+				end	else begin 
+					start = 1;
+					occupied = 1;
+					next_state = MULT;
+				end
 			end
 			default: 			next_state = INITIAL;
 		endcase
 	end
 
 	always_ff @(posedge clock) begin
+//		$display("state: %b next_stage: %b valid_in: %b",state,next_state,valid_in);
 		if(reset) begin
 					state <= `SD INITIAL; 
 		end else begin

@@ -1,39 +1,15 @@
 {
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
-        "module",
-        13
-    ],
-    "alu": [
-        "alu",
-        "C26kq",
-        "module",
-        5
-    ],
-    "processor_0000": [
-        "processor_0000",
-        "UzNI6",
-        "module",
-        10
-    ],
     "_vcs_unit__1327612396": [
         "_vcs_unit__1327612396",
         "jqQHP",
         "module",
         1
     ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
         "module",
-        7
-    ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
-        "module",
-        16
+        13
     ],
     "std": [
         "std",
@@ -41,23 +17,11 @@
         "module",
         2
     ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
+    "alu": [
+        "alu",
+        "C26kq",
         "module",
-        4
-    ],
-    "rob": [
-        "rob",
-        "vtxDx",
-        "module",
-        11
-    ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
-        "module",
-        8
+        5
     ],
     "mem": [
         "mem",
@@ -65,11 +29,17 @@
         "module",
         3
     ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
+    "decoder": [
+        "decoder",
+        "zf0bY",
         "module",
-        6
+        8
+    ],
+    "testbench": [
+        "testbench",
+        "iAVhC",
+        "module",
+        4
     ],
     "mult_stage": [
         "mult_stage",
@@ -77,11 +47,41 @@
         "module",
         9
     ],
+    "processor_0000": [
+        "processor_0000",
+        "UzNI6",
+        "module",
+        10
+    ],
+    "brcond": [
+        "brcond",
+        "VqGv5",
+        "module",
+        6
+    ],
     "RS_Line_0000": [
         "RS_Line_0000",
         "Z4jCT",
         "module",
         12
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        7
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        17
+    ],
+    "rob": [
+        "rob",
+        "vtxDx",
+        "module",
+        11
     ],
     "rs_psel_gen_0000": [
         "rs_psel_gen_0000",
@@ -95,10 +95,10 @@
         "module",
         15
     ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
         "module",
-        17
+        16
     ]
 }
