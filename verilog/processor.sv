@@ -146,6 +146,7 @@ module processor (
 
 	logic [`WAYS-1:0]								id_opb_valid_tmp;
 
+
 	logic [`WAYS-1:0]								id_reg_write_tmp;
 	logic [`WAYS-1:0]								id_ex_reg_write;
 	

@@ -76,7 +76,7 @@ module testbench;
     logic [$clog2(`RS):0]    rs_num_is_free;
 	logic [`RS-1:0]		rs_load_in_hub;
 	logic [`RS-1:0]		rs_is_free_hub;
-	logic [`RS-1:0]		rs_is_free_hub;
+	logic [`RS-1:0]		rs_is_ready_hub;
 
 // ex_stage
 	logic [`WAYS-1:0]    ex_valid_inst_out;
