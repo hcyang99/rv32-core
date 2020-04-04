@@ -1,6 +1,6 @@
 Chronologic VCS simulator copyright 1991-2017
 Contains Synopsys proprietary information.
-Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Apr  3 14:55 2020
+Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Apr  3 22:35 2020
 VCD+ Writer N-2017.12-SP2-1_Full64 Copyright (c) 1991-2017 by Synopsys Inc.
 @@
 @@
@@ -16,6 +16,18 @@ time:    6 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx 
 @@                   100 : System STILL at reset, can't show anything
 @@
 time:   15
+
+Warning-[STASKW_CO1] Cannot open file
+  The file 'program.mem' could not be opened. No such file or directory.
+  Please ensure that the file exists with proper permissions.
+
+
+Warning-[STASKW_RMCOF] Cannot open file
+testbench/testbench.sv, 311
+  Cannot open file 'program.mem' passed as argument to $readmem.
+  Please verify that the first argument to $readmem is a file that exists with
+  proper permissions.
+
 except in id_stage: 0
 @@
 @@                   200 : System STILL at reset, can't show anything
@@ -56,7 +68,6 @@ time:  145
 except in id_stage: 0
 time:  155
 except in id_stage: 0
-time:  156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00800113 ex_valid_inst_out: 000
 time:  165
 except in id_stage: 0
 time:  175
@@ -79,19 +90,16 @@ time:  255
 except in id_stage: 0
 time:  265
 except in id_stage: 0
-time:  266 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00800113 ex_valid_inst_out: 000
+time:  266 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  275
 except in id_stage: 0
-time:  276 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 ex_valid_inst_out: 000
+time:  276 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  285
 except in id_stage: 0
-time:  286 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 ex_valid_inst_out: 011
 time:  295
 except in id_stage: 0
-time:  296 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 ex_valid_inst_out: 001
 time:  305
 except in id_stage: 0
-time:  306 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 ex_valid_inst_out: 000
 time:  315
 except in id_stage: 0
 time:  325
@@ -108,19 +116,16 @@ time:  375
 except in id_stage: 0
 time:  385
 except in id_stage: 0
-time:  386 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 01019193 ex_valid_inst_out: 000
+time:  386 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  395
 except in id_stage: 0
 time:  396 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time:  405
 except in id_stage: 0
-time:  406 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 011
 time:  415
 except in id_stage: 0
-time:  416 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 001
 time:  425
 except in id_stage: 0
-time:  426 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time:  435
 except in id_stage: 0
 time:  445
@@ -137,7 +142,7 @@ time:  495
 except in id_stage: 0
 time:  505
 except in id_stage: 0
-time:  506 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0011e1b3 ex_valid_inst_out: 000
+time:  506 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  515
 except in id_stage: 0
 time:  525
@@ -160,19 +165,16 @@ time:  605
 except in id_stage: 0
 time:  615
 except in id_stage: 0
-time:  616 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0011e1b3 ex_valid_inst_out: 000
+time:  616 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  625
 except in id_stage: 0
-time:  626 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 ex_valid_inst_out: 000
+time:  626 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  635
 except in id_stage: 0
-time:  636 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 ex_valid_inst_out: 011
 time:  645
 except in id_stage: 0
-time:  646 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 ex_valid_inst_out: 001
 time:  655
 except in id_stage: 0
-time:  656 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 ex_valid_inst_out: 000
 time:  665
 except in id_stage: 0
 time:  675
@@ -189,19 +191,16 @@ time:  725
 except in id_stage: 0
 time:  735
 except in id_stage: 0
-time:  736 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00c19193 ex_valid_inst_out: 000
+time:  736 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  745
 except in id_stage: 0
 time:  746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time:  755
 except in id_stage: 0
-time:  756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 011
 time:  765
 except in id_stage: 0
-time:  766 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 001
 time:  775
 except in id_stage: 0
-time:  776 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time:  785
 except in id_stage: 0
 time:  795
@@ -218,7 +217,7 @@ time:  845
 except in id_stage: 0
 time:  855
 except in id_stage: 0
-time:  856 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 ex_valid_inst_out: 000
+time:  856 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  865
 except in id_stage: 0
 time:  875
@@ -241,19 +240,16 @@ time:  955
 except in id_stage: 0
 time:  965
 except in id_stage: 0
-time:  966 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00c19193 ex_valid_inst_out: 000
+time:  966 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  975
 except in id_stage: 0
-time:  976 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00819193 ex_valid_inst_out: 000
+time:  976 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time:  985
 except in id_stage: 0
-time:  986 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00819193 ex_valid_inst_out: 011
 time:  995
 except in id_stage: 0
-time:  996 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00819193 ex_valid_inst_out: 001
 time: 1005
 except in id_stage: 0
-time: 1006 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00819193 ex_valid_inst_out: 000
 time: 1015
 except in id_stage: 0
 time: 1025
@@ -270,19 +266,16 @@ time: 1075
 except in id_stage: 0
 time: 1085
 except in id_stage: 0
-time: 1086 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00819193 ex_valid_inst_out: 000
+time: 1086 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1095
 except in id_stage: 0
 time: 1096 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time: 1105
 except in id_stage: 0
-time: 1106 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 011
 time: 1115
 except in id_stage: 0
-time: 1116 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 001
 time: 1125
 except in id_stage: 0
-time: 1126 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time: 1135
 except in id_stage: 0
 time: 1145
@@ -299,7 +292,7 @@ time: 1195
 except in id_stage: 0
 time: 1205
 except in id_stage: 0
-time: 1206 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: b5020213 ex_valid_inst_out: 000
+time: 1206 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1215
 except in id_stage: 0
 time: 1225
@@ -322,19 +315,16 @@ time: 1305
 except in id_stage: 0
 time: 1315
 except in id_stage: 0
-time: 1316 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: b5020213 ex_valid_inst_out: 000
+time: 1316 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1325
 except in id_stage: 0
-time: 1326 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 ex_valid_inst_out: 000
+time: 1326 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1335
 except in id_stage: 0
-time: 1336 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 ex_valid_inst_out: 011
 time: 1345
 except in id_stage: 0
-time: 1346 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 ex_valid_inst_out: 001
 time: 1355
 except in id_stage: 0
-time: 1356 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 ex_valid_inst_out: 000
 time: 1365
 except in id_stage: 0
 time: 1375
@@ -351,19 +341,16 @@ time: 1425
 except in id_stage: 0
 time: 1435
 except in id_stage: 0
-time: 1436 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00126233 ex_valid_inst_out: 000
+time: 1436 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1445
 except in id_stage: 0
 time: 1446 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time: 1455
 except in id_stage: 0
-time: 1456 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 011
 time: 1465
 except in id_stage: 0
-time: 1466 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 001
 time: 1475
 except in id_stage: 0
-time: 1476 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time: 1485
 except in id_stage: 0
 time: 1495
@@ -380,7 +367,7 @@ time: 1545
 except in id_stage: 0
 time: 1555
 except in id_stage: 0
-time: 1556 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 ex_valid_inst_out: 000
+time: 1556 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1565
 except in id_stage: 0
 time: 1575
@@ -403,22 +390,16 @@ time: 1655
 except in id_stage: 0
 time: 1665
 except in id_stage: 0
-time: 1666 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00126233 ex_valid_inst_out: 000
+time: 1666 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1675
 except in id_stage: 0
-opa_value[i]: 00000000 opb_value[i]: 0000002d rs1_value: 00000025 rs2_value: xxxxxxxx
-opa_valid: 0 opa_valid_tmp: 111 opa_arn: 05 opb_arn: 01
-opa_prn: 05 opb_prn: 04 dest_arn_valid: 111
-time: 1676 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0102a313 ex_valid_inst_out: 000
+time: 1676 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1685
 except in id_stage: 0
-time: 1686 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0102a313 ex_valid_inst_out: 011
 time: 1695
 except in id_stage: 0
-time: 1696 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0102a313 ex_valid_inst_out: 001
 time: 1705
 except in id_stage: 0
-time: 1706 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0102a313 ex_valid_inst_out: 000
 time: 1715
 except in id_stage: 0
 time: 1725
@@ -435,19 +416,16 @@ time: 1775
 except in id_stage: 0
 time: 1785
 except in id_stage: 0
-time: 1786 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0102a313 ex_valid_inst_out: 000
+time: 1786 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1795
 except in id_stage: 0
 time: 1796 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time: 1805
 except in id_stage: 0
-time: 1806 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 011
 time: 1815
 except in id_stage: 0
-time: 1816 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 001
 time: 1825
 except in id_stage: 0
-time: 1826 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time: 1835
 except in id_stage: 0
 time: 1845
@@ -464,7 +442,7 @@ time: 1895
 except in id_stage: 0
 time: 1905
 except in id_stage: 0
-time: 1906 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 02358633 ex_valid_inst_out: 000
+time: 1906 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 1915
 except in id_stage: 0
 time: 1925
@@ -487,16 +465,14 @@ time: 2005
 except in id_stage: 0
 time: 2015
 except in id_stage: 0
-time: 2016 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 02358633 ex_valid_inst_out: 000
+time: 2016 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2025
 except in id_stage: 0
-time: 2026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 ex_valid_inst_out: 000
+time: 2026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2035
 except in id_stage: 0
-time: 2036 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 ex_valid_inst_out: 001
 time: 2045
 except in id_stage: 0
-time: 2046 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 ex_valid_inst_out: 000
 time: 2055
 except in id_stage: 0
 time: 2065
@@ -515,7 +491,7 @@ time: 2125
 except in id_stage: 0
 time: 2135
 except in id_stage: 0
-time: 2136 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004686b3 ex_valid_inst_out: 000
+time: 2136 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2145
 except in id_stage: 0
 time: 2146 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
@@ -541,7 +517,7 @@ time: 2245
 except in id_stage: 0
 time: 2255
 except in id_stage: 0
-time: 2256 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 ex_valid_inst_out: 000
+time: 2256 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2265
 except in id_stage: 0
 time: 2275
@@ -564,16 +540,14 @@ time: 2355
 except in id_stage: 0
 time: 2365
 except in id_stage: 0
-time: 2366 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0105d593 ex_valid_inst_out: 000
+time: 2366 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2375
 except in id_stage: 0
-time: 2376 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01015713 ex_valid_inst_out: 000
+time: 2376 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2385
 except in id_stage: 0
-time: 2386 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01015713 ex_valid_inst_out: 001
 time: 2395
 except in id_stage: 0
-time: 2396 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01015713 ex_valid_inst_out: 000
 time: 2405
 except in id_stage: 0
 time: 2415
@@ -592,19 +566,14 @@ time: 2475
 except in id_stage: 0
 time: 2485
 except in id_stage: 0
-time: 2486 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 01015713 ex_valid_inst_out: 000
+time: 2486 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2495
 except in id_stage: 0
 time: 2496 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time: 2505
 except in id_stage: 0
-time: 2506 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 001
 time: 2515
 except in id_stage: 0
--------------------
-at bne: take_branch: 1 cond_branch: 1 brcond_result:1 rs1_value: 00000001 rs2_value: 00000000 valid: 1
-CDB_valid: 0 CDB_direction: 1 CDB_target: 00000068
-time: 2516 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx ex_valid_inst_out: 000
 time: 2525
 except in id_stage: 0
 time: 2535
@@ -623,7 +592,7 @@ time: 2595
 except in id_stage: 0
 time: 2605
 except in id_stage: 0
-time: 2606 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 10500073 ex_valid_inst_out: 000
+time: 2606 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2615
 except in id_stage: 0
 time: 2625
@@ -646,16 +615,14 @@ time: 2705
 except in id_stage: 0
 time: 2715
 except in id_stage: 0
-time: 2716 if_valid_inst_out: 111 id_valid_inst_out: 001 id_IR_out[0]: 10500073 ex_valid_inst_out: 000
+time: 2716 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2725
 except in id_stage: 0
 time: 2726 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2735
 except in id_stage: 0
-time: 2736 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 001
 time: 2745
 except in id_stage: 0
-time: 2746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 2755
 except in id_stage: 0
 time: 2765
@@ -902,7 +869,7 @@ except in id_stage: 0
 time: 3886 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 3895
 except in id_stage: 0
-time: 3896 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 7bb18193 ex_valid_inst_out: 000
+time: 3896 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 3905
 except in id_stage: 0
 time: 3915
@@ -925,7 +892,6 @@ time: 3995
 except in id_stage: 0
 time: 4005
 except in id_stage: 0
-time: 4006 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4015
 except in id_stage: 0
 time: 4025
@@ -977,7 +943,7 @@ except in id_stage: 0
 time: 4236 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4245
 except in id_stage: 0
-time: 4246 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 87b08093 ex_valid_inst_out: 000
+time: 4246 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4255
 except in id_stage: 0
 time: 4265
@@ -1000,7 +966,6 @@ time: 4345
 except in id_stage: 0
 time: 4355
 except in id_stage: 0
-time: 4356 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4365
 except in id_stage: 0
 time: 4375
@@ -1052,7 +1017,7 @@ except in id_stage: 0
 time: 4586 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4595
 except in id_stage: 0
-time: 4596 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0fd00093 ex_valid_inst_out: 000
+time: 4596 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4605
 except in id_stage: 0
 time: 4615
@@ -1075,7 +1040,6 @@ time: 4695
 except in id_stage: 0
 time: 4705
 except in id_stage: 0
-time: 4706 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4715
 except in id_stage: 0
 time: 4725
@@ -1127,7 +1091,7 @@ except in id_stage: 0
 time: 4936 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4945
 except in id_stage: 0
-time: 4946 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 4f300093 ex_valid_inst_out: 000
+time: 4946 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 4955
 except in id_stage: 0
 time: 4965
@@ -1150,7 +1114,6 @@ time: 5045
 except in id_stage: 0
 time: 5055
 except in id_stage: 0
-time: 5056 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 5065
 except in id_stage: 0
 time: 5075
@@ -1202,63 +1165,29 @@ except in id_stage: 0
 time: 5286 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 5295
 except in id_stage: 0
-time: 5296 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00128293 ex_valid_inst_out: 000
+time: 5296 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 5305
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5315
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5325
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5335
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5345
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5355
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5365
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5375
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5385
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5395
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
 time: 5405
 except in id_stage: 0
-opa_value[i]: 00000001 opb_value[i]: 0000003d rs1_value: 00000001 rs2_value: 0000003d
-opa_valid: 1 opa_valid_tmp: 011 opa_arn: 05 opb_arn: 01
-opa_prn: 33 opb_prn: 28 dest_arn_valid: 000
-time: 5406 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 5415
 except in id_stage: 0
 time: 5425
@@ -1310,7 +1239,7 @@ except in id_stage: 0
 time: 5636 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 5645
 except in id_stage: 0
-time: 5646 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 ex_valid_inst_out: 000
+time: 5646 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 5655
 except in id_stage: 0
 time: 5665
@@ -1333,7 +1262,6 @@ time: 5745
 except in id_stage: 0
 time: 5755
 except in id_stage: 0
-time: 5756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 5765
 except in id_stage: 0
 time: 5775
@@ -1385,7 +1313,7 @@ except in id_stage: 0
 time: 5986 if_valid_inst_out: 111 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 5995
 except in id_stage: 0
-time: 5996 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 ex_valid_inst_out: 000
+time: 5996 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 6005
 except in id_stage: 0
 time: 6015
@@ -1408,7 +1336,6 @@ time: 6095
 except in id_stage: 0
 time: 6105
 except in id_stage: 0
-time: 6106 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 ex_valid_inst_out: 000
 time: 6115
 except in id_stage: 0
 time: 6125
@@ -105843,36 +105770,13 @@ time: 500045
 except in id_stage: 0
 @@@ Unified Memory contents hex on left, decimal on right: 
 @@@
-@@@ mem[    0] = 000021b700800113 : 37069871120659
-@@@ mem[    8] = 010191937bb18193 : 72499131636089235
-@@@ mem[   16] = ee608093000030b7 : 17176870347639632055
-@@@ mem[   24] = 000010b70011e1b3 : 18378166231475
-@@@ mem[   32] = 00c1919387b08093 : 54484733327868051
-@@@ mem[   40] = 0b0000930011e1b3 : 792634165778571699
-@@@ mem[   48] = 0011e1b300c19193 : 5033233532162451
-@@@ mem[   56] = 008191930fd00093 : 36470332807184531
-@@@ mem[   64] = 000012370011e1b3 : 20027433673139
-@@@ mem[   72] = 00c21213b5020213 : 54626021332353555
-@@@ mem[   80] = 001262334f300093 : 5174522092191891
-@@@ mem[   88] = 0042121302d00093 : 18597221323767955
-@@@ mem[   96] = 0000029300126233 : 2830384652851
-@@@ mem[  104] = 0102a31300128293 : 72799845992268435
-@@@ mem[  112] = 004585b3023105b3 : 19568777275442611
-@@@ mem[  120] = 0046063302358633 : 19710064519906867
-@@@ mem[  128] = 004686b3023606b3 : 19851351764108979
-@@@ mem[  136] = 0041013302368133 : 18297192078278963
-@@@ mem[  144] = 010656130105d593 : 73841083519718803
-@@@ mem[  152] = 010157130106d693 : 72434808147859091
-@@@ mem[  160] = fc0312e301008093 : 18159378888671658131
-@@@ mem[  168] = 0000000010500073 : 273678451
-@@@
 @@@
 @@               5000520 : System halted
 @@
 @@@ System halted on memory error
 @@@
 @@
-@@  50002 cycles / 30 instrs = 1666.733333 CPI
+@@  50002 cycles / 4294967295 instrs = 0.000012 CPI
 @@
 @@  500010.00 ns total time to execute
 @@
@@ -105903,5 +105807,5 @@ $finish called from file "testbench/testbench.sv", line 290.
 $finish at simulation time              5001520
            V C S   S i m u l a t i o n   R e p o r t 
 Time: 500152000 ps
-CPU Time:      2.830 seconds;       Data structure size:   0.3Mb
-Fri Apr  3 14:55:36 2020
+CPU Time:      2.910 seconds;       Data structure size:   0.3Mb
+Fri Apr  3 22:35:33 2020

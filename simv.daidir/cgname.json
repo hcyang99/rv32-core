@@ -1,15 +1,21 @@
 {
-    "brcond": [
-        "brcond",
-        "VqGv5",
+    "alu": [
+        "alu",
+        "C26kq",
         "module",
-        6
+        5
     ],
-    "processor_0000": [
-        "processor_0000",
-        "UzNI6",
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
         "module",
-        10
+        12
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        17
     ],
     "_vcs_unit__1327612396": [
         "_vcs_unit__1327612396",
@@ -23,11 +29,11 @@
         "module",
         16
     ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
+    "rob": [
+        "rob",
+        "vtxDx",
         "module",
-        17
+        11
     ],
     "std": [
         "std",
@@ -47,41 +53,23 @@
         "module",
         4
     ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
-        "module",
-        8
-    ],
-    "rob": [
-        "rob",
-        "vtxDx",
-        "module",
-        11
-    ],
-    "alu": [
-        "alu",
-        "C26kq",
-        "module",
-        5
-    ],
     "mem": [
         "mem",
         "FSbWZ",
         "module",
         3
     ],
-    "mult_stage": [
-        "mult_stage",
-        "aUVMg",
+    "wand_sel_0000": [
+        "wand_sel_0000",
+        "hckDL",
         "module",
-        9
+        15
     ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
+    "brcond": [
+        "brcond",
+        "VqGv5",
         "module",
-        12
+        6
     ],
     "RS_0000": [
         "RS_0000",
@@ -89,11 +77,23 @@
         "module",
         13
     ],
-    "wand_sel_0000": [
-        "wand_sel_0000",
-        "hckDL",
+    "decoder": [
+        "decoder",
+        "zf0bY",
         "module",
-        15
+        8
+    ],
+    "mult_stage": [
+        "mult_stage",
+        "aUVMg",
+        "module",
+        9
+    ],
+    "processor_0000": [
+        "processor_0000",
+        "UzNI6",
+        "module",
+        10
     ],
     "rs_psel_gen_0000": [
         "rs_psel_gen_0000",
