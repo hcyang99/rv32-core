@@ -1,4 +1,3 @@
-
 // struct definitions
 typedef struct packed{
     logic [$clog2(`REGS)-1:0]   dest_ARN;
@@ -203,3 +202,4 @@ always_ff @(posedge clock) begin
 end
 
 endmodule
+

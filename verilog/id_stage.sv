@@ -276,7 +276,7 @@ module id_stage(
 					assign opa_arn[i]			 = if_id_packet_in[i].inst.r.rs1;
 					assign opb_arn[i]			 = if_id_packet_in[i].inst.r.rs2;
 					assign dest_arn_valid[i]	 = (dest_reg_select[i] == DEST_RD);
-		end
+			end
 	endgenerate
 
 	
@@ -374,26 +374,36 @@ module id_stage(
 		for(int i = 0; i < `WAYS; i = i + 1) begin
 		// to be update later with LSQ
 			if(id_packet_out[i].opa_select == OPA_IS_RS1 | id_packet_out[i].cond_branch) begin
-				opa_valid[i] = opa_valid_tmp[i];
-				if(opa_valid[i]) begin
-					id_packet_out[i].rs1_value = opa_value[i];
+				if(opa_arn == 0) begin
+					opa_valid[i] = 1;
+					id_packet_out[i].rs1_value = 0;
 				end else begin
-					id_packet_out[i].rs1_value = opa_prn[i];
-				end
-				for(int j = 0; j < `WAYS; 	j = j +1) begin
-					if( j < i && dest_arn_valid[j] && dest_arn[j] == opa_arn[i]) begin
-						opa_valid[i] = 0;
-						id_packet_out[i].rs1_value = dest_PRF[j];
+					opa_valid[i] = opa_valid_tmp[i];
+					if(opa_valid[i]) begin
+						id_packet_out[i].rs1_value = opa_value[i];
+					end else begin
+						id_packet_out[i].rs1_value = opa_prn[i];
+					end
+					for(int j = 0; j < `WAYS; 	j = j +1) begin
+						if( j < i && dest_arn_valid[j] && dest_arn[j] == opa_arn[i]) begin
+							opa_valid[i] = 0;
+							id_packet_out[i].rs1_value = dest_PRF[j];
+						end
 					end
 				end
 			end else opa_valid[i] = 1;
 			if(id_packet_out[i].opb_select == OPB_IS_RS2 | id_packet_out[i].wr_mem | id_packet_out[i].cond_branch) begin
-				opb_valid[i] = opb_valid_tmp[i];
-				id_packet_out[i].rs2_value = opb_valid[i]? opb_value[i]:opb_prn[i];
-				for(int j = 0; j < `WAYS; j = j +1) begin
-					if( j < i && dest_arn_valid[j] && dest_arn[j] == opb_arn[i]) begin
-						opb_valid[i] = 0;
-						id_packet_out[i].rs2_value = dest_PRF[j];
+				if(opb_arn[i] == 0) begin
+					opb_valid[i] = 1;
+					id_packet_out[i].rs2_value = 0;
+				end else begin
+					opb_valid[i] = opb_valid_tmp[i];
+					id_packet_out[i].rs2_value = opb_valid[i]? opb_value[i]:opb_prn[i];
+					for(int j = 0; j < `WAYS; j = j +1) begin
+						if( j < i && dest_arn_valid[j] && dest_arn[j] == opb_arn[i]) begin
+							opb_valid[i] = 0;
+							id_packet_out[i].rs2_value = dest_PRF[j];
+						end
 					end
 				end
 			end else opb_valid[i] = 1;
@@ -404,12 +414,19 @@ module id_stage(
 always_ff @(posedge clock) begin
 $display("except in id_stage: %b",except);
 for(int i = 0; i < `WAYS ; i = i + 1) begin
-		if(if_id_packet_in[i].inst == `XLEN'h00128293) begin
-			$display("opa_value[i]: %h opb_value[i]: %h rs1_value: %h rs2_value: %h",opa_value[i],opb_value[i],id_packet_out[i].rs1_value,id_packet_out[i].rs2_value);
-			$display("opa_valid: %b opa_valid_tmp: %b opa_arn: %h opb_arn: %h",opa_valid[i],opa_valid_tmp,opa_arn[i],opb_arn[i]);
-			$display("opa_prn: %h opb_prn: %h dest_arn_valid: %b",opa_prn[i],opb_prn[i],dest_arn_valid);		
-		end
+  //if(if_id_packet_in[i].inst == `XLEN'h00128293) begin
+  if(if_id_packet_in[i].valid) begin
+    $display("inst:%h",if_id_packet_in[i].inst);
+ 
+   $display("opa_arn: %d opb_arn: %d dest_arn: %d",opa_arn[i],opb_arn[i],dest_arn[i]);
+   $display("opa_prn: %d opb_prn: %d dest_prn: %d",opa_prn[i],opb_prn[i],id_packet_out[i].dest_PRF_idx); 
+   $display("opa_value[i]: %d opb_value[i]: %d",opa_value[i],opb_value[i]);
+   $display("rs1_value: %d rs2_value: %d",id_packet_out[i].rs1_value,id_packet_out[i].rs2_value);
+   $display("opa_valid: %b opb_valid: %b",opa_valid[i],opb_valid[i]);
+
+  end
 end
 end
+   
    
 endmodule // module id_stage

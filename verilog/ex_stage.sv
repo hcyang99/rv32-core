@@ -23,119 +23,119 @@
 
 // This module is purely combinational
 //
+
+typedef enum logic [2:0] {INITIAL, MULT, MULT_NOT_DONE, NOT_MULT, MULT_DONE } alu_state;
+
 module alu(
 	input 		clock,
 	input		reset,
-
-	input 		en,
+	input 		valid_in,
 	
 	input [`XLEN-1:0] opa,
 	input [`XLEN-1:0] opb,
 	ALU_FUNC     func,
 
 	output logic        		occupied,
+	output logic				valid_out,
 	output logic [`XLEN-1:0] 	result
 );
 
-	logic					is_mult_next;
+	alu_state				state,next_state;
 	logic					start;
-	logic       			mult_done;
 	logic					is_mult;
-	logic					range; // 1 if [63:32]
-	logic					range_next;
+	logic					range, range_reg; // 1 if [63:32]
 	logic [(2*`XLEN)-1:0] 	product;
-
+	logic [`XLEN-1:0]		final_product,alu_result;
 	logic [1:0] sign;
 
 	
 	wire signed [`XLEN-1:0]   signed_opa, signed_opb;
 	wire signed [2*`XLEN-1:0] signed_mul, mixed_mul;
 	wire        [2*`XLEN-1:0] unsigned_mul;
-	assign signed_opa = opa;
-	assign signed_opb = opb;
-//	assign signed_mul = signed_opa * signed_opb;
-//	assign unsigned_mul = opa * opb;
-//	assign mixed_mul = signed_opa * opb;
 
-	always_ff @(posedge clock) begin
-		if(reset) begin
-			is_mult <= `SD 0;
-			range	<= `SD 0;
-		end else begin
-			is_mult <= `SD is_mult_next;
-			range 	<= `SD range_next;
-		end
-	end
+	assign is_mult = (func == ALU_MUL) | (func == ALU_MULH) | (func == ALU_MULHSU) | (func == ALU_MULHU);
 
-//	assign occupied = en? is_mult & ~mult_done : occupied_before;
-	assign occupied = is_mult & ~mult_done;
+	mult mult_0 (
+		.clock(clock), //check
+		.reset(reset), // check
+		.start(start), //check
+		.sign(sign), // check
 
-	mult mult0(
-		.clock(clock),
-		.reset(reset),
-		.start(start),
-		.sign(sign),
-
-		.mcand(opa),
+		.mcand(opa), 
 		.mplier(opb),
 		.product(product),
 		.done(mult_done)
 	);
 
+	assign occupied 	= (state == MULT) | (state == MULT_NOT_DONE);
+	assign valid_out 	= (state == NOT_MULT) | (state == MULT_DONE);
+	assign start		= (state == MULT);
+
 	always_comb begin
-//	$display("occupied: %b mult_done: %b is_mult: %b",occupied,mult_done,is_mult);
-		start = 0;
-		is_mult_next = is_mult;
-		range_next	 = range;
+		case (state)
+			INITIAL | NOT_MULT | MULT_DONE:	begin
+				if(~valid_in) 			next_state = INITIAL; 	else
+				if(is_mult)				next_state = MULT; 		else	
+				 						next_state = NOT_MULT;
+			end
+			MULT:						next_state = MULT_NOT_DONE;
+			MULT_NOT_DONE:	begin
+				if(mult_done)	next_state = MULT_DONE; 		else
+								next_state = MULT_NOT_DONE;
+			end
+			default: 			next_state = INITIAL;
+		endcase
+	end
+
+	always_ff @(posedge clock) begin
+		if(reset) begin
+					state <= `SD INITIAL; 
+		end else begin
+										state <= `SD next_state;
+			if(next_state == MULT)	range_reg <= `SD range;
+		end	
+	end
+
+	assign signed_opa = opa;
+	assign signed_opb = opb;
+	assign result = (state == MULT_DONE)? final_product: alu_result;
+
+	always_comb begin
+	//$display("occupied: %b mult_done: %b is_mult: %b",occupied,mult_done,is_mult);
+		if(range_reg) 	final_product = product[2*`XLEN-1:`XLEN]; else
+						final_product = product[`XLEN-1:0];
 		sign = 0;
-		if(en) begin
-			is_mult_next = 0;
+		range = 0;
+		alu_result = 0;
 			case (func)
-			ALU_ADD:      result = opa + opb;
-			ALU_SUB:      result = opa - opb;
-			ALU_AND:      result = opa & opb;
-			ALU_SLT:      result = signed_opa < signed_opb;
-			ALU_SLTU:     result = opa < opb;
-			ALU_OR:       result = opa | opb;
-			ALU_XOR:      result = opa ^ opb;
-			ALU_SRL:      result = opa >> opb[4:0];
-			ALU_SLL:      result = opa << opb[4:0];
-			ALU_SRA:      result = signed_opa >>> opb[4:0]; // arithmetic from logical shift
+			ALU_ADD:      alu_result = opa + opb;
+			ALU_SUB:      alu_result = opa - opb;
+			ALU_AND:      alu_result = opa & opb;
+			ALU_SLT:      alu_result = signed_opa < signed_opb;
+			ALU_SLTU:     alu_result = opa < opb;
+			ALU_OR:       alu_result = opa | opb;
+			ALU_XOR:      alu_result = opa ^ opb;
+			ALU_SRL:      alu_result = opa >> opb[4:0];
+			ALU_SLL:      alu_result = opa << opb[4:0];
+			ALU_SRA:      alu_result = signed_opa >>> opb[4:0]; // arithmetic from logical shift
 			ALU_MUL:      begin
-				start = 1'b1;
 				sign = 2'b11;
-				result = product[`XLEN-1:0];
-				range_next = 0;
-				is_mult_next = 1;
+				range = 0;
 			end
 			ALU_MULH:     begin
-				start = 1;
 				sign = 2'b11;
-				result = product[2*`XLEN-1:`XLEN];
-				range_next = 1;
-				is_mult_next = 1;
+				range = 1;
 			end
 			ALU_MULHSU:   begin
-				start = 1'b1;
 				sign = 2'b01;
-				result = product[2*`XLEN-1:`XLEN];
-				range_next = 1;
-				is_mult_next = 1;
+				range = 1;
 			end
 			ALU_MULHU:    begin
-				start = 1'b1;
 				sign = 2'b00;
-				result = product[2*`XLEN-1:`XLEN];
-				range_next = 1;
-				is_mult_next = 1;
+				range = 1;
 			end
-			default:      result = `XLEN'hfacebeec;  // here to prevent latches
+			default:      alu_result = `XLEN'hfacebeec;  // here to prevent latches
 			endcase
-//			$display("opa: %h opb: %h res: %h",opa, opb ,result);
-		end  else if (is_mult) begin
-			if(range) 	result = product[2*`XLEN-1:`XLEN]; else
-						result = product[`XLEN-1:0];
-		end
 	end
 endmodule // alu
 
@@ -184,7 +184,6 @@ module ex_stage(
 
 	logic [`WAYS-1: 0][`XLEN-1:0] opa_mux_out, opb_mux_out;
 	logic [`WAYS-1: 0]            brcond_result;
-	//
 
 	// Pass-throughs
 	generate
@@ -198,7 +197,6 @@ module ex_stage(
 			assign ex_packet_out[i].halt 			= id_ex_packet_in[i].halt;
 			assign ex_packet_out[i].illegal 		= id_ex_packet_in[i].illegal;
 			assign ex_packet_out[i].csr_op 			= id_ex_packet_in[i].csr_op;
-			assign ex_packet_out[i].valid 			= id_ex_packet_in[i].valid & ~occupied_hub[i];
 			assign ex_packet_out[i].mem_size 		= id_ex_packet_in[i].inst.r.funct3;
 			// ultimate "take branch" signal:
 	 		//	unconditional, or conditional and the condition is true
@@ -252,7 +250,7 @@ module ex_stage(
 			alu alu_0(// Inputs
 				.clock(clock),
 				.reset(reset),
-				.en(id_ex_packet_in[i].valid),
+				.valid_in(id_ex_packet_in[i].valid),
 
 				.opa(opa_mux_out[i]),
 				.opb(opb_mux_out[i]),
@@ -260,8 +258,8 @@ module ex_stage(
 
 		// Output
 				.occupied(occupied_hub[i]),
+				.valid_out(ex_packet_out[i].valid),
 				.result(ex_packet_out[i].alu_result)
-				
 			);
 
 			brcond brcond_0(// Inputs

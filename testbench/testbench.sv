@@ -66,7 +66,7 @@ module testbench;
 	logic except;
 	logic [`WAYS-1:0]	rob_direction_out;
     logic [`WAYS-1:0] [`XLEN-1:0] rob_PC_out;
-	logic [$clog2(`ROB):0]  rob_next_num_free;
+	logic [$clog2(`ROB):0]  rob_num_free;
 	logic [`WAYS-1:0] [4:0]    dest_ARN_out;
 	logic [`WAYS-1:0]          valid_out;
 
@@ -130,7 +130,7 @@ module testbench;
 	.except,
 	.rob_direction_out,
     .rob_PC_out,
-	.rob_next_num_free,
+	.rob_num_free,
 	.dest_ARN_out,
 	.valid_out,
 	
@@ -239,7 +239,7 @@ module testbench;
 				print_valids({31'b0, id_opa_valid[i]}, {31'b0, id_opb_valid[i]});
 				print_stage("|", id_ex_IR[i], {31'b0,id_ex_valid_inst[i]});
 				print_opaopb({31'b0, id_ex_opa_valid[i]}, {31'b0, id_ex_opb_valid[i]}, id_ex_rs1_value[i], id_ex_rs2_value[i]);
-				print_rob("|", {31'b0, except}, {31'b0, rob_direction_out[i]}, rob_PC_out[i], {27'b0, rob_next_num_free}, {27'b0, dest_ARN_out[i]}, {31'b0, valid_out[i]});
+				print_rob("|", {31'b0, except}, {31'b0, rob_direction_out[i]}, rob_PC_out[i], {27'b0, rob_num_free}, {27'b0, dest_ARN_out[i]}, {31'b0, valid_out[i]});
 				print_rs("|", rs_IR_out[i], {31'b0,rs_valid_inst_out[i]}, {27'b0, rs_num_is_free}, {16'b0, rs_load_in_hub}, {16'b0, rs_is_free_hub}, {16'b0, rs_is_free_hub});
 				print_ex_out("|", ex_alu_result_out[i], {31'b0,ex_valid_inst_out[i]}, {31'b0, ALU_occupied[i]}, {31'b0, brand_result[i]});
 
