@@ -200,7 +200,7 @@ generate;
     // others
     for (gi = 0; gi < `WAYS; ++gi) begin
         for (gj = 0; gj < 32; ++gj) begin
-            assign RAT_tmp[gi + 1][gj] = RAT_tmp_overwrite[gi] ? PRF_idx_in[gi] : RAT_tmp[gi][gj];
+            assign RAT_tmp[gi + 1][gj] = RAT_tmp_overwrite[gi][gj] ? : PRF_idx_in[gi] : RAT_tmp[gi][gj];
         end
     end
 
