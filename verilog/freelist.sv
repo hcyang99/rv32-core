@@ -96,7 +96,11 @@ freelist_psel_gen ps2(
 generate;
     for (gi = 0; gi < `WAYS; ++gi) begin
         always_ff @ (posedge clock) begin
-            if (reset | except) begin
+            if (reset) begin
+                reg_idx_out[gi] <= 0;
+                reg_idx_out_valid[gi] <= 0;
+            end
+            else if (except) begin
                 reg_idx_out[gi] <= reg_idx_out_except[gi];
                 reg_idx_out_valid[gi] <= reg_idx_out_valid_except[gi];
             end
