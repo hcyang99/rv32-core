@@ -5,11 +5,11 @@
         "module",
         5
     ],
-    "processor_0000": [
-        "processor_0000",
-        "UzNI6",
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
         "module",
-        10
+        16
     ],
     "_vcs_unit__1327612396": [
         "_vcs_unit__1327612396",
@@ -17,29 +17,11 @@
         "module",
         1
     ],
-    "std": [
-        "std",
-        "reYIK",
+    "rob": [
+        "rob",
+        "vtxDx",
         "module",
-        2
-    ],
-    "mem": [
-        "mem",
-        "FSbWZ",
-        "module",
-        3
-    ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
-        "module",
-        12
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
+        11
     ],
     "brcond": [
         "brcond",
@@ -47,29 +29,17 @@
         "module",
         6
     ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
+    "std": [
+        "std",
+        "reYIK",
         "module",
-        7
+        2
     ],
-    "rob": [
-        "rob",
-        "vtxDx",
+    "testbench": [
+        "testbench",
+        "iAVhC",
         "module",
-        11
-    ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
-        "module",
-        8
-    ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
-        "module",
-        16
+        4
     ],
     "mult_stage": [
         "mult_stage",
@@ -77,11 +47,35 @@
         "module",
         9
     ],
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
+    "mem": [
+        "mem",
+        "FSbWZ",
         "module",
-        13
+        3
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        7
+    ],
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
+        "module",
+        12
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        8
+    ],
+    "wand_sel_0000": [
+        "wand_sel_0000",
+        "hckDL",
+        "module",
+        15
     ],
     "rs_psel_gen_0000": [
         "rs_psel_gen_0000",
@@ -89,11 +83,17 @@
         "module",
         14
     ],
-    "wand_sel_0000": [
-        "wand_sel_0000",
-        "hckDL",
+    "processor_0000": [
+        "processor_0000",
+        "UzNI6",
         "module",
-        15
+        10
+    ],
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
+        "module",
+        13
     ],
     "...MASTER...": [
         "SIM",

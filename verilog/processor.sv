@@ -119,7 +119,7 @@ module processor (
 
 
 // outputs between IF and branch predictor
-	logic [`XLEN-1:0]	PC_in;
+//	logic [`XLEN-1:0]	PC_in;
 
 	// Outputs from IF/ID Pipeline Register
 	IF_ID_PACKET[`WAYS-1 : 0] if_id_packet;
@@ -332,13 +332,13 @@ endgenerate
 	);
 
 
-assign PC_in = except? except_next_PC:if_packet[0].PC;
+//assign PC_in = except? except_next_PC:if_packet[0].PC;
 
     branch_pred #(.SIZE(128)) predictor (
         .clock,
         .reset(reset),
 
-        .PC(PC_in),
+        .PC(if_packet[0].PC),
 
         .PC_update(PC_out),
         .direction_update(direction_out),
@@ -437,7 +437,7 @@ end
 //	$display("valid: %b",valid);
 //	$display("CDB_direction : %b",CDB_direction);
 //					$display("except: %b",except);
-	$display("PC_in: %h except: %b except_next_PC: %h if_packet[0].PC: %h",PC_in,except,except_next_PC,if_packet[0].PC);
+//	$display("PC_in: %h except: %b except_next_PC: %h if_packet[0].PC: %h",PC_in,except,except_next_PC,if_packet[0].PC);
 		if (reset | rob_is_full | rs_is_full) begin
 			id_ex_packet 		<= `SD 0;
 			id_ex_next_PC 		<= `SD 0;
