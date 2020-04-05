@@ -38,6 +38,8 @@ logic [`PRF-1:0] free_RRAT_next_decreased;
 logic [`PRF-1:0] free_RRAT_next_increased;
 logic [$clog2(`PRF)-1:0] needed_cnt;
 
+logic [`WAYS-1:0] [$clog2(`PRF)-1:0] free_out_rst;
+
 `ifdef DEBUG
 assign free_RAT_reg_out = free_RAT_reg;
 assign free_RRAT_reg_out = free_RRAT_reg;
@@ -61,6 +63,12 @@ always_comb begin
 end
 
 genvar gi;
+
+generate;
+    for (gi = 0; gi < `WAYS; ++gi) begin
+        assign free_out_rst[gi] = `PRF - 1 - gi;
+    end
+endgenerate
 
 // always_comb begin
 //     reg_idx_out_valid_raw = 0;
@@ -86,8 +94,8 @@ generate;
     for (gi = 0; gi < `WAYS; ++gi) begin
         always_ff @ (posedge clock) begin
             if (reset | except) begin
-                reg_idx_out[gi] <= 0;
-                reg_idx_out_valid[gi] <= 0;
+                reg_idx_out[gi] <= 1'b1;
+                reg_idx_out_valid[gi] <= free_out_rst[gi];
             end
             else begin
                 reg_idx_out[gi] <= reg_idx_out_raw[gi];
