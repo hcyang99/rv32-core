@@ -67,11 +67,12 @@ module alu(
 		.done(mult_done)
 	);
 
+assign occupied = (state == MULT_NOT_DONE);
 
 	always_comb begin
 		valid_out = 0;
 		start = 0;
-		occupied = 0;
+//		occupied = 0;
 		case (state)
 			INITIAL:	begin
 				if(~valid_in) 			next_state = INITIAL; 	else
@@ -80,29 +81,18 @@ module alu(
 					next_state = INITIAL; 
 				end	else begin 
 					start = 1;
-					occupied = 1;
+//					occupied = 1;
 					next_state = MULT_NOT_DONE;
-                    
-                 /*if(is_mult)begin
-                  start = 1;
-				  occupied = 1;
-                  valid_out = 0;
-				  next_state = MULT_NOT_DONE;*/
 				end
 			end
-			//MULT:	begin
-            //		next_state = MULT_NOT_DONE;
-            //        start = 1;
-			//		occupied = 1;
-            //        end
 			MULT_NOT_DONE:	begin
 				if(mult_done)	begin
 					valid_out = 1;
-					occupied  = 0;
+//					occupied  = 0;
 					next_state = INITIAL; 
 				end	else begin 
 					//start = 1;
-					occupied = 1;
+//					occupied = 1;
 					next_state = MULT_NOT_DONE;
 				end
 			end

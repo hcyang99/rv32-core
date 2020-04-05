@@ -1,51 +1,9 @@
 {
-    "alu": [
-        "alu",
-        "C26kq",
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
         "module",
-        5
-    ],
-    "_vcs_unit__1327612396": [
-        "_vcs_unit__1327612396",
-        "jqQHP",
-        "module",
-        1
-    ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
-        "module",
-        12
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        18
-    ],
-    "rob": [
-        "rob",
-        "vtxDx",
-        "module",
-        11
-    ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
-        "module",
-        16
-    ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
-        "module",
-        8
+        7
     ],
     "mem": [
         "mem",
@@ -53,17 +11,53 @@
         "module",
         3
     ],
+    "_vcs_unit__1327612396": [
+        "_vcs_unit__1327612396",
+        "jqQHP",
+        "module",
+        1
+    ],
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
+        "module",
+        16
+    ],
+    "std": [
+        "std",
+        "reYIK",
+        "module",
+        2
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        17
+    ],
     "testbench": [
         "testbench",
         "iAVhC",
         "module",
         4
     ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
         "module",
-        7
+        13
+    ],
+    "alu": [
+        "alu",
+        "C26kq",
+        "module",
+        5
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        8
     ],
     "brcond": [
         "brcond",
@@ -83,17 +77,17 @@
         "module",
         10
     ],
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
         "module",
-        13
+        12
     ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
+    "rob": [
+        "rob",
+        "vtxDx",
         "module",
-        14
+        11
     ],
     "wand_sel_0000": [
         "wand_sel_0000",
@@ -101,10 +95,16 @@
         "module",
         15
     ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
         "module",
-        17
+        18
+    ],
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
+        "module",
+        14
     ]
 }

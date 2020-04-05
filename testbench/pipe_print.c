@@ -189,7 +189,7 @@ void print_rob(char* div, int except, int direction, int PC, int num_free, int d
 
 void print_ex_out(char* div, int alu_result, int valid, int alu_occupied, int brand_results){
   if(ppfile != NULL)
-    fprintf(ppfile, "%s%3d %8d %2d %2d   ", div, valid, alu_result, alu_occupied, brand_results);
+    fprintf(ppfile, "%s%3d %8x %2d %2d   ", div, valid, alu_result, alu_occupied, brand_results);
 }
 
 void print_close()

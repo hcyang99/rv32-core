@@ -191,6 +191,8 @@ module processor (
 
 // Outputs from Rs_ex_register
 	ID_EX_PACKET[`WAYS-1 : 0]      ex_packet_in;
+	ID_EX_PACKET[`WAYS-1 : 0]      ex_packet_in_tmp;
+
 // Outputs from EX-Stage
 	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet;
 
@@ -598,6 +600,7 @@ generate
 		assign ex_valid_inst_out[i] = ex_packet[i].valid;
 		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
 		assign brand_result[i]		= ex_packet[i].take_branch;
+		assign ex_packet_in[i]		= ALU_occupied[i]? ex_packet_in_tmp[i]:rs_packet_out[i];
 	end
 endgenerate
 
@@ -606,7 +609,7 @@ always_ff @(posedge clock) begin
  	for(int i = 0; i < `WAYS; i = i + 1) begin
   		if(~ALU_occupied[i]) begin
 		  // not occupied
-   			ex_packet_in[i] <= `SD rs_packet_out[i];
+   			ex_packet_in_tmp[i] <= `SD rs_packet_out[i];
   		end
  	end
 end
