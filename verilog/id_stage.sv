@@ -272,10 +272,10 @@ module id_stage(
     			assign id_packet_out[i].inst = if_id_packet_in[i].inst;
    	 			assign id_packet_out[i].NPC  = if_id_packet_in[i].NPC;
     			assign id_packet_out[i].PC   = if_id_packet_in[i].PC;
-					assign dest_arn[i] 			 = if_id_packet_in[i].inst.r.rd;
-					assign opa_arn[i]			 = if_id_packet_in[i].inst.r.rs1;
-					assign opb_arn[i]			 = if_id_packet_in[i].inst.r.rs2;
-					assign dest_arn_valid[i]	 = (dest_reg_select[i] == DEST_RD);
+				assign dest_arn[i] 			 = if_id_packet_in[i].inst.r.rd;
+				assign opa_arn[i]			 = if_id_packet_in[i].inst.r.rs1;
+				assign opb_arn[i]			 = if_id_packet_in[i].inst.r.rs2;
+				assign dest_arn_valid[i]	 = (dest_reg_select[i] == DEST_RD) & if_id_packet_in[i].valid;
 			end
 	endgenerate
 

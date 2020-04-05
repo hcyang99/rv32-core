@@ -1,45 +1,21 @@
 {
-    "alu": [
-        "alu",
-        "C26kq",
+    "processor_0000": [
+        "processor_0000",
+        "UzNI6",
         "module",
-        5
+        10
     ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
         "module",
-        16
+        17
     ],
     "_vcs_unit__1327612396": [
         "_vcs_unit__1327612396",
         "jqQHP",
         "module",
         1
-    ],
-    "rob": [
-        "rob",
-        "vtxDx",
-        "module",
-        11
-    ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
-        "module",
-        6
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
     ],
     "mult_stage": [
         "mult_stage",
@@ -53,41 +29,23 @@
         "module",
         3
     ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
+    "std": [
+        "std",
+        "reYIK",
         "module",
-        7
+        2
     ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
+    "testbench": [
+        "testbench",
+        "iAVhC",
         "module",
-        12
+        4
     ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
+    "brcond": [
+        "brcond",
+        "VqGv5",
         "module",
-        8
-    ],
-    "wand_sel_0000": [
-        "wand_sel_0000",
-        "hckDL",
-        "module",
-        15
-    ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
-        "module",
-        14
-    ],
-    "processor_0000": [
-        "processor_0000",
-        "UzNI6",
-        "module",
-        10
+        6
     ],
     "RS_0000": [
         "RS_0000",
@@ -95,10 +53,52 @@
         "module",
         13
     ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
+    "alu": [
+        "alu",
+        "C26kq",
         "module",
-        17
+        5
+    ],
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
+        "module",
+        12
+    ],
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
+        "module",
+        14
+    ],
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
+        "module",
+        16
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        7
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        8
+    ],
+    "rob": [
+        "rob",
+        "vtxDx",
+        "module",
+        11
+    ],
+    "wand_sel_0000": [
+        "wand_sel_0000",
+        "hckDL",
+        "module",
+        15
     ]
 }
