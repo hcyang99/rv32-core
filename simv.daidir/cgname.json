@@ -1,51 +1,9 @@
 {
-    "_vcs_unit__1327612396": [
-        "_vcs_unit__1327612396",
-        "jqQHP",
-        "module",
-        1
-    ],
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
-        "module",
-        13
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
     "alu": [
         "alu",
         "C26kq",
         "module",
         5
-    ],
-    "mem": [
-        "mem",
-        "FSbWZ",
-        "module",
-        3
-    ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
-        "module",
-        8
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
-    ],
-    "mult_stage": [
-        "mult_stage",
-        "aUVMg",
-        "module",
-        9
     ],
     "processor_0000": [
         "processor_0000",
@@ -53,11 +11,23 @@
         "module",
         10
     ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
+    "_vcs_unit__1327612396": [
+        "_vcs_unit__1327612396",
+        "jqQHP",
         "module",
-        6
+        1
+    ],
+    "std": [
+        "std",
+        "reYIK",
+        "module",
+        2
+    ],
+    "mem": [
+        "mem",
+        "FSbWZ",
+        "module",
+        3
     ],
     "RS_Line_0000": [
         "RS_Line_0000",
@@ -65,23 +35,53 @@
         "module",
         12
     ],
+    "testbench": [
+        "testbench",
+        "iAVhC",
+        "module",
+        4
+    ],
+    "brcond": [
+        "brcond",
+        "VqGv5",
+        "module",
+        6
+    ],
     "ex_stage_0000": [
         "ex_stage_0000",
         "tmdK7",
         "module",
         7
     ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
-        "module",
-        17
-    ],
     "rob": [
         "rob",
         "vtxDx",
         "module",
         11
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        8
+    ],
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
+        "module",
+        16
+    ],
+    "mult_stage": [
+        "mult_stage",
+        "aUVMg",
+        "module",
+        9
+    ],
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
+        "module",
+        13
     ],
     "rs_psel_gen_0000": [
         "rs_psel_gen_0000",
@@ -95,10 +95,10 @@
         "module",
         15
     ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
         "module",
-        16
+        17
     ]
 }

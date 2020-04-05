@@ -24,7 +24,7 @@
 // This module is purely combinational
 //
 
-typedef enum logic [2:0] {INITIAL, MULT, MULT_NOT_DONE, NOT_MULT, MULT_DONE } alu_state;
+typedef enum logic {INITIAL,  MULT_NOT_DONE } alu_state;
 
 module alu(
 	input 		clock,
@@ -73,27 +73,37 @@ module alu(
 		start = 0;
 		occupied = 0;
 		case (state)
-			INITIAL, NOT_MULT, MULT_DONE:	begin
+			INITIAL:	begin
 				if(~valid_in) 			next_state = INITIAL; 	else
 				if(~is_mult)	begin
 					valid_out = 1;
-					next_state = NOT_MULT; 
+					next_state = INITIAL; 
 				end	else begin 
 					start = 1;
 					occupied = 1;
-					next_state = MULT;
+					next_state = MULT_NOT_DONE;
+                    
+                 /*if(is_mult)begin
+                  start = 1;
+				  occupied = 1;
+                  valid_out = 0;
+				  next_state = MULT_NOT_DONE;*/
 				end
 			end
-			MULT:						next_state = MULT_NOT_DONE;
+			//MULT:	begin
+            //		next_state = MULT_NOT_DONE;
+            //        start = 1;
+			//		occupied = 1;
+            //        end
 			MULT_NOT_DONE:	begin
 				if(mult_done)	begin
 					valid_out = 1;
 					occupied  = 0;
-					next_state = MULT_DONE; 
+					next_state = INITIAL; 
 				end	else begin 
-					start = 1;
+					//start = 1;
 					occupied = 1;
-					next_state = MULT;
+					next_state = MULT_NOT_DONE;
 				end
 			end
 			default: 			next_state = INITIAL;
@@ -106,13 +116,13 @@ module alu(
 					state <= `SD INITIAL; 
 		end else begin
 										state <= `SD next_state;
-			if(next_state == MULT)	range_reg <= `SD range;
+			if(is_mult)	range_reg <= `SD range;
 		end	
 	end
 
 	assign signed_opa = opa;
 	assign signed_opb = opb;
-	assign result = (state == MULT_DONE)? final_product: alu_result;
+	assign result = is_mult ? final_product: alu_result;
 
 	always_comb begin
 	//$display("occupied: %b mult_done: %b is_mult: %b",occupied,mult_done,is_mult);
@@ -301,6 +311,19 @@ module ex_stage(
 	end
 end
 
+always_ff @(posedge clock) begin
+ $display("occupied_hub:%b",occupied_hub);
+ 
+for(int i = 0; i < `WAYS ; i = i + 1) begin
+		  
+		if(ex_packet_out[i].valid) begin
+		  $display("inst:%h",id_ex_packet_in[i].inst);
+		  $display("PRF_idx:%d",id_ex_packet_in[i].dest_PRF_idx);
+		  $display("result:%h",ex_packet_out[i].alu_result);
+
+		end
+end
+end
 
 
 

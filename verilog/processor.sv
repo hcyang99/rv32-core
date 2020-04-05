@@ -113,8 +113,13 @@ module processor (
 		logic   if_id_enable, id_ex_enable, ex_mem_enable, mem_wb_enable;
 
 		// Outputs from IF-Stage
-
 		IF_ID_PACKET[`WAYS-1 : 0] if_packet;
+
+
+
+
+// outputs between IF and branch predictor
+	logic [`XLEN-1:0]	PC_in;
 
 	// Outputs from IF/ID Pipeline Register
 	IF_ID_PACKET[`WAYS-1 : 0] if_id_packet;
@@ -184,12 +189,11 @@ module processor (
   logic [$clog2(`RS):0]                num_is_free;
 
 // Outputs from Rs_ex_register
-	ID_EX_PACKET[`WAYS-1 : 0]      ex_packet_in_tmp;	
 	ID_EX_PACKET[`WAYS-1 : 0]      ex_packet_in;
 // Outputs from EX-Stage
 	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet;
 
-	
+
 //--------------CDB--------------------
  
   	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
@@ -327,11 +331,14 @@ endgenerate
 		.if_packet_out(if_packet)
 	);
 
+
+assign PC_in = except? except_next_PC:if_packet[0].PC;
+
     branch_pred #(.SIZE(128)) predictor (
         .clock,
         .reset(reset),
 
-        .PC(if_packet[0].PC),
+        .PC(PC_in),
 
         .PC_update(PC_out),
         .direction_update(direction_out),
@@ -430,7 +437,7 @@ end
 //	$display("valid: %b",valid);
 //	$display("CDB_direction : %b",CDB_direction);
 //					$display("except: %b",except);
-
+	$display("PC_in: %h except: %b except_next_PC: %h if_packet[0].PC: %h",PC_in,except,except_next_PC,if_packet[0].PC);
 		if (reset | rob_is_full | rs_is_full) begin
 			id_ex_packet 		<= `SD 0;
 			id_ex_next_PC 		<= `SD 0;
@@ -589,7 +596,6 @@ generate
 		assign ex_valid_inst_out[i] = ex_packet[i].valid;
 		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
 		assign brand_result[i]		= ex_packet[i].take_branch;
-		assign ex_packet_in[i]		= ALU_occupied[i]? ex_packet_in_tmp[i]:rs_packet_out[i];
 	end
 endgenerate
 
@@ -598,7 +604,7 @@ always_ff @(posedge clock) begin
  	for(int i = 0; i < `WAYS; i = i + 1) begin
   		if(~ALU_occupied[i]) begin
 		  // not occupied
-   			ex_packet_in_tmp[i] <= `SD rs_packet_out[i];
+   			ex_packet_in[i] <= `SD rs_packet_out[i];
   		end
  	end
 end
