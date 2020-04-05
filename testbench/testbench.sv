@@ -139,7 +139,7 @@ module testbench;
     .rs_num_is_free,
 	.rs_load_in_hub(rs_load_in_hub),
 	.rs_is_free_hub(rs_is_free_hub),
-	.rs_ready_hub(rs_ready_hub),
+	.rs_ready_hub(rs_is_ready_hub),
 
 	.ex_valid_inst_out,
 	.ex_alu_result_out,
