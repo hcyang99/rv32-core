@@ -166,11 +166,15 @@ module RAT_RRAT_internal(
 );
 
 reg [31:0] [$clog2(`PRF)-1:0] RAT_reg;
-logic [31:0] [$clog2(`PRF)-1:0] RAT_next;
+wire [31:0] [$clog2(`PRF)-1:0] RAT_next;
 reg [31:0] [$clog2(`PRF)-1:0] RRAT_reg;
 logic [31:0] [$clog2(`PRF)-1:0] RRAT_next;
-logic [31:0] [$clog2(`PRF)-1:0] RAT_RRAT_rst;
-logic [`WAYS-1:0] is_renamed;
+wire [31:0] [$clog2(`PRF)-1:0] RAT_RRAT_rst;
+wire [`WAYS-1:0] is_renamed;
+
+wire [`WAYS:0] [31:0] [$clog2(`PRF)-1:0] RAT_tmp;
+wire [`WAYS-1:0] [31:0] RAT_tmp_overwrite;
+
 
 `ifdef DEBUG
 assign RAT_reg_out = RAT_reg;
@@ -180,43 +184,62 @@ assign RRAT_reg_out = RRAT_reg;
 assign is_renamed = RAT_idx_valid & PRF_idx_in_valid;
 
 
-// reset values
 
-generate
-    genvar i;
-    genvar idx;
 
-    for (i = 0; i < 32; ++i) begin
-        assign RAT_RRAT_rst[i] = i;
+
+generate;
+    genvar gi, gj;
+    // overwrite mask
+    for (gi = 0; gi < `WAYS; ++gi) begin
+        assign RAT_tmp_overwrite[gi] = is_renamed[gi] ? {32'h1 << RAT_dest_idx[gi]} : 32'h0;
     end
-endgenerate
 
-// queries
-generate
-    for (i = 0; i < `WAYS; ++i) begin
-        assign rda_idx_out[i] = RAT_reg[rda_idx[i]];
-        assign rdb_idx_out[i] = RAT_reg[rdb_idx[i]];
-    end
-endgenerate
-
-// RAT_next
-always_comb begin
-    RAT_next = RAT_reg;
-    for (int i = 0; i < `WAYS; ++i) begin
-        if (is_renamed[i]) begin
-            RAT_next[RAT_dest_idx[i]] = PRF_idx_in[i];
+    // RAT temp
+    // tmp[0]
+    assign RAT_tmp[0] = RAT_reg;
+    // others
+    for (gi = 0; gi < `WAYS; ++gi) begin
+        for (gj = 0; gj < 32; ++gj) begin
+            assign RAT_tmp[gi + 1][gj] = RAT_tmp_overwrite[gi] ? PRF_idx_in[gi] : RAT_tmp[gi][gj];
         end
     end
-end
+
+    // read
+    for (gi = 0; gi < `WAYS; ++gi) begin
+        assign rda_idx_out[gi] = RAT_tmp[gi][rda_idx[gi]];
+        assign rdb_idx_out[gi] = RAT_tmp[gi][rdb_idx[gi]];
+    end
+
+    // RAT_next
+    assign RAT_next = RAT_tmp[`WAYS];
+
+    // reset values
+    for (gi = 0; gi < 32; ++gi) begin
+        assign RAT_RRAT_rst[gi] = gi;
+    end
+
+
+endgenerate
+
+
+// // RAT_next
+// always_comb begin
+//     RAT_next = RAT_reg;
+//     for (int i = 0; i < `WAYS; ++i) begin
+//         if (is_renamed[i]) begin
+//             RAT_next[RAT_dest_idx[i]] = PRF_idx_in[i];
+//         end
+//     end
+// end
 
 // Forwarding performed here
 generate
-    for (i = 0; i < `WAYS; ++i) begin
+    for (gi = 0; gi < `WAYS; ++gi) begin
         always_comb begin
-            RRAT_PRF_old[i] = RRAT_reg[RRAT_ARF_idx[i]];
-            for (int j = 0; j < i; ++j) begin
-                if (PRF_idx_in_valid[j] && RRAT_ARF_idx[i] == RRAT_ARF_idx[j]) begin
-                    RRAT_PRF_old[i] = PRF_idx_in[j];
+            RRAT_PRF_old[gi] = RRAT_reg[RRAT_ARF_idx[gi]];
+            for (int j = 0; j < gi; ++j) begin
+                if (PRF_idx_in_valid[j] && RRAT_ARF_idx[gi] == RRAT_ARF_idx[j]) begin
+                    RRAT_PRF_old[gi] = PRF_idx_in[j];
                 end
             end
         end
