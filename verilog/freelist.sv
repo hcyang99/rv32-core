@@ -38,7 +38,8 @@ logic [`PRF-1:0] free_RRAT_next_decreased;
 logic [`PRF-1:0] free_RRAT_next_increased;
 logic [$clog2(`PRF)-1:0] needed_cnt;
 
-logic [`WAYS-1:0] [$clog2(`PRF)-1:0] free_out_rst;
+logic [`WAYS-1:0] [$clog2(`PRF)-1:0] reg_idx_out_except;
+logic [`WAYS-1:0] reg_idx_out_valid_except;
 
 `ifdef DEBUG
 assign free_RAT_reg_out = free_RAT_reg;
@@ -64,12 +65,6 @@ end
 
 genvar gi;
 
-generate;
-    for (gi = 0; gi < `WAYS; ++gi) begin
-        assign free_out_rst[gi] = `PRF - 1 - gi;
-    end
-endgenerate
-
 // always_comb begin
 //     reg_idx_out_valid_raw = 0;
 //     reg_idx_out_raw = 0;
@@ -90,12 +85,20 @@ freelist_psel_gen ps(
     .empty()
 );
 
+freelist_psel_gen ps2(
+    .req(free_RRAT_next),
+    .result(reg_idx_out_except),
+    .result_valid(reg_idx_out_valid_except),
+    .gnt_bus(),
+    .empty()
+);
+
 generate;
     for (gi = 0; gi < `WAYS; ++gi) begin
         always_ff @ (posedge clock) begin
             if (reset | except) begin
-                reg_idx_out[gi] <= 1'b1;
-                reg_idx_out_valid[gi] <= free_out_rst[gi];
+                reg_idx_out[gi] <= reg_idx_out_except[gi];
+                reg_idx_out_valid[gi] <= reg_idx_out_valid_except[gi];
             end
             else begin
                 reg_idx_out[gi] <= reg_idx_out_raw[gi];
