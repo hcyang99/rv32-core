@@ -125,6 +125,7 @@ module RS(
     output ID_EX_PACKET [`WAYS-1:0]             rs_packet_out,
 
     output logic [$clog2(`RS):0]                num_is_free,
+    output logic [$clog2(`RS):0]                num_is_free_next,
 // for debugging
     output wor   [`RS-1:0]                      load_in_hub,
     output logic [`RS-1:0]                      is_free_hub,
@@ -135,7 +136,6 @@ module RS(
 
 //debug
     logic [$clog2(`WAYS):0]              free_decrease;
-    logic [$clog2(`RS):0]                num_is_free_next;
     logic [$clog2(`WAYS):0]              free_increase;
     logic   [`RS-1:0]                      reset_hub;
     wor [`RS-1:0]                             reset_hub_tmp;

@@ -186,7 +186,8 @@ module processor (
 	// Outputs from Rs-Stage
   ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
 
-  logic [$clog2(`RS):0]                num_is_free;
+  logic [$clog2(`RS):0]                	num_is_free;
+  logic [$clog2(`RS):0] 				num_is_free_next;
 
 // Outputs from Rs_ex_register
 	ID_EX_PACKET[`WAYS-1 : 0]      ex_packet_in;
@@ -407,7 +408,7 @@ endgenerate
 
 
 assign rob_is_full = num_free < `WAYS;
-assign rs_is_full  = num_is_free < `WAYS;
+assign rs_is_full  = num_is_free_next < `WAYS;
 always_ff@(posedge clock) begin
 	if(rob_is_full | rs_is_full) begin
 		id_packet_tmp 				<= `SD id_packet | id_packet_tmp;
@@ -575,6 +576,7 @@ assign rs_num_is_free = num_is_free;
         .rs_packet_out,
 
         .num_is_free,
+		.num_is_free_next,
 		.load_in_hub(rs_load_in_hub),
 		.is_free_hub(rs_is_free_hub),
 		.ready_hub(rs_ready_hub)
