@@ -1,45 +1,9 @@
 {
-    "alu": [
-        "alu",
-        "C26kq",
+    "brcond": [
+        "brcond",
+        "VqGv5",
         "module",
-        5
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
-    ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
-        "module",
-        14
-    ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
-        "module",
-        17
-    ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
-        "module",
-        16
-    ],
-    "_vcs_unit__1327612396": [
-        "_vcs_unit__1327612396",
-        "jqQHP",
-        "module",
-        1
-    ],
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
-        "module",
-        13
+        6
     ],
     "std": [
         "std",
@@ -47,23 +11,11 @@
         "module",
         2
     ],
-    "mem": [
-        "mem",
-        "FSbWZ",
+    "_vcs_unit__1327612396": [
+        "_vcs_unit__1327612396",
+        "jqQHP",
         "module",
-        3
-    ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
-        "module",
-        6
-    ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
-        "module",
-        7
+        1
     ],
     "RS_Line_0000": [
         "RS_Line_0000",
@@ -71,11 +23,11 @@
         "module",
         12
     ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
+    "mem": [
+        "mem",
+        "FSbWZ",
         "module",
-        8
+        3
     ],
     "mult_stage": [
         "mult_stage",
@@ -83,17 +35,41 @@
         "module",
         9
     ],
+    "testbench": [
+        "testbench",
+        "iAVhC",
+        "module",
+        4
+    ],
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
+        "module",
+        16
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        7
+    ],
+    "alu": [
+        "alu",
+        "C26kq",
+        "module",
+        5
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        8
+    ],
     "processor_0000": [
         "processor_0000",
         "UzNI6",
         "module",
         10
-    ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        18
     ],
     "rob": [
         "rob",
@@ -101,10 +77,34 @@
         "module",
         11
     ],
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
+        "module",
+        13
+    ],
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
+        "module",
+        18
+    ],
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
+        "module",
+        14
+    ],
     "wand_sel_0000": [
         "wand_sel_0000",
         "hckDL",
         "module",
         15
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        17
     ]
 }

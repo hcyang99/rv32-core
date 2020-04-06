@@ -56,14 +56,13 @@ verilog/processor.sv
 verilog/rob.sv
 verilog/rs.sv
 verilog/validlist.sv
-47
+44
 sysc_uni_pwd=/home/sunsusan/Desktop/group7w20
 _LMFILES_=/usr/caen/misc/modules/vcs/2017.12-SP2-1
-XDG_SESSION_ID=200
+XDG_SESSION_ID=2400
 XDG_RUNTIME_DIR=/run/user/114191087
 XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
-VSLS_SESSION_KEEPALIVE_INTERVAL=20
-VSCODE_IPC_HOOK_CLI=/tmp/vscode-ipc-47e9e464-f65d-4f74-bdcb-e927a93f088b.sock
+VSCODE_IPC_HOOK_CLI=/tmp/vscode-ipc-ff0c302e-c549-4df0-aa8c-5c2d3596766e.sock
 VMR_MODE_FLAG=64
 VERBOSE_LOGGING=true
 VCS_MODE_FLAG=64
@@ -75,8 +74,8 @@ UNAME=/bin/uname
 TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
 TERM_PROGRAM_VERSION=1.43.2
 TERM_PROGRAM=vscode
-SSH_CONNECTION=75.46.42.228 10559 141.213.74.60 22
-SSH_CLIENT=75.46.42.228 10559 22
+SSH_CONNECTION=75.46.42.228 13003 141.213.74.64 22
+SSH_CLIENT=75.46.42.228 13003 22
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
 SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
 SCRNAME=vcs
@@ -95,14 +94,12 @@ LOADEDMODULES=vcs/2017.12-SP2-1
 LESSOPEN=||/usr/bin/lesspipe.sh %s
 LC_ALL=C
 LAMMPS_POTENTIALS=/usr/share/lammps/potentials
-KRB5CCNAME=FILE:/tmp/krb5cc_114191087_AyLMI3
+KRB5CCNAME=FILE:/tmp/krb5cc_114191087_LqGF0N
 KDEDIRS=/usr
 HISTCONTROL=ignoredups
-DOTNET_ROOT=/home/sunsusan/.vscode-server/data/User/globalStorage/ms-vsliveshare.vsliveshare/dotnet-3.1.1
 COLORTERM=truecolor
 CINNAMON_2D=1
 BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
 AMD_ENTRYPOINT=vs/server/remoteExtensionHostProcess
 0
 22
@@ -113,10 +110,10 @@ AMD_ENTRYPOINT=vs/server/remoteExtensionHostProcess
 1586099059 verilog/rs.sv
 1586136731 verilog/rob.sv
 1586130807 verilog/RAT_RRAT.sv
-1586136795 verilog/processor.sv
+1586140280 verilog/processor.sv
 1585935972 verilog/PRF.sv
 1585935895 verilog/mult.sv
-1586047563 verilog/if_stage.sv
+1586137831 verilog/if_stage.sv
 1586092884 verilog/id_stage.sv
 1585935972 verilog/icache.sv
 1586099634 verilog/freelist.sv
@@ -135,4 +132,4 @@ AMD_ENTRYPOINT=vs/server/remoteExtensionHostProcess
 1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
 1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
 1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
-1586136810 simv.daidir
+1586140292 simv.daidir

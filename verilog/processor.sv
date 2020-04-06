@@ -347,7 +347,7 @@ endgenerate
         .PC(if_packet[0].PC),
 
         .PC_update(PC_out),
-        .direction_update(direction_out),
+        .direction_update(0),
         .target_update(target_out),
         .valid_update,
 //output
