@@ -38,7 +38,7 @@ typedef struct VeriC_Descriptor *vc_handle;
 #endif /* _VC_TYPES_ */
 
 void print_header(const char* str);
-void print_cycles(int cycle_count);
+void print_cycles(int time_in, int cycle_count);
 void print_stage(const char* div, int inst, int valid_inst);
 void print_rs(const char* div, int inst, int valid_inst, int num_free, int load_in_hub, int is_free_hub, int ready_hub);
 void print_rob(const char* div, int except, int direction, int PC, int num_free, int dest_ARN_out, int valid_out);

@@ -167,6 +167,9 @@ module processor (
 
   // Outputs from Rob-Stage
   	logic [$clog2(`ROB)-1:0]                  tail;
+	logic [$clog2(`ROB)-1:0]                  next_tail;
+
+
   	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
 
   	logic [$clog2(`ROB):0]                    num_free;
@@ -471,7 +474,7 @@ for(int i = 0; i < `WAYS; i = i + 1) begin
 					$display("CDB_valid: %b CDB_direction: %b CDB_target: %h",CDB_valid[i],CDB_direction[i],CDB_target[i]);
 				end
 */
-				id_ex_packet[i].rob_idx <= `SD (tail + i)%`ROB;
+				id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
 
 end
 
@@ -528,6 +531,7 @@ assign rob_PC_out        = PC_out;
 
 // output
     .tail,
+	.next_tail,
     .dest_ARN_out,
     .dest_PRN_out,
     .valid_out,

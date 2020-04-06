@@ -40,6 +40,7 @@ module rob(
     input [`WAYS-1:0]                               halt,
 
     output logic [$clog2(`ROB)-1:0]                 tail,
+    output logic [$clog2(`ROB)-1:0]                 next_tail,
 
     output logic [`WAYS-1:0] [4:0]                  dest_ARN_out,
     output logic [`WAYS-1:0] [$clog2(`PRF)-1:0]     dest_PRN_out,
@@ -63,7 +64,7 @@ rob_entry [`ROB-1:0]                                entries;
 logic [$clog2(`ROB)-1:0]                            head;
 //logic [$clog2(`ROB)-1:0]                          tail;
 logic [$clog2(`ROB)-1:0]                            next_head;
-logic [$clog2(`ROB)-1:0]                            next_tail;
+//logic [$clog2(`ROB)-1:0]                            next_tail;
 logic [$clog2(`WAYS)-1:0]                           num_dispatched;
 //logic [$clog2(`WAYS):0]                           num_committed;
 rob_entry [`WAYS-1:0]                               new_entries;

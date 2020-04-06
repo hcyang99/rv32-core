@@ -1,39 +1,9 @@
 {
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
+    "alu": [
+        "alu",
+        "C26kq",
         "module",
-        7
-    ],
-    "mem": [
-        "mem",
-        "FSbWZ",
-        "module",
-        3
-    ],
-    "_vcs_unit__1327612396": [
-        "_vcs_unit__1327612396",
-        "jqQHP",
-        "module",
-        1
-    ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
-        "module",
-        16
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
-        "module",
-        17
+        5
     ],
     "testbench": [
         "testbench",
@@ -41,29 +11,71 @@
         "module",
         4
     ],
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
+        "module",
+        14
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        17
+    ],
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
+        "module",
+        16
+    ],
+    "_vcs_unit__1327612396": [
+        "_vcs_unit__1327612396",
+        "jqQHP",
+        "module",
+        1
+    ],
     "RS_0000": [
         "RS_0000",
         "vG3v3",
         "module",
         13
     ],
-    "alu": [
-        "alu",
-        "C26kq",
+    "std": [
+        "std",
+        "reYIK",
         "module",
-        5
+        2
     ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
+    "mem": [
+        "mem",
+        "FSbWZ",
         "module",
-        8
+        3
     ],
     "brcond": [
         "brcond",
         "VqGv5",
         "module",
         6
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        7
+    ],
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
+        "module",
+        12
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        8
     ],
     "mult_stage": [
         "mult_stage",
@@ -77,11 +89,11 @@
         "module",
         10
     ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
         "module",
-        12
+        18
     ],
     "rob": [
         "rob",
@@ -94,17 +106,5 @@
         "hckDL",
         "module",
         15
-    ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        18
-    ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
-        "module",
-        14
     ]
 }
