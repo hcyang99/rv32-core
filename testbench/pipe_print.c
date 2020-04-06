@@ -140,11 +140,11 @@ void print_header(char* str)
   fprintf(ppfile, "%s", str);
 }
 
-void print_cycles(int cycle_count)
+void print_cycles(int time_in, int cycle_count)
 {
   /* we'll enforce the printing of a header */
   if (ppfile != NULL)
-    fprintf(ppfile, "\n%5d:", cycle_count);
+    fprintf(ppfile, "\n%10d %5d:", time_in, cycle_count);
 }
 
 

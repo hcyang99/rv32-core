@@ -3,7 +3,7 @@
 `timescale 1ns/100ps
 
 extern void print_header(string str);
-extern void print_cycles(int cycle_count);
+extern void print_cycles(int time_in, int cycle_count);
 extern void print_stage(string div, int inst, int valid_inst);
 extern void print_rs(string div, int inst, int valid_inst, int num_free, int load_in_hub, int is_free_hub, int ready_hub);
 extern void print_rob(string div, int except, int direction, int PC, int num_free, int dest_ARN_out, int valid_out);
@@ -139,7 +139,7 @@ module testbench;
     .rs_num_is_free,
 	.rs_load_in_hub(rs_load_in_hub),
 	.rs_is_free_hub(rs_is_free_hub),
-	.rs_ready_hub(rs_is_ready_hub),
+	.rs_ready_hub(rs_ready_hub),
 
 	.ex_valid_inst_out,
 	.ex_alu_result_out,
@@ -233,7 +233,7 @@ module testbench;
 
 			// print the processor stuff via c code to the processor.out
 			for(int i = 0; i < `WAYS; i++) begin
-				print_cycles(clock_count);
+				print_cycles($realtime, clock_count);
 				print_stage(" ", if_IR_out[i], {31'b0,if_valid_inst_out[i]});
 				print_stage("|", id_IR_out[i], {31'b0,id_valid_inst_out[i]});
 				print_valids({31'b0, id_opa_valid[i]}, {31'b0, id_opb_valid[i]});
@@ -319,8 +319,8 @@ module testbench;
         $display("@@  %t  Deasserting System reset......\n@@\n@@", $realtime);
 
         wb_fileno = $fopen("writeback.out");
-        print_header("            IF               ID                           ID_EX                                   ROB                             RS                    EX_OUT          D-MEM Bus &\n");
-        print_header("Cycle:  VLD    IR   | VLD    IR   V1 V2| VLD    IR  VLD         OP_A  VLD       OP_B| DIR    PC     NF EXC   ARN VLD|    IR     NF  LD   FR   RD | VLD     ALU OC BR    Reg Result");
+        print_header("                       IF               ID                           ID_EX                                   ROB                             RS                    EX_OUT          D-MEM Bus &\n");
+        print_header("   Time:   Cycle:  VLD    IR   | VLD    IR   V1 V2| VLD    IR  VLD         OP_A  VLD       OP_B| DIR    PC     NF EXC   ARN VLD|    IR     NF  LD   FR   RD | VLD     ALU OC BR    Reg Result");
     end
 
 
