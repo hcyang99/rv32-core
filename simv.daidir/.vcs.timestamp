@@ -56,33 +56,40 @@ verilog/processor.sv
 verilog/rob.sv
 verilog/rs.sv
 verilog/validlist.sv
-44
+64
 sysc_uni_pwd=/home/sunsusan/Desktop/group7w20
-_LMFILES_=/usr/caen/misc/modules/vcs/2017.12-SP2-1
-XDG_SESSION_ID=2400
+_LMFILES_=/usr/caen/misc/modules/vscode/1.32.3:/usr/caen/misc/modules/vcs/2017.12-SP2-1
+XMODIFIERS=@im=ibus
+XDG_SESSION_TYPE=x11
+XDG_SESSION_ID=2840
+XDG_SESSION_DESKTOP=gnome-classic
 XDG_RUNTIME_DIR=/run/user/114191087
-XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
-VSCODE_IPC_HOOK_CLI=/tmp/vscode-ipc-ff0c302e-c549-4df0-aa8c-5c2d3596766e.sock
+XDG_MENU_PREFIX=gnome-
+XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/:/usr/caen/misc/menus
+XDG_CURRENT_DESKTOP=GNOME-Classic:GNOME
+XAUTHORITY=/run/gdm/auth-for-sunsusan-fz8Jnx/database
+VTE_VERSION=5202
 VMR_MODE_FLAG=64
-VERBOSE_LOGGING=true
 VCS_MODE_FLAG=64
 VCS_HOME=/usr/caen/vcs-2017.12-SP2-1
 VCS_DEPTH=0
 VCS_ARG_ADDED_FOR_TMP=1
 VCS_ARCH=linux64
+USERNAME=sunsusan
 UNAME=/bin/uname
 TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
-TERM_PROGRAM_VERSION=1.43.2
+TERM_PROGRAM_VERSION=1.32.3
 TERM_PROGRAM=vscode
-SSH_CONNECTION=75.46.42.228 13003 141.213.74.64 22
-SSH_CLIENT=75.46.42.228 13003 22
+SSH_AUTH_SOCK=/run/user/114191087/keyring/ssh
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SSH_AGENT_PID=24293
 SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/24123,unix/unix:/tmp/.ICE-unix/24123
 SCRNAME=vcs
 SCRIPT_NAME=vcs
 QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+QT_IM_MODULE=ibus
 QT_GRAPHICSSYSTEM_CHECKED=1
-PIPE_LOGGING=true
 OVA_UUM=0
 MSI2LMP_LIBRARY=/usr/share/lammps/frc_files
 MODULESHOME=/usr/share/Modules
@@ -90,17 +97,30 @@ MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/caen/misc/module
 MFLAGS=
 MAKELEVEL=1
 MAKEFLAGS=
-LOADEDMODULES=vcs/2017.12-SP2-1
+LOADEDMODULES=vscode/1.32.3:vcs/2017.12-SP2-1
 LESSOPEN=||/usr/bin/lesspipe.sh %s
 LC_ALL=C
 LAMMPS_POTENTIALS=/usr/share/lammps/potentials
-KRB5CCNAME=FILE:/tmp/krb5cc_114191087_LqGF0N
+KRB5CCNAME=FILE:/tmp/krb5cc_114191087_xgRRoJ
 KDEDIRS=/usr
+IMSETTINGS_MODULE=none
+IMSETTINGS_INTEGRATE_DESKTOP=yes
+ICEAUTHORITY=/run/user/114191087/iceauthority
 HISTCONTROL=ignoredups
+GNOME_TERMINAL_SERVICE=:1.86
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/5311e352_e57a_4da4_9f1f_ea73f1ed26ae
+GNOME_SHELL_SESSION_MODE=classic
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+GJS_DEBUG_OUTPUT=stderr
+GDM_LANG=en_US.UTF-8
+GDMSESSION=gnome-classic
+DESKTOP_SESSION=gnome-classic
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-nSFMrKIBXd,guid=74e65aa9dc88ecbdffcc26ba5e8cd984
 COLORTERM=truecolor
 CINNAMON_2D=1
 BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
-AMD_ENTRYPOINT=vs/server/remoteExtensionHostProcess
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
 0
 22
 1585238522 module_provided/wand_sel.v
@@ -110,11 +130,11 @@ AMD_ENTRYPOINT=vs/server/remoteExtensionHostProcess
 1586099059 verilog/rs.sv
 1586136731 verilog/rob.sv
 1586130807 verilog/RAT_RRAT.sv
-1586140280 verilog/processor.sv
+1586311379 verilog/processor.sv
 1585935972 verilog/PRF.sv
 1585935895 verilog/mult.sv
 1586137831 verilog/if_stage.sv
-1586092884 verilog/id_stage.sv
+1586297448 verilog/id_stage.sv
 1585935972 verilog/icache.sv
 1586099634 verilog/freelist.sv
 1586100639 verilog/ex_stage.sv
@@ -132,4 +152,4 @@ AMD_ENTRYPOINT=vs/server/remoteExtensionHostProcess
 1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
 1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
 1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
-1586140292 simv.daidir
+1586311404 simv.daidir

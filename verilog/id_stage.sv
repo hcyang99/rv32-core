@@ -343,20 +343,16 @@ module id_stage(
     .rdb_valid(opb_valid_tmp)
 );
 
-	always_comb begin
-//	$display("if_id_packet_in[0].inst: %h",if_id_packet_in[0].inst);
-//	$display("find_taken: %b inst_valid_tmp: %b",find_taken,inst_valid_tmp);
-		if(!find_taken) begin
-			for(int i = 0; i < `WAYS ; i = i + 1) id_packet_out[i].valid =  inst_valid_tmp[i];
-		end else begin
-			for(int i = 0; i < `WAYS ; i = i + 1) id_packet_out[i].valid = 0;
-			for(int i = 0; i < `WAYS ; i = i + 1) begin
-				if(predictions[i] == 0) begin
-					id_packet_out[i].valid = inst_valid_tmp[i];
-				end else break;
-			end
-		end
-	end
+logic branch;
+always_comb begin
+   branch=0;
+   for(int i = 0; i < `WAYS ; i = i + 1)begin
+	      id_packet_out[i].valid =  branch ? 0 : inst_valid_tmp[i];
+				if((branch==0)&&(predictions[i]==1)&&(inst_valid_tmp[i]==1))	branch=1;
+	 end
+end
+
+
 
 	// mux to generate dest_reg_idx based on
 	// the dest_reg_select output from decoder
