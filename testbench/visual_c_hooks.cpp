@@ -65,6 +65,7 @@ char readbuffer[1024];
 /* -------------------- structs for the main hardware components -------------------- */
 
 typedef struct rs_line_struct {
+    int func;
     int opa_ready;
     int opa_value;
     int opb_ready;
@@ -216,8 +217,27 @@ void draw_rob(){
 
 void draw_rs(){
     box(rs_win, 0, 0);
+
     mvwprintw(rs_win, 0, 1, "RS");
-    // TODO: print the data
+    mvwprintw(rs_win, 1, 0, "RS#");
+    mvwprintw(rs_win, 1, 4, "FUNC");
+    mvwprintw(rs_win, 1, 9, "RDY");
+    mvwprintw(rs_win, 1, 13, "OPA");
+    mvwprintw(rs_win, 1, 30, "RDY");
+    mvwprintw(rs_win, 1, 34, "OPB");
+    mvwprintw(rs_win, 1, 51, "PRN");
+    mvwprintw(rs_win, 1, 55, "ROB");
+
+    for(int i = 0; i < RS_SIZE; ++i){
+        mvwprintw(rs_win, i + 2, 0, "%d", i);
+        mvwprintw(rs_win, i + 2, 4, "%d", rs[history_num].contents[i].func);
+        mvwprintw(rs_win, i + 2, 9, "%d", rs[history_num].contents[i].opa_ready);
+        mvwprintw(rs_win, i + 2, 13, "%d", rs[history_num].contents[i].opa_value);
+        mvwprintw(rs_win, i + 2, 30, "%d", rs[history_num].contents[i].opb_ready);
+        mvwprintw(rs_win, i + 2, 34, "%d", rs[history_num].contents[i].opb_value);
+        mvwprintw(rs_win, i + 2, 51, "%d", rs[history_num].contents[i].dest_prn);
+        mvwprintw(rs_win, i + 2, 55, "%d", rs[history_num].contents[i].rob_idx);
+    }
     // TODO: highlight data that has changed since the last cycle
     wrefresh(rs_win);
 }
@@ -254,6 +274,7 @@ void draw_display(){
     mvwprintw(display_win, 0, 1, "CLOCK");
     mvwprintw(display_win, 1, 1, "cycle:");
     mvwprintw(display_win, 1, 8, "%d", curr_cycle);
+    mvwprintw(display_win, 2, 1, "present:%d", present_cycle);
     wrefresh(display_win);
 }
 
@@ -262,7 +283,6 @@ void draw_display(){
 // main gui function
 void redraw(){
     refresh();
-    /*
     switch(mode){
         case 'o': draw_rob(); break;
         case 's': draw_rs(); break;
@@ -270,7 +290,6 @@ void redraw(){
         case 'p': draw_prf(); break;
         default: draw_menu(); break;
     }
-    */
     draw_menu();
     draw_display();
     refresh();
@@ -297,7 +316,7 @@ void setup_gui(){
     //      OPERAND: 38 chars
     //      DEST PRN: 3 chars
     //      ROB index: 3 chars
-    rs_win = newwin(RS_SIZE + 1, 54, 0, 0);
+    rs_win = newwin(RS_SIZE + 1, 58, 0, 0);
 
     rat_win = newwin(NUM_REGS + 1, 8, 0, 0);
     rrat_win = newwin(NUM_REGS + 1, 8, 0, 9);
@@ -335,7 +354,7 @@ int processinput(){
     if(strncmp(readbuffer,"o",1) == 0){
         int i;
         sscanf(readbuffer, "o%d", &i);
-        sscanf(readbuffer, "o%d %d %d %d %d %d %d %d %d %d %d %d",
+        sscanf(readbuffer, "o%d %h %h %h %h %h %h %h %h %h %h %h",
             &i,
             &(rob[history_num].entries[i].dest_ARN),
             &(rob[history_num].entries[i].dest_PRN),
@@ -348,13 +367,27 @@ int processinput(){
             &(rob[history_num].entries[i].done),
             &(rob[history_num].entries[i].illegal),
             &(rob[history_num].entries[i].halt));
+        mvwprintw(stdscr, ymax - 1, 0, "read rob info from testbench");
+        wrefresh(stdscr);
+    }
+    else if(strncmp(readbuffer, "s", 1) == 0){
+        int i;
+        sscanf(readbuffer, "s%d", &i);
+        sscanf(readbuffer, "s%d %h %h %h %h %h %h %h",
+            &i,
+            &(rs[history_num].contents[i].func),
+            &(rs[history_num].contents[i].opa_ready),
+            &(rs[history_num].contents[i].opa_value),
+            &(rs[history_num].contents[i].opb_ready),
+            &(rs[history_num].contents[i].opb_value),
+            &(rs[history_num].contents[i].dest_prn),
+            &(rs[history_num].contents[i].rob_idx));
     }
     else if(strncmp(readbuffer,"c",1) == 0){
-        int clock;
-        int clock_count;
-        sscanf(readbuffer, "c%h%7.0d", clock, clock_count);
-        mvwprintw(stdscr, ymax - 20, 0, "clock: %d", clock);
-        mvwprintw(stdscr, ymax - 10, 0, "clock_count: %d", clock_count);
+        int temp;
+        sscanf(readbuffer, "c %d %d", &temp, &present_cycle);
+        mvwprintw(stdscr, ymax - 2, 0, "read cycle; clock edge:%d cycle:%d", temp, present_cycle);
+        wrefresh(stdscr);
     }
     else if(strncmp(readbuffer,"break",4) == 0){
         return(1);
@@ -390,6 +423,7 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
     char input = 0;
     int testbench_finished = 0;
     int mem_addr = 0;
+    char quit_flag = 0;
 
     pid_t pid = fork();
     switch(pid){
@@ -401,26 +435,46 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
 
         setup_gui();
 
-        // setting up main data structure
+        // allocating memory for all the data structures
         rob = (ROB *)malloc(sizeof(ROB) * NUM_HISTORY);
+        rs = (RS *)malloc(sizeof(RS) * NUM_HISTORY);
         for(int i = 0; i < NUM_HISTORY; ++i){
             rob[i].entries = (ROB_ENTRY *)malloc(sizeof(ROB_ENTRY) * ROB_SIZE);
+            rs[i].contents = (RS_LINE *)malloc(sizeof(RS_LINE) * RS_SIZE);
         }
 
+        // not sure what this does :/
         memset(readbuffer,'\0',sizeof(readbuffer));
 
-        while(input != 'q'){
+
+        //                          MAIN LOOP
+        // keeps looping until the user issues the 'quit' command
+        // can be categorized into 3 parts:
+        //      1. taking input from the testbench
+        //          - this takes place by reading from fp, a file pointer that
+        //              stdout is redirected to
+        //          - keeps reading until it sees "break" from the testbench
+        //          - will do nothing if testbench has already finished
+        //      2. writing to the pipe CHILD_WRITE
+        //          - waitforresponse listens to the read port of that same pipe
+        //          - this means that the testbench, on every clock edge, waits
+        //              for this write to happen, before moving on
+        //      3. taking user input
+        //          - refer to the comments there for available commands
+        //          - continually takes input until either 'next' is issued while
+        //              the most recent cycle is displayed or 'quit' is issued,
+        while(!quit_flag){
             history_num = curr_cycle % NUM_HISTORY;
 
             // reads input from testbench until it encounters a "break"
             int ready = 0;
-            /*while(!ready && !testbench_finished){
+            while(!ready && !testbench_finished){
                 fgets(readbuffer, sizeof(readbuffer), fp);
                 ready = processinput();
                 if(strcmp(readbuffer, "DONE") == 0){
                     testbench_finished = 1;
                 }
-            }*/
+            }
 
             // writing the state of the program to a pipe
             // this will be picked up by waitforresponse()
@@ -430,7 +484,6 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
                 write(CHILD_WRITE, "n", 1);
                 write(CHILD_WRITE, &mem_addr, 2);
             }
-
             char take_input = 1; // set while we're taking user input, 0 if testbench needs to advance
 
             redraw();
@@ -439,7 +492,7 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
             //
             // current commands include:
             //      n:          go ahead one next cycle
-            //      b:          go back one cycle (up to XXX cycles away from present cycle)
+            //      b:          go back one cycle (up to a few cycles away from present_cycle)
             //      q:          quit
             //      o:          display the rob
             //      s:          display the rs
@@ -447,8 +500,6 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
             //      p:          display the prf
             //      <Return>:   redraw the screen
             do{
-                mvwprintw(stdscr, ymax - 2, 0, "take_input: %d", take_input);
-                mvwprintw(stdscr, ymax - 1, 0, "testbench_finished: %d", testbench_finished);
                 input = getch();
                 clear();
 
@@ -457,8 +508,6 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
                     case 'n':
                         // if we're in sync with the testbench, wait for testbench to move ahead one cycle
                         if(present_cycle == curr_cycle && !testbench_finished){
-                            ++present_cycle;
-                            ++curr_cycle;
                             take_input = 0;
                         }
                         // if we're not in sync with the testbench, move just the debugger ahead
@@ -467,8 +516,6 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
                             ++history_num;
                         }
                         history_num %= NUM_HISTORY;
-                        mvwprintw(stdscr, ymax - 5, 0, "read_n");
-                        mvwprintw(stdscr, ymax - 4, 0, "cycle: %d", curr_cycle);
                         break;
                     case 'b':
                         if(history_num != 0){
@@ -478,8 +525,9 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
                         break;
                     case 'q':
                         take_input = 0;
+                        quit_flag = 1;
                         break;
-                    case 'o': mode = 'o';mvwprintw(stdscr, ymax - 5, 0, "read_o"); mvwprintw(stdscr, ymax - 4, 0, "cycle: %d", curr_cycle);break;
+                    case 'o': mode = 'o'; break;
                     case 's': mode = 's'; break;
                     case 'r': mode = 'r'; break;
                     case 'p': mode = 'p'; break;
@@ -487,12 +535,9 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
                         break;
                 }
 
-                redraw();
+                if(take_input)
+                    redraw();
             } while(take_input);
-            mvwprintw(stdscr, ymax - 8, 0, "take_input: %d", take_input);
-            mvwprintw(stdscr, ymax - 7, 0, "testbench_finished: %d", testbench_finished);
-            mvwprintw(stdscr, ymax - 6, 0, "cycle: %d", curr_cycle);
-            read(CHILD_READ, readbuffer, 1);
         }
         refresh();
         endwin();
@@ -529,8 +574,8 @@ extern "C" int waitforresponse() {
     char c=0;
     while(c!='n' && c!='Z') read(PARENT_READ, &c, 1);
     if(c=='Z') exit(0);
-    //mem_start = read(PARENT_READ, &c, 1);
-    //mem_start = mem_start << 8 + read(PARENT_READ, &c, 1);
+    mem_start = read(PARENT_READ, &c, 1);
+    mem_start = mem_start << 8 + read(PARENT_READ, &c, 1);
     return(mem_start);
 }
 

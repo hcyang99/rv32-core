@@ -225,7 +225,7 @@ mem memory (
       `SD;
 
       // deal with any halting conditions
-      if(pipeline_error_status!=NO_ERROR || debug_counter > 5000)
+      if(pipeline_error_status!=NO_ERROR || debug_counter > 500000)
       begin
         #100
         $display("\nDONE\n");
@@ -233,17 +233,17 @@ mem memory (
         flushproc();
         $finish;
       end
-      debug_counter = debug_counter + 1;
+      debug_counter <= `SD (debug_counter + 1);
     end
   end 
 
   // This block is where we dump all of the signals that we care about to
   // the visual debugger.  Notice this happens at *every* clock edge.
-  always @(posedge clock) begin
+  always @(clock) begin
     #2;
 
     // Dump clock and time onto stdout
-    $display("c%h%7.0d",clock,clock_count);
+    $display("c %d %d",clock,clock_count);
     //$display("t%8.0f",$time);
     //$display("z%h",reset);
 
@@ -275,7 +275,7 @@ mem memory (
 
     // ROB signals
     for(int i = 0; i < `ROB; i++) begin
-        $display("o%h %h %h %h %h %h %h %h %h %h %h %h",
+        $display("o%d %h %h %h %h %h %h %h %h %h %h %h",
             i,
             core.Rob.entries[i].dest_PRN,
             core.Rob.entries[i].dest_ARN,
@@ -288,6 +288,17 @@ mem memory (
             core.Rob.entries[i].done,
             core.Rob.entries[i].illegal,
             core.Rob.entries[i].halt);
+    end
+
+    // RS signals
+    for(int i = 0; i < `RS; i++) begin
+        $display("s%d %h %h %h %h %h",
+            i,
+            core.Rs.rs_packet_out_hub[i].alu_func,
+            core.Rs.rs_packet_out_hub[i].rs1_value,
+            core.Rs.rs_packet_out_hub[i].rs2_value,
+            core.Rs.rs_packet_out_hub[i].dest_PRF_idx,
+            core.Rs.rs_packet_out_hub[i].rob_idx);
     end
 /*
     // IF signals (6) - prefix 'f'
