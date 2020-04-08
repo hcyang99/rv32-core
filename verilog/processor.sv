@@ -339,7 +339,7 @@ endgenerate
 
 
 //assign PC_in = except? except_next_PC:if_packet[0].PC;
-
+/*
     branch_pred #(.SIZE(128)) predictor (
         .clock,
         .reset(reset),
@@ -347,7 +347,9 @@ endgenerate
         .PC(if_packet[0].PC),
 
         .PC_update(PC_out),
-        .direction_update(0),
+        .direction_update(direction_out),
+	//    .direction_update(0),
+
         .target_update(target_out),
         .valid_update,
 //output
@@ -355,7 +357,21 @@ endgenerate
         .predictions(id_predictions)
     );
 
+*/
+ always_comb begin
+        // Default output is all not taken
+        id_next_PC = if_packet[0].PC + (`WAYS * 4);
+        id_predictions = 0;
 
+        // See if something should be predicted taken
+        for(int i = 0; i < `WAYS; i++) begin
+            if(PC+(`WAYS*i)==`XLEN'ha4) begin
+                id_next_PC = `XLEN'h68;
+                id_predictions[i] = 1;
+                break;
+            end
+        end
+    end
 
    
 //////////////////////////////////////////////////
@@ -459,25 +475,9 @@ end
 				id_ex_opa_valid		<= `SD id_opa_valid | id_opa_valid_tmp;
 				id_ex_opb_valid		<= `SD id_opb_valid | id_opb_valid_tmp;
 				id_ex_reg_write		<= `SD id_reg_write | id_reg_write_tmp;
-for(int i = 0; i < `WAYS; i = i + 1) begin
-/*
-				if(id_ex_packet[i].inst == `XLEN'h00128293) begin
-					$display("--------------");
-					$display("at new branch addr: rs1_value: %h id_ex_opa_valid: %b rs2_value: %h id_ex_opb_valid: %b",id_ex_packet[i].rs1_value,id_ex_opa_valid[i],id_ex_packet[i].rs2_value,id_ex_opb_valid[i]);
+				for(int i = 0; i < `WAYS; i = i + 1) begin
+					id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
 				end
-				if(id_packet[i].inst == `XLEN'h00128293) begin
-					$display("--------------");
-					$display("at new branch addr: rs1_value: %h id_opa_valid: %b rs2_value: %h id_opb_valid: %b",id_packet[i].rs1_value,id_opa_valid[i],id_packet[i].rs2_value,id_opb_valid[i]);					
-				end
-
-				if(rs_packet_out[i].inst == `XLEN'hfc0312e3) begin
-					$display("CDB_valid: %b CDB_direction: %b CDB_target: %h",CDB_valid[i],CDB_direction[i],CDB_target[i]);
-				end
-*/
-				id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
-
-end
-
 			end
 		end // else: !if(reset)
 	end // always

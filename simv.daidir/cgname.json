@@ -1,15 +1,9 @@
 {
-    "brcond": [
-        "brcond",
-        "VqGv5",
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
         "module",
-        6
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
+        16
     ],
     "_vcs_unit__1327612396": [
         "_vcs_unit__1327612396",
@@ -17,17 +11,29 @@
         "module",
         1
     ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
+    "brcond": [
+        "brcond",
+        "VqGv5",
         "module",
-        12
+        6
     ],
-    "mem": [
-        "mem",
-        "FSbWZ",
+    "decoder": [
+        "decoder",
+        "zf0bY",
         "module",
-        3
+        8
+    ],
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
+        "module",
+        18
+    ],
+    "std": [
+        "std",
+        "reYIK",
+        "module",
+        2
     ],
     "mult_stage": [
         "mult_stage",
@@ -41,17 +47,17 @@
         "module",
         4
     ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
+    "mem": [
+        "mem",
+        "FSbWZ",
         "module",
-        16
+        3
     ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
         "module",
-        7
+        13
     ],
     "alu": [
         "alu",
@@ -59,11 +65,11 @@
         "module",
         5
     ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
         "module",
-        8
+        7
     ],
     "processor_0000": [
         "processor_0000",
@@ -77,17 +83,11 @@
         "module",
         11
     ],
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
         "module",
-        13
-    ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        18
+        12
     ],
     "rs_psel_gen_0000": [
         "rs_psel_gen_0000",

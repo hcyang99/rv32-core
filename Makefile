@@ -106,7 +106,7 @@ SIMFILES =		verilog/cache/cachemem.sv	\
 		module_provided/rs_psl_gen.v \
 		module_provided/wand_sel.v
 
-SYNFILES = synth/pipeline.vg
+SYNFILES = synth/processor.vg
 
 # Don't ask me why spell VisUal TestBenchER like this...
 VTUBER = sys_defs.svh	\
@@ -116,8 +116,8 @@ VTUBER = sys_defs.svh	\
 		testbench/visual_c_hooks.cpp \
 		testbench/pipe_print.c
 
-synth/pipeline.vg:        $(SIMFILES) synth/pipeline.tcl
-	cd synth && dc_shell-t -f ./pipeline.tcl | tee synth.out 
+synth/processor.vg:        $(SIMFILES) synth/processor.tcl
+	cd synth && dc_shell-t -f ./processor.tcl | tee synth.out 
 
 #####
 # Should be no need to modify after here
