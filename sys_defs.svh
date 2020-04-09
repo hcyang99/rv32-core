@@ -52,7 +52,6 @@
 // Memory/testbench attribute definitions
 //
 //////////////////////////////////////////////
-`define CACHE_MODE //removes the byte-level interface from the memory mode, DO NOT MODIFY!
 `define NUM_MEM_TAGS           15
 
 `define MEM_SIZE_IN_BYTES      (64*1024)
@@ -188,14 +187,12 @@ typedef enum logic [1:0] {
 	BUS_STORE    = 2'h2
 } BUS_COMMAND;
 
-`ifndef CACHE_MODE
 typedef enum logic [1:0] {
 	BYTE = 2'h0,
 	HALF = 2'h1,
 	WORD = 2'h2,
 	DOUBLE = 2'h3
 } MEM_SIZE;
-`endif
 //
 // useful boolean single-bit definitions
 //

@@ -220,7 +220,6 @@ module ex_stage(
 	endgenerate
 
 
-	
 	// ALU opA mux
 	//
 	always_comb begin
@@ -287,18 +286,6 @@ module ex_stage(
 		end
 	endgenerate
 
-	always_ff@(posedge clock) begin
-			for( int i = 0; i < `WAYS; ++i) begin
-		if(id_ex_packet_in[i].inst == `XLEN'hfc0312e3) begin
-		$display("-------------------");
-		$display("at bne: take_branch: %b cond_branch: %b brcond_result:%b rs1_value: %h rs2_value: %h valid: %b",
-		ex_packet_out[i].take_branch,
-		id_ex_packet_in[i].cond_branch,
-		brcond_result[i],
-		id_ex_packet_in[i].rs1_value,id_ex_packet_in[i].rs2_value,
-		id_ex_packet_in[i].valid);
-		end
-	end
 end
 
 always_ff @(posedge clock) begin

@@ -27,10 +27,7 @@ module processor (
 	output logic [`XLEN-1:0] 		proc2mem_addr,      // Address sent to memory
 
 	output logic [63:0] 	proc2mem_data,      // Data sent to memory
-`ifndef CACHE_MODE
-	output MEM_SIZE 		proc2mem_size,          // data size sent to memory
-`endif
-	
+
 
 	output logic [3:0]  pipeline_completed_insts,
 	output EXCEPTION_CODE   pipeline_error_status,
@@ -128,7 +125,8 @@ module processor (
 
 	// Outputs from ID stage
 	ID_EX_PACKET [`WAYS-1 : 0] id_packet;
-
+    logic [`WAYS-1:0] `MEM_SIZE     ld_st_size;
+	logic [`WAYS-1:0] [`XLEN-1:0]   st_data;
 
 
 
@@ -167,6 +165,21 @@ module processor (
 
     logic [`WAYS-1:0]                       id_predictions;
 
+	// input for LSQ
+	logic [`WAYS-1:0]                         	ALU_is_valid;
+	logic [`WAYS-1:0] [$clog2(`ROB)-1:0]		ALU_ROB_idx;
+	logic [`WAYS-1:0]                         	ALU_is_ls;
+	logic [`WAYS-1:0] [`XLEN-1:0]               ALU_data;
+
+    logic [`WAYS-1:0] `MEM_SIZE     			id_ex_ld_st_size;
+    logic [`WAYS-1:0] `MEM_SIZE     			ld_st_size_tmp;
+	logic [`WAYS-1:0]               			st_en;
+	logic [`WAYS-1:0] [$clog2(`ROB)-1:0]        st_ROB_idx;
+    logic [`WAYS-1:0]                           ld_en;
+
+
+
+
   // Outputs from Rob-Stage
   	logic [$clog2(`ROB)-1:0]                  tail;
 	logic [$clog2(`ROB)-1:0]                  next_tail;
@@ -198,10 +211,16 @@ module processor (
 	ID_EX_PACKET[`WAYS-1 : 0]      ex_packet_in_tmp;
 
 // Outputs from EX-Stage
-	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet;
+	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet_out;
 
 
-//--------------CDB--------------------
+
+
+//////////////////////////////////////////////////
+//                                              //
+//                  CDB                         //
+//                                              //
+//////////////////////////////////////////////////
  
   	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
   	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx;
@@ -212,12 +231,12 @@ module processor (
 
   	generate
       	for(genvar i = 0; i < `WAYS; i = i + 1) begin
-			assign CDB_Data[i]      = ex_packet[i].alu_result;   
-			assign CDB_PRF_idx[i]   = ex_packet[i].dest_PRF_idx; 
-			assign CDB_valid[i]     = ex_packet[i].valid;
-			assign CDB_ROB_idx[i]   = ex_packet[i].rob_idx;
-			assign CDB_direction[i] = ex_packet[i].take_branch;
-			assign CDB_target[i]    = ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;   			
+			assign CDB_Data[i]      = ex_packet_out[i].alu_result;   
+			assign CDB_PRF_idx[i]   = ex_packet_out[i].dest_PRF_idx; 
+			assign CDB_valid[i]     = ex_packet_out[i].valid;
+			assign CDB_ROB_idx[i]   = ex_packet_out[i].rob_idx;
+			assign CDB_direction[i] = ex_packet_out[i].take_branch;
+			assign CDB_target[i]    = ex_packet_out[i].take_branch ? ex_packet_out[i].alu_result: ex_packet_out[i].NPC ;   			
 		end
 	endgenerate
 	 
@@ -234,9 +253,6 @@ module processor (
 	//if it's an instruction, then load a double word (64 bits)
 
 	assign proc2mem_data = 64'b0;
-`ifndef CACHE_MODE	
-	assign proc2mem_size = DOUBLE;
-`endif
 
 //-------------------------------------------------------------
 	assign pipeline_completed_insts = {{(4-$clog2(`WAYS)){1'b0}},num_committed};
@@ -314,10 +330,10 @@ module processor (
 	//breaking them out to support the legacy debug modes
 //	assign if_NPC_out        = if_packet.NPC;
 generate
- for(genvar i = 0; i < `WAYS; i = i + 1) begin
-	assign if_IR_out[i]         = if_packet[i].inst;
-	assign if_valid_inst_out[i] = if_packet[i].valid;
- end
+ 	for(genvar i = 0; i < `WAYS; i = i + 1) begin
+		assign if_IR_out[i]         = if_packet[i].inst;
+		assign if_valid_inst_out[i] = if_packet[i].valid;
+ 	end
 endgenerate
 
 	if_stage if_stage_0 (
@@ -339,27 +355,7 @@ endgenerate
 	);
 
 
-//assign PC_in = except? except_next_PC:if_packet[0].PC;
-/*
-    branch_pred #(.SIZE(128)) predictor (
-        .clock,
-        .reset(reset),
-
-        .PC(if_packet[0].PC),
-
-        .PC_update(PC_out),
-        .direction_update(direction_out),
-	//    .direction_update(0),
-
-        .target_update(target_out),
-        .valid_update,
-//output
-        .next_PC(id_next_PC),
-        .predictions(id_predictions)
-    );
-
-*/
- always_comb begin
+always_comb begin
         // Default output is all not taken
         id_next_PC = if_packet[0].PC + (`WAYS * 4);
         id_predictions = 0;
@@ -408,8 +404,8 @@ endgenerate
 		.id_packet_out(id_packet),
 		.opa_valid (id_opa_valid),
 		.opb_valid (id_opb_valid),
-		.dest_arn_valid(id_reg_write)
-
+		.dest_arn_valid(id_reg_write),
+		.ld_st_size(ld_st_size)
 	);
 
 
@@ -439,6 +435,7 @@ always_ff@(posedge clock) begin
 		id_reg_write_tmp			<= `SD id_reg_write | id_reg_write_tmp;
 		id_next_PC_tmp           	<= `SD id_next_PC | id_next_PC_tmp;
 		id_predictions_tmp			<= `SD id_predictions | id_predictions_tmp;
+		ld_st_size_tmp				<= `SD ld_st_size | ld_st_size_tmp;
 	end else begin
 		id_packet_tmp 		<= `SD 0;
 		id_opa_valid_tmp 	<= `SD 0;
@@ -446,6 +443,7 @@ always_ff@(posedge clock) begin
 		id_reg_write_tmp 	<= `SD 0;
 		id_next_PC_tmp 		<= `SD 0;
 		id_predictions_tmp 	<= `SD 0;
+		ld_st_size_tmp		<= `SD 0;
 	end
 end
 
@@ -461,6 +459,7 @@ end
 			id_ex_opa_valid		<= `SD 0;
 			id_ex_opb_valid		<= `SD 0;
 			id_ex_reg_write		<= `SD 0;
+			id_ex_ld_st_size	<= `SD 0;
 		end else begin // if (reset)
 			if (id_ex_enable) begin
 				id_ex_packet 		<= `SD id_packet_tmp | id_packet;
@@ -469,6 +468,7 @@ end
 				id_ex_opa_valid		<= `SD id_opa_valid | id_opa_valid_tmp;
 				id_ex_opb_valid		<= `SD id_opb_valid | id_opb_valid_tmp;
 				id_ex_reg_write		<= `SD id_reg_write | id_reg_write_tmp;
+				id_ex_ld_st_size	<= `SD ld_st_size | ld_st_size_tmp;
 				for(int i = 0; i < `WAYS; i = i + 1) begin
 					id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
 				end
@@ -484,41 +484,55 @@ end
 //                                              //
 //////////////////////////////////////////////////
 
+generate
+	for(genvar i = 0; i < `WAYS; i = i + 1)begin
+		assign ALU_is_valid[i] 	= ex_packet_out[i].valid;
+		assign ALU_ROB_idx[i]	= ex_packet_out[i].rob_idx;
+		assign ALU_is_ls[i] 	= ex_packet_out[i].rd_mem;
+		assign ALU_data[i]		= ex_packet_out[i].alu_result;
+		assign ROB_idx[i]		= id_ex_packet[i].ROB_idx;
+		assign st_data[i]		= id_ex_packet[i].rs2_value;
+		assign st_en[i]			= id_ex_packet[i].rd_mem;
+		assign ld_en[i]			= id_ex_packet[i].wr_mem;
+	end
+endgenerate
+
+
 LSQ LSQ_0(
-	.clock,
-    .reset,
-    .except,
-    .CDB_Data;
-  	input [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx;
-  	input [`WAYS-1:0]                           CDB_valid;
+	.clock(clock),
+    .reset(reset),
+    .except(except),
+    .CDB_Data(),
+	.CDB_PRF_idx(),
+  	.CDB_valid(),
 
     // ALU
-    input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ALU_ROB_idx,
-    input [`WAYS-1:0]                           ALU_is_valid,
-    input [`WAYS-1:0]                           ALU_is_ls,
-    input [`WAYS-1:0]                           ALU_data,
+	.ALU_ROB_idx (ALU_ROB_idx),
+    .ALU_is_valid (ALU_is_valid),
+    .ALU_is_ls (ALU_is_ls),
+    .ALU_data (ALU_data),
 
-    // SQ
-    input [`WAYS-1:0] `MEM_SIZE                 st_size,
-    input [`WAYS-1:0] [63:0]                    st_data,
-    input [`WAYS-1:0]                           st_data_valid,
-    input [`WAYS-1:0]                           st_en,
-    input [`WAYS-1:0] [$clog2(`ROB)-1:0]        st_ROB_idx,
+    // SQ from id_stage
+    .st_size(id_ex_ld_st_size),
+    .st_data(st_data),
+    .st_data_valid(id_ex_opb_valid),
+    .st_en (st_en),
+    .st_ROB_idx (ROB_idx),
     input                                       commit,   // from ROB, whether head of SQ should commit
 
-    // LQ
-    input [`WAYS-1:0] `MEM_SIZE                 ld_size,
-    input [`WAYS-1:0]                           ld_en,
-    input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
+    // LQ from id_stage
+    .ld_size(id_ex_ld_st_size),
+    .ld_en (ld_en),
+    .ld_ROB_idx(ROB_idx),
 
     // feedback from DCache
-    input [`LSQSZ-1:0]                          rd_feedback,
-    input [63:0]                                rd_data,
+    .rd_feedback (),
+    .rd_data (),
 
     // LSQ head/tail
-    output logic [$clog2(`LSQSZ)-1:0]           sq_head,
+    .sq_head (),
     output logic [$clog2(`LSQSZ)-1:0]           sq_tail,
-    output logic [$clog2(`LSQSZ)-1:0]           lq_head,
+    output logic [$clog2(`LSQSZ)-1:0]          lq_head,
     output logic [$clog2(`LSQSZ)-1:0]           lq_tail,
 
     // write to DCache
@@ -664,9 +678,9 @@ assign rs_num_is_free = num_is_free;
 //////////////////////////////////////////////////
 generate
 	for(genvar i = 0; i < `WAYS; i = i + 1) begin
-		assign ex_valid_inst_out[i] = ex_packet[i].valid;
-		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
-		assign brand_result[i]		= ex_packet[i].take_branch;
+		assign ex_valid_inst_out[i] = ex_packet_out[i].valid;
+		assign ex_alu_result_out[i] = ex_packet_out[i].alu_result;
+		assign brand_result[i]		= ex_packet_out[i].take_branch;
 		assign ex_packet_in[i]		= ALU_occupied[i]? ex_packet_in_tmp[i]:rs_packet_out[i];
 	end
 endgenerate
@@ -688,8 +702,9 @@ end
 		.reset(reset),
 		.id_ex_packet_in(ex_packet_in),
 		// Outputs
-		.ex_packet_out(ex_packet),
-		.occupied_hub(ALU_occupied)
+		.ex_packet_out(ex_packet_out),
+		.occupied_hub(ALU_occupied),
+		.ld_st_size(ld_st_size)
 	);
 
 endmodule  // module verisimple

@@ -34,11 +34,12 @@ module decoder(
 	                        //a cheap way to get the return code out
 	output logic halt,      // non-zero on a halt
 	output logic illegal,    // non-zero on an illegal instruction
-	output logic valid_inst  // for counting valid instructions executed
+	output logic valid_inst,  // for counting valid instructions executed
 	                        // and for making the fetch stage die on halts/
 	                        // keeping track of when to allow the next
 	                        // instruction out of fetch
 	                        // 0 for HALT and illegal instructions (die on halt)
+	output `MEM_SIZE					ld_st_size
 
 );
 
@@ -48,6 +49,27 @@ module decoder(
 	assign inst          = if_packet.inst;
 	assign valid_inst_in = if_packet.valid;
 	assign valid_inst    = valid_inst_in & ~illegal;
+
+	always_comb begin
+		if(valid_inst_in) begin
+				casez (inst) 
+					`RV32_LB,`RV32_LBU, `RV32_SB: begin
+						ld_st_size = `BYTE;
+					end
+					`RV32_LH,  `RV32_LHU, `RV32_SH,: begin
+						ld_st_size = `HALF;
+					end
+					`RV32_LW,  `RV32_SW: begin
+						ld_st_size = `WORD;
+					end
+					default: ld_st_size = `BYTE;
+				endcase
+			end
+		end
+	end
+	
+		
+
 	
 	always_comb begin
 		// default control values:
@@ -241,7 +263,10 @@ module id_stage(
 	output ID_EX_PACKET [`WAYS-1:0] 			id_packet_out,
 	output logic [`WAYS-1:0]					opa_valid,
 	output logic [`WAYS-1:0]					opb_valid,
-	output logic [`WAYS-1:0]  					dest_arn_valid
+	output logic [`WAYS-1:0]  					dest_arn_valid,
+	
+	output `MEM_SIZE [`WAYS-1:0]					ld_st_size
+
 
 );
 
@@ -279,8 +304,7 @@ module id_stage(
 			end
 	endgenerate
 
-	
-		
+
 
 	// instantiate the instruction decoder
 	    generate
@@ -299,7 +323,8 @@ module id_stage(
 						.csr_op(id_packet_out[i].csr_op),
 						.halt(id_packet_out[i].halt),
 						.illegal(id_packet_out[i].illegal),
-						.valid_inst(inst_valid_tmp[i])
+						.valid_inst(inst_valid_tmp[i]),
+						.ld_st_size(ld_st_size[i])
 					);
 				end
 			endgenerate
