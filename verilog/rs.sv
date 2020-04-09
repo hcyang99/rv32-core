@@ -27,14 +27,20 @@ module RS_Line(
     // RS entry
     output logic                                is_free
 
+`ifdef VISUAL_DEBUGGER
+    ,
+    output reg                                  opa_valid_reg,
+    output reg                                  opb_valid_reg
+`endif
 );
 
     logic [`WAYS-1:0]                           opa_reg_is_from_CDB;
     logic [`WAYS-1:0]                           opb_reg_is_from_CDB;
+`ifndef VISUAL_DEBUGGER
     reg                                         opa_valid_reg;
     reg                                         opb_valid_reg;
-//    logic [`XLEN-1:0]                           opa_reg;
-//    logic [`XLEN-1:0]                           opb_reg;
+`endif
+
     reg [`XLEN-1:0]                             opa_reg_feed;
     reg [`XLEN-1:0]                             opb_reg_feed;
     logic                                       opa_valid_reg_feed;
@@ -51,7 +57,6 @@ module RS_Line(
     endgenerate
 
     always_comb begin
-//    $display("opb_reg_is_from_CDB:%b opb_valid_reg:%b CDB_valid:%b CDB_PRF_idx:%h opb_out:%h",opb_reg_is_from_CDB,opb_valid_reg,CDB_valid,CDB_PRF_idx,opb_out);
         opa_reg_feed = rs_packet_out.rs1_value;
         opb_reg_feed = rs_packet_out.rs2_value;
         opa_valid_reg_feed = opa_valid_reg;
@@ -71,7 +76,6 @@ module RS_Line(
     end
     
     always_ff @ (posedge clock) begin
-//    $display("in small module, load_in: %b inst_valid_in: %b",load_in,inst_valid_in);
         if(load_in & id_rs_packet_in.valid)begin
             is_free <= `SD 0;
             opa_valid_reg <= `SD opa_valid_in;
@@ -158,9 +162,16 @@ module RS(
 
 
 // for input selector
-    logic [`RS*`WAYS-1:0]  in_gnt_bus;
-    logic [`RS*`WAYS-1:0]  out_gnt_bus;
+    logic [`RS*`WAYS-1:0]   in_gnt_bus;
+    logic [`RS*`WAYS-1:0]   out_gnt_bus;
     logic                   has_match;
+
+`ifdef VISUAL_DEBUGGER
+    reg [`RS-1:0] opa_valid_reg;
+    reg [`RS-1:0] opb_valid_reg;
+`endif
+
+
 
     assign num_is_free_next = (num_is_free - free_decrease + free_increase);
 
@@ -223,18 +234,7 @@ module RS(
 
     always_ff @ (posedge clock) begin
     // watch CDB
-//        $display("opa_is_from_CDB = %b",opa_is_from_CDB);
-//        $display("opb_is_from_CDB = %b",opb_is_from_CDB);
-    // processing
-//        $display("in rs.sv, opa_in[0]: %h opb_in[0]: %h",opa_in,opb_in);
-//        $display("opa_in_processed[1]: %h opb_in_processed[1]: %h",opa_in_processed[1],opb_in_processed[1]);
-//        $display("opa_valid_in_processed: %b opb_valid_in_processed: %b",opa_valid_in_processed, opb_valid_in_processed);
-//        $display("opa_in_hub[0]: %h opb_in_hub[0]: %h",opa_in_hub[0],opb_in_hub[0]);
-//        $display("opa_valid_in_hub: %b opb_valid_in_hub: %b",opa_valid_in_hub,opb_valid_in_hub);
-//        $display("load_in_hub: %b",load_in_hub);
-//        $display("free_decrease: %d free_increase: %d",free_decrease,free_increase); 
-//        $display("ALU_occupied: %b load_in: %b is_free_hub: %b load_in_hub: %b ready_hub:%b",ALU_occupied,load_in,is_free_hub, load_in_hub,ready_hub); 
-//        $display("reset_hub: %b",reset_hub);
+
         if (reset) begin
             num_is_free <= `SD `RS;
         end
@@ -261,6 +261,11 @@ RS_Line lines [`RS-1:0] (
         .rs_packet_out(rs_packet_out_hub),
         .ready(ready_hub),
         .is_free(is_free_hub)
+`ifdef VISUAL_DEBUGGER
+        ,
+        .opa_valid_reg,
+        .opb_valid_reg
+`endif
     );
 
     rs_psel_gen #(`WAYS,`RS) output_selector(.en(1'b1),.reset(reset),.req(ready_hub),.gnt_bus(out_gnt_bus));
