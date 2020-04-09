@@ -82,17 +82,16 @@ VISFLAGS = -lncurses
 # Modify starting here
 #####
 
-TESTBENCH = 	sys_defs.svh	\
-		ISA.svh         \
-		testbench/mem.sv  \
+TESTBENCH = 	testbench/mem.sv  \
 		testbench/testbench.sv	\
 		testbench/pipe_print.c
 
-SIMFILES =		verilog/cache/cachemem.sv	\
-		verilog/branch_pred.sv	\
+HEADERS = sys_defs.svh	\
+		ISA.svh  
+
+SIMFILES = verilog/branch_pred.sv	\
 		verilog/ex_stage.sv	\
-		verilog/freelist.sv \
-		verilog/icache.sv \
+		verilog/FreeList.sv \
 		verilog/id_stage.sv	\
 		verilog/if_stage.sv \
 		verilog/mult.sv \
@@ -101,12 +100,16 @@ SIMFILES =		verilog/cache/cachemem.sv	\
 		verilog/RAT_RRAT.sv \
 		verilog/rob.sv	\
 		verilog/rs.sv \
-		verilog/validlist.sv \
+		verilog/Validlist.sv \
 		module_provided/freelist_psl_gen.v \
 		module_provided/rs_psl_gen.v \
 		module_provided/wand_sel.v
 
 SYNFILES = synth/processor.vg
+
+CACHE_NAME = verilog/cache/cachemem.sv	\
+		verilog/icache.sv
+
 
 # Don't ask me why spell VisUal TestBenchER like this...
 VTUBER = sys_defs.svh	\
@@ -116,26 +119,31 @@ VTUBER = sys_defs.svh	\
 		testbench/visual_c_hooks.cpp \
 		testbench/pipe_print.c
 
-synth/processor.vg:        $(SIMFILES) synth/processor.tcl
+export PIPELINE_NAME = processor
+export CLOCK_NET_NAME = clock
+export RESET_NET_NAME = reset
+export CLOCK_PERIOD = 30	# TODO: You will want to make this more aggresive
+
+synth/processor.vg:      $(SIMFILES) synth/processor.tcl
 	cd synth && dc_shell-t -f ./processor.tcl | tee synth.out 
 
 #####
 # Should be no need to modify after here
 #####
-simv:	$(SIMFILES) $(TESTBENCH)
-	$(VCS) $(TESTBENCH) $(SIMFILES)	-o simv
+simv:	$(HEADERS) $(SIMFILES) $(CACHE_NAME) $(TESTBENCH)
+	$(VCS) $(HEADERS) $(TESTBENCH) $(SIMFILES) $(CACHE_NAME) -o simv
 
-dve:	$(SIMFILES) $(TESTBENCH)
-	$(VCS) +memcbk $(TESTBENCH) $(SIMFILES) -o dve -R -gui
+dve:	$(HEADERS) $(SIMFILES) $(CACHE_NAME) $(TESTBENCH)
+	$(VCS) +memcbk $(HEADERS) $(TESTBENCH) $(SIMFILES) $(CACHE_NAME) -o dve -R -gui
 .PHONY:	dve
 
 # For visual debugger
-vis_simv:	$(SIMFILES) $(VTUBER)
-	$(VCS) $(VISFLAGS) $(VTUBER) $(SIMFILES) -o vis_simv 
+vis_simv:	$(HEADERS) $(SIMFILES) $(CACHE_NAME) $(VTUBER)
+	$(VCS) $(VISFLAGS) $(VTUBER) $(HEADERS) $(SIMFILES) $(CACHE_NAME) -o vis_simv 
 	./vis_simv
 
-syn_simv:	$(SYNFILES) $(TESTBENCH)
-	$(VCS) $(TESTBENCH) $(SYNFILES) $(LIB) -o syn_simv 
+syn_simv:	$(HEADERS) $(SYNFILES) $(TESTBENCH)
+	$(VCS) $(HEADERS) $(TESTBENCH) $(SYNFILES) $(LIB) -o syn_simv 
 
 syn:	syn_simv
 	./syn_simv | tee syn_program.out
