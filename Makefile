@@ -82,6 +82,7 @@ VISFLAGS = -lncurses
 # Modify starting here
 #####
 
+
 TESTBENCH = 	testbench/mem.sv  \
 		testbench/testbench.sv	\
 		testbench/pipe_print.c
@@ -122,10 +123,17 @@ VTUBER = sys_defs.svh	\
 export PIPELINE_NAME = processor
 export CLOCK_NET_NAME = clock
 export RESET_NET_NAME = reset
-export CLOCK_PERIOD = 30	# TODO: You will want to make this more aggresive
+export HEADERS = sys_defs.svh ISA.svh  
+export SOURCES = verilog/rob.sv 
+export DESIGN_NAME = rob
+
+export CLOCK_PERIOD = 5	# TODO: You will want to make this more aggresive
 
 synth/processor.vg:      $(SIMFILES) synth/processor.tcl
 	cd synth && dc_shell-t -f ./processor.tcl | tee synth.out 
+
+synth/rob.vg:     sys_defs.svh ISA.svh  verilog/rob.sv  synth/syn.tcl
+	cd synth && dc_shell-t -f ./syn.tcl | tee rob.out 
 
 #####
 # Should be no need to modify after here

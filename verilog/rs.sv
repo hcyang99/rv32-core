@@ -271,27 +271,6 @@ RS_Line lines [`RS-1:0] (
     rs_psel_gen #(`WAYS,`RS) output_selector(.en(1'b1),.reset(reset),.req(ready_hub),.gnt_bus(out_gnt_bus));
 
 
-/*
-// output selector
-    always_comb begin
-        free_increase = 0;
-        rs_packet_out = 0;
-        reset_hub = reset_hub_tmp;
-        if(~reset) begin            
-            for (int i = 0; i < `RS; i = i + 1) begin
-//            $display("i:%d free_increase: %d num_is_free_next: %d",i, free_increase,num_is_free_next);
-                if (reset_hub_tmp[i]) begin
-                    if(ALU_occupied[free_increase]) begin
-                        reset_hub[i] = 0;
-                    end else begin
-                        rs_packet_out[free_increase] = rs_packet_out_hub[i];
-                        free_increase = free_increase + 1;
-                    end
-                end
-            end
-        end
-    end
-*/
 // output selector
     always_comb begin
         free_increase = 0;

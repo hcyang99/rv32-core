@@ -1,27 +1,15 @@
 {
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
-    ],
     "_vcs_unit__1327612396": [
         "_vcs_unit__1327612396",
         "jqQHP",
         "module",
         1
     ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
+    "wand_sel_0000": [
+        "wand_sel_0000",
+        "hckDL",
         "module",
-        8
-    ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
-        "module",
-        7
+        15
     ],
     "std": [
         "std",
@@ -35,47 +23,35 @@
         "module",
         3
     ],
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
+        "module",
+        14
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        7
+    ],
+    "testbench": [
+        "testbench",
+        "iAVhC",
+        "module",
+        4
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        8
+    ],
     "branch_pred": [
         "branch_pred",
         "U0rhB",
         "module",
         19
-    ],
-    "processor_0000": [
-        "processor_0000",
-        "UzNI6",
-        "module",
-        10
-    ],
-    "alu": [
-        "alu",
-        "C26kq",
-        "module",
-        5
-    ],
-    "mult_stage": [
-        "mult_stage",
-        "aUVMg",
-        "module",
-        9
-    ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        18
-    ],
-    "rob": [
-        "rob",
-        "vtxDx",
-        "module",
-        11
-    ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
-        "module",
-        6
     ],
     "RS_Line_0000": [
         "RS_Line_0000",
@@ -83,23 +59,47 @@
         "module",
         12
     ],
+    "alu": [
+        "alu",
+        "C26kq",
+        "module",
+        5
+    ],
+    "brcond": [
+        "brcond",
+        "VqGv5",
+        "module",
+        6
+    ],
+    "mult_stage": [
+        "mult_stage",
+        "aUVMg",
+        "module",
+        9
+    ],
+    "processor_0000": [
+        "processor_0000",
+        "UzNI6",
+        "module",
+        10
+    ],
     "RS_0000": [
         "RS_0000",
         "vG3v3",
         "module",
         13
     ],
-    "wand_sel_0000": [
-        "wand_sel_0000",
-        "hckDL",
+    "rob": [
+        "rob",
+        "vtxDx",
         "module",
-        15
+        11
     ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
         "module",
-        14
+        18
     ],
     "wand_sel_0001": [
         "wand_sel_0001",

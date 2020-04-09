@@ -69,6 +69,7 @@ module testbench;
 	logic [$clog2(`ROB):0]  rob_num_free;
 	logic [`WAYS-1:0] [4:0]    dest_ARN_out;
 	logic [`WAYS-1:0]          valid_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] PC_out;
 
 // rs	
 	logic [`WAYS-1:0]    rs_valid_inst_out;
@@ -111,6 +112,7 @@ module testbench;
 	    .pipeline_commit_wr_data 	(pipeline_commit_wr_data),
 	    .pipeline_commit_wr_en      (pipeline_commit_wr_en),
 	    .pipeline_commit_NPC 	    (pipeline_commit_NPC),
+		.PC_out						(PC_out),
 // newly-added for debugging
 	.if_valid_inst_out,
 	.if_IR_out,
@@ -251,19 +253,19 @@ module testbench;
 			end
 
 
-
+`ifdef WRITEBACK
 			// cross module referencing error fixed
 			// print the writeback information to writeback.out
 			if(pipeline_completed_insts>0) begin
                 for(int i = 0; i < `WAYS; i++) begin
                     if(core.valid_out[i])
                         $fdisplay(wb_fileno, "PC=%x, REG[%d]=%x",
-                            core.PC_out[i],
-                            core.dest_ARN_out[i],
+                            PC_out[i],
+                            dest_ARN_out[i],
                             core.id_stage_0.prf.registers[core.dest_PRN_out[i]]);
                 end
 			end
-
+`endif
 			// deal with any halting conditions
 			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT) || debug_counter > 50000) begin
 				$display("@@@ Unified Memory contents hex on left, decimal on right: ");

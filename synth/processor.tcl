@@ -21,7 +21,7 @@ analyze -f sverilog [list "../sys_defs.svh" "../ISA.svh" "../verilog/processor.s
 elaborate processor
 set design_name processor
 set clock_name clock
-set CLK_PERIOD 30
+set CLK_PERIOD 10
 
 
 #/***********************************************************/

@@ -38,6 +38,8 @@ module processor (
 	output logic [`XLEN-1:0] pipeline_commit_wr_data,
 	output logic        pipeline_commit_wr_en,
 	output logic [`XLEN-1:0] pipeline_commit_NPC,
+	output logic [`WAYS-1:0] [`XLEN-1:0] PC_out,
+
 // newly-added, for debugging
 // if
 	output logic [`WAYS-1:0]	if_valid_inst_out,
@@ -175,7 +177,6 @@ module processor (
   	logic [$clog2(`ROB):0]                    num_free;
   	logic [`XLEN-1:0]                         except_next_PC;
 
-  	logic [`WAYS-1:0] [`XLEN-1:0]             PC_out;
   	logic [`WAYS-1:0]                         direction_out;
   	logic [`WAYS-1:0] [`XLEN-1:0]             target_out;
   	logic [`WAYS-1:0]                         valid_update;
@@ -453,13 +454,6 @@ end
 	assign id_ex_enable = ~rob_is_full & ~rs_is_full & ~except;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
-//	$display("proc2mem_command: %b",proc2mem_command);
-//	$display("opa_valid: %b opb_valid: %b",id_opa_valid,id_opb_valid);
-//	$display("tail: %d", tail);
-//	$display("valid: %b",valid);
-//	$display("CDB_direction : %b",CDB_direction);
-//					$display("except: %b",except);
-//	$display("PC_in: %h except: %b except_next_PC: %h if_packet[0].PC: %h",PC_in,except,except_next_PC,if_packet[0].PC);
 		if (reset | rob_is_full | rs_is_full) begin
 			id_ex_packet 		<= `SD 0;
 			id_ex_next_PC 		<= `SD 0;
@@ -481,6 +475,75 @@ end
 			end
 		end // else: !if(reset)
 	end // always
+
+
+
+//////////////////////////////////////////////////
+//                                              //
+//                   LSQ                        //
+//                                              //
+//////////////////////////////////////////////////
+
+LSQ LSQ_0(
+	.clock,
+    .reset,
+    .except,
+    .CDB_Data;
+  	input [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx;
+  	input [`WAYS-1:0]                           CDB_valid;
+
+    // ALU
+    input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ALU_ROB_idx,
+    input [`WAYS-1:0]                           ALU_is_valid,
+    input [`WAYS-1:0]                           ALU_is_ls,
+    input [`WAYS-1:0]                           ALU_data,
+
+    // SQ
+    input [`WAYS-1:0] `MEM_SIZE                 st_size,
+    input [`WAYS-1:0] [63:0]                    st_data,
+    input [`WAYS-1:0]                           st_data_valid,
+    input [`WAYS-1:0]                           st_en,
+    input [`WAYS-1:0] [$clog2(`ROB)-1:0]        st_ROB_idx,
+    input                                       commit,   // from ROB, whether head of SQ should commit
+
+    // LQ
+    input [`WAYS-1:0] `MEM_SIZE                 ld_size,
+    input [`WAYS-1:0]                           ld_en,
+    input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
+
+    // feedback from DCache
+    input [`LSQSZ-1:0]                          rd_feedback,
+    input [63:0]                                rd_data,
+
+    // LSQ head/tail
+    output logic [$clog2(`LSQSZ)-1:0]           sq_head,
+    output logic [$clog2(`LSQSZ)-1:0]           sq_tail,
+    output logic [$clog2(`LSQSZ)-1:0]           lq_head,
+    output logic [$clog2(`LSQSZ)-1:0]           lq_tail,
+
+    // write to DCache
+    output logic                                wr_en,
+    output logic [2:0]                          wr_offset,
+    output logic [4:0]                          wr_idx,
+    output logic [7:0]                          wr_tag,
+    output logic [63:0]                         wr_data,
+    output logic `MEM_SIZE                      wr_size,
+
+    // read from DCache
+    output logic [2:0]                          rd_offset,
+    output logic [4:0]                          rd_idx,
+    output logic [7:0]                          rd_tag,
+    output logic `MEM_SIZE                      rd_size,
+    output logic [`LSQSZ-1:0]                   rd_en,
+
+    // LQ to CDB, highest priority REQUIRED
+    output logic [`XLEN-1:0]                    CDB_Data,
+  	output logic [$clog2(`PRF)-1:0]             CDB_PRF_idx,
+  	output logic                                CDB_valid,
+	output logic [$clog2(`ROB)-1:0]             CDB_ROB_idx,
+  	output logic                                CDB_direction,
+  	output logic [63:0]                         CDB_target
+
 
 
 //////////////////////////////////////////////////
