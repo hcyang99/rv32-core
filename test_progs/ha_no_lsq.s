@@ -10,7 +10,7 @@
 */
 	li	x5, 0x1
     li  x6, 0x15
-    li  x2, 0x0
+    li  x2, 0x1
 start:    beq   x2,     x6,     finish
     addi    x3,     x2,     0
     jalr    x4,     x0,     32
