@@ -4,6 +4,7 @@ typedef struct packed{
     logic [$clog2(`PRF)-1:0]    dest_PRN;
     logic                       reg_write;
     logic                       is_branch;
+    logic                       is_store;
     logic [`XLEN-1:0]           PC;
     logic [`XLEN-1:0]           target;
     logic                       branch_direction;
@@ -30,6 +31,7 @@ module rob(
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]            dest_PRN,
     input [`WAYS-1:0]                               reg_write,
     input [`WAYS-1:0]                               is_branch,
+    input [`WAYS-1:0]                               is_store,
     input [`WAYS-1:0]                               valid,
     input [`WAYS-1:0] [`XLEN-1:0]                   PC,
 
@@ -72,6 +74,7 @@ logic [$clog2(`WAYS)-1:0]                           num_dispatched;
 //logic [$clog2(`WAYS):0]                           num_committed;
 rob_entry [`WAYS-1:0]                               new_entries;
 //logic [$clog2(`ROB):0]                              next_num_free;
+logic                                               store_commit;
 
 // Combinational (next state) logic
 /*
@@ -106,6 +109,7 @@ always_comb begin
             new_entries[i].dest_PRN = dest_PRN[i];
             new_entries[i].reg_write = reg_write[i];
             new_entries[i].is_branch = is_branch[i];
+            new_entries[i].is_store = is_store[i];
             new_entries[i].PC = PC[i];
             new_entries[i].target = target[i];
             new_entries[i].branch_direction = branch_direction[i];
@@ -130,6 +134,7 @@ always_comb begin
     next_pc = 0;
     illegal_out = 0;
     halt_out = 0;
+    store_commit = 0;
 
     // Default outputs
     for(int i = 0; i < `WAYS; i++) begin
@@ -146,7 +151,8 @@ always_comb begin
     for(int i = 0; i < `WAYS; i++) begin
 
         // If committing, set outputs and check for mispredicted branch
-        if(entries[(head + i) % `ROB].done) begin
+        // Everything after the && makes sure we only commit one store per cycle
+        if(entries[(head + i) % `ROB].done && (!entries[(head + i) % `ROB].is_store || !store_commit)) begin
         $display("COMMIT PC=%h MIS=%b IDX=%d",entries[(head + i) % `ROB].PC,entries[(head + i) % `ROB].mispredicted,(head + i) % `ROB);
             dest_PRN_out[i] = entries[(head + i) % `ROB].dest_PRN;
             dest_ARN_out[i] = entries[(head + i) % `ROB].dest_ARN;
@@ -159,6 +165,7 @@ always_comb begin
 
             illegal_out = illegal_out | entries[(head + i) % `ROB].illegal;
             halt_out = halt_out | entries[(head + i) % `ROB].halt;
+            store_commit = store_commit | entries[(head + i) % `ROB].is_store;
             
             num_committed = i + 1;
            if(halt_out)begin
