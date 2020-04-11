@@ -133,13 +133,15 @@ module processor (
   	logic [`WAYS-1:0] [`XLEN-1:0]                   PC;
   	logic [`WAYS-1:0] [`XLEN-1:0]                   target;
 
-	ID_EX_PACKET[`WAYS-1 : 0] 						id_ex_packet;
+	ID_EX_PACKET [`WAYS-1:0] 						id_ex_packet;
 
 	logic [`WAYS-1:0]								id_ex_reg_write;
 	
     logic [`XLEN-1:0]                       		id_ex_next_PC;
 
     logic [`WAYS-1:0]                       		id_ex_predictions;
+
+    logic [`WAYS-1:0]                               id_ex_is_store;
 
     // Wires for Branch Predictor
     logic [`XLEN-1:0]                       		id_next_PC;
@@ -459,6 +461,7 @@ generate
     //---------------------
 		assign target[i]			= id_ex_predictions[i] ? id_ex_next_PC : id_ex_packet[i].PC+4;
 		assign id_ex_reg_write[i]   = id_ex_packet[i].reg_write;
+        assign id_ex_is_store[i]    = id_ex_packet[i].wr_mem;
 	end
 endgenerate
 
@@ -481,6 +484,7 @@ assign rob_PC_out        = PC_out;
     .dest_PRN,
     .reg_write(id_ex_reg_write),
     .is_branch,
+    .is_store(id_ex_is_store),
     .valid,
 		
     .PC,
