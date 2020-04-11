@@ -278,18 +278,15 @@ RS_Line lines [`RS-1:0] (
         reset_hub = reset_hub_tmp;
         ALU_idx = 0;
         has_match = 0;
-//        $display("reset_hub_tmp: %b ALU_occupied: %b",reset_hub_tmp,ALU_occupied);
         if(~reset) begin            
             for (int i = 0; i < `RS; i = i + 1) begin
-//            $display("i: %d free_increase: %d ALU_idx: %d",i,free_increase,ALU_idx);
                 if (reset_hub_tmp[i]) begin
                     has_match = 0;
                     if((ALU_idx < `WAYS)) begin
                         for(int j = 0; j < `WAYS; j = j + 1) begin
-//                            $display("j: %d ALU_occupied[j]: %b",j,ALU_occupied[j]);
                             // to be changed (delete j <`WAYS)
                             if((j>= ALU_idx) && ~ALU_occupied[j]) begin
-                                rs_packet_out[free_increase] = rs_packet_out_hub[i];
+                                rs_packet_out[j] = rs_packet_out_hub[i];
                                 free_increase = free_increase + 1;
                                 ALU_idx = j + 1;
                                 has_match = 1;
@@ -298,11 +295,9 @@ RS_Line lines [`RS-1:0] (
                         end
                         if(~has_match) begin
                             reset_hub[i] = 0;                    
-//                            $display("reset_hub: %b",reset_hub);                            
                         end
                     end else begin
                         reset_hub[i] = 0;                    
-//                        $display("reset_hub: %b",reset_hub);
                     end
                 end
             end

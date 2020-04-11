@@ -34,12 +34,11 @@ module decoder(
 	                        //a cheap way to get the return code out
 	output logic halt,      // non-zero on a halt
 	output logic illegal,    // non-zero on an illegal instruction
-	output logic valid_inst,  // for counting valid instructions executed
+	output logic valid_inst  // for counting valid instructions executed
 	                        // and for making the fetch stage die on halts/
 	                        // keeping track of when to allow the next
 	                        // instruction out of fetch
 	                        // 0 for HALT and illegal instructions (die on halt)
-	output `MEM_SIZE					ld_st_size
 
 );
 
@@ -49,27 +48,6 @@ module decoder(
 	assign inst          = if_packet.inst;
 	assign valid_inst_in = if_packet.valid;
 	assign valid_inst    = valid_inst_in & ~illegal;
-
-	always_comb begin
-		if(valid_inst_in) begin
-				casez (inst) 
-					`RV32_LB,`RV32_LBU, `RV32_SB: begin
-						ld_st_size = `BYTE;
-					end
-					`RV32_LH,  `RV32_LHU, `RV32_SH,: begin
-						ld_st_size = `HALF;
-					end
-					`RV32_LW,  `RV32_SW: begin
-						ld_st_size = `WORD;
-					end
-					default: ld_st_size = `BYTE;
-				endcase
-			end
-		end
-	end
-	
-		
-
 	
 	always_comb begin
 		// default control values:
@@ -257,16 +235,22 @@ module id_stage(
 	input										except,
 
 	input  IF_ID_PACKET [`WAYS-1:0] 			if_id_packet_in,
-	input [`WAYS-1:0] 							predictions,
+//-----------------branch predictor-----------------------------
 
+	  input [`WAYS-1:0] [`XLEN-1:0]       PC_update,
+    input [`WAYS-1:0]                   direction_update,
+    input [`WAYS-1:0] [`XLEN-1:0]       target_update,
+    input [`WAYS-1:0]                   valid_update,
+
+    // Output
+    output logic [`XLEN-1:0]            next_PC,
+    output logic [`WAYS-1:0]            predictions,
+
+//--------------------------------------------------------------
 
 	output ID_EX_PACKET [`WAYS-1:0] 			id_packet_out,
 	output logic [`WAYS-1:0]					opa_valid,
-	output logic [`WAYS-1:0]					opb_valid,
-	output logic [`WAYS-1:0]  					dest_arn_valid,
-	
-	output `MEM_SIZE [`WAYS-1:0]					ld_st_size
-
+	output logic [`WAYS-1:0]					opb_valid
 
 );
 
@@ -282,15 +266,16 @@ module id_stage(
 		logic [`WAYS-1:0][`XLEN-1:0]			opa_value;
 		logic [`WAYS-1:0][`XLEN-1:0]			opb_value;
 		logic [`WAYS-1:0]     					opa_valid_tmp;
-		logic [`WAYS-1:0]								opb_valid_tmp;
-		logic [`WAYS-1:0]				inst_valid_tmp;
-		logic 									find_taken;
+		logic [`WAYS-1:0]						opb_valid_tmp;
+		logic [`WAYS-1:0]						inst_valid_tmp;
+		//logic 									find_taken;
 
+	 	logic [`WAYS-1:0]  					dest_arn_valid;
 
 
 		DEST_REG_SEL [`WAYS-1:0] dest_reg_select; 
 	
-		assign find_taken = (predictions != {`WAYS{1'b0}});
+	//	assign find_taken = (predictions != {`WAYS{1'b0}});
 
     generate
         for(genvar i = 0; i < `WAYS; i = i + 1) begin
@@ -300,11 +285,13 @@ module id_stage(
 				assign dest_arn[i] 			 = if_id_packet_in[i].inst.r.rd;
 				assign opa_arn[i]			 = if_id_packet_in[i].inst.r.rs1;
 				assign opb_arn[i]			 = if_id_packet_in[i].inst.r.rs2;
-				assign dest_arn_valid[i]	 = (dest_reg_select[i] == DEST_RD) & if_id_packet_in[i].valid;
+				assign dest_arn_valid[i] = (dest_reg_select[i] == DEST_RD) & id_packet_out[i].valid;//if_id_packet_in[i].valid;//
+				assign id_packet_out[i].reg_write = dest_arn_valid[i];
 			end
 	endgenerate
 
-
+	
+		
 
 	// instantiate the instruction decoder
 	    generate
@@ -323,11 +310,72 @@ module id_stage(
 						.csr_op(id_packet_out[i].csr_op),
 						.halt(id_packet_out[i].halt),
 						.illegal(id_packet_out[i].illegal),
-						.valid_inst(inst_valid_tmp[i]),
-						.ld_st_size(ld_st_size[i])
+						.valid_inst(inst_valid_tmp[i])
 					);
 				end
 			endgenerate
+
+
+logic [`WAYS-1:0]                   is_branch;
+  
+  generate
+        for(genvar i = 0; i < `WAYS; i = i + 1) begin
+					assign is_branch[i]=(id_packet_out[i].cond_branch|id_packet_out[i].uncond_branch)&inst_valid_tmp[i];
+				
+				end
+			endgenerate
+
+//branch predictor
+branch_pred #(.SIZE(128)) predictor (
+        .clock,
+        .reset(reset),
+
+        .PC(if_id_packet_in[0].PC),
+				.is_branch,
+				.is_valid(inst_valid_tmp),
+
+        .PC_update,
+        .direction_update,
+//	      .direction_update(0),
+
+        .target_update,
+        .valid_update,
+//output
+        .next_PC(next_PC),//useless
+        .predictions
+    );
+
+/*
+always_comb begin
+        // Default output is all not taken
+        next_PC = if_id_packet_in[0].PC + (`WAYS * 4);
+        predictions = 0;
+
+        // See if something should be predicted taken
+        for(int i = 0; i < `WAYS; i++) begin
+            if(is_branch[i]&inst_valid_tmp[i]) begin
+                next_PC = `XLEN'h68;
+                predictions[i] = 1;
+                break;
+            end
+        end			
+    end
+
+*/
+
+
+logic branch;
+always_comb begin
+   branch=0;
+   for(int i = 0; i < `WAYS ; i = i + 1)begin
+	      id_packet_out[i].valid =  branch ? 0 : inst_valid_tmp[i];
+				//if((branch==0)&&(predictions[i]==1)&&(inst_valid_tmp[i]==1)&&(id_packet_out[i].cond_branch|id_packet_out[i].uncond_branch))	branch=1;
+				if((branch==0)&&(predictions[i]==1))	branch=1;
+	 end
+end
+
+
+
 
 	PRF prf(
 	.clock(clock),
@@ -368,15 +416,8 @@ module id_stage(
     .rdb_valid(opb_valid_tmp)
 );
 
-logic branch;
-always_comb begin
-   branch=0;
-   for(int i = 0; i < `WAYS ; i = i + 1)begin
-	      id_packet_out[i].valid =  branch ? 0 : inst_valid_tmp[i];
-				if((branch==0)&&(predictions[i]==1)&&(inst_valid_tmp[i]==1))	branch=1;
-	 end
-end
-
+   
+	
 
 
 	// mux to generate dest_reg_idx based on
