@@ -3,7 +3,8 @@ module branch_pred #(parameter SIZE=128) (
 
     // Input to make prediction(s)
     input [`XLEN-1:0]                   PC,
-
+    input [`WAYS-1:0] is_branch,
+    input [`WAYS-1:0] is_valid,
     // Input to update state based on committed branch(es)
     input [`WAYS-1:0] [`XLEN-1:0]       PC_update,
     input [`WAYS-1:0]                   direction_update,
@@ -30,7 +31,7 @@ module branch_pred #(parameter SIZE=128) (
 
         // See if something should be predicted taken
         for(int i = 0; i < `WAYS; i++) begin
-            if(PHT[PC[$clog2(SIZE)+1:2] + i][1] && BTB_valid[PC[$clog2(SIZE)+1:2] + i]) begin
+            if(PHT[PC[$clog2(SIZE)+1:2] + i][1] && BTB_valid[PC[$clog2(SIZE)+1:2] + i] && is_branch[i] && is_valid[i] ) begin
                 next_PC = BTB[PC[$clog2(SIZE)+1:2] + i];
                 predictions[i] = 1;
                 break;
@@ -52,7 +53,7 @@ module branch_pred #(parameter SIZE=128) (
                 if(valid_update[i]) begin
                     if(direction_update[i]) begin
                         BTB_valid[PC_update[i][$clog2(SIZE)+1:2]] = 1;
-                        BTB[PC_update[i][$clog2(SIZE)+1:2]] = target_update;
+                        BTB[PC_update[i][$clog2(SIZE)+1:2]] = target_update[i];
                         if(PHT[PC_update[i][$clog2(SIZE)+1:2]] < 2'b11)
                             PHT[PC_update[i][$clog2(SIZE)+1:2]] = PHT[PC_update[i][$clog2(SIZE)+1:2]] + 1;
                     end else begin

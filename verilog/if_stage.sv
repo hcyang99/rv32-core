@@ -54,7 +54,7 @@ module if_stage(
 			assign if_packet_out[i].inst = PC_reg_hub[i][2] ? Icache2proc_data[i][63:32] : Icache2proc_data[i][31:0];
 			assign if_packet_out[i].NPC  = PC_reg_hub[i] + 4;
 			assign if_packet_out[i].PC   = PC_reg_hub[i];
-			assign if_packet_out[i].valid = (Icache2proc_valid == {`WAYS{1'b1}}) & (if_packet_out[i].inst != 0);	
+			assign if_packet_out[i].valid = (Icache2proc_valid == {`WAYS{1'b1}}) & (if_packet_out[i].inst != 0) & ~stall;	
 		end
 	endgenerate
 

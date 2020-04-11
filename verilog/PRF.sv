@@ -37,7 +37,6 @@ module PRF(
             rda_dat[i] = registers[rda_idx[i]];
             rdb_dat[i] = registers[rdb_idx[i]];
             for (int j = 0 ; j < `WAYS ; j = j + 1) begin
-//               $display("opa_is_from_wr[%d][%d]: %b opb_is_from_wr[%d][%d]: %b",i,j,opa_is_from_wr[i][j],i,j,opb_is_from_wr[i][j]);
                if(opa_is_from_wr[i][j]) rda_dat[i] = wr_dat[j];  
                if(opb_is_from_wr[i][j]) rdb_dat[i] = wr_dat[j];
             end
@@ -47,7 +46,7 @@ module PRF(
 always_comb begin // MAY BE OPTIMIZED
     reg_next = registers;
     for (int i = 0; i < `WAYS; i = i + 1) begin
-        if (wr_en[i] && wr_idx[i]) reg_next[wr_idx[i]] = wr_dat[i];
+        if (wr_en[i]) reg_next[wr_idx[i]] = wr_dat[i];
     end
 end
 

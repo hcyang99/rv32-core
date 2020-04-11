@@ -239,7 +239,7 @@ generate
             RRAT_PRF_old[gi] = RRAT_reg[RRAT_ARF_idx[gi]];
             for (int j = 0; j < gi; ++j) begin
                 if (PRF_idx_in_valid[j] && RRAT_ARF_idx[gi] == RRAT_ARF_idx[j]) begin
-                    RRAT_PRF_old[gi] = PRF_idx_in[j];
+                    RRAT_PRF_old[gi] = RRAT_PRF_idx[j];
                 end
             end
         end
