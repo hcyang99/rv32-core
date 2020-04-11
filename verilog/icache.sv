@@ -5,8 +5,8 @@ module icache(
     input [3:0] Imem2proc_response,
     input [3:0] Imem2proc_tag,
 
-    input [`WAYS-1:0][31:0] proc2Icache_addr,
-    input [`WAYS-1:0] proc2Icache_en,
+    input [`WAYS-1:0][31:0] proc2Icache_addr, // from IF_stage
+    input [`WAYS-1:0] proc2Icache_en, // from IF stage
     input [`WAYS-1:0][63:0] cachemem_data, // read an instruction when it's not in a cache put it inside a cache
     input [`WAYS-1:0] cachemem_valid,
 

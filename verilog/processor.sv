@@ -237,7 +237,7 @@ module processor (
 
   	generate
       	for(genvar i = 0; i < `WAYS; i = i + 1) begin
-			assign CDB_Data[i]      = ex_packet[i].alu_result;   
+			assign CDB_Data[i]      = ex_packet[i].take_branch ? ex_packet[i].NPC : ex_packet[i].alu_result;  // to-do: update with lsq 
 			assign CDB_PRF_idx[i]   = ex_packet[i].dest_PRF_idx; 
 			assign CDB_valid[i]     = ex_packet[i].valid;
 			assign CDB_ROB_idx[i]   = ex_packet[i].rob_idx;
