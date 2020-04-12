@@ -207,18 +207,20 @@ assign insert_pos[0] = {2'b0, wb_en_in | wr_en_in | rd_en_in};
 assign insert_pos[1] = wb_en_in ? {1'b0, wr_en_in | rd_en_in, 1'b0} : {2'b0, wr_en_in | rd_en_in};
 assign insert_pos[2] = {wb_en_in & wr_en_in & rd_en_in, 2'b0};
 
-wor [2:0] valid_new_in;
-wor [2:0] [15:0] addr_new_in;
-wor [2:0] is_wr_new_in;
-wor [2:0] is_rd_new_in;
-wor [2:0] `MEM_SIZE sz_new_in;
-wor [2:0] [`LSQSZ-1:0] rd_gnt_new_in;
+wire [2:0] valid_new_in;
+wire [2:0] [15:0] addr_new_in;
+wire [2:0] is_wr_new_in;
+wire [2:0] is_rd_new_in;
+wire [2:0] `MEM_SIZE sz_new_in;
+wire [2:0] [`LSQSZ-1:0] rd_gnt_new_in;
+wire [2:0] [63:0] data_new_in;
 assign valid_new_in = {rd_en_in, wr_en_in, wb_en_in};
 assign addr_new_in = {rd_addr_in, wr_addr_in, wb_addr_in};
 assign is_wr_new_in = {1'b0, wr_en_in, wb_en_in};
 assign is_rd_new_in = {rd_addr_in, 2'b0};
 assign sz_new_in = {rd_size_in, wr_size_in, `DOUBLE};
 assign rd_gnt_new_in = {rd_gnt_in, `LSQSZ'b0, `LSQSZ'b0};
+assign data_new_in = {64'b0, wr_data_in, wb_data_in};
 
 wor [2:0] valid_new_next;
 wor [2:0] [15:0] addr_new_next;
@@ -226,6 +228,7 @@ wor [2:0] is_wr_new_next;
 wor [2:0] is_rd_new_next;
 wor [2:0] `MEM_SIZE sz_new_next;
 wor [2:0] [`LSQSZ-1:0] rd_gnt_new_next;
+wor [2:0] [63:0] data_new_next;
 
 for (gi = 0; gi < 3; ++gi) begin
     for (gj = 0; gj < 3; ++gj) begin
@@ -234,7 +237,8 @@ for (gi = 0; gi < 3; ++gi) begin
         assign is_wr_new_next[gj] = insert_pos[gi][gj] ? is_wr_new_in[gi] : 0;
         assign is_rd_new_next[gj] = insert_pos[gi][gj] ? (is_rd_new_in[gi] & ~except) : 0;
         assign sz_new_next[gj] = insert_pos[gi][gj] ? sz_new_in[gi] : 0;
-        assign rd_gnt_new_next[gj] = insert_pos[gi][gj] ? rd_gnt_new_next[gi] : 0;
+        assign rd_gnt_new_next[gj] = insert_pos[gi][gj] ? rd_gnt_new_in[gi] : 0;
+        assign data_new_next[gj] = insert_pos[gi][gj] ? data_new_in[gi] : 0;
     end
 end
 
@@ -246,6 +250,7 @@ always_ff @(posedge clock) begin
         is_rd_new_reg <= 0;
         sz_new_reg <= 0;
         rd_gnt_new_reg <= 0;
+        data_new_reg <= 0;
     end
     else begin
         valid_new_reg <= valid_new_next;
@@ -254,6 +259,7 @@ always_ff @(posedge clock) begin
         is_rd_new_reg <= is_rd_new_next;
         sz_new_reg <= sz_new_next;
         rd_gnt_new_reg <= rd_gnt_new_next;
+        data_new_reg <= data_new_next;
     end
 end
 
@@ -263,12 +269,14 @@ wor [WIDTH-1:0] is_wr_q1_next;
 wor [WIDTH-1:0] is_rd_q1_next;
 wor [WIDTH-1:0] `MEM_SIZE sz_q1_next;
 wor [WIDTH-1:0] [`LSQSZ-1:0] rd_gnt_q1_next;
+wor [WIDTH-1:0] [63:0] data_q1_next;
 
 wor [15:0] q1_head_addr_next;
 wor q1_head_is_wr_next;
 wor q1_head_is_rd_next;
 wor `MEM_SIZE q1_head_sz_next;
 wor [`LSQSZ-1:0] q1_head_rd_gnt_next;
+wor [63:0] q1_head_data_next;
 
 wire [WIDTH-1:0] q1_head_next;
 wire [WIDTH-1:0] q1_tail_next;
@@ -293,6 +301,7 @@ generate;
         assign q1_head_is_rd_next = q1_head_next[gi] ? is_rd_q1_next[gi] : 0;
         assign q1_head_rd_gnt_next = q1_head_next[gi] ? rd_gnt_q1_next[gi] : 0;
         assign q1_head_sz_next = q1_head_next[gi] ? sz_q1_next[gi] : 0;
+        assign q1_head_data_next = q1_head_next[gi] ? data_q1_next[gi] : 0;
     end
     // clear curr q1 head
     for (gi = 0; gi < WIDTH; ++gi) begin
@@ -301,6 +310,7 @@ generate;
         assign is_rd_q1_next[gi] = q1_head_reg[gi] ? 0 : (is_rd_q1_reg[gi] & ~except);
         assign rd_gnt_q1_next[gi] = q1_head_reg[gi] ? 0 : rd_gnt_q1_reg[gi];
         assign sz_q1_next[gi] = q1_head_reg[gi] ? 0 : sz_q1_reg[gi];
+        assign data_q1_next[gi] = q1_head_reg[gi] ? 0 : data_q1_reg[gi];
     end
     // add new entries to tail
     for (gi = 0; gi < 3; ++gi) begin
@@ -310,6 +320,7 @@ generate;
             assign is_rd_q1_next[gj] = q1_tail_tmp[gi][gj] ? (is_rd_new_reg[gi] & ~except) : 0;
             assign rd_gnt_q1_next[gj] = q1_tail_tmp[gi][gj] ? rd_gnt_new_reg[gi] : 0;
             assign sz_q1_next[gj] = q1_tail_tmp[gi][gj] ? sz_new_reg[gi] : 0;
+            assign data_q1_next[gj] = q1_tail_tmp[gi][gj] ? data_new_reg[gi] : 0;
         end
     end
 endgenerate
@@ -355,7 +366,7 @@ assign Dmem_command = q1_head_is_wr_reg ? BUS_STORE : BUS_NONE;
 assign Dmem_addr = q1_head_addr_reg;
 assign Dmem_size = q1_head_is_rd_reg ? `DOUBLE : 0;
 assign Dmem_size = q1_head_is_wr_reg ? q1_head_sz_reg : 0;
-assign Dmem_data = q1_head_is_wr_reg ? 
+assign Dmem_data = q1_head_is_wr_reg ? q1_head_data_reg : 0;
 
 // feedback to lsq & dcache, responds only if is_rd
 assign mem_wr_en = q2_head_mem_response;
