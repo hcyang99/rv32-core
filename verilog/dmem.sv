@@ -52,7 +52,7 @@ module DMEM(
     // to mem
     output logic [1:0]                          Dmem_command, 
     output logic [15:0]                         Dmem_addr,
-    output logic `MEM_SIZE                      Dmem_size,
+    output logic `MEM_SIZE                      Dmem_size
 );
 
 // write to DCache
