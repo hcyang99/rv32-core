@@ -103,7 +103,10 @@ module processor (
     // between icache mem and mem
     logic [63:0] mem_to_cachemem_data; // should be input of the pipeline
 
-
+	// between dcache controller and mem
+    logic [3:0] 						mem_to_dcache_response;
+    logic [3:0] 						mem_to_dcache_tag;
+    logic [`WAYS-1:0][63:0] 			cachemem_to_dcache_data;
 
 		// Pipeline register enables
 	logic   if_id_enable, id_ex_enable;
@@ -226,6 +229,13 @@ module processor (
   	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_target;
 	logic [`WAYS-1:0]							CDB_reg_write;
 
+// output of dmem
+    logic [$clog2(`LSQSZ)-1:0]           sq_num_free;
+    logic [$clog2(`LSQSZ)-1:0]           lq_num_free;
+
+    logic [1:0]                          Dmem_command;
+    logic [15:0]                         Dmem_addr;
+    logic `MEM_SIZE                      Dmem_size;
 
 
 //////////////////////////////////////////////////
@@ -242,9 +252,9 @@ module processor (
     .Icache_command_in (icache_to_mem_command),
 
     // Dcache inputs
-	.Dcache_addr_in (),
+	.Dcache_addr_in (Dmem_addr),
     .Dcache_data_in (),
-    .Dcache_command_in (),
+    .Dcache_command_in (Dmem_command),
 
     // Mem inputs
     .mem_tag (mem2proc_tag),
@@ -257,9 +267,9 @@ module processor (
     .Icache_response (mem_to_icache_response),
 
     // Dcache outputs
-    .Dcache_tag,
-    .Dcache_data,
-    .Dcache_response,
+    .Dcache_tag (mem_to_dcache_tag),
+    .Dcache_data (cachemem_to_dcache_data),
+    .Dcache_response (mem_to_dcache_response),
 
     // Mem outputs
     .mem_addr (proc2mem_addr),
@@ -480,18 +490,20 @@ generate
 		assign ALU_ROB_idx[i]	= ex_packet_out[i].rob_idx;
 		assign ALU_is_ls[i] 	= ex_packet_out[i].rd_mem;
 		assign ALU_data[i]		= ex_packet_out[i].alu_result;
+
 		assign ROB_idx[i]		= id_ex_packet[i].ROB_idx;
 		assign st_data[i]		= id_ex_packet[i].rs2_value;
 		assign st_en[i]			= id_ex_packet[i].rd_mem;
 		assign ld_en[i]			= id_ex_packet[i].wr_mem;
+		assign ld_ex_prf_idx[i]	= id_ex_packet[i].dest_PRF_idx;
 	end
 endgenerate
 
-
-LSQ LSQ_0(
-	.clock (clock),
+DMEM DMEN_0(
+    .clock (clock),
     .reset (reset),
     .except (except),
+
     .CDB_Data (CDB_Data), // the value of the register that is going to be stored
 	.CDB_PRF_idx (CDB_PRF_idx),
   	.CDB_valid(CDB_reg_write & CDB_valid),
@@ -510,35 +522,21 @@ LSQ LSQ_0(
     .st_ROB_idx (ROB_idx),
     .commit (commit_st),   // from ROB, whether head of SQ should commit
 
+
     // LQ from id_stage
     .ld_size (id_ex_ld_st_size),
     .ld_en (ld_en),
-    .ld_ROB_idx(ROB_idx),
+    .ld_ROB_idx (ROB_idx),
+	.ld_PRF_idx (ld_ex_prf_idx),
 
-    // feedback from DCache
-    .rd_feedback (),
-    .rd_data (),
+    // from mem
+    .mem2proc_response (mem_to_dcache_response),// 0 = can't accept, other=tag of transaction
+	.mem2proc_data (cachemem_to_dcache_data),    // data resulting from a load
+	.mem2proc_tag (mem_to_dcache_tag),     // 0 = no value, other=tag of transaction
 
-    // LSQ head/tail
-    .sq_head,
-    .sq_tail,
-    .lq_head,
-    .lq_tail,
-
-    // write to DCache
-    .wr_en,
-    .wr_offset,
-    .wr_idx,
-    .wr_tag,
-    .wr_data,
-    .wr_size,
-
-    // read from DCache
-    .rd_offset,
-    .rd_idx,
-    .rd_tag,
-    .rd_size,
-    .rd_en,
+    // LSQ num free
+    .sq_num_free,
+    .lq_num_free,
 
     // LQ to CDB, highest priority REQUIRED
     .CDB_Data (lq_CDB_Data), // the data loaded from dcache or memory
@@ -546,10 +544,12 @@ LSQ LSQ_0(
   	.CDB_valid (lq_CDB_valid),
 	.CDB_ROB_idx (lq_CDB_ROB_idx),
   	.CDB_direction (),
-  	.CDB_target ()
+  	.CDB_target (),
+    // to mem
+	.Dmem_command, 
+	.Dmem_addr,
+	.Dmem_size
 );
-
-
 
 
 

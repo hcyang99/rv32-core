@@ -30,8 +30,8 @@ module DMEM(
 
     // from mem
     input [3:0]                                 mem2proc_response,// 0 = can't accept, other=tag of transaction
-	input [63:0]                                mem2proc_data,    // data resulting from a load
-	input [3:0]                                 mem2proc_tag,     // 0 = no value, other=tag of transaction
+	  input [63:0]                                mem2proc_data,    // data resulting from a load
+	  input [3:0]                                 mem2proc_tag,     // 0 = no value, other=tag of transaction
 
     // LSQ num free
     output logic [$clog2(`LSQSZ)-1:0]           sq_num_free,
@@ -44,10 +44,6 @@ module DMEM(
     output logic [$clog2(`ROB)-1:0]             CDB_ROB_idx_out,
   	output logic                                CDB_direction_out,
   	output logic [31:0]                         CDB_target_out,
-
-    // SQ to ROB, to update when store is ready to commit
-    output logic [`WAYS-1:0] [$clog2(`ROB)-1:0] ROB_idx_out,
-    output logic [`WAYS-1:0]                    ready,
 
     // to mem
     output logic [1:0]                          Dmem_command, 
@@ -156,10 +152,7 @@ LSQ LSQ_0(
     .CDB_valid_out(CDB_valid_out),
     .CDB_ROB_idx_out(CDB_ROB_idx_out),
     .CDB_direction_out(CDB_direction_out),
-    .CDB_target_out(CDB_target_out),
-
-    .ROB_idx_out(ROB_idx_out),
-    .ready(ready)
+    .CDB_target_out(CDB_target_out)
 );
 
 dcache dcache_0(

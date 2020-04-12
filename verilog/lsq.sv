@@ -81,11 +81,7 @@ module LSQ(
   	output logic                                CDB_valid_out,
     output logic [$clog2(`ROB)-1:0]             CDB_ROB_idx_out,
   	output logic                                CDB_direction_out,
-  	output logic [31:0]                         CDB_target_out,
-
-    // SQ to ROB, to update when store is ready to commit
-    output logic [`WAYS-1:0] [$clog2(`ROB)-1:0] ROB_idx_out,
-    output logic [`WAYS-1:0]                    ready
+  	output logic [31:0]                         CDB_target_out
 );
 
     wire [`LSQSZ-1:0] `MEM_SIZE                    store_sz;
@@ -206,10 +202,7 @@ module LSQ(
         .write_addr({wr_tag, wr_idx, wr_offset}),
         .write_data(wr_data),
         .write_size(wr_size),
-
-        .ROB_idx_out,
-        .ready,
-
+        
         .sq_out(sq_entries),
         .num_free(sq_num_free)
     );
