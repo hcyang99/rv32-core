@@ -1,13 +1,13 @@
 // write-back no write allocate dcache controller
 // serialize only, no forwarding
 
+`include "../sys_defs.svh"
 `define LSQSZ 16
 `define BYTE 2'b0
 `define HALF 2'h1
 `define WORD 2'h2
 `define DOUBLE 2'h3
 `define MEM_SIZE [1:0]
-
 module dcache_ctrl(
     input                       clock,
     input                       reset,

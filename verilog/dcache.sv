@@ -7,6 +7,7 @@
 `define DOUBLE 2'h3
 `define MEM_SIZE [1:0]
 `define LSQSZ 16
+`include "../sys_defs.svh"
 
 module dcache(
     input                       clock,
@@ -50,7 +51,7 @@ module dcache(
     output logic                rd_en_out,
     output logic [15:0]         rd_addr_out,
     output logic `MEM_SIZE      rd_size_out,
-    output [`LSQSZ-1:0]         rd_gnt_out
+    output logic [`LSQSZ-1:0]   rd_gnt_out
 );
 
 reg [31:0] [63:0] data;
