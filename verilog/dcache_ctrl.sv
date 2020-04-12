@@ -40,6 +40,7 @@ module dcache_ctrl(
     output wor [1:0]            Dmem_command, 
     output logic [15:0]         Dmem_addr,
     output wor `MEM_SIZE        Dmem_size,
+    output wire [63:0]          Dmem_data,
 
     // feedback to lsq
     output logic [`LSQSZ-1:0]   mem_feedback,
@@ -60,6 +61,7 @@ reg [2:0] is_wr_new_reg;
 reg [2:0] is_rd_new_reg;
 reg [2:0] `MEM_SIZE sz_new_reg;
 reg [2:0] [`LSQSZ-1:0] rd_gnt_new_reg;
+reg [2:0] [63:0] data_new_reg;
 
 // q1 entries has not gone to mem
 reg [WIDTH-1:0] [15:0] addr_q1_reg;
@@ -67,6 +69,7 @@ reg [WIDTH-1:0] is_wr_q1_reg;
 reg [WIDTH-1:0] is_rd_q1_reg;
 reg [WIDTH-1:0] `MEM_SIZE sz_q1_reg;
 reg [WIDTH-1:0] [`LSQSZ-1:0] rd_gnt_q1_reg;
+reg [WIDTH-1:0] [63:0] data_q1_reg;
 
 // q2 entries waiting for mem response one by one, contains both reads and writes
 reg [`LSQSZ-1:0] [15:0] addr_q2_reg;
@@ -81,6 +84,7 @@ reg q1_head_is_wr_reg;
 reg q1_head_is_rd_reg;
 reg `MEM_SIZE q1_head_sz_reg;
 reg [`LSQSZ-1:0] q1_head_rd_gnt_reg;
+reg [63:0] q1_head_data_reg;
 
 reg [15:0] q2_head_addr_reg;
 reg q2_head_is_wr_reg;
@@ -351,6 +355,7 @@ assign Dmem_command = q1_head_is_wr_reg ? BUS_STORE : BUS_NONE;
 assign Dmem_addr = q1_head_addr_reg;
 assign Dmem_size = q1_head_is_rd_reg ? `DOUBLE : 0;
 assign Dmem_size = q1_head_is_wr_reg ? q1_head_sz_reg : 0;
+assign Dmem_data = q1_head_is_wr_reg ? 
 
 // feedback to lsq & dcache, responds only if is_rd
 assign mem_wr_en = q2_head_mem_response;
