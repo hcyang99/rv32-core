@@ -95,6 +95,8 @@ SIMFILES = verilog/branch_pred.sv	\
 		verilog/FreeList.sv \
 		verilog/id_stage.sv	\
 		verilog/if_stage.sv \
+		verilog/lsq.sv  \
+		verilog/mem_arbiter.sv \
 		verilog/mult.sv \
 		verilog/PRF.sv	\
 		verilog/processor.sv	\

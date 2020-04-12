@@ -30,7 +30,8 @@ module alu(
 	input 		clock,
 	input		reset,
 	input 		valid_in,
-	
+	input 		lq_CDB_valid,
+
 	input [`XLEN-1:0] opa,
 	input [`XLEN-1:0] opb,
 	ALU_FUNC     func,
@@ -72,27 +73,23 @@ assign occupied = (state == MULT_NOT_DONE);
 	always_comb begin
 		valid_out = 0;
 		start = 0;
-//		occupied = 0;
 		case (state)
 			INITIAL:	begin
-				if(~valid_in) 			next_state = INITIAL; 	else
+				if(~valid_in | lq_CDB_valid) 	next_state = INITIAL; 	else
 				if(~is_mult)	begin
 					valid_out = 1;
 					next_state = INITIAL; 
 				end	else begin 
 					start = 1;
-//					occupied = 1;
 					next_state = MULT_NOT_DONE;
 				end
 			end
 			MULT_NOT_DONE:	begin
-				if(mult_done)	begin
+				if(mult_done & ~lq_CDB_valid)	begin
 					valid_out = 1;
-//					occupied  = 0;
 					next_state = INITIAL; 
 				end	else begin 
 					//start = 1;
-//					occupied = 1;
 					next_state = MULT_NOT_DONE;
 				end
 			end
@@ -191,6 +188,7 @@ endmodule // brcond
 module ex_stage(
 	input clock,               // system clock
 	input reset,               // system reset
+	input	[`WAYS-1:0]							lq_CDB_valid,
 	input 	ID_EX_PACKET	[`WAYS-1:0]      	id_ex_packet_in,
 	output 	EX_MEM_PACKET	[`WAYS-1:0] 		ex_packet_out,
 	output [`WAYS-1:0] 							occupied_hub
@@ -264,6 +262,7 @@ module ex_stage(
 				.clock(clock),
 				.reset(reset),
 				.valid_in(id_ex_packet_in[i].valid),
+				.lq_CDB_valid(lq_CDB_valid[i],)
 
 				.opa(opa_mux_out[i]),
 				.opb(opb_mux_out[i]),

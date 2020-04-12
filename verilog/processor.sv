@@ -25,8 +25,7 @@ module processor (
 	
 	output logic [1:0]  			proc2mem_command,    // command sent to memory
 	output logic [`XLEN-1:0] 		proc2mem_addr,      // Address sent to memory
-
-	output logic [63:0] 	proc2mem_data,      // Data sent to memory
+	output logic [63:0] 			proc2mem_data,      // Data sent to memory
 
 
 	output logic [3:0]  					pipeline_completed_insts,
@@ -184,8 +183,6 @@ module processor (
   	logic [$clog2(`PRF)-1:0]             lq_CDB_PRF_idx;
   	logic                                lq_CDB_valid;
 	logic [$clog2(`ROB)-1:0]             lq_CDB_ROB_idx;
-  	logic                                lq_CDB_direction;
-  	logic [63:0]                         lq_CDB_target;
 
   // Outputs from Rob-Stage
   	logic [$clog2(`ROB)-1:0]                  tail;
@@ -220,6 +217,56 @@ module processor (
 // Outputs from EX-Stage
 	EX_MEM_PACKET[`WAYS-1 : 0]      ex_packet_out;
 
+// CDB wires
+  	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
+  	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx;
+  	logic [`WAYS-1:0]                           CDB_valid;
+	logic [`WAYS-1:0] [$clog2(`ROB)-1:0]        CDB_ROB_idx;
+  	logic [`WAYS-1:0]                           CDB_direction;
+  	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_target;
+	logic [`WAYS-1:0]							CDB_reg_write;
+
+
+
+//////////////////////////////////////////////////
+//                                              //
+//               mem_arbiter                    //
+//                                              //
+//////////////////////////////////////////////////
+
+
+
+ 	mem_arbiter(
+    // Icache inputs
+    .Icache_addr_in (icache_to_mem_addr),
+    .Icache_command_in (icache_to_mem_command),
+
+    // Dcache inputs
+	.Dcache_addr_in (),
+    .Dcache_data_in (),
+    .Dcache_command_in (),
+
+    // Mem inputs
+    .mem_tag (mem2proc_tag),
+    .mem_data (mem2proc_data),
+    .mem_response (mem2proc_response),
+
+    // Icache outputs
+    .Icache_tag (mem_to_icache_tag),
+    .Icache_data (mem_to_cachemem_data),
+    .Icache_response (mem_to_icache_response),
+
+    // Dcache outputs
+    .Dcache_tag,
+    .Dcache_data,
+    .Dcache_response,
+
+    // Mem outputs
+    .mem_addr (proc2mem_addr),
+    .mem_data (proc2mem_data),
+    .mem_command (proc2mem_command)
+);
+
 
 
 
@@ -229,39 +276,18 @@ module processor (
 //                                              //
 //////////////////////////////////////////////////
 
-  	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_Data;
-  	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]        CDB_PRF_idx;
-  	logic [`WAYS-1:0]                           CDB_valid;
-	logic [`WAYS-1:0] [$clog2(`ROB)-1:0]        CDB_ROB_idx;
-  	logic [`WAYS-1:0]                           CDB_direction;
-  	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_target;
-	logic [`WAYS-1:0]							CDB_reg_write;
 
   	generate
       	for(genvar i = 0; i < `WAYS; i = i + 1) begin
-			assign CDB_Data[i]      = ex_packet[i].take_branch ? ex_packet[i].NPC : ex_packet[i].alu_result;  // to-do: update with lsq 
-			assign CDB_PRF_idx[i]   = ex_packet[i].dest_PRF_idx; 
-			assign CDB_valid[i]     = ex_packet[i].valid;
-			assign CDB_ROB_idx[i]   = ex_packet[i].rob_idx;
-			assign CDB_direction[i] = ex_packet[i].take_branch;
-			assign CDB_target[i]    = ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;   			
-			assign CDB_reg_write[i]	= ex_packet[i].reg_write;
+			assign CDB_Data[i]      = lq_CDB_valid[i]? lq_CDB_Data[i] : ex_packet[i].take_branch ? ex_packet[i].NPC : ex_packet[i].alu_result;  // update with lsq 
+			assign CDB_PRF_idx[i]   = lq_CDB_valid[i]? lq_CDB_PRF_idx[i] : ex_packet[i].dest_PRF_idx; // 
+			assign CDB_valid[i]     = lq_CDB_valid[i] | ex_packet[i].valid; // wether it is a valid inst
+			assign CDB_ROB_idx[i]   = lq_CDB_valid[i]? lq_CDB_ROB_idx[i] : ex_packet[i].rob_idx; // the rob index of the CDB's inst
+			assign CDB_direction[i] = lq_CDB_valid[i]? 0 : ex_packet[i].take_branch; // whether this CDB's inst will be taking branch
+			assign CDB_target[i]    = lq_CDB_valid[i]? 0: ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;  // if  			
+			assign CDB_reg_write[i]	= lq_CDB_valid[i] | ex_packet[i].reg_write;  // whether this CDB data will be written to a register
 		end
 	endgenerate
-	 
-//-----------------------for milestone2 input-----------------------------
-	assign mem_to_icache_response = mem2proc_response;
-	assign mem_to_cachemem_data   = mem2proc_data;
-	assign mem_to_icache_tag 	  = mem2proc_tag;
-
-//-----------------------for milestone2 input-----------------------------
-	
-//-----------------------for milestone2 output----------------------------
-	assign proc2mem_command = icache_to_mem_command;
-	assign proc2mem_addr = icache_to_mem_addr;
-	//if it's an instruction, then load a double word (64 bits)
-
-	assign proc2mem_data = 64'b0;
 
 //-------------------------------------------------------------
 	assign pipeline_completed_insts = {{(4-$clog2(`WAYS)){1'b0}},num_committed};
@@ -271,7 +297,6 @@ module processor (
 	                                NO_ERROR;
 
 
-//-----------------------for milestone2 output--------------------------------
 
 	assign proc_to_icache_en = {`WAYS{1'b1}};
 
@@ -443,6 +468,91 @@ assign rs_is_full  = num_is_free_next < `WAYS;
 		end // else: !if(reset)
 	end // always
 
+//////////////////////////////////////////////////
+//                                              //
+//                   LSQ                        //
+//                                              //
+//////////////////////////////////////////////////
+
+generate
+	for(genvar i = 0; i < `WAYS; i = i + 1)begin
+		assign ALU_is_valid[i] 	= ex_packet_out[i].valid;
+		assign ALU_ROB_idx[i]	= ex_packet_out[i].rob_idx;
+		assign ALU_is_ls[i] 	= ex_packet_out[i].rd_mem;
+		assign ALU_data[i]		= ex_packet_out[i].alu_result;
+		assign ROB_idx[i]		= id_ex_packet[i].ROB_idx;
+		assign st_data[i]		= id_ex_packet[i].rs2_value;
+		assign st_en[i]			= id_ex_packet[i].rd_mem;
+		assign ld_en[i]			= id_ex_packet[i].wr_mem;
+	end
+endgenerate
+
+
+LSQ LSQ_0(
+	.clock (clock),
+    .reset (reset),
+    .except (except),
+    .CDB_Data (CDB_Data), // the value of the register that is going to be stored
+	.CDB_PRF_idx (CDB_PRF_idx),
+  	.CDB_valid(CDB_reg_write & CDB_valid),
+
+    // from ALU to lsq // calculating the address
+	.ALU_ROB_idx (ALU_ROB_idx),
+    .ALU_is_valid (ALU_is_valid),
+    .ALU_is_ls (ALU_is_ls),
+    .ALU_data (ALU_data),
+
+    // SQ from id_stage
+    .st_size (id_ex_ld_st_size),
+    .st_data (st_data),
+    .st_data_valid (id_ex_opb_valid),
+    .st_en (st_en),
+    .st_ROB_idx (ROB_idx),
+    .commit (),   // from ROB, whether head of SQ should commit
+
+    // LQ from id_stage
+    .ld_size (id_ex_ld_st_size),
+    .ld_en (ld_en),
+    .ld_ROB_idx(ROB_idx),
+
+    // feedback from DCache
+    .rd_feedback (),
+    .rd_data (),
+
+    // LSQ head/tail
+    .sq_head,
+    .sq_tail,
+    .lq_head,
+    .lq_tail,
+
+    // write to DCache
+    .wr_en,
+    .wr_offset,
+    .wr_idx,
+    .wr_tag,
+    .wr_data,
+    .wr_size,
+
+    // read from DCache
+    .rd_offset,
+    .rd_idx,
+    .rd_tag,
+    .rd_size,
+    .rd_en,
+
+    // LQ to CDB, highest priority REQUIRED
+    .CDB_Data (lq_CDB_Data), // the data loaded from dcache or memory
+  	.CDB_PRF_idx (lq_CDB_PRF_idx), // 
+  	.CDB_valid (lq_CDB_valid),
+	.CDB_ROB_idx (lq_CDB_ROB_idx),
+  	.CDB_direction (),
+  	.CDB_target ()
+);
+
+
+
+
+
 
 //////////////////////////////////////////////////
 //                                              //
@@ -542,7 +652,7 @@ assign rs_num_is_free = num_is_free;
         .opb_valid_in(id_ex_opb_valid),
         .id_rs_packet_in(id_ex_packet),                            
         .load_in(~(num_free<`WAYS) & ~(num_is_free<`WAYS)),
-        .ALU_occupied,
+        .ALU_occupied (ALU_occupied | lq_CDB_valid),
 
         // output
         .rs_packet_out,
@@ -570,14 +680,14 @@ generate
 		assign ex_valid_inst_out[i] = ex_packet[i].valid;
 		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
 		assign brand_result[i]		= ex_packet[i].take_branch;
-		assign ex_packet_in[i]		= ALU_occupied[i]? ex_packet_in_tmp[i]:rs_packet_out[i];
+		assign ex_packet_in[i]		= ALU_occupied[i] | lq_CDB_valid[i]? ex_packet_in_tmp[i]:rs_packet_out[i];
 	end
 endgenerate
 
 
 always_ff @(posedge clock) begin
  	for(int i = 0; i < `WAYS; i = i + 1) begin
-  		if(~ALU_occupied[i]) begin
+  		if(~ALU_occupied[i] & ~lq_CDB_valid[i]) begin
 		  // not occupied
    			ex_packet_in_tmp[i] <= `SD rs_packet_out[i];
   		end

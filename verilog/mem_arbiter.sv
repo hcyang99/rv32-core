@@ -1,55 +1,54 @@
 module mem_arbiter(
     // Icache inputs
-    input [63:0]                Icache_addr,
-    input [63:0]                Icache_data,
-    input [1:0]                 Icache_command,
+    input [63:0]                Icache_addr_in,
+    input [1:0]                 Icache_command_in,
 
     // Dcache inputs
-    input [63:0]                Dcache_addr,
-    input [63:0]                Dcache_data,
-    input [1:0]                 Dcache_command,
+    input [63:0]                Dcache_addr_in,
+    input [63:0]                Dcache_data_in,
+    input [1:0]                 Dcache_command_in,
 
     // Mem inputs
-    input [3:0]                 mem_tag,
-    input [63:0]                mem_data,
-    input [3:0]                 mem_response,
+    input [3:0]                 mem_tag_in,
+    input [63:0]                mem_data_in,
+    input [3:0]                 mem_response_in,
 
     // Icache outputs
-    output logic [3:0]          Icache_tag,
-    output logic [63:0]         Icache_data,
-    output logic [3:0]          Icache_response,
+    output logic [3:0]          Icache_tag_out,
+    output logic [63:0]         Icache_data_out,
+    output logic [3:0]          Icache_response_out,
 
     // Dcache outputs
-    output logic [3:0]          Dcache_tag,
-    output logic [63:0]         Dcache_data,
-    output logic [3:0]          Dcache_response,
+    output logic [3:0]          Dcache_tag_out,
+    output logic [63:0]         Dcache_data_out,
+    output logic [3:0]          Dcache_response_out,
 
     // Mem outputs
-    output logic [63:0]         mem_addr,
-    output logic [63:0]         mem_data,
-    output logic [1:0]          mem_command
+    output logic [63:0]         mem_addr_out,
+    output logic [63:0]         mem_data_out,
+    output logic [1:0]          mem_command_out
 );
 
     always_comb begin
-        Icache_tag = mem_tag;
-        Icache_data = mem_data;
-        Dcache_tag = mem_tag;
-        Dcache_data = mem_data;
+        Icache_tag_out = mem_tag_in;
+        Icache_data_out = mem_data_in;
+        Dcache_tag_out = mem_tag_in;
+        Dcache_data_out = mem_data_in;
 
         // Default to picking Dcache 
-        Icache_response = 0;
-        Dcache_response = mem_response;
-        mem_addr = Dcache_addr;
-        mem_data = Dcache_data;
-        mem_command = Dcache_command;
+        Icache_response_out = 0;
+        Dcache_response_out = mem_response_in;
+        mem_addr_out = Dcache_addr_in;
+        mem_data_out = Dcache_data_in;
+        mem_command_out = Dcache_command_in;
 
         // Pick Icache if Dcache command is BUS_NONE
-        if(Dcache_command = `BUS_NONE) begin
-            Icache_response = mem_response;
-            Dcache_response = 0;
-            mem_addr = Icache_addr;
-            mem_data = Icache_data;
-            mem_command = Icache_command;
+        if(Dcache_command_in = `BUS_NONE) begin
+            Icache_response_out = mem_response_in;
+            Dcache_response_out = 0;
+            mem_addr_out = Icache_addr_in;
+            mem_data_out = 0;
+            mem_command_out = Icache_command_in;
         end
     end
 
