@@ -41,6 +41,9 @@ module rob(
     input [`WAYS-1:0]                               illegal,
     input [`WAYS-1:0]                               halt,
 
+    input [`WAYS-1:0] [$clog2(`ROB)-1:0]            store_ROB_idx,
+    input [`WAYS-1:0]                               store_valid,
+
     output logic [$clog2(`ROB)-1:0]                 tail,
     output logic [$clog2(`ROB)-1:0]                 next_tail,
 
@@ -51,7 +54,6 @@ module rob(
     output logic [$clog2(`ROB):0]                   num_free,
     output logic [$clog2(`ROB):0]                   next_num_free,
 
-    
     output logic                                    proc_nuke,
     output logic [`XLEN-1:0]                        next_pc,
 
@@ -62,7 +64,8 @@ module rob(
 
     output logic                                    illegal_out,
     output logic                                    halt_out,
-    output logic [$clog2(`WAYS):0]                  num_committed
+    output logic [$clog2(`WAYS):0]                  num_committed,
+    output logic                                    commit
 );
 
 rob_entry [`ROB-1:0]                                entries;
@@ -74,7 +77,7 @@ logic [$clog2(`WAYS)-1:0]                           num_dispatched;
 //logic [$clog2(`WAYS):0]                           num_committed;
 rob_entry [`WAYS-1:0]                               new_entries;
 //logic [$clog2(`ROB):0]                              next_num_free;
-logic                                               store_commit;
+//logic                                               store_commit;
 
 // Combinational (next state) logic
 /*
@@ -134,7 +137,7 @@ always_comb begin
     next_pc = 0;
     illegal_out = 0;
     halt_out = 0;
-    store_commit = 0;
+    commit = 0;
 
     // Default outputs
     for(int i = 0; i < `WAYS; i++) begin
@@ -152,7 +155,7 @@ always_comb begin
 
         // If committing, set outputs and check for mispredicted branch
         // Everything after the && makes sure we only commit one store per cycle
-        if(entries[(head + i) % `ROB].done && (!entries[(head + i) % `ROB].is_store || !store_commit)) begin
+        if(entries[(head + i) % `ROB].done && (!entries[(head + i) % `ROB].is_store || !commit)) begin
         $display("COMMIT PC=%h MIS=%b IDX=%d",entries[(head + i) % `ROB].PC,entries[(head + i) % `ROB].mispredicted,(head + i) % `ROB);
             dest_PRN_out[i] = entries[(head + i) % `ROB].dest_PRN;
             dest_ARN_out[i] = entries[(head + i) % `ROB].dest_ARN;
@@ -165,7 +168,7 @@ always_comb begin
 
             illegal_out = illegal_out | entries[(head + i) % `ROB].illegal;
             halt_out = halt_out | entries[(head + i) % `ROB].halt;
-            store_commit = store_commit | entries[(head + i) % `ROB].is_store;
+            commit = commit | entries[(head + i) % `ROB].is_store;
             
             num_committed = i + 1;
            if(halt_out)begin
@@ -232,6 +235,11 @@ always_ff @(posedge clock) begin
                 entries[CDB_ROB_idx[i]].target           <= `SD CDB_target[i];
 
                 $display("DONE ROB : PC=%h CDB TARGET=%h IDX=%d",  entries[CDB_ROB_idx[i]].PC ,CDB_target[i],CDB_ROB_idx[i]);
+            end
+
+            // Store done logic
+            if(store_valid[i]) begin
+                entries[store_ROB_idx[i]].done = 1;
             end
         end
 
