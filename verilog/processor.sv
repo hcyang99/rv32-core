@@ -202,7 +202,7 @@ module processor (
     logic                                     illegal_out;
     logic                                     halt_out;
 	logic [$clog2(`WAYS):0]                   num_committed;
-
+	logic									  commit_st;
 
 	// Outputs from Rs-Stage
   ID_EX_PACKET [`WAYS-1:0]             rs_packet_out;
@@ -508,7 +508,7 @@ LSQ LSQ_0(
     .st_data_valid (id_ex_opb_valid),
     .st_en (st_en),
     .st_ROB_idx (ROB_idx),
-    .commit (),   // from ROB, whether head of SQ should commit
+    .commit (commit_st),   // from ROB, whether head of SQ should commit
 
     // LQ from id_stage
     .ld_size (id_ex_ld_st_size),
@@ -604,6 +604,9 @@ assign rob_PC_out        = PC_out;
 	.illegal,
 	.halt,
 
+	.store_ROB_idx(),
+	.store_valid(),
+
 // output
     .tail,
 	.next_tail,
@@ -623,7 +626,8 @@ assign rob_PC_out        = PC_out;
 
 	.illegal_out,
 	.halt_out,
-	.num_committed
+	.num_committed,
+	.commit (commit_st)
 );
 //////////////////////////////////////////////////
 //                                              //
