@@ -177,7 +177,22 @@ module testbench;
 			          clock_count*`VERILOG_CLOCK_PERIOD);
 		end
 	endtask  // task show_clk_count 
-	
+
+
+	task clean_cache_and_write_mem;
+		for(int i = 0; i < 32; i++) begin
+			if(core.dcache_0.valid[i] & core.dcache_0.dirty[i]) begin
+				mem.unified_memory[256 * i + core.dcache_0.tag[i]] = core.dcache_0.data[i];
+			end
+		end
+
+		for(int i = 0; i < 2; i++) begin
+			if(core.dcache_0.victim_valid[i] & core.dcache_0.victim_dirty[i]) begin
+				mem.unified_memory[4096 * i + core.dcache_0.tag[i]] = core.dcache_0.victim_data[i];
+			end
+		end
+	endtask
+
 	// Show contents of a range of Unified Memory, in both hex and decimal
 	task show_mem_with_decimal;
 		input [31:0] start_addr;
@@ -264,6 +279,7 @@ module testbench;
 			// deal with any halting conditions
 			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT) || debug_counter > 50000) begin
 				$display("@@@ Unified Memory contents hex on left, decimal on right: ");
+				clean_cache_and_write_mem;
 				show_mem_with_decimal(0,`MEM_64BIT_LINES - 1); 
 				// 8Bytes per line, 16kB total
 				
