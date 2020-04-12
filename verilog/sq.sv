@@ -46,10 +46,6 @@ module store_queue(
     output logic [15:0]                             write_addr,
     output logic [63:0]                             write_data,
     output logic `MEM_SIZE                          write_size,
-
-    // To ROB
-    output logic [`WAYS-1:0] [$clog2(`ROB)-1:0]     ROB_idx_out,
-    output logic [`WAYS-1:0]                        ready,
     
     // To LB
     output sq_entry [`LSQSZ-1:0]                    sq_out,
@@ -95,13 +91,6 @@ module store_queue(
                 new_entries[num_dispatched].valid = 1;
                 num_dispatched = num_dispatched + 1;
             end
-        end
-
-        // Output to ROB (Ready)
-        for(int i = 0; i < `WAYS; i++) begin
-            ROB_idx_out[i] = entries[(i + sq_head) % `LSQSZ].ROB_idx;
-            ready[i] = entries[(i + sq_head) % `LSQSZ].valid && entries[(i + sq_head) % `LSQSZ].addr_valid
-                       && entries[(i + sq_head) % `LSQSZ].data_valid && (i || !commit);
         end
 
         // Input from CDB and ALU (Update)

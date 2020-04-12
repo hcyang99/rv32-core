@@ -41,9 +41,6 @@ module rob(
     input [`WAYS-1:0]                               illegal,
     input [`WAYS-1:0]                               halt,
 
-    input [`WAYS-1:0] [$clog2(`ROB)-1:0]            store_ROB_idx,
-    input [`WAYS-1:0]                               store_valid,
-
     output logic [$clog2(`ROB)-1:0]                 tail,
     output logic [$clog2(`ROB)-1:0]                 next_tail,
 
@@ -235,11 +232,6 @@ always_ff @(posedge clock) begin
                 entries[CDB_ROB_idx[i]].target           <= `SD CDB_target[i];
 
                 $display("DONE ROB : PC=%h CDB TARGET=%h IDX=%d",  entries[CDB_ROB_idx[i]].PC ,CDB_target[i],CDB_ROB_idx[i]);
-            end
-
-            // Store done logic
-            if(store_valid[i]) begin
-                entries[store_ROB_idx[i]].done = 1;
             end
         end
 
