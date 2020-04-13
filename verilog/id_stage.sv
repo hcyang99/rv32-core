@@ -25,7 +25,7 @@ module decoder(
 	//see sys_defs.svh for definition
 	input IF_ID_PACKET 		if_packet,
 	
-	output [1:0]      mem_size, // byte, half-word or word
+	output logic [1:0]      mem_size, // byte, half-word or word
 	output ALU_OPA_SELECT opa_select,
 	output ALU_OPB_SELECT opb_select,
 	output DEST_REG_SEL   dest_reg, // mux selects
