@@ -341,7 +341,8 @@ typedef struct packed {
 	logic             take_branch; // is this a taken branch?
 	//pass throughs from decode stage
 	logic [`XLEN-1:0] rs2_value;
-	logic             rd_mem, wr_mem;
+	logic             rd_mem;
+	logic				wr_mem;
 
 	logic [$clog2(`PRF)-1:0]       	dest_PRF_idx;
 	logic [$clog2(`ROB)-1:0] 		rob_idx;       

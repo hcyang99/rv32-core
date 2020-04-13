@@ -162,26 +162,14 @@ module processor (
     logic [`WAYS-1:0]                           ld_en;
 
 	// output for LSQ
-	logic [$clog2(`LSQSZ)-1:0]					sq_head;
-	logic [$clog2(`LSQSZ)-1:0]           		sq_tail;
-	logic [$clog2(`LSQSZ)-1:0]           		lq_head;
-	logic [$clog2(`LSQSZ)-1:0]           		lq_tail;
+	logic sq_is_full;
+	logic lq_is_full;
 
-	logic                                wr_en;
-    logic [2:0]                          wr_offset;
-    logic [4:0]                          wr_idx;
-    logic [7:0]                          wr_tag;
-    logic [63:0]                         wr_data;
-    logic [1:0]                      wr_size;
+    logic [$clog2(`LSQSZ)-1:0]           sq_num_free;
+    logic [$clog2(`LSQSZ)-1:0]           lq_num_free;
 
-    logic [2:0]                          rd_offset;
-    logic [4:0]                          rd_idx;
-    logic [7:0]                          rd_tag;
-    logic [1:0]                      rd_size;
-    logic [`LSQSZ-1:0]                   rd_en;
-
-  	logic                                lq_CDB_direction_out;
-  	logic [31:0]                         lq_CDB_target_out;
+  	logic                                lq_CDB_direction;
+  	logic [31:0]                         lq_CDB_target;
 
     logic [`XLEN-1:0]                    lq_CDB_Data;
   	logic [$clog2(`PRF)-1:0]             lq_CDB_PRF_idx;
@@ -301,17 +289,24 @@ module processor (
 
 
   	generate
-      	for(genvar i = 0; i < `WAYS; i = i + 1) begin
-			assign CDB_mem_addr_valid[i]	= ~lq_CDB_valid[i] & ex_packet[i].valid & (ex_packet[i].rd_mem | ex_packet[i].wr_mem); // indicate whether the CDB_data is a valid address
-			assign CDB_direction[i] 		= lq_CDB_valid[i]? 0 : ex_packet[i].take_branch; // whether this CDB's inst will be taking branch
-			
-			assign CDB_Data[i]      		= lq_CDB_valid[i]? lq_CDB_Data[i] : ex_packet[i].take_branch ? ex_packet[i].NPC : ex_packet[i].alu_result;  // update with lsq 
-			assign CDB_PRF_idx[i]   		= lq_CDB_valid[i]? lq_CDB_PRF_idx[i] : ex_packet[i].dest_PRF_idx; // 
-			assign CDB_valid[i]     		= lq_CDB_valid[i] | ex_packet[i].valid; // wether it is a valid inst
-			assign CDB_ROB_idx[i]   		= lq_CDB_valid[i]? lq_CDB_ROB_idx[i] : ex_packet[i].rob_idx; // the rob index of the CDB's inst
-			assign CDB_target[i]    		= lq_CDB_valid[i]? 0: ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;  // if  			
-			assign CDB_reg_write[i]			= lq_CDB_valid[i] | (ex_packet[i].valid & ~ex_packet[i].rd_mem & ex_packet[i].wr_mem);  // whether this CDB data will be written to a register
+      	for(genvar i = 0; i < `WAYS-1; i = i + 1) begin
+			assign CDB_mem_addr_valid[i]	= ex_packet[i].valid & (ex_packet[i].rd_mem | ex_packet[i].wr_mem); // indicate whether the CDB_data is a valid address
+			assign CDB_direction[i] 		= ex_packet[i].take_branch; // whether this CDB's inst will be taking branch
+			assign CDB_Data[i]      		= ex_packet[i].take_branch ? ex_packet[i].NPC : ex_packet[i].alu_result;  // update with lsq 
+			assign CDB_PRF_idx[i]   		= ex_packet[i].dest_PRF_idx; // 
+			assign CDB_valid[i]     		= ex_packet[i].valid; // wether it is a valid inst
+			assign CDB_ROB_idx[i]   		= ex_packet[i].rob_idx; // the rob index of the CDB's inst
+			assign CDB_target[i]    		= ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;  // if  			
+			assign CDB_reg_write[i]			= CDB_valid[i] & ~CDB_mem_addr_valid[i];  // whether this CDB data will be written to a register
 		end
+		assign CDB_mem_addr_valid[`WAYS-1]	= ~lq_CDB_valid & ex_packet[`WAYS-1].valid & (ex_packet[`WAYS-1].rd_mem | ex_packet[`WAYS-1].wr_mem); // indicate whether the CDB_data is a valid address
+		assign CDB_direction[`WAYS-1] 		= lq_CDB_valid? 0 : ex_packet[`WAYS-1].take_branch; // whether this CDB's inst will be taking branch
+		assign CDB_Data[`WAYS-1]      		= lq_CDB_valid? lq_CDB_Data[`WAYS-1] : ex_packet[`WAYS-1].take_branch ? ex_packet[`WAYS-1].NPC : ex_packet[`WAYS-1].alu_result;  // update with lsq 
+		assign CDB_PRF_idx[`WAYS-1]   		= lq_CDB_valid? lq_CDB_PRF_idx[`WAYS-1] : ex_packet[`WAYS-1].dest_PRF_idx; // 
+		assign CDB_valid[`WAYS-1]     		= lq_CDB_valid | ex_packet[`WAYS-1].valid; // wether it is a valid inst
+		assign CDB_ROB_idx[`WAYS-1]   		= lq_CDB_valid? lq_CDB_ROB_idx[`WAYS-1] : ex_packet[`WAYS-1].rob_idx; // the rob index of the CDB's inst
+		assign CDB_target[`WAYS-1]    		= lq_CDB_valid? 0: ex_packet[`WAYS-1].take_branch ? ex_packet[`WAYS-1].alu_result: ex_packet[`WAYS-1].NPC ;  // if  			
+		assign CDB_reg_write[`WAYS-1]		= CDB_valid[`WAYS-1] & ~CDB_mem_addr_valid[`WAYS-1];  // whether this CDB data will be written to a register
 	endgenerate
 
 //////////////////////////////////////////////////
@@ -388,7 +383,7 @@ endgenerate
 		// Inputs
 		.clock (clock),
 		.reset (reset),
-		.stall(rob_is_full|rs_is_full),
+		.stall(rob_is_full|rs_is_full|lq_is_full|sq_is_full),
 
 		.pc_predicted(id_next_PC),
 		.rob_take_branch(except),
@@ -470,10 +465,10 @@ assign rob_is_full = next_num_free < `WAYS + 1;
 assign rs_is_full  = num_is_free_next < `WAYS;
 
 
-	assign id_ex_enable = ~rob_is_full & ~rs_is_full & ~except;
+	assign id_ex_enable = ~rob_is_full & ~rs_is_full & ~lq_is_full & ~ sq_is_full & ~except;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
-		if (reset | rob_is_full | rs_is_full | except) begin
+		if (reset | rob_is_full | rs_is_full | lq_is_full | sq_is_full | except) begin
 			id_ex_packet 		<= `SD 0;
 			id_ex_next_PC 		<= `SD 0;
 			id_ex_predictions 	<= `SD {`WAYS{1'b0}};
@@ -514,6 +509,10 @@ generate
 		assign id_ex_ld_st_size[i] = id_ex_packet[i].mem_size;
 	end
 endgenerate
+
+assign sq_is_full = sq_num_free < `WAYS;
+assign lq_is_full = lq_num_free < `WAYS;
+
 
 DMEM DMEN_0(
     .clock (clock),
@@ -669,7 +668,7 @@ assign rs_num_is_free = num_is_free;
         .opb_valid_in(id_ex_opb_valid),
         .id_rs_packet_in(id_ex_packet),                            
         .load_in(~(num_free<`WAYS) & ~(num_is_free<`WAYS)),
-        .ALU_occupied (ALU_occupied | lq_CDB_valid),
+			.ALU_occupied (ALU_occupied | {{(`WAYS-1){1'b0}},lq_CDB_valid}),
 
         // output
         .rs_packet_out,
@@ -697,18 +696,22 @@ generate
 		assign ex_valid_inst_out[i] = ex_packet[i].valid;
 		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
 		assign brand_result[i]		= ex_packet[i].take_branch;
-		assign ex_packet_in[i]		= ALU_occupied[i] | lq_CDB_valid[i]? ex_packet_in_tmp[i]:rs_packet_out[i];
 	end
+	for(genvar j = 0; j < `WAYS -1; j = j + 1) begin
+		assign ex_packet_in[j]		= ALU_occupied[j]? ex_packet_in_tmp[j]:rs_packet_out[j];
+	end
+		assign ex_packet_in[`WAYS -1] = (ALU_occupied[`WAYS -1] | lq_CDB_valid)? ex_packet_in_tmp[`WAYS -1]:rs_packet_out[`WAYS -1];
 endgenerate
 
 
 always_ff @(posedge clock) begin
- 	for(int i = 0; i < `WAYS; i = i + 1) begin
-  		if(~ALU_occupied[i] & ~lq_CDB_valid[i]) begin
+ 	for(int i = 0; i < `WAYS - 1; i = i + 1) begin
+  		if(~ALU_occupied[i]) begin
 		  // not occupied
    			ex_packet_in_tmp[i] <= `SD rs_packet_out[i];
   		end
  	end
+	 if(~ALU_occupied[`WAYS - 1] & ~lq_CDB_valid) ex_packet_in_tmp[`WAYS - 1] <= `SD rs_packet_out[`WAYS - 1];
 end
 
 
@@ -716,7 +719,7 @@ end
 		// Inputs
 		.clock(clock),
 		.reset(reset | except),
-		.lq_CDB_valid (lq_CDB_valid),
+		.lq_CDB_valid ( {{(`WAYS-1){1'b0}},lq_CDB_valid}),
 		.id_ex_packet_in(ex_packet_in),
 		// Outputs
 		.ex_packet_out(ex_packet),
