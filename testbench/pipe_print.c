@@ -166,7 +166,7 @@ void print_valids(int opa_valid, int opb_valid)
 void print_opaopb(int opa_valid, int opb_valid, int rs1_value, int rs2_value)
 {
   if (ppfile != NULL)
-    fprintf(ppfile,"%2d %12d %2d %12d", opa_valid, rs1_value, opb_valid, rs2_value);
+    fprintf(ppfile,"%2d %12x %2d %12x", opa_valid, rs1_value, opb_valid, rs2_value);
 }
 
 

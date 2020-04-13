@@ -303,7 +303,7 @@ module id_stage(
 				assign dest_arn[i] 			 = if_id_packet_in[i].inst.r.rd;
 				assign opa_arn[i]			 = if_id_packet_in[i].inst.r.rs1;
 				assign opb_arn[i]			 = if_id_packet_in[i].inst.r.rs2;
-				assign dest_arn_valid[i] = (dest_reg_select[i] == DEST_RD) & id_packet_out[i].valid;//if_id_packet_in[i].valid;//
+				assign dest_arn_valid[i] = (dest_reg_select[i] == DEST_RD) & id_packet_out[i].valid & ~(dest_arn[i] == 0);//if_id_packet_in[i].valid;//
 				assign id_packet_out[i].reg_write = dest_arn_valid[i];
 			end
 	endgenerate

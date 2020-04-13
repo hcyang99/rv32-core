@@ -23,7 +23,7 @@
 `define REGS		32
 `define REG_LEN     64
 `define PRF         64
-`define ROB         32
+`define ROB         16
 `define RS          16
 
 `define OLEN        16
