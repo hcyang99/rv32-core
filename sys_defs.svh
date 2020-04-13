@@ -322,7 +322,7 @@ typedef struct packed {
 	logic [$clog2(`PRF)-1:0] dest_PRF_idx;  // destination (writeback) register index 
 	logic [$clog2(`ROB)-1:0] rob_idx;       
 	logic [1:0]       	  mem_size; // byte, half-word or word
-
+	logic 					reg_write;
 
 	ALU_FUNC    alu_func;      // ALU function select (ALU_xxx *)
 	logic       rd_mem;        // does inst read memory?
@@ -341,7 +341,9 @@ typedef struct packed {
 	logic             take_branch; // is this a taken branch?
 	//pass throughs from decode stage
 	logic [`XLEN-1:0] rs2_value;
-	logic             rd_mem, wr_mem;
+	logic             rd_mem;
+	logic				wr_mem;
+	logic					 		reg_write;
 
 	logic [$clog2(`PRF)-1:0]       	dest_PRF_idx;
 	logic [$clog2(`ROB)-1:0] 		rob_idx;       
