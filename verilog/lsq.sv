@@ -1,6 +1,6 @@
 
 typedef struct packed {
-    logic [1:0]                             size;
+    logic [1:0]                                 size;
     logic [31:0]                                data;
     logic                                       data_valid;
     logic [$clog2(`ROB)-1:0]                    ROB_idx;
@@ -23,7 +23,7 @@ module LSQ(
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ALU_ROB_idx,
     input [`WAYS-1:0]                           ALU_is_valid,
     input [`WAYS-1:0]                           ALU_is_ls,      // 1 = load, 0 = store (do we need this since we have ROB idx?)
-    input [`WAYS-1:0] [31:0]                    ALU_data,
+    input [`WAYS-1:0] [15:0]                    ALU_data,
 
     // SQ
     input [`WAYS-1:0] [1:0]                 st_size,
@@ -46,8 +46,8 @@ module LSQ(
     input [31:0]                                mem_data,       // from mem, only overwrites "waiting" entries
 
     // LSQ head/tail
-    output logic [$clog2(`LSQSZ)-1:0]           sq_num_free,
-    output logic [$clog2(`LSQSZ)-1:0]           lq_num_free,
+    output logic [$clog2(`LSQSZ):0]           sq_num_free,
+    output logic [$clog2(`LSQSZ):0]           lq_num_free,
 
     // write to DCache
     output logic                                wr_en,
@@ -137,7 +137,7 @@ module LSQ(
         .ALU_ROB_idx(ALU_ROB_idx),
         .ALU_is_valid(ALU_is_valid),
         .ALU_is_ls(ALU_is_ls),
-        .ALU_data(ALU_data[15:0]),
+        .ALU_data(ALU_data),
 
         // feedback from DCache
         .dc_feedback(dc_feedback),
@@ -182,8 +182,8 @@ module LSQ(
         .CDB_valid,
 
         .ALU_ROB_idx,
-        .ALU_is_valid(ALU_is_valid && !ALU_is_ls),
-        .ALU_data(ALU_data[15:0]),
+        .ALU_is_valid(ALU_is_valid & ~ALU_is_ls),
+        .ALU_data(ALU_data),
 
         .sq_head,
         .sq_tail,

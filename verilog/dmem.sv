@@ -12,10 +12,10 @@ module DMEM(
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ALU_ROB_idx,
     input [`WAYS-1:0]                           ALU_is_valid,
     input [`WAYS-1:0]                           ALU_is_ls,      // 1 = load, 0 = store (do we need this since we have ROB idx?)
-    input [`WAYS-1:0]                           ALU_data,
+    input [`WAYS-1:0] [15:0]                    ALU_data,
 
     // SQ
-    input [`WAYS-1:0] [1:0]                 st_size,
+    input [`WAYS-1:0] [1:0]                     st_size,
     input [`WAYS-1:0] [31:0]                    st_data,
     input [`WAYS-1:0]                           st_data_valid,
     input [`WAYS-1:0]                           st_en,
@@ -23,7 +23,7 @@ module DMEM(
     input                                       commit,   // from ROB, whether head of SQ should commit
 
     // LQ
-    input [`WAYS-1:0] [1:0]                 ld_size,
+    input [`WAYS-1:0] [1:0]                     ld_size,
     input [`WAYS-1:0]                           ld_en,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx,
@@ -34,8 +34,8 @@ module DMEM(
 	  input [3:0]                                 mem2proc_tag,     // 0 = no value, other=tag of transaction
 
     // LSQ num free
-    output logic [$clog2(`LSQSZ)-1:0]           sq_num_free,
-    output logic [$clog2(`LSQSZ)-1:0]           lq_num_free,
+    output logic [$clog2(`LSQSZ):0]             sq_num_free,
+    output logic [$clog2(`LSQSZ):0]             lq_num_free,
 
     // LQ to CDB, highest priority REQUIRED
     output logic [31:0]                         CDB_Data_out,

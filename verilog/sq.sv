@@ -16,14 +16,14 @@ module store_queue(
     input                                           commit,
 
     // From dispatch
-    input [`WAYS-1:0] [1:0]                     size,
-    input [`WAYS-1:0] [63:0]                        data,
+    input [`WAYS-1:0] [1:0]                         size,
+    input [`WAYS-1:0] [31:0]                        data,
     input [`WAYS-1:0]                               data_valid,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]            ROB_idx,
     input [`WAYS-1:0]                               enable,
 
     // From CDB
-    input [`WAYS-1:0] [63:0]                        CDB_Data,
+    input [`WAYS-1:0] [31:0]                        CDB_Data,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]            CDB_PRF_idx,
     input [`WAYS-1:0]                               CDB_valid,
 
@@ -39,8 +39,8 @@ module store_queue(
     // To D$
     output logic                                    write_en,
     output logic [15:0]                             write_addr,
-    output logic [63:0]                             write_data,
-    output logic [1:0]                          write_size,
+    output logic [31:0]                             write_data,
+    output logic [1:0]                              write_size,
     
     // To LB
     output sq_entry [`LSQSZ-1:0]                    sq_out,
@@ -49,8 +49,8 @@ module store_queue(
     output reg [$clog2(`LSQSZ):0]                   num_free
 );
 
-    reg [`LSQSZ-1:0] [1:0]                        size_reg;
-    reg [`LSQSZ-1:0] [63:0]                           data_reg;
+    reg [`LSQSZ-1:0] [1:0]                            size_reg;
+    reg [`LSQSZ-1:0] [31:0]                           data_reg;
     reg [`LSQSZ-1:0]                                  data_valid_reg;
     reg [`LSQSZ-1:0] [$clog2(`ROB)-1:0]               ROB_idx_reg;
     reg [`LSQSZ-1:0] [15:0]                           addr_reg;
@@ -145,7 +145,7 @@ module store_queue(
     endgenerate
 
     wor [`LSQSZ-1:0] [1:0]                        size_next;
-    wor [`LSQSZ-1:0] [63:0]                           data_next;
+    wor [`LSQSZ-1:0] [31:0]                           data_next;
     wor [`LSQSZ-1:0]                                  data_valid_next;
     wor [`LSQSZ-1:0] [$clog2(`ROB)-1:0]               ROB_idx_next;
     wor [`LSQSZ-1:0] [15:0]                           addr_next;
@@ -154,7 +154,7 @@ module store_queue(
 
     // clear invalid inputs
     wire [`WAYS-1:0] [1:0]                     size_tmp;
-    wire [`WAYS-1:0] [63:0]                        data_tmp;
+    wire [`WAYS-1:0] [31:0]                        data_tmp;
     wire [`WAYS-1:0]                               data_valid_tmp;
     wire [`WAYS-1:0] [$clog2(`ROB)-1:0]            ROB_idx_tmp;
     generate;
@@ -249,16 +249,16 @@ module store_queue(
     end
 
     // head reg
-    reg [1:0]                           sq_head_size_reg;
-    reg [63:0]                              sq_head_data_reg;
+    reg [1:0]                               sq_head_size_reg;
+    reg [31:0]                              sq_head_data_reg;
     reg                                     sq_head_data_valid_reg;
     reg [$clog2(`ROB)-1:0]                  sq_head_ROB_idx_reg;
     reg [15:0]                              sq_head_addr_reg;
     reg                                     sq_head_addr_valid_reg;
     reg                                     sq_head_valid_reg;
 
-    wor [1:0]                           sq_head_size_next;
-    wor [63:0]                              sq_head_data_next;
+    wor [1:0]                               sq_head_size_next;
+    wor [31:0]                              sq_head_data_next;
     wor                                     sq_head_data_valid_next;
     wor [$clog2(`ROB)-1:0]                  sq_head_ROB_idx_next;
     wor [15:0]                              sq_head_addr_next;
