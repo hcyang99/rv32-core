@@ -80,7 +80,7 @@ module testbench;
     logic [$clog2(`RS):0]    rs_num_is_free;
 	logic [`RS-1:0]		rs_load_in_hub;
 	logic [`RS-1:0]		rs_is_free_hub;
-	logic [`RS-1:0]		rs_is_ready_hub;
+	logic [`RS-1:0]		rs_ready_hub;
 
 // ex_stage
 	logic [`WAYS-1:0]    ex_valid_inst_out;
@@ -249,7 +249,8 @@ module testbench;
 
 			// print the processor stuff via c code to the processor.out
 			for(int i = 0; i < `WAYS; i++) begin
-				print_cycles($realtime, clock_count);
+				int rt = $realtime;
+				print_cycles(rt, clock_count);
 				print_stage(" ", if_IR_out[i], {31'b0,if_valid_inst_out[i]});
 				print_stage("|", id_IR_out[i], {31'b0,id_valid_inst_out[i]});
 				print_valids({31'b0, id_opa_valid[i]}, {31'b0, id_opb_valid[i]});
