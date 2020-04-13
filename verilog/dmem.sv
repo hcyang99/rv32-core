@@ -12,7 +12,7 @@ module DMEM(
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ALU_ROB_idx,
     input [`WAYS-1:0]                           ALU_is_valid,
     input [`WAYS-1:0]                           ALU_is_ls,      // 1 = load, 0 = store (do we need this since we have ROB idx?)
-    input [`WAYS-1:0] [15:0]                    ALU_data,
+    input [`WAYS-1:0] [31:0]                    ALU_data,
 
     // SQ
     input [`WAYS-1:0] [1:0]                     st_size,
@@ -51,6 +51,14 @@ module DMEM(
     output logic [1:0]                          Dmem_size,
     output logic [63:0]                         Dmem_data
 );
+
+logic [`WAYS-1:0] [15:0]                        ALU_data_tmp;
+genvar gi;
+generate;
+    for (gi = 0; gi < `WAYS; ++gi) begin
+        assign ALU_data_tmp[gi] = ALU_data[gi][15:0];
+    end
+endgenerate
 
 // write to DCache
 logic                                       lsq_to_dc_wr_en;
@@ -112,7 +120,7 @@ LSQ LSQ_0(
     .ALU_ROB_idx(ALU_ROB_idx),
     .ALU_is_valid(ALU_is_valid),
     .ALU_is_ls(ALU_is_ls),
-    .ALU_data(ALU_data),
+    .ALU_data(ALU_data_tmp),
 
     .st_size(st_size),
     .st_data(st_data),

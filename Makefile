@@ -43,7 +43,7 @@ else
 	ELF2HEX = elf2hex
 endif
 all: simv
-	#./simv | tee program.out
+	./simv | tee program.out
 
 compile: $(CRT) $(LINKERS)
 	$(GCC) $(CFLAGS) $(OFLAGS) $(CRT) $(SOURCE) -T $(LINKERS) -o program.elf
