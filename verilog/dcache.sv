@@ -1,13 +1,6 @@
 // cachemem32x64
 // write-back no-write-allocate dcache
 
-`define BYTE 2'b0
-`define HALF 2'h1
-`define WORD 2'h2
-`define DOUBLE 2'h3
-`define MEM_SIZE [1:0]
-`define LSQSZ 16
-`include "../sys_defs.svh"
 
 module dcache(
     input                       clock,
@@ -18,7 +11,7 @@ module dcache(
     input [4:0]                 proc_wr_idx,
     input [7:0]                 proc_wr_tag,
     input [63:0]                proc_wr_data, 
-    input `MEM_SIZE             proc_wr_size,
+    input [1:0]             proc_wr_size,
 
     input                       mem_wr_en,
     input [4:0]                 mem_wr_idx,
@@ -29,7 +22,7 @@ module dcache(
     input [2:0]                 rd_offset,
     input [4:0]                 rd_idx,
     input [7:0]                 rd_tag,
-    input `MEM_SIZE             rd_size,
+    input [1:0]             rd_size,
     input [`LSQSZ-1:0]          rd_gnt,
 
     output logic [63:0]         rd_data,
@@ -39,18 +32,18 @@ module dcache(
     output logic                wb_en_out,
     output logic [15:0]         wb_addr_out,
     output logic [63:0]         wb_data_out,
-    output logic `MEM_SIZE      wb_size_out,
+    output logic [1:0]      wb_size_out,
 
     // write directly to mem on wr miss
     output logic                wr_en_out,
     output logic [15:0]         wr_addr_out,
     output logic [63:0]         wr_data_out,
-    output logic `MEM_SIZE      wr_size_out,
+    output logic [1:0]      wr_size_out,
 
     // read from mem on rd miss
     output logic                rd_en_out,
     output logic [15:0]         rd_addr_out,
-    output logic `MEM_SIZE      rd_size_out,
+    output logic [1:0]      rd_size_out,
     output logic [`LSQSZ-1:0]   rd_gnt_out
 );
 
@@ -118,17 +111,17 @@ wor mem_cache_conflict;
 
 always_comb begin
     case (proc_wr_size)
-        `BYTE:      proc_wr_mask = {56'b0, {8{1'b1}}};
-        `HALF:      proc_wr_mask = {48'b0, {16{1'b1}}};
-        `WORD:      proc_wr_mask = {32'b0, {32{1'b1}}};
+        BYTE:      proc_wr_mask = {56'b0, {8{1'b1}}};
+        HALF:      proc_wr_mask = {48'b0, {16{1'b1}}};
+        WORD:      proc_wr_mask = {32'b0, {32{1'b1}}};
         default:    proc_wr_mask = {64{1'b1}};
     endcase
     proc_wr_mask = proc_wr_mask << {proc_wr_offset, 3'b0};
 
     case (rd_size)
-        `BYTE:      proc_rd_mask = {56'b0, {8{1'b1}}};
-        `HALF:      proc_rd_mask = {48'b0, {16{1'b1}}};
-        `WORD:      proc_rd_mask = {32'b0, {32{1'b1}}};
+        BYTE:      proc_rd_mask = {56'b0, {8{1'b1}}};
+        HALF:      proc_rd_mask = {48'b0, {16{1'b1}}};
+        WORD:      proc_rd_mask = {32'b0, {32{1'b1}}};
         default:    proc_rd_mask = {64{1'b1}};
     endcase
 end
@@ -324,7 +317,7 @@ always_comb begin
                 wb_en_out = 1'b1;
                 wb_addr_out = {victim_tags_after_rd[victim_lru_after_rd], 3'b0};
                 wb_data_out = victim_data_after_rd[victim_lru_after_rd];
-                wb_size_out = `DOUBLE;
+                wb_size_out = DOUBLE;
             end
         end
     end

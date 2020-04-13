@@ -23,8 +23,9 @@ module decoder(
 	//input valid_inst_in,  // ignore inst when low, outputs will
 	                      // reflect noop (except valid_inst)
 	//see sys_defs.svh for definition
-	input IF_ID_PACKET if_packet,
+	input IF_ID_PACKET 		if_packet,
 	
+	output [1:0]      mem_size, // byte, half-word or word
 	output ALU_OPA_SELECT opa_select,
 	output ALU_OPB_SELECT opb_select,
 	output DEST_REG_SEL   dest_reg, // mux selects
@@ -48,6 +49,22 @@ module decoder(
 	assign inst          = if_packet.inst;
 	assign valid_inst_in = if_packet.valid;
 	assign valid_inst    = valid_inst_in & ~illegal;
+
+	always_comb begin
+		mem_size = DOUBLE;
+			casez (inst) 
+				`RV32_LB, `RV32_SB, `RV32_LBU: begin
+					mem_size = BYTE;
+				end
+				`RV32_LH, `RV32_LHU, `RV32_SH: begin
+					mem_size = HALF;
+				end
+				`RV32_LW, `RV32_SW: begin
+					mem_size = WORD;
+				end
+				default: mem_size = DOUBLE;
+			endcase
+	end
 	
 	always_comb begin
 		// default control values:
@@ -299,6 +316,7 @@ module id_stage(
 					decoder decoder_0 (
 						.if_packet(if_id_packet_in[i]),	 
 							// Outputs
+						.mem_size(id_packet_out[i].mem_size),
 						.opa_select(id_packet_out[i].opa_select),
 						.opb_select(id_packet_out[i].opb_select),
 						.alu_func(id_packet_out[i].alu_func),
@@ -344,24 +362,6 @@ branch_pred #(.SIZE(128)) predictor (
         .next_PC(next_PC),//useless
         .predictions
     );
-
-/*
-always_comb begin
-        // Default output is all not taken
-        next_PC = if_id_packet_in[0].PC + (`WAYS * 4);
-        predictions = 0;
-
-        // See if something should be predicted taken
-        for(int i = 0; i < `WAYS; i++) begin
-            if(is_branch[i]&inst_valid_tmp[i]) begin
-                next_PC = `XLEN'h68;
-                predictions[i] = 1;
-                break;
-            end
-        end			
-    end
-
-*/
 
 
 logic branch;

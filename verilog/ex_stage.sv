@@ -262,7 +262,7 @@ module ex_stage(
 				.clock(clock),
 				.reset(reset),
 				.valid_in(id_ex_packet_in[i].valid),
-				.lq_CDB_valid(lq_CDB_valid[i],)
+				.lq_CDB_valid(lq_CDB_valid[i]),
 
 				.opa(opa_mux_out[i]),
 				.opb(opb_mux_out[i]),
@@ -284,22 +284,6 @@ module ex_stage(
 			);			
 		end
 	endgenerate
-
-end
-
-always_ff @(posedge clock) begin
- $display("occupied_hub:%b",occupied_hub);
- 
-for(int i = 0; i < `WAYS ; i = i + 1) begin
-		  
-		if(ex_packet_out[i].valid) begin
-		  $display("inst:%h",id_ex_packet_in[i].inst);
-		  $display("PRF_idx:%d",id_ex_packet_in[i].dest_PRF_idx);
-		  $display("result:%h",ex_packet_out[i].alu_result);
-
-		end
-end
-end
 
 
 

@@ -15,7 +15,7 @@ module DMEM(
     input [`WAYS-1:0]                           ALU_data,
 
     // SQ
-    input [`WAYS-1:0] `MEM_SIZE                 st_size,
+    input [`WAYS-1:0] [1:0]                 st_size,
     input [`WAYS-1:0] [31:0]                    st_data,
     input [`WAYS-1:0]                           st_data_valid,
     input [`WAYS-1:0]                           st_en,
@@ -23,7 +23,7 @@ module DMEM(
     input                                       commit,   // from ROB, whether head of SQ should commit
 
     // LQ
-    input [`WAYS-1:0] `MEM_SIZE                 ld_size,
+    input [`WAYS-1:0] [1:0]                 ld_size,
     input [`WAYS-1:0]                           ld_en,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx,
@@ -48,7 +48,7 @@ module DMEM(
     // to mem
     output logic [1:0]                          Dmem_command, 
     output logic [15:0]                         Dmem_addr,
-    output logic `MEM_SIZE                      Dmem_size,
+    output logic [1:0]                      Dmem_size,
     output logic [63:0]                         Dmem_data
 );
 
@@ -58,13 +58,13 @@ logic [2:0]                                 lsq_to_dc_wr_offset;
 logic [4:0]                                 lsq_to_dc_wr_idx;
 logic [7:0]                                 lsq_to_dc_wr_tag;
 logic [31:0]                                lsq_to_dc_wr_data;
-logic `MEM_SIZE                             lsq_to_dc_wr_size;
+logic [1:0]                             lsq_to_dc_wr_size;
 
 // read from DCache
 logic [2:0]                                 lsq_to_dc_rd_offset;
 logic [4:0]                                 lsq_to_dc_rd_idx;
 logic [7:0]                                 lsq_to_dc_rd_tag;
-logic `MEM_SIZE                             lsq_to_dc_rd_size;
+logic [1:0]                             lsq_to_dc_rd_size;
 logic                                       lsq_to_dc_rd_en;
 logic [`LSQSZ-1:0]                          lsq_to_dc_rd_gnt;
 
@@ -86,18 +86,18 @@ logic                                       dc_to_lsq_rd_valid;
 logic                                       dc_to_mem_wb_en_out;
 logic [15:0]                                dc_to_mem_wb_addr_out;
 logic [63:0]                                dc_to_mem_wb_data_out;
-logic `MEM_SIZE                             dc_to_mem_wb_size_out;
+logic [1:0]                             dc_to_mem_wb_size_out;
 
 // write directly to mem on wr miss
 logic                                       dc_to_mem_wr_en_out;
 logic [15:0]                                dc_to_mem_wr_addr_out;
 logic [63:0]                                dc_to_mem_wr_data_out;
-logic `MEM_SIZE                             dc_to_mem_wr_size_out;
+logic [1:0]                             dc_to_mem_wr_size_out;
 
 // read from mem on rd miss
 logic                                       dc_to_mem_rd_en_out;
 logic [15:0]                                dc_to_mem_rd_addr_out;
-logic `MEM_SIZE                             dc_to_mem_rd_size_out;
+logic [1:0]                             dc_to_mem_rd_size_out;
 logic [`LSQSZ-1:0]                          dc_to_mem_rd_gnt_out;
 
 LSQ LSQ_0(
