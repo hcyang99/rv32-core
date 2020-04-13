@@ -473,7 +473,7 @@ end
 		end
 	end
 
-
+/*
 always_ff @(posedge clock) begin
 $display("except in id_stage: %b",except);
 for(int i = 0; i < `WAYS ; i = i + 1) begin
@@ -490,6 +490,6 @@ for(int i = 0; i < `WAYS ; i = i + 1) begin
   end
 end
 end
-   
+  */ 
    
 endmodule // module id_stage

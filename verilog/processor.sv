@@ -106,7 +106,7 @@ module processor (
 	// between dcache controller and mem
     logic [3:0] 						mem_to_dcache_response;
     logic [3:0] 						mem_to_dcache_tag;
-    logic [`WAYS-1:0][63:0] 			cachemem_to_dcache_data;
+    logic [63:0] 						cachemem_to_dcache_data;
 
 		// Pipeline register enables
 	logic   if_id_enable, id_ex_enable;
@@ -249,10 +249,10 @@ module processor (
     .Icache_command_in (icache_to_mem_command),
 
     // Dcache inputs
-	.Dcache_addr_in (Dmem_addr),
+	.Dcache_addr_in ({16'b0,Dmem_addr}),
     .Dcache_data_in (Dmem_data),
     .Dcache_command_in (Dmem_command),
-
+	.Dmem_size_in (Dmem_size),
     // Mem inputs
     .mem_tag_in (mem2proc_tag),
     .mem_data_in (mem2proc_data),

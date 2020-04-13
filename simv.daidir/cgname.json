@@ -1,9 +1,9 @@
 {
-    "mem": [
-        "mem",
-        "FSbWZ",
+    "store_queue_0000": [
+        "store_queue_0000",
+        "fNfNe",
         "module",
-        3
+        21
     ],
     "_vcs_unit__4293599388": [
         "_vcs_unit__4293599388",
@@ -11,71 +11,11 @@
         "module",
         1
     ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
-        "module",
-        23
-    ],
     "lq_ps_in_0000": [
         "lq_ps_in_0000",
         "gqQ8q",
         "module",
         14
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
-    ],
-    "dcache_0000": [
-        "dcache_0000",
-        "Nmdq6",
-        "module",
-        8
-    ],
-    "lq_wand_sel_0000": [
-        "lq_wand_sel_0000",
-        "RCLGV",
-        "module",
-        15
-    ],
-    "ar_wand_sel_0000": [
-        "ar_wand_sel_0000",
-        "sYgZs",
-        "module",
-        6
-    ],
-    "arbiter_rr_0000": [
-        "arbiter_rr_0000",
-        "Tjq5i",
-        "module",
-        5
-    ],
-    "store_queue_0000": [
-        "store_queue_0000",
-        "fNfNe",
-        "module",
-        21
-    ],
-    "alu": [
-        "alu",
-        "C26kq",
-        "module",
-        10
-    ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        22
     ],
     "dcache_ctrl_0000": [
         "dcache_ctrl_0000",
@@ -83,29 +23,17 @@
         "module",
         7
     ],
-    "DMEM_0000": [
-        "DMEM_0000",
-        "BaCRA",
+    "std": [
+        "std",
+        "reYIK",
         "module",
-        9
+        2
     ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
         "module",
-        26
-    ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
-        "module",
-        11
-    ],
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
-        "module",
-        20
+        22
     ],
     "ex_stage_0000": [
         "ex_stage_0000",
@@ -113,23 +41,77 @@
         "module",
         12
     ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
+    "mem": [
+        "mem",
+        "FSbWZ",
         "module",
-        13
+        3
     ],
-    "mult_stage": [
-        "mult_stage",
-        "aUVMg",
+    "testbench": [
+        "testbench",
+        "iAVhC",
         "module",
-        16
+        4
+    ],
+    "arbiter_rr_0000": [
+        "arbiter_rr_0000",
+        "Tjq5i",
+        "module",
+        5
     ],
     "processor_0000": [
         "processor_0000",
         "UzNI6",
         "module",
         17
+    ],
+    "brcond": [
+        "brcond",
+        "VqGv5",
+        "module",
+        11
+    ],
+    "ar_wand_sel_0000": [
+        "ar_wand_sel_0000",
+        "sYgZs",
+        "module",
+        6
+    ],
+    "alu": [
+        "alu",
+        "C26kq",
+        "module",
+        10
+    ],
+    "dcache_0000": [
+        "dcache_0000",
+        "Nmdq6",
+        "module",
+        8
+    ],
+    "DMEM_0000": [
+        "DMEM_0000",
+        "BaCRA",
+        "module",
+        9
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        13
+    ],
+    "lq_wand_sel_0000": [
+        "lq_wand_sel_0000",
+        "RCLGV",
+        "module",
+        15
+    ],
+    "mult_stage": [
+        "mult_stage",
+        "aUVMg",
+        "module",
+        16
     ],
     "rob": [
         "rob",
@@ -143,16 +125,34 @@
         "module",
         19
     ],
-    "wand_sel_0000": [
-        "wand_sel_0000",
-        "hckDL",
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
         "module",
-        24
+        20
     ],
     "wand_sel_0001": [
         "wand_sel_0001",
         "ci1CE",
         "module",
         25
+    ],
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
+        "module",
+        23
+    ],
+    "wand_sel_0000": [
+        "wand_sel_0000",
+        "hckDL",
+        "module",
+        24
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        26
     ]
 }

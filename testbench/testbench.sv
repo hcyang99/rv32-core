@@ -2,6 +2,8 @@
 
 `timescale 1ns/100ps
 
+`define WRITEBACK
+
 extern void print_header(string str);
 extern void print_cycles(int time_in, int cycle_count);
 extern void print_stage(string div, int inst, int valid_inst);
@@ -272,9 +274,12 @@ module testbench;
                 for(int i = 0; i < `WAYS; i++) begin
                     if(core.valid_out[i])
                         $fdisplay(wb_fileno, "PC=%x, REG[%d]=%x",
-                            PC_out[i],
-                            dest_ARN_out[i],
+                            core.PC_out[i],
+                            core.dest_ARN_out[i],
                             core.id_stage_0.prf.registers[core.dest_PRN_out[i]]);
+					else
+						$fdisplay(wb_fileno, "PC=%x, ---",
+                            core.PC_out[i]);
                 end
 			end
 `endif

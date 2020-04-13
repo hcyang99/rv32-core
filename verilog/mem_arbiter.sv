@@ -1,10 +1,10 @@
 module mem_arbiter(
     // Icache inputs
-    input [63:0]                Icache_addr_in,
+    input [`XLEN-1:0]                Icache_addr_in,
     input [1:0]                 Icache_command_in,
 
     // Dcache inputs
-    input [63:0]                Dcache_addr_in,
+    input [`XLEN-1:0]                Dcache_addr_in,
     input [63:0]                Dcache_data_in,
     input [1:0]                 Dcache_command_in,
     input [1:0]             Dmem_size_in,
@@ -25,7 +25,7 @@ module mem_arbiter(
     output logic [3:0]          Dcache_response_out,
 
     // Mem outputs
-    output logic [63:0]         mem_addr_out,
+    output logic [`XLEN-1:0]         mem_addr_out,
     output logic [63:0]         mem_data_out,
     output logic [1:0]          mem_command_out,
     output logic [1:0]      mem_size_out
