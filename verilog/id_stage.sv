@@ -10,8 +10,8 @@
 
 
 `timescale 1ns/100ps
-`include "../ISA.svh"
-`include "../sys_defs.svh"
+// `include "../ISA.svh"
+// `include "../sys_defs.svh"
 
   // Decode an instruction: given instruction bits IR produce the
   // appropriate datapath control signals.

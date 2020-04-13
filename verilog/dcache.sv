@@ -26,7 +26,7 @@ module dcache(
     input [`LSQSZ-1:0]          rd_gnt,
 
     output logic [63:0]         rd_data,
-    output logic                rd_valid,
+    output logic [`LSQSZ-1:0]   rd_feedback,
 
     // write dirty entries back
     output logic                wb_en_out,
@@ -217,7 +217,7 @@ always_comb begin
     dirty_after_rd = dirty_after_wr;
     // outputs
     rd_data = 0;
-    rd_valid = 0;
+    rd_feedback = 0;
     rd_en_out = 0;
     rd_addr_out = 0;
     rd_gnt_out = 0;
@@ -225,7 +225,7 @@ always_comb begin
         if (rd_cache_hit) begin
             // cache match: read directly from cache
             rd_data = rd_data_cache;
-            rd_valid = 1'b1;
+            rd_feedback = rd_gnt;
         end
         else if (rd_victim_hit) begin
             // cache miss victim match: swap
@@ -239,7 +239,7 @@ always_comb begin
                     swap_dirty_tmp_rd = victim_dirty_after_wr[i];
                     swap_tag_tmp_rd = victim_tags_after_wr[i][12:5];
                     rd_data = (victim_data_after_wr[i] >> {rd_offset, 3'b0}) & proc_rd_mask;
-                    rd_valid = 1'b1;
+                    rd_feedback = rd_gnt;
                 end
             end
             data_after_rd[rd_idx] = swap_data_tmp_rd;

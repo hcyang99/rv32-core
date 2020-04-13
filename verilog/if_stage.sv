@@ -10,7 +10,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 `timescale 1ns/100ps
-`include "../sys_defs.svh"
+// `include "../sys_defs.svh"
 
 module if_stage(
 	input         clock,                  // system clock

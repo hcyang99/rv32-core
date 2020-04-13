@@ -1,4 +1,4 @@
-`include "../sys_defs.svh"
+// `include "../sys_defs.svh"
 module DMEM(
     input                                       clock,
     input                                       reset,
@@ -89,7 +89,6 @@ logic [7:0]                                 mem_wr_tag;
 logic [63:0]                                mem_wr_data;
 
 logic [63:0]                                dc_to_lsq_rd_data;
-logic                                       dc_to_lsq_rd_valid;
 
 // write dirty entries back
 logic                                       dc_to_mem_wb_en_out;
@@ -189,7 +188,7 @@ dcache dcache_0(
     .rd_gnt(lsq_to_dc_rd_gnt),
 
     .rd_data(dc_to_lsq_rd_data),
-    .rd_valid(dc_to_lsq_rd_valid),
+    .rd_feedback(dc_feedback),
 
     .wb_en_out(dc_to_mem_wb_en_out),
     .wb_addr_out(dc_to_mem_wb_addr_out),

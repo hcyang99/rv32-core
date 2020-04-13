@@ -7,7 +7,7 @@ set the insruction as invalid
 **********************/
 
 //`timescale 1ns/100ps
-`include "../sys_defs.svh"
+// `include "../sys_defs.svh"
 module RS_Line(
     input                                       clock,
     input                                       reset,
