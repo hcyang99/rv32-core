@@ -2,6 +2,10 @@
 `define HALF 2'h1
 `define WORD 2'h2
 `define DOUBLE 2'h3
+`define ROB 32
+`define WAYS 4
+`define PRF 64
+`define LSQSZ 16
 `define MEM_SIZE [1:0]
 
 // typedef struct packed {
@@ -38,8 +42,8 @@ module store_queue(
     input [`WAYS-1:0] [15:0]                        ALU_data,
 
     // To debug
-    output logic [$clog2(`LSQSZ)-1:0]               sq_head,
-    output logic [$clog2(`LSQSZ)-1:0]               sq_tail,
+    output reg [$clog2(`LSQSZ)-1:0]                 sq_head,
+    output reg [$clog2(`LSQSZ)-1:0]                 sq_tail,
 
     // To D$
     output logic                                    write_en,
@@ -51,118 +55,283 @@ module store_queue(
     output sq_entry [`LSQSZ-1:0]                    sq_out,
 
     // To flow control logic (stall)
-    output logic [$clog2(`LSQSZ):0]                 num_free
+    output reg [$clog2(`LSQSZ):0]                   num_free
 );
 
-    sq_entry [`LSQSZ-1:0]                           entries;
-    logic [$clog2(`WAYS):0]                         num_dispatched;
-    sq_entry [`WAYS-1:0]                            new_entries;
-    logic [`WAYS-1:0] [$clog2(`LSQSZ)-1:0]          ALU_write_idx;
-    logic [`WAYS-1:0]                               ALU_write_valid;
-    logic [`LSQSZ-1:0] [`WAYS-1:0]                  CDB_write_idx;
-    logic [`LSQSZ-1:0]                              CDB_write_valid;
+    reg [`LSQSZ-1:0] `MEM_SIZE                        size_reg;
+    reg [`LSQSZ-1:0] [63:0]                           data_reg;
+    reg [`LSQSZ-1:0]                                  data_valid_reg;
+    reg [`LSQSZ-1:0] [$clog2(`ROB)-1:0]               ROB_idx_reg;
+    reg [`LSQSZ-1:0] [15:0]                           addr_reg;
+    reg [`LSQSZ-1:0]                                  addr_valid_reg;
+    reg [`LSQSZ-1:0]                                  valid_reg;
 
-    // Combinational/output logic
-    always_comb begin
-        // SQ state for LB
-        sq_out = entries;
+    genvar gi, gj;
 
-        // Output to D$ (Commit)
-        write_en = commit;
-        write_addr = entries[sq_head].addr;
-        write_data = entries[sq_head].data;
-        write_size = entries[sq_head].size;
-
-        // Input from decode (Dispatch)
-        num_dispatched = 0;
-        for(int i = 0; i < `WAYS; i++) begin
-            new_entries[i].size = 0;
-            new_entries[i].data = 0;
-            new_entries[i].data_valid = 0;
-            new_entries[i].ROB_idx = 0;
-            new_entries[i].addr = 0;
-            new_entries[i].addr_valid = 0;
-            new_entries[i].valid = 0;
-            if(enable[i]) begin
-                new_entries[num_dispatched].size = size[i];
-                new_entries[num_dispatched].data = data[i];
-                new_entries[num_dispatched].data_valid = data_valid[i];
-                new_entries[num_dispatched].ROB_idx = ROB_idx[i];
-                new_entries[num_dispatched].valid = 1;
-                num_dispatched = num_dispatched + 1;
-            end
+    // output to LB
+    generate;
+        for (gi = 0; gi < `LSQSZ; ++gi) begin
+            assign sq_out[gi].size = size_reg[gi];
+            assign sq_out[gi].data = data_reg[gi];
+            assign sq_out[gi].data_valid = data_valid_reg[gi];
+            assign sq_out[gi].ROB_idx = ROB_idx_reg[gi];
+            assign sq_out[gi].addr = addr_reg[gi];
+            assign sq_out[gi].addr_valid = addr_valid_reg[gi];
+            assign sq_out[gi].valid = valid_reg[gi];
         end
+    endgenerate
 
-        // Input from CDB and ALU (Update)
-        // ALU
-        for(int i = 0; i < `WAYS; i++) begin
-            ALU_write_idx[i] = sq_head;
-            ALU_write_valid[i] = 0;
-            if(ALU_is_valid[i]) begin
-                for(int j = 0; j < `LSQSZ - num_free; j++) begin
-                    if(ALU_ROB_idx[i] == entries[(sq_head + j) % `LSQSZ].ROB_idx) begin
-                        ALU_write_idx[i] = (sq_head + j) % `LSQSZ;
-                        ALU_write_valid[i] = 1;
-                        break;
-                    end // if ALU_ROB[i] matches entries[j].ROB
-                end // for all SQ entries
-            end // if ALU_is_valid
-        end // for all ALU inputs
 
-        // CDB
-        for(int i = 0; i < `LSQSZ - num_free; i++) begin
-            CDB_write_idx[i] = 0;
-            CDB_write_valid[i] = 0;
-            if(!entries[(sq_head + i) % `LSQSZ].data_valid) begin
-                for(int j = 0; j < `WAYS; j++) begin
-                    if(CDB_valid[j] && (entries[(sq_head + i) % `LSQSZ].data == CDB_PRF_idx[j])) begin
-                        CDB_write_idx[i] = j;
-                        CDB_write_valid[i] = 1;
-                        break;
-                    end // CDB_PRF[j] matches entries[i]
-                end // for all CDBs
-            end // if !entries[i].data
-        end // for all SQ entries
-    end
+    // head and tail
+    reg [`LSQSZ-1:0] sq_head_internal;  // one-hot encoding
+    reg [`LSQSZ-1:0] sq_tail_internal;
+    wire [`LSQSZ-1:0] sq_head_internal_next;
+    wire [`LSQSZ-1:0] sq_tail_internal_next;
+    wire [`WAYS:0] [`LSQSZ-1:0] sq_tail_internal_tmp;
+    wor [$clog2(`LSQSZ)-1:0] sq_head_next;
+    wor [$clog2(`LSQSZ)-1:0] sq_tail_next;
 
-    // Sequential logic
-    // synopsys sync_set_reset "reset"
+    assign sq_head_internal_next = commit ? 
+        {sq_head_internal[`LSQSZ-2:0], sq_head_internal[`LSQSZ-1]} : sq_head_internal;
+    
+    assign sq_tail_internal_tmp[0] = sq_tail_internal;
+    generate;
+        for (gi = 1; gi <= `WAYS; ++gi) begin
+            assign sq_tail_internal_tmp[gi] = enable[gi-1] ? 
+                {sq_tail_internal_tmp[gi-1][`LSQSZ-2:0], sq_tail_internal_tmp[gi-1][`LSQSZ-1]} :
+                sq_tail_internal_tmp[gi-1];
+        end
+    endgenerate
+    assign sq_tail_internal_next = sq_tail_internal_tmp[`WAYS];
+
+    generate;
+        for (gi = 0; gi < `LSQSZ; ++gi) begin
+            assign sq_head_next = sq_head_internal_next[gi] ? gi : 0;
+            assign sq_tail_next = sq_tail_internal_next[gi] ? gi : 0;
+        end
+    endgenerate
+
     always_ff @(posedge clock) begin
-        if(reset || except) begin
-            for(int i = 0; i < `LSQSZ; i++) begin
-                entries[i].valid <= 0;
-            end
+        if (reset | except) begin
             sq_head <= 0;
             sq_tail <= 0;
+            sq_head_internal <= `LSQSZ'b1;
+            sq_tail_internal <= `LSQSZ'b1;
+        end
+        else begin
+            sq_head <= sq_head_next;
+            sq_tail <= sq_tail_next;
+            sq_head_internal <= sq_head_internal_next;
+            sq_tail_internal <= sq_tail_internal_next;
+        end
+    end
+
+    // check for CDB/ALU hit
+    wire [`WAYS-1:0] [`LSQSZ-1:0] CDB_hit;
+    wire [`WAYS-1:0] [`LSQSZ-1:0] ALU_hit;
+    generate;
+        for (gi = 0; gi < `WAYS; ++gi) begin
+            for (gj = 0; gj < `LSQSZ; ++gj) begin
+                assign CDB_hit[gi][gj] = CDB_valid[gi] & CDB_PRF_idx[gi] == data_reg[gj] & (~data_valid_reg[gj]);
+                assign ALU_hit[gi][gj] = ALU_is_valid[gi] & ALU_ROB_idx[gi] == ROB_idx_reg[gj] & (~addr_valid_reg[gj]);
+            end
+        end
+    endgenerate
+
+    // write to regs
+    wand [`LSQSZ-1:0] general_hold;
+    wand [`LSQSZ-1:0] cdb_hold;
+    wand [`LSQSZ-1:0] alu_hold;
+    assign general_hold = ~(commit ? sq_head_internal : `LSQSZ'b0); // going out
+    assign cdb_hold = general_hold;
+    assign alu_hold = general_hold;
+    generate;
+        for (gi = 0; gi < `WAYS; ++gi) begin
+            assign general_hold = ~(enable[gi] ? sq_tail_internal_tmp[gi] : `LSQSZ'b0); // coming in
+            assign cdb_hold = ~CDB_hit[gi];
+            assign alu_hold = ~ALU_hit[gi];
+        end
+    endgenerate
+
+    wor [`LSQSZ-1:0] `MEM_SIZE                        size_next;
+    wor [`LSQSZ-1:0] [63:0]                           data_next;
+    wor [`LSQSZ-1:0]                                  data_valid_next;
+    wor [`LSQSZ-1:0] [$clog2(`ROB)-1:0]               ROB_idx_next;
+    wor [`LSQSZ-1:0] [15:0]                           addr_next;
+    wor [`LSQSZ-1:0]                                  addr_valid_next;
+    wor [`LSQSZ-1:0]                                  valid_next;
+
+    // clear invalid inputs
+    wire [`WAYS-1:0] `MEM_SIZE                     size_tmp;
+    wire [`WAYS-1:0] [63:0]                        data_tmp;
+    wire [`WAYS-1:0]                               data_valid_tmp;
+    wire [`WAYS-1:0] [$clog2(`ROB)-1:0]            ROB_idx_tmp;
+    generate;
+        for (gi = 0; gi < `WAYS; ++gi) begin
+            assign size_tmp[gi] = enable[gi] ? size[gi] : 0;
+            assign data_tmp[gi] = enable[gi] ? data[gi] : 0;
+            assign data_valid_tmp[gi] = enable[gi] ? data[gi] : 0;
+            assign ROB_idx_tmp[gi] = enable[gi] ? ROB_idx[gi] : 0;
+        end
+    endgenerate
+
+    // Non CDB/ALU
+    generate;
+        // hold original values, clear going head and coming tail
+        for (gi = 0; gi < `LSQSZ; ++gi) begin
+            assign size_next[gi] = general_hold[gi] ? size_reg[gi] : 0;
+            assign ROB_idx_next[gi] = general_hold[gi] ? ROB_idx_reg[gi] : 0;
+            assign valid_next[gi] = general_hold[gi] ? valid_reg[gi] : 0;
+        end
+        // going head; do nothing
+        // coming tails
+        for (gi = 0; gi < `LSQSZ; ++gi) begin
+            for (gj = 0; gj < `WAYS; ++gj) begin
+                assign size_next[gi] = sq_tail_internal_tmp[gj][gi] ? size_tmp[gj] : 0;
+                assign ROB_idx_next[gi] = sq_tail_internal_tmp[gj][gi] ? ROB_idx_tmp[gj] : 0;
+                assign valid_next[gi] = sq_tail_internal_tmp[gj][gi] ? enable[gj] : 0;
+            end
+        end
+    endgenerate
+
+    // ALU
+    generate;
+        // hold original values, clear going head and coming tail
+        for (gi = 0; gi < `LSQSZ; ++gi) begin
+            assign addr_next[gi] = alu_hold[gi] ? addr_reg[gi] : 0;
+            assign addr_valid_next[gi] = alu_hold[gi] ? addr_valid_reg[gi] : 0;
+        end
+        // going head; do nothing
+        // coming tails; do nothing
+        // ALU hits
+        for (gi = 0; gi < `WAYS; ++gi) begin
+            for (gj = 0; gj < `LSQSZ; ++gj) begin
+                assign addr_next[gj] = ALU_hit[gi][gj] ? ALU_data[gi] : 0;
+                assign addr_valid_next[gj] = ALU_hit[gi][gj];
+            end
+        end
+    endgenerate
+
+    // CDB
+    generate;
+        // hold original values, clear going head and coming tail
+        for (gi = 0; gi < `LSQSZ; ++gi) begin
+            assign data_next[gi] = cdb_hold[gi] ? addr_reg[gi] : 0;
+            assign data_valid_next[gi] = cdb_hold[gi] ? addr_valid_reg[gi] : 0;
+        end
+        // going head; do nothing
+        // coming tails
+        for (gi = 0; gi < `LSQSZ; ++gi) begin
+            for (gj = 0; gj < `WAYS; ++gj) begin
+                assign data_next[gi] = sq_tail_internal_tmp[gj][gi] ? data_tmp[gj] : 0;
+                assign data_valid_next[gi] = sq_tail_internal_tmp[gj][gi] ? data_valid_tmp[gj] : 0;
+            end
+        end
+        // ALU hits
+        for (gi = 0; gi < `WAYS; ++gi) begin
+            for (gj = 0; gj < `LSQSZ; ++gj) begin
+                assign data_next[gj] = CDB_hit[gi][gj] ? CDB_Data[gi] : 0;
+                assign data_valid_next[gj] = CDB_hit[gi][gj];
+            end
+        end
+    endgenerate
+
+    always_ff @(posedge clock) begin
+        if (reset | except) begin
+            size_reg <= 0;
+            data_reg <= 0;
+            data_valid_reg <= 0;
+            ROB_idx_reg <= 0;
+            addr_reg <= 0;
+            addr_valid_reg <= 0;
+            valid_reg <= 0;
+        end
+        else begin
+            size_reg <= size_next;
+            data_reg <= data_next;
+            data_valid_reg <= data_valid_next;
+            ROB_idx_reg <= ROB_idx_next;
+            addr_reg <= addr_next;
+            addr_valid_reg <= addr_valid_next;
+            valid_reg <= valid_next;
+        end
+    end
+
+    // head reg
+    reg `MEM_SIZE                           sq_head_size_reg;
+    reg [63:0]                              sq_head_data_reg;
+    reg                                     sq_head_data_valid_reg;
+    reg [$clog2(`ROB)-1:0]                  sq_head_ROB_idx_reg;
+    reg [15:0]                              sq_head_addr_reg;
+    reg                                     sq_head_addr_valid_reg;
+    reg                                     sq_head_valid_reg;
+
+    wor `MEM_SIZE                           sq_head_size_next;
+    wor [63:0]                              sq_head_data_next;
+    wor                                     sq_head_data_valid_next;
+    wor [$clog2(`ROB)-1:0]                  sq_head_ROB_idx_next;
+    wor [15:0]                              sq_head_addr_next;
+    wor                                     sq_head_addr_valid_next;
+    wor                                     sq_head_valid_next;
+
+    generate;
+        for (gi = 0; gi < `LSQSZ; ++gi) begin
+            assign sq_head_size_next = sq_head_internal_next[gi] ? size_next[gi] : 0;
+            assign sq_head_data_next = sq_head_internal_next[gi] ? data_next[gi] : 0;
+            assign sq_head_data_valid_next = sq_head_internal_next[gi] ? data_valid_next[gi] : 0;
+            assign sq_head_ROB_idx_next = sq_head_internal_next[gi] ? ROB_idx_next[gi] : 0;
+            assign sq_head_addr_next = sq_head_internal_next[gi] ? addr_next[gi] : 0;
+            assign sq_head_addr_valid_next = sq_head_internal_next[gi] ? addr_valid_next[gi] : 0;
+            assign sq_head_valid_next = sq_head_internal_next[gi] ? valid_next[gi] : 0;
+        end
+    endgenerate
+
+    always_ff @(posedge clock) begin
+        if (reset | except) begin
+            sq_head_size_reg <= 0;
+            sq_head_data_reg <= 0;
+            sq_head_data_valid_reg <= 0;
+            sq_head_ROB_idx_reg <= 0;
+            sq_head_addr_reg <= 0;
+            sq_head_addr_valid_reg <= 0;
+            sq_head_valid_reg <= 0;
+        end
+        else begin
+            sq_head_size_reg <= sq_head_size_next;
+            sq_head_data_reg <= sq_head_data_next;
+            sq_head_data_valid_reg <= sq_head_data_valid_next;
+            sq_head_ROB_idx_reg <= sq_head_ROB_idx_next;
+            sq_head_addr_reg <= sq_head_addr_next;
+            sq_head_addr_valid_reg <= sq_head_addr_valid_next;
+            sq_head_valid_reg <= sq_head_valid_next;
+        end
+    end
+
+    // output to dcache
+    assign write_en = sq_head_valid_reg;
+    assign write_addr = sq_head_addr_reg;
+    assign write_data = sq_head_data_reg;
+    assign write_size = sq_head_size_reg;
+
+
+    // num free
+    logic [$clog2(`WAYS):0] num_dispatched;
+    wire [$clog2(`LSQSZ):0] num_free_next;
+    assign num_free_next = (num_free - num_dispatched) + commit;
+
+    always_comb begin
+        num_dispatched = 0;
+        foreach(enable[i]) begin
+            num_dispatched += enable[i];
+        end
+    end
+
+    always_ff @(posedge clock) begin
+        if (reset | except) begin
             num_free <= `LSQSZ;
-        end else begin
-
-            // Commit (head)
-            if(commit) begin
-                entries[sq_head].valid <= 0;
-                sq_head <= (sq_head + 1) % `LSQSZ;
-            end
-
-            // Dispatch (tail)
-            for(int i = 0; i < num_dispatched; i++) begin
-                entries[(sq_tail + i) % `LSQSZ] <= new_entries[i];
-            end
-            sq_tail <= (sq_tail + num_dispatched) % `LSQSZ;
-            
-            // Other (num_free and updating entries)
-            num_free <= num_free - num_dispatched + commit;
-            for(int i = 0; i < `WAYS; i++) begin
-                if(ALU_write_valid[i]) begin
-                    entries[ALU_write_idx[i]].addr <= ALU_data[i];
-                    entries[ALU_write_idx[i]].addr_valid <= 1;
-                end
-            end
-            for(int i = 0; i < `LSQSZ - num_free; i++) begin
-                if(CDB_write_valid[i]) begin
-                    entries[(sq_head + i) % `LSQSZ].data <= CDB_Data[CDB_write_idx[i]];
-                    entries[(sq_head + i) % `LSQSZ].data_valid <= 1;
-                end
-            end
+        end
+        else begin
+            num_free <= num_free_next;
         end
     end
 

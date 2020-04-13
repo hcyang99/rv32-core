@@ -161,7 +161,7 @@ endgenerate
 // 1 for valid sq entries older than each load; [lq_idx] [sq_idx]
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] age_mask; 
 wire [`LSQSZ-1:0]              ge_head; // sq_idx only
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] le_tail;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] lt_tail;
 wire [`LSQSZ-1:0] wrap_around;
 
 // age logic
@@ -175,9 +175,9 @@ generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
         assign ge_head[gi] = gi >= sq_head;
         for (gj = 0; gj < `LSQSZ; ++gj) begin
-            assign le_tail[gi][gj] = gj <= sq_tail_old[gi];
-            assign age_mask[gi][gj] = wrap_around[gi] ? (le_tail[gi][gj] | ge_head[gj])
-                                    : (le_tail[gi][gj] & ge_head[gj]);            
+            assign lt_tail[gi][gj] = gj < sq_tail_old[gi];
+            assign age_mask[gi][gj] = wrap_around[gi] ? (lt_tail[gi][gj] | ge_head[gj])
+                                    : (lt_tail[gi][gj] & ge_head[gj]);            
         end
     end
 
@@ -185,10 +185,10 @@ endgenerate
 
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_all; // [lq_idx] [sq_idx]
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_ge_head;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_le_tail;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_lt_tail;
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_all;
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_ge_head;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_le_tail;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_lt_tail;
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_final; // goes to wand sel
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_selected; // from wand sel
 
@@ -200,17 +200,17 @@ reg [`LSQSZ-1:0] ls_addr_stall_reg;
 
 assign ls_addr_block_hit_msk_all = ls_addr_block_hit & age_mask;
 assign ls_addr_block_hit_msk_ge_head = ls_addr_block_hit & ge_head;
-assign ls_addr_block_hit_msk_le_tail = ls_addr_block_hit & le_tail;
+assign ls_addr_block_hit_msk_lt_tail = ls_addr_block_hit & lt_tail;
 assign ls_addr_all_hit_msk_all = ls_addr_all_hit & age_mask;
 assign ls_addr_all_hit_msk_ge_head = ls_addr_all_hit & ge_head;
-assign ls_addr_all_hit_msk_le_tail = ls_addr_all_hit & le_tail;
+assign ls_addr_all_hit_msk_lt_tail = ls_addr_all_hit & lt_tail;
 
 // select the youngest store
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
         assign ls_addr_block_hit_final[gi] = wrap_around[gi] ?
-                (ls_addr_block_hit_msk_le_tail[gi] ? 
-                    ls_addr_block_hit_msk_le_tail[gi] : 
+                (ls_addr_block_hit_msk_lt_tail[gi] ? 
+                    ls_addr_block_hit_msk_lt_tail[gi] : 
                     ls_addr_block_hit_msk_ge_head[gi]) :
                 ls_addr_block_hit_msk_all[gi];
     end
