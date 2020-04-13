@@ -48,7 +48,7 @@ module DMEM(
     // to mem
     output logic [1:0]                          Dmem_command, 
     output logic [15:0]                         Dmem_addr,
-    output logic [1:0]                      Dmem_size,
+    output logic [1:0]                          Dmem_size,
     output logic [63:0]                         Dmem_data
 );
 

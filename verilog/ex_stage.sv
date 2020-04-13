@@ -210,6 +210,8 @@ module ex_stage(
 			assign ex_packet_out[i].illegal 		= id_ex_packet_in[i].illegal;
 			assign ex_packet_out[i].csr_op 			= id_ex_packet_in[i].csr_op;
 			assign ex_packet_out[i].mem_size 		= id_ex_packet_in[i].inst.r.funct3;
+			assign ex_packet_out[i].reg_write		= id_ex_packet_in[i].reg_write;
+
 			// ultimate "take branch" signal:
 	 		//	unconditional, or conditional and the condition is true
 			assign ex_packet_out[i].take_branch = id_ex_packet_in[i].uncond_branch
