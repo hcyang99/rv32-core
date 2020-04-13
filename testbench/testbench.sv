@@ -277,9 +277,6 @@ module testbench;
                             core.PC_out[i],
                             core.dest_ARN_out[i],
                             core.id_stage_0.prf.registers[core.dest_PRN_out[i]]);
-					else
-						$fdisplay(wb_fileno, "PC=%x, ---",
-                            core.PC_out[i]);
                 end
 			end
 `endif
