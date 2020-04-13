@@ -1,4 +1,3 @@
-`include "../sys_defs.svh"
 module DMEM(
     input                                       clock,
     input                                       reset,
