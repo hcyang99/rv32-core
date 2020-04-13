@@ -165,8 +165,8 @@ module processor (
 	logic sq_is_full;
 	logic lq_is_full;
 
-    logic [$clog2(`LSQSZ)-1:0]           sq_num_free;
-    logic [$clog2(`LSQSZ)-1:0]           lq_num_free;
+    logic [$clog2(`LSQSZ):0]           sq_num_free;
+    logic [$clog2(`LSQSZ):0]           lq_num_free;
 
   	logic                                lq_CDB_direction;
   	logic [31:0]                         lq_CDB_target;
