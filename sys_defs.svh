@@ -343,8 +343,7 @@ typedef struct packed {
 	logic [`XLEN-1:0] rs2_value;
 	logic             rd_mem;
 	logic				wr_mem;
-	logic					 		reg_write;
-	logic [$clog2(`ROB)-1:0] rob_idx;       
+	logic					 		reg_write;  
 	logic [1:0]       	  mem_size; // byte, half-word or word
 
 	logic [$clog2(`PRF)-1:0]       	dest_PRF_idx;
