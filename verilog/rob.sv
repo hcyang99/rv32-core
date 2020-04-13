@@ -1,3 +1,4 @@
+`include "../sys_defs.svh"
 // struct definitions
 typedef struct packed{
     logic [$clog2(`REGS)-1:0]   dest_ARN;

@@ -10,13 +10,11 @@
 #/* new design                                              */
 #/***********************************************************/
 set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/"]
-read_file -f ddc [list "RS_Line.ddc"]
-set_dont_touch RS_Line
-read_file -f sverilog [list "verilog/rs.sv" "module_provided/psl_get.v"]
+read_file -f sverilog [list "verilog/rs.sv" "module_provided/rs_psl_gen.v"]
 set design_name RS
 set clock_name clock
 set reset_name reset
-set CLK_PERIOD 10
+set CLK_PERIOD 0
 
 
 

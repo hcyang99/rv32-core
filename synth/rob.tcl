@@ -11,13 +11,13 @@
 #/***********************************************************/
 lappend search_path ../
 
-set simfiles [getenv SIMFILES]
+#set simfiles [getenv SIMFILES]
 
-read_file -f sverilog [list ${simfiles}]
+read_file -f sverilog [list "verilog/rob.sv"]
 set design_name rob
 set clock_name clock
 set reset_name reset
-set CLK_PERIOD 10
+set CLK_PERIOD 0
 
 
 
