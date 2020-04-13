@@ -1,8 +1,8 @@
 module arbiter_rr #(parameter WIDTH = 16) (
     input clock,
     input reset,
-    input [WIDTH-1:0] req;
-    output wire [WIDTH-1:0] gnt;
+    input [WIDTH-1:0] req,
+    output wire [WIDTH-1:0] gnt
 );
 reg [WIDTH-1:0] mask_reg;
 wand [WIDTH-1:0] mask_next;

@@ -90,7 +90,8 @@ TESTBENCH = 	testbench/mem.sv  \
 HEADERS = sys_defs.svh	\
 		ISA.svh  
 
-SIMFILES = verilog/branch_pred.sv	\
+SIMFILES = verilog/arbiter_rr.sv \
+		verilog/branch_pred.sv	\
 		verilog/dcache_ctrl.sv	\
 		verilog/dcache.sv	\
 		verilog/dmem.sv		\

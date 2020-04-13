@@ -222,9 +222,6 @@ module processor (
 	logic [`WAYS-1:0]							CDB_reg_write;
 
 // output of dmem
-    logic [$clog2(`LSQSZ)-1:0]           sq_num_free;
-    logic [$clog2(`LSQSZ)-1:0]           lq_num_free;
-
     logic [1:0]                          Dmem_command;
     logic [15:0]                         Dmem_addr;
     logic [1:0]                      Dmem_size;
@@ -290,28 +287,16 @@ module processor (
 
   	generate
       	for(genvar i = 0; i < `WAYS; i = i + 1) begin
+		  	assign CDB_mem_addr_valid[i] = ~lq_CDB_valid[i] & ex_packet_out[i].valid & (ex_packet_out[i].rd_mem) | (ex_packet_out[i].wr_mem); 
+			assign CDB_reg_write[i]      = lq_CDB_valid[i] | (ex_packet_out[i].valid & ~CDB_mem_addr_valid[i] & ex_packet_out[i].reg_write);  // whether this CDB data will be written to a register
+			assign CDB_valid[i]     	 = lq_CDB_valid[i] | ex_packet_out[i].valid; // wether it is a valid inst
+			assign CDB_direction[i] 	 = lq_CDB_valid[i]? 0 : ex_packet_out[i].take_branch; // whether this CDB's inst will be taking branch
+			assign CDB_Data[i]      	 = lq_CDB_valid[i]? lq_CDB_Data:  ex_packet_out[i].take_branch ? ex_packet_out[i].NPC : ex_packet_out[i].alu_result ;
+			assign CDB_PRF_idx[i]   	 = lq_CDB_valid[i]? lq_CDB_PRF_idx : ex_packet_out[i].dest_PRF_idx;
+			assign CDB_ROB_idx[i]   	 = lq_CDB_valid[i]? lq_CDB_ROB_idx : ex_packet_out[i].rob_idx; // the rob index of the CDB's inst
+			assign CDB_target[i]    	 = lq_CDB_valid[i]? 0: ex_packet_out[i].take_branch ? ex_packet_out[i].alu_result: ex_packet_out[i].NPC ;  // if  			
 		end
 	endgenerate
-
-	always_comb begin
-		for(int i = 0; i < `WAYS; i = i + 1) begin
-			CDB_mem_addr_valid[i] = ~lq_CDB_valid[i] & ex_packet[i].valid & (ex_packet[i].rd_mem) | (ex_packet[i].wr_mem); 
-			CDB_reg_write[i]      = lq_CDB_valid[i] | (ex_packet[i].valid & ~CDB_mem_addr_valid[i] & ex_stage[i].reg_write);  // whether this CDB data will be written to a register
-			CDB_valid[i]     	  = lq_CDB_valid[i] | ex_packet[i].valid; // wether it is a valid inst
-			CDB_direction[i]	  = 0;
-			CDB_Data[i]      		=  lq_CDB_Data;
-			CDB_PRF_idx[i]   		= lq_CDB_PRF_idx;
-			CDB_ROB_idx[i]   = lq_CDB_ROB_idx ;
-			CDB_target[i]   = 0;
-			if(~lq_CDB_valid[i]) begin
-				CDB_direction[i] = ex_packet[i].take_branch; // whether this CDB's inst will be taking branch
-				CDB_Data[i]      = ex_packet[i].take_branch ? ex_packet[i].NPC : ex_packet[i].alu_result;  // update with lsq 
-				CDB_PRF_idx[i]   = ex_packet[i].dest_PRF_idx; // 
-				CDB_ROB_idx[i]   = ex_packet[i].rob_idx; // the rob index of the CDB's inst
-				CDB_target[i] 		= ex_packet[i].take_branch ? ex_packet[i].alu_result: ex_packet[i].NPC ;  // if  			
-			end
-		end
-	end
 
 //////////////////////////////////////////////////
 //                                              //
@@ -505,7 +490,7 @@ generate
 		assign ALU_is_ls[i] 	= ex_packet_out[i].rd_mem & ex_packet_out[i].wr_mem;
 		assign ALU_data[i]		= ex_packet_out[i].alu_result;
 
-		assign ROB_idx[i]		= id_ex_packet[i].ROB_idx;
+		assign ROB_idx[i]		= id_ex_packet[i].rob_idx;
 		assign st_data[i]		= id_ex_packet[i].rs2_value;
 		assign st_en[i]			= id_ex_packet[i].rd_mem;
 		assign ld_en[i]			= id_ex_packet[i].wr_mem;
@@ -697,9 +682,9 @@ assign rs_num_is_free = num_is_free;
 //////////////////////////////////////////////////
 generate
 	for(genvar i = 0; i < `WAYS; i = i + 1) begin
-		assign ex_valid_inst_out[i] = ex_packet[i].valid;
-		assign ex_alu_result_out[i] = ex_packet[i].alu_result;
-		assign brand_result[i]		= ex_packet[i].take_branch;
+		assign ex_valid_inst_out[i] = ex_packet_out[i].valid;
+		assign ex_alu_result_out[i] = ex_packet_out[i].alu_result;
+		assign brand_result[i]		= ex_packet_out[i].take_branch;
 		assign ex_packet_in[i] 		= (ALU_occupied[i] | lq_CDB_valid[i])? ex_packet_in_tmp[i]:rs_packet_out[i];
 	end
 endgenerate
@@ -721,7 +706,7 @@ end
 		.lq_CDB_valid (lq_CDB_valid),
 		.id_ex_packet_in(ex_packet_in),
 		// Outputs
-		.ex_packet_out(ex_packet),
+		.ex_packet_out(ex_packet_out),
 		.occupied_hub(ALU_occupied)
 	);
 

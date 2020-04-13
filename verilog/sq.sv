@@ -1,12 +1,3 @@
-`define BYTE 2'b0
-`define HALF 2'h1
-`define WORD 2'h2
-`define DOUBLE 2'h3
-`define ROB 32
-`define WAYS 4
-`define PRF 64
-`define LSQSZ 16
-`define MEM_SIZE [1:0]
 
 // typedef struct packed {
 //     logic `MEM_SIZE                                 size;
@@ -25,7 +16,7 @@ module store_queue(
     input                                           commit,
 
     // From dispatch
-    input [`WAYS-1:0] `MEM_SIZE                     size,
+    input [`WAYS-1:0] [1:0]                     size,
     input [`WAYS-1:0] [63:0]                        data,
     input [`WAYS-1:0]                               data_valid,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]            ROB_idx,
@@ -49,7 +40,7 @@ module store_queue(
     output logic                                    write_en,
     output logic [15:0]                             write_addr,
     output logic [63:0]                             write_data,
-    output logic `MEM_SIZE                          write_size,
+    output logic [1:0]                          write_size,
     
     // To LB
     output sq_entry [`LSQSZ-1:0]                    sq_out,
@@ -58,7 +49,7 @@ module store_queue(
     output reg [$clog2(`LSQSZ):0]                   num_free
 );
 
-    reg [`LSQSZ-1:0] `MEM_SIZE                        size_reg;
+    reg [`LSQSZ-1:0] [1:0]                        size_reg;
     reg [`LSQSZ-1:0] [63:0]                           data_reg;
     reg [`LSQSZ-1:0]                                  data_valid_reg;
     reg [`LSQSZ-1:0] [$clog2(`ROB)-1:0]               ROB_idx_reg;
@@ -153,7 +144,7 @@ module store_queue(
         end
     endgenerate
 
-    wor [`LSQSZ-1:0] `MEM_SIZE                        size_next;
+    wor [`LSQSZ-1:0] [1:0]                        size_next;
     wor [`LSQSZ-1:0] [63:0]                           data_next;
     wor [`LSQSZ-1:0]                                  data_valid_next;
     wor [`LSQSZ-1:0] [$clog2(`ROB)-1:0]               ROB_idx_next;
@@ -162,7 +153,7 @@ module store_queue(
     wor [`LSQSZ-1:0]                                  valid_next;
 
     // clear invalid inputs
-    wire [`WAYS-1:0] `MEM_SIZE                     size_tmp;
+    wire [`WAYS-1:0] [1:0]                     size_tmp;
     wire [`WAYS-1:0] [63:0]                        data_tmp;
     wire [`WAYS-1:0]                               data_valid_tmp;
     wire [`WAYS-1:0] [$clog2(`ROB)-1:0]            ROB_idx_tmp;
@@ -258,7 +249,7 @@ module store_queue(
     end
 
     // head reg
-    reg `MEM_SIZE                           sq_head_size_reg;
+    reg [1:0]                           sq_head_size_reg;
     reg [63:0]                              sq_head_data_reg;
     reg                                     sq_head_data_valid_reg;
     reg [$clog2(`ROB)-1:0]                  sq_head_ROB_idx_reg;
@@ -266,7 +257,7 @@ module store_queue(
     reg                                     sq_head_addr_valid_reg;
     reg                                     sq_head_valid_reg;
 
-    wor `MEM_SIZE                           sq_head_size_next;
+    wor [1:0]                           sq_head_size_next;
     wor [63:0]                              sq_head_data_next;
     wor                                     sq_head_data_valid_next;
     wor [$clog2(`ROB)-1:0]                  sq_head_ROB_idx_next;
