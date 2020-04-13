@@ -21,5 +21,6 @@ module cdb_arbiter(
 	output logic [`WAYS-1:0]						    CDB_reg_write_out
 );
 
+
 endmodule
 
