@@ -164,7 +164,7 @@ dcache dcache_0(
     .proc_wr_offset(lsq_to_dc_wr_offset),
     .proc_wr_idx(lsq_to_dc_wr_idx),
     .proc_wr_tag(lsq_to_dc_wr_tag),
-    .proc_wr_data(lsq_to_dc_wr_data),
+    .proc_wr_data({32'b0, lsq_to_dc_wr_data}),
     .proc_wr_size(lsq_to_dc_wr_size),
 
     .mem_wr_en,

@@ -23,7 +23,7 @@ module LSQ(
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ALU_ROB_idx,
     input [`WAYS-1:0]                           ALU_is_valid,
     input [`WAYS-1:0]                           ALU_is_ls,      // 1 = load, 0 = store (do we need this since we have ROB idx?)
-    input [`WAYS-1:0]                           ALU_data,
+    input [`WAYS-1:0] [31:0]                    ALU_data,
 
     // SQ
     input [`WAYS-1:0] [1:0]                 st_size,
@@ -97,7 +97,7 @@ module LSQ(
         end
 
         assign ld_sq_tail[0] = sq_tail;
-        for (gi = 1; gi < `LSQSZ; ++gi) begin
+        for (gi = 1; gi < `WAYS; ++gi) begin
             assign ld_sq_tail[gi] = (ld_sq_tail[gi - 1] == `LSQSZ - 1) ? 0 : ld_sq_tail[gi - 1] + 1;
         end
     endgenerate
@@ -137,7 +137,7 @@ module LSQ(
         .ALU_ROB_idx(ALU_ROB_idx),
         .ALU_is_valid(ALU_is_valid),
         .ALU_is_ls(ALU_is_ls),
-        .ALU_data(ALU_data),
+        .ALU_data(ALU_data[15:0]),
 
         // feedback from DCache
         .dc_feedback(dc_feedback),
@@ -183,7 +183,7 @@ module LSQ(
 
         .ALU_ROB_idx,
         .ALU_is_valid(ALU_is_valid && !ALU_is_ls),
-        .ALU_data,
+        .ALU_data(ALU_data[15:0]),
 
         .sq_head,
         .sq_tail,

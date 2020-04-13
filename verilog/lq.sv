@@ -24,7 +24,7 @@ module LQ(
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ALU_ROB_idx,
     input [`WAYS-1:0]                           ALU_is_valid,
     input [`WAYS-1:0]                           ALU_is_ls,
-    input [31:0]                                ALU_data,
+    input [`WAYS-1:0] [15:0]                    ALU_data,
 
     // feedback from DCache
     input [`LSQSZ-1:0]                          dc_feedback,
@@ -38,7 +38,7 @@ module LQ(
     output wor [2:0]                            rd_offset,
     output wor [4:0]                            rd_idx,
     output wor [7:0]                            rd_tag,
-    output wor [1:0]                        rd_size,
+    output wor [1:0]                            rd_size,
     output wor                                  rd_en,
     output wor [`LSQSZ-1:0]                     rd_gnt,
 
@@ -393,9 +393,9 @@ input wire [`WAYS-1:0] [$clog2(`LSQSZ)-1:0]     sq_tail_in;
 
 // Outputs
 output wor  [WIDTH-1:0]                         gnt;
-output wor [REQS-1:0] [1:0]                 ld_sz_in_bus;
-output wor [REQS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx_in_bus;
-output wor [REQS-1:0]                           ld_en_in_bus;
+output wor [`LSQSZ-1:0] [1:0]                 ld_sz_in_bus;
+output wor [`LSQSZ-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx_in_bus;
+output wor [`LSQSZ-1:0]                           ld_en_in_bus;
 output wor [`LSQSZ-1:0] [$clog2(`PRF)-1:0]      ld_PRF_idx_in_bus;
 output wor [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0]    sq_tail_in_bus;
 
