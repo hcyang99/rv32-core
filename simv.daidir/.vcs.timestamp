@@ -121,8 +121,8 @@ IMSETTINGS_INTEGRATE_DESKTOP=yes
 ICEAUTHORITY=/run/user/114191087/iceauthority
 HISTCONTROL=ignoredups
 HEADERS=sys_defs.svh ISA.svh  
-GNOME_TERMINAL_SERVICE=:1.118
-GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/6e1f52b1_557b_475c_ab25_e014c6352921
+GNOME_TERMINAL_SERVICE=:1.185
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/cdde26e1_7053_4fc7_9451_aed32445a918
 GNOME_SHELL_SESSION_MODE=classic
 GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 GJS_DEBUG_TOPICS=JS ERROR;JS LOG
@@ -141,41 +141,41 @@ BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
 0
 30
-1586810278 verilog/icache.sv
-1586810278 verilog/cache/cachemem.sv
+1586812394 verilog/icache.sv
+1586812421 verilog/cache/cachemem.sv
 1586810240 module_provided/wand_sel.v
 1586810275 module_provided/rs_psl_gen.v
 1586810275 module_provided/freelist_psl_gen.v
 1586810278 verilog/Validlist.sv
-1586810278 verilog/sq.sv
-1586810278 verilog/rs.sv
-1586810278 verilog/rob.sv
+1586812158 verilog/sq.sv
+1586812158 verilog/rs.sv
+1586812158 verilog/rob.sv
 1586810278 verilog/RAT_RRAT.sv
-1586810278 verilog/processor.sv
-1586810278 verilog/PRF.sv
+1586812672 verilog/processor.sv
+1586812158 verilog/PRF.sv
 1586810241 verilog/mult.sv
-1586810278 verilog/mem_arbiter.sv
-1586810278 verilog/lsq.sv
-1586810278 verilog/lq.sv
-1586810278 verilog/if_stage.sv
-1586810278 verilog/id_stage.sv
+1586812158 verilog/mem_arbiter.sv
+1586812158 verilog/lsq.sv
+1586812158 verilog/lq.sv
+1586812158 verilog/if_stage.sv
+1586812158 verilog/id_stage.sv
 1586810278 verilog/FreeList.sv
-1586810278 verilog/ex_stage.sv
-1586810278 verilog/dmem.sv
-1586810278 verilog/dcache.sv
-1586810278 verilog/dcache_ctrl.sv
-1586810278 verilog/branch_pred.sv
-1586810278 verilog/arbiter_rr.sv
-1586810926 testbench/testbench.sv
-1586810277 testbench/mem.sv
+1586812158 verilog/ex_stage.sv
+1586812158 verilog/dmem.sv
+1586812158 verilog/dcache.sv
+1586812158 verilog/dcache_ctrl.sv
+1586812158 verilog/branch_pred.sv
+1586812158 verilog/arbiter_rr.sv
+1586812158 testbench/testbench.sv
+1586812157 testbench/mem.sv
 1586810240 ISA.svh
-1586810277 sys_defs.svh
+1586812157 sys_defs.svh
 1531624678 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcsdp.tab
 6
-1586810278 testbench/pipe_print.c
+1586812157 testbench/pipe_print.c
 0 
 1531625631 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so
 1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
 1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
 1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
-1586810944 simv.daidir
+1586812689 simv.daidir

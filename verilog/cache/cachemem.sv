@@ -11,11 +11,11 @@ module cache(
     input [7:0]                 wr_tag,
     input [63:0]                wr_data, 
 
-    input [`WAYS-1:0] [4:0]     rd_idx,
-    input [`WAYS-1:0] [7:0]     rd_tag,
+    input [`WAYS:0] [4:0]       rd_idx,
+    input [`WAYS:0] [7:0]       rd_tag,
 
-    output [`WAYS-1:0] [63:0]   rd_data,
-    output [`WAYS-1:0]          rd_valid
+    output [`WAYS:0] [63:0]     rd_data,
+    output [`WAYS:0]            rd_valid
 );
 
 
@@ -26,7 +26,7 @@ reg [31:0] valid;
 
 genvar gi;
 generate;
-    for (gi = 0; gi < `WAYS; ++gi) begin
+    for (gi = 0; gi < `WAYS + 1; ++gi) begin
         assign rd_data[gi] = data[rd_idx[gi]];
         assign rd_valid[gi] = valid[rd_idx[gi]] & (tags[rd_idx[gi]] == rd_tag[gi]);
     end

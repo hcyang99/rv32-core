@@ -89,10 +89,10 @@ module processor (
     logic [4:0] 						icache_to_cachemem_index;
     logic [7:0] 						icache_to_cachemem_tag;
     logic 								icache_to_cachemem_en;
-    logic [`WAYS-1:0] [4:0] 			icache_to_cachemem_rd_idx;
-    logic [`WAYS-1:0] [7:0] 			icache_to_cachemem_rd_tag;
-    logic [`WAYS-1:0][63:0] 			cachemem_to_icache_data;
-    logic [`WAYS-1:0] 					cachemem_to_icache_valid;
+    logic [`WAYS:0] [4:0] 			icache_to_cachemem_rd_idx;
+    logic [`WAYS:0] [7:0] 			icache_to_cachemem_rd_tag;
+    logic [`WAYS:0][63:0] 			cachemem_to_icache_data;
+    logic [`WAYS:0] 					cachemem_to_icache_valid;
 
     // between icache controller and mem
     logic [1:0] 						icache_to_mem_command;

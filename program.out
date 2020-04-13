@@ -1,6 +1,6 @@
 Chronologic VCS simulator copyright 1991-2017
 Contains Synopsys proprietary information.
-Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Apr 13 17:02 2020
+Compiler version N-2017.12-SP2-1_Full64; Runtime version N-2017.12-SP2-1_Full64;  Apr 13 17:18 2020
 VCD+ Writer N-2017.12-SP2-1_Full64 Copyright (c) 1991-2017 by Synopsys Inc.
 @@
 @@
@@ -49,7 +49,6 @@ time:  135
 HEAD: 0 TAIL: 0 NUM_FREE:32
 time:  145
 HEAD: 0 TAIL: 0 NUM_FREE:32
-time:  145 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00800113 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  155
 HEAD: 0 TAIL: 0 NUM_FREE:32
 time:  165
@@ -72,62 +71,59 @@ time:  245
 HEAD: 0 TAIL: 0 NUM_FREE:32
 time:  255
 HEAD: 0 TAIL: 0 NUM_FREE:32
-time:  255 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00800113 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time:  255 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00800113 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  265
 HEAD: 0 TAIL: 0 NUM_FREE:32
-time:  266 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  275
 HEAD: 0 TAIL: 0 NUM_FREE:32
-time:  276 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 rs_valid_inst_out:011 ex_valid_inst_out: 011
 time:  285
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  295
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  305
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  315
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  325
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  335
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  345
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  355
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  365
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  365 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00800113 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time:  375
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  376 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 01019193 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time:  385
+HEAD: 0 TAIL: 0 NUM_FREE:32
+time:  386 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
+time:  395
 DONE ROB : PC=00000000 CDB TARGET=00000004 IDX= 0
 DONE ROB : PC=00000004 CDB TARGET=00000008 IDX= 1
 HEAD: 0 TAIL: 3 NUM_FREE:29
 COMMIT PC=00000000 MIS=0 IDX=         0
 COMMIT PC=00000004 MIS=0 IDX=         1
-time:  286 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time:  295
-DONE ROB : PC=00000008 CDB TARGET=0000000c IDX= 2
-HEAD: 0 TAIL: 3 NUM_FREE:29
-COMMIT PC=00000008 MIS=0 IDX=         2
-time:  296 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01019193 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time:  305
-HEAD: 2 TAIL: 3 NUM_FREE:31
-time:  315
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  325
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  335
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  345
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  355
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  365
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  375
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  375 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 01019193 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time:  385
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  386 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time:  395
-HEAD: 3 TAIL: 3 NUM_FREE:32
-time:  396 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
+COMMIT PC=00000000 MIS=0 IDX=         0
+COMMIT PC=00000004 MIS=0 IDX=         1
 time:  405
-DONE ROB : PC=0000000c CDB TARGET=00000010 IDX= 3
 DONE ROB : PC=00000010 CDB TARGET=00000014 IDX= 4
-HEAD: 3 TAIL: 6 NUM_FREE:29
+DONE ROB : PC=00000008 CDB TARGET=0000000c IDX= 2
+HEAD: 0 TAIL: 6 NUM_FREE:26
+COMMIT PC=00000008 MIS=0 IDX=         2
+time:  415
+DONE ROB : PC=0000000c CDB TARGET=00000010 IDX= 3
+DONE ROB : PC=00000014 CDB TARGET=00000018 IDX= 5
+HEAD: 2 TAIL: 6 NUM_FREE:28
 COMMIT PC=0000000c MIS=0 IDX=         3
 COMMIT PC=00000010 MIS=0 IDX=         4
-time:  406 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
-time:  415
-DONE ROB : PC=00000014 CDB TARGET=00000018 IDX= 5
-HEAD: 3 TAIL: 6 NUM_FREE:29
 COMMIT PC=00000014 MIS=0 IDX=         5
 time:  416 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  425
-HEAD: 5 TAIL: 6 NUM_FREE:31
+HEAD: 3 TAIL: 6 NUM_FREE:29
 time:  435
 HEAD: 6 TAIL: 6 NUM_FREE:32
 time:  445
@@ -140,9 +136,9 @@ time:  475
 HEAD: 6 TAIL: 6 NUM_FREE:32
 time:  485
 HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  485 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0011e1b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  495
 HEAD: 6 TAIL: 6 NUM_FREE:32
-time:  495 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0011e1b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  505
 HEAD: 6 TAIL: 6 NUM_FREE:32
 time:  515
@@ -165,62 +161,60 @@ time:  595
 HEAD: 6 TAIL: 6 NUM_FREE:32
 time:  605
 HEAD: 6 TAIL: 6 NUM_FREE:32
-time:  605 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0011e1b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  615
 HEAD: 6 TAIL: 6 NUM_FREE:32
-time:  616 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  625
 HEAD: 6 TAIL: 6 NUM_FREE:32
-time:  626 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 rs_valid_inst_out:011 ex_valid_inst_out: 011
 time:  635
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  645
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  655
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  665
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  675
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  685
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  695
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  705
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  705 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0011e1b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time:  715
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  716 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00c19193 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time:  725
+HEAD: 6 TAIL: 6 NUM_FREE:32
+time:  726 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
+time:  735
 DONE ROB : PC=00000018 CDB TARGET=0000001c IDX= 6
 DONE ROB : PC=0000001c CDB TARGET=00000020 IDX= 7
 HEAD: 6 TAIL: 9 NUM_FREE:29
 COMMIT PC=00000018 MIS=0 IDX=         6
 COMMIT PC=0000001c MIS=0 IDX=         7
-time:  636 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time:  645
-DONE ROB : PC=00000020 CDB TARGET=00000024 IDX= 8
-HEAD: 6 TAIL: 9 NUM_FREE:29
-COMMIT PC=00000020 MIS=0 IDX=         8
-time:  646 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time:  655
-HEAD: 8 TAIL: 9 NUM_FREE:31
-time:  665
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  675
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  685
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  695
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  705
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  715
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  725
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  725 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00c19193 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time:  735
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  736 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+COMMIT PC=00000018 MIS=0 IDX=         6
+COMMIT PC=0000001c MIS=0 IDX=         7
+time:  736 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:111 ex_valid_inst_out: 111
 time:  745
-HEAD: 9 TAIL: 9 NUM_FREE:32
-time:  746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
-time:  755
 DONE ROB : PC=00000024 CDB TARGET=00000028 IDX= 9
 DONE ROB : PC=0000002c CDB TARGET=00000030 IDX=11
-HEAD: 9 TAIL:12 NUM_FREE:29
+DONE ROB : PC=00000020 CDB TARGET=00000024 IDX= 8
+HEAD: 6 TAIL:12 NUM_FREE:26
+COMMIT PC=00000020 MIS=0 IDX=         8
 COMMIT PC=00000024 MIS=0 IDX=         9
-time:  756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
-time:  765
+time:  746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
+time:  755
 DONE ROB : PC=00000028 CDB TARGET=0000002c IDX=10
-HEAD: 9 TAIL:12 NUM_FREE:29
+HEAD: 8 TAIL:12 NUM_FREE:28
 COMMIT PC=00000028 MIS=0 IDX=        10
 COMMIT PC=0000002c MIS=0 IDX=        11
-time:  766 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time:  775
+time:  756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time:  765
 HEAD:10 TAIL:12 NUM_FREE:30
+time:  775
+HEAD:12 TAIL:12 NUM_FREE:32
 time:  785
 HEAD:12 TAIL:12 NUM_FREE:32
 time:  795
@@ -231,11 +225,11 @@ time:  815
 HEAD:12 TAIL:12 NUM_FREE:32
 time:  825
 HEAD:12 TAIL:12 NUM_FREE:32
+time:  825 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  835
 HEAD:12 TAIL:12 NUM_FREE:32
 time:  845
 HEAD:12 TAIL:12 NUM_FREE:32
-time:  845 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00c19193 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  855
 HEAD:12 TAIL:12 NUM_FREE:32
 time:  865
@@ -258,62 +252,58 @@ time:  945
 HEAD:12 TAIL:12 NUM_FREE:32
 time:  955
 HEAD:12 TAIL:12 NUM_FREE:32
-time:  955 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00c19193 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  965
 HEAD:12 TAIL:12 NUM_FREE:32
-time:  966 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00819193 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time:  975
 HEAD:12 TAIL:12 NUM_FREE:32
-time:  976 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00819193 rs_valid_inst_out:011 ex_valid_inst_out: 011
 time:  985
+HEAD:12 TAIL:12 NUM_FREE:32
+time:  995
+HEAD:12 TAIL:12 NUM_FREE:32
+time: 1005
+HEAD:12 TAIL:12 NUM_FREE:32
+time: 1015
+HEAD:12 TAIL:12 NUM_FREE:32
+time: 1025
+HEAD:12 TAIL:12 NUM_FREE:32
+time: 1035
+HEAD:12 TAIL:12 NUM_FREE:32
+time: 1045
+HEAD:12 TAIL:12 NUM_FREE:32
+time: 1045 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00c19193 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1055
+HEAD:12 TAIL:12 NUM_FREE:32
+time: 1056 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00819193 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1065
+HEAD:12 TAIL:12 NUM_FREE:32
+time: 1066 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
+time: 1075
 DONE ROB : PC=00000030 CDB TARGET=00000034 IDX=12
 DONE ROB : PC=00000038 CDB TARGET=0000003c IDX=14
 HEAD:12 TAIL:15 NUM_FREE:29
 COMMIT PC=00000030 MIS=0 IDX=        12
-time:  986 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00819193 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time:  995
+COMMIT PC=00000030 MIS=0 IDX=        12
+time: 1085
 DONE ROB : PC=00000034 CDB TARGET=00000038 IDX=13
-HEAD:12 TAIL:15 NUM_FREE:29
+DONE ROB : PC=00000044 CDB TARGET=00000048 IDX=17
+HEAD:12 TAIL:18 NUM_FREE:26
 COMMIT PC=00000034 MIS=0 IDX=        13
 COMMIT PC=00000038 MIS=0 IDX=        14
-time:  996 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00819193 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1005
-HEAD:13 TAIL:15 NUM_FREE:30
-time: 1015
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1025
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1035
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1045
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1055
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1065
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1075
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1075 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00819193 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1085
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1086 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1086 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
 time: 1095
-HEAD:15 TAIL:15 NUM_FREE:32
-time: 1096 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
-time: 1105
 DONE ROB : PC=0000003c CDB TARGET=00000040 IDX=15
-DONE ROB : PC=00000044 CDB TARGET=00000048 IDX=17
-HEAD:15 TAIL:18 NUM_FREE:29
+HEAD:13 TAIL:18 NUM_FREE:27
 COMMIT PC=0000003c MIS=0 IDX=        15
-time: 1106 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 1115
+time: 1105
 DONE ROB : PC=00000040 CDB TARGET=00000044 IDX=16
 HEAD:15 TAIL:18 NUM_FREE:29
 COMMIT PC=00000040 MIS=0 IDX=        16
 COMMIT PC=00000044 MIS=0 IDX=        17
-time: 1116 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1125
+time: 1106 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1115
 HEAD:16 TAIL:18 NUM_FREE:30
+time: 1125
+HEAD:18 TAIL:18 NUM_FREE:32
 time: 1135
 HEAD:18 TAIL:18 NUM_FREE:32
 time: 1145
@@ -322,13 +312,13 @@ time: 1155
 HEAD:18 TAIL:18 NUM_FREE:32
 time: 1165
 HEAD:18 TAIL:18 NUM_FREE:32
+time: 1165 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: b5020213 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1175
 HEAD:18 TAIL:18 NUM_FREE:32
 time: 1185
 HEAD:18 TAIL:18 NUM_FREE:32
 time: 1195
 HEAD:18 TAIL:18 NUM_FREE:32
-time: 1195 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: b5020213 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1205
 HEAD:18 TAIL:18 NUM_FREE:32
 time: 1215
@@ -351,68 +341,65 @@ time: 1295
 HEAD:18 TAIL:18 NUM_FREE:32
 time: 1305
 HEAD:18 TAIL:18 NUM_FREE:32
-time: 1305 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: b5020213 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1315
 HEAD:18 TAIL:18 NUM_FREE:32
-time: 1316 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1325
 HEAD:18 TAIL:18 NUM_FREE:32
-time: 1326 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 rs_valid_inst_out:011 ex_valid_inst_out: 011
 time: 1335
+HEAD:18 TAIL:18 NUM_FREE:32
+time: 1345
+HEAD:18 TAIL:18 NUM_FREE:32
+time: 1355
+HEAD:18 TAIL:18 NUM_FREE:32
+time: 1365
+HEAD:18 TAIL:18 NUM_FREE:32
+time: 1375
+HEAD:18 TAIL:18 NUM_FREE:32
+time: 1385
+HEAD:18 TAIL:18 NUM_FREE:32
+time: 1385 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: b5020213 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1395
+HEAD:18 TAIL:18 NUM_FREE:32
+time: 1396 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00126233 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1405
+HEAD:18 TAIL:18 NUM_FREE:32
+time: 1406 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
+time: 1415
 DONE ROB : PC=00000048 CDB TARGET=0000004c IDX=18
 DONE ROB : PC=00000050 CDB TARGET=00000054 IDX=20
 HEAD:18 TAIL:21 NUM_FREE:29
 COMMIT PC=00000048 MIS=0 IDX=        18
-time: 1336 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 1345
+COMMIT PC=00000048 MIS=0 IDX=        18
+time: 1425
+DONE ROB : PC=00000058 CDB TARGET=0000005c IDX=22
 DONE ROB : PC=0000004c CDB TARGET=00000050 IDX=19
-HEAD:18 TAIL:21 NUM_FREE:29
+HEAD:18 TAIL:24 NUM_FREE:26
 COMMIT PC=0000004c MIS=0 IDX=        19
 COMMIT PC=00000050 MIS=0 IDX=        20
-time: 1346 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1355
-HEAD:19 TAIL:21 NUM_FREE:30
-time: 1365
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1375
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1385
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1395
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1405
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1415
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1425
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1425 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00126233 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1426 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
 time: 1435
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1436 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1445
-HEAD:21 TAIL:21 NUM_FREE:32
-time: 1446 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
-time: 1455
 DONE ROB : PC=00000054 CDB TARGET=00000058 IDX=21
-DONE ROB : PC=00000058 CDB TARGET=0000005c IDX=22
-HEAD:21 TAIL:24 NUM_FREE:29
+HEAD:19 TAIL:24 NUM_FREE:27
 COMMIT PC=00000054 MIS=0 IDX=        21
 COMMIT PC=00000058 MIS=0 IDX=        22
-time: 1456 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 1465
+time: 1445
 DONE ROB : PC=0000005c CDB TARGET=00000060 IDX=23
 HEAD:21 TAIL:24 NUM_FREE:29
 COMMIT PC=0000005c MIS=0 IDX=        23
-time: 1466 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1475
+time: 1446 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1455
 HEAD:23 TAIL:24 NUM_FREE:31
+time: 1465
+HEAD:24 TAIL:24 NUM_FREE:32
+time: 1475
+HEAD:24 TAIL:24 NUM_FREE:32
 time: 1485
 HEAD:24 TAIL:24 NUM_FREE:32
 time: 1495
 HEAD:24 TAIL:24 NUM_FREE:32
 time: 1505
 HEAD:24 TAIL:24 NUM_FREE:32
+time: 1505 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1515
 HEAD:24 TAIL:24 NUM_FREE:32
 time: 1525
@@ -421,7 +408,6 @@ time: 1535
 HEAD:24 TAIL:24 NUM_FREE:32
 time: 1545
 HEAD:24 TAIL:24 NUM_FREE:32
-time: 1545 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00126233 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1555
 HEAD:24 TAIL:24 NUM_FREE:32
 time: 1565
@@ -444,80 +430,79 @@ time: 1645
 HEAD:24 TAIL:24 NUM_FREE:32
 time: 1655
 HEAD:24 TAIL:24 NUM_FREE:32
-time: 1655 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00126233 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1665
 HEAD:24 TAIL:24 NUM_FREE:32
-time: 1666 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0102a313 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1675
 HEAD:24 TAIL:24 NUM_FREE:32
-time: 1676 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0102a313 rs_valid_inst_out:011 ex_valid_inst_out: 011
 time: 1685
+HEAD:24 TAIL:24 NUM_FREE:32
+time: 1695
+HEAD:24 TAIL:24 NUM_FREE:32
+time: 1705
+HEAD:24 TAIL:24 NUM_FREE:32
+time: 1715
+HEAD:24 TAIL:24 NUM_FREE:32
+time: 1725
+HEAD:24 TAIL:24 NUM_FREE:32
+time: 1725 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00126233 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1735
+HEAD:24 TAIL:24 NUM_FREE:32
+time: 1736 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0102a313 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1745
+HEAD:24 TAIL:24 NUM_FREE:32
+time: 1746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 011
+time: 1755
 DONE ROB : PC=00000060 CDB TARGET=00000064 IDX=24
 DONE ROB : PC=00000064 CDB TARGET=00000068 IDX=25
 HEAD:24 TAIL:27 NUM_FREE:29
 COMMIT PC=00000060 MIS=0 IDX=        24
 COMMIT PC=00000064 MIS=0 IDX=        25
-time: 1686 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0102a313 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 1695
-DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=26
-HEAD:24 TAIL:27 NUM_FREE:29
-COMMIT PC=00000068 MIS=0 IDX=        26
-time: 1696 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0102a313 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1705
-HEAD:26 TAIL:27 NUM_FREE:31
-time: 1715
-HEAD:27 TAIL:27 NUM_FREE:32
-time: 1725
-HEAD:27 TAIL:27 NUM_FREE:32
-time: 1735
-HEAD:27 TAIL:27 NUM_FREE:32
-time: 1745
-HEAD:27 TAIL:27 NUM_FREE:32
-time: 1755
-HEAD:27 TAIL:27 NUM_FREE:32
+COMMIT PC=00000060 MIS=0 IDX=        24
+COMMIT PC=00000064 MIS=0 IDX=        25
+time: 1756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 010
 time: 1765
-HEAD:27 TAIL:27 NUM_FREE:32
+DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=26
+HEAD:24 TAIL:30 NUM_FREE:26
+COMMIT PC=00000068 MIS=0 IDX=        26
+time: 1766 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:010 ex_valid_inst_out: 010
 time: 1775
-HEAD:27 TAIL:27 NUM_FREE:32
-time: 1775 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0102a313 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1785
-HEAD:27 TAIL:27 NUM_FREE:32
-time: 1786 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1795
-HEAD:27 TAIL:27 NUM_FREE:32
-time: 1796 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 1805
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=27
-HEAD:27 TAIL:30 NUM_FREE:29
+HEAD:26 TAIL:30 NUM_FREE:28
 COMMIT PC=0000006c MIS=0 IDX=        27
-time: 1806 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1815
+time: 1776 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1785
 HEAD:27 TAIL:30 NUM_FREE:29
-time: 1825
+time: 1795
 HEAD:28 TAIL:30 NUM_FREE:30
-time: 1835
-HEAD:28 TAIL:30 NUM_FREE:30
-time: 1835 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 1845
+time: 1795 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 1805
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX=28
 HEAD:28 TAIL:30 NUM_FREE:30
-time: 1845 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1805 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000070 MIS=0 IDX=        28
-time: 1846 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 1855
+time: 1806 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 1815
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX=29
 HEAD:28 TAIL:30 NUM_FREE:30
 COMMIT PC=00000074 MIS=0 IDX=        29
-time: 1856 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 1865
+time: 1816 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1825
 HEAD:29 TAIL:30 NUM_FREE:31
+time: 1835
+HEAD:30 TAIL:30 NUM_FREE:32
+time: 1845
+HEAD:30 TAIL:30 NUM_FREE:32
+time: 1845 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 02358633 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 1855
+HEAD:30 TAIL:30 NUM_FREE:32
+time: 1865
+HEAD:30 TAIL:30 NUM_FREE:32
 time: 1875
 HEAD:30 TAIL:30 NUM_FREE:32
 time: 1885
 HEAD:30 TAIL:30 NUM_FREE:32
 time: 1895
 HEAD:30 TAIL:30 NUM_FREE:32
-time: 1895 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 02358633 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 1905
 HEAD:30 TAIL:30 NUM_FREE:32
 time: 1915
@@ -540,92 +525,90 @@ time: 1995
 HEAD:30 TAIL:30 NUM_FREE:32
 time: 2005
 HEAD:30 TAIL:30 NUM_FREE:32
-time: 2005 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 02358633 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2015
 HEAD:30 TAIL:30 NUM_FREE:32
-time: 2016 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2025
 HEAD:30 TAIL:30 NUM_FREE:32
-time: 2026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 rs_valid_inst_out:001 ex_valid_inst_out: 000
 time: 2035
-HEAD:30 TAIL: 1 NUM_FREE:29
-time: 2036 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+HEAD:30 TAIL:30 NUM_FREE:32
 time: 2045
-HEAD:30 TAIL: 1 NUM_FREE:29
+HEAD:30 TAIL:30 NUM_FREE:32
 time: 2055
-HEAD:30 TAIL: 1 NUM_FREE:29
+HEAD:30 TAIL:30 NUM_FREE:32
 time: 2065
-HEAD:30 TAIL: 1 NUM_FREE:29
-time: 2065 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 rs_valid_inst_out:000 ex_valid_inst_out: 001
+HEAD:30 TAIL:30 NUM_FREE:32
+time: 2065 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 02358633 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2075
-DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=30
-HEAD:30 TAIL: 1 NUM_FREE:29
-time: 2075 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-COMMIT PC=00000078 MIS=0 IDX=        30
-time: 2076 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+HEAD:30 TAIL:30 NUM_FREE:32
+time: 2076 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004686b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2085
-DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=31
-HEAD:30 TAIL: 1 NUM_FREE:29
-COMMIT PC=0000007c MIS=0 IDX=        31
-time: 2086 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 rs_valid_inst_out:001 ex_valid_inst_out: 000
+HEAD:30 TAIL:30 NUM_FREE:32
+time: 2086 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 000
 time: 2095
-HEAD:31 TAIL: 1 NUM_FREE:30
-time: 2096 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004686b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+HEAD:30 TAIL: 1 NUM_FREE:29
+time: 2096 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2105
-HEAD: 0 TAIL: 1 NUM_FREE:31
+HEAD:30 TAIL: 4 NUM_FREE:26
 time: 2115
-HEAD: 0 TAIL: 1 NUM_FREE:31
+HEAD:30 TAIL: 4 NUM_FREE:26
 time: 2125
-HEAD: 0 TAIL: 1 NUM_FREE:31
-time: 2125 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004686b3 rs_valid_inst_out:000 ex_valid_inst_out: 001
+HEAD:30 TAIL: 4 NUM_FREE:26
+time: 2125 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 001
 time: 2135
-DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 0
-HEAD: 0 TAIL: 1 NUM_FREE:31
-time: 2135 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004686b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-COMMIT PC=00000080 MIS=0 IDX=         0
-time: 2136 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=30
+HEAD:30 TAIL: 4 NUM_FREE:26
+time: 2135 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+COMMIT PC=00000078 MIS=0 IDX=        30
+time: 2136 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
 time: 2145
-HEAD: 0 TAIL: 1 NUM_FREE:31
-time: 2146 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
+DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=31
+HEAD:30 TAIL: 4 NUM_FREE:26
+COMMIT PC=0000007c MIS=0 IDX=        31
+time: 2146 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 000
 time: 2155
-DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 1
-HEAD: 1 TAIL: 4 NUM_FREE:29
-COMMIT PC=00000084 MIS=0 IDX=         1
-time: 2156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 000
+HEAD:31 TAIL: 4 NUM_FREE:27
+time: 2156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2165
-HEAD: 1 TAIL: 4 NUM_FREE:29
-time: 2166 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+HEAD: 0 TAIL: 4 NUM_FREE:28
 time: 2175
-HEAD: 2 TAIL: 4 NUM_FREE:30
+HEAD: 0 TAIL: 4 NUM_FREE:28
 time: 2185
-HEAD: 2 TAIL: 4 NUM_FREE:30
+HEAD: 0 TAIL: 4 NUM_FREE:28
+time: 2185 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 001
 time: 2195
-HEAD: 2 TAIL: 4 NUM_FREE:30
-time: 2195 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 001
+DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 0
+HEAD: 0 TAIL: 4 NUM_FREE:28
+time: 2195 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 000
+COMMIT PC=00000080 MIS=0 IDX=         0
+time: 2196 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:001 ex_valid_inst_out: 001
 time: 2205
+DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 1
+HEAD: 0 TAIL: 4 NUM_FREE:28
+COMMIT PC=00000084 MIS=0 IDX=         1
+time: 2206 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:001 ex_valid_inst_out: 000
+time: 2215
+HEAD: 1 TAIL: 4 NUM_FREE:29
+time: 2216 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2225
+HEAD: 2 TAIL: 4 NUM_FREE:30
+time: 2235
+HEAD: 2 TAIL: 4 NUM_FREE:30
+time: 2245
+HEAD: 2 TAIL: 4 NUM_FREE:30
+time: 2245 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 2255
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 2
 HEAD: 2 TAIL: 4 NUM_FREE:30
-time: 2205 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2255 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000088 MIS=0 IDX=         2
-time: 2206 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2215
+time: 2256 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2265
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 3
 HEAD: 2 TAIL: 4 NUM_FREE:30
 COMMIT PC=0000008c MIS=0 IDX=         3
-time: 2216 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2225
-HEAD: 3 TAIL: 4 NUM_FREE:31
-time: 2235
-HEAD: 4 TAIL: 4 NUM_FREE:32
-time: 2245
-HEAD: 4 TAIL: 4 NUM_FREE:32
-time: 2245 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2255
-HEAD: 4 TAIL: 4 NUM_FREE:32
-time: 2265
-HEAD: 4 TAIL: 4 NUM_FREE:32
+time: 2266 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2275
-HEAD: 4 TAIL: 4 NUM_FREE:32
+HEAD: 3 TAIL: 4 NUM_FREE:31
 time: 2285
 HEAD: 4 TAIL: 4 NUM_FREE:32
 time: 2295
@@ -642,14 +625,24 @@ time: 2345
 HEAD: 4 TAIL: 4 NUM_FREE:32
 time: 2355
 HEAD: 4 TAIL: 4 NUM_FREE:32
-time: 2355 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2365
 HEAD: 4 TAIL: 4 NUM_FREE:32
-time: 2366 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01015713 rs_valid_inst_out:000 ex_valid_inst_out: 000
 time: 2375
 HEAD: 4 TAIL: 4 NUM_FREE:32
-time: 2376 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01015713 rs_valid_inst_out:111 ex_valid_inst_out: 111
 time: 2385
+HEAD: 4 TAIL: 4 NUM_FREE:32
+time: 2395
+HEAD: 4 TAIL: 4 NUM_FREE:32
+time: 2405
+HEAD: 4 TAIL: 4 NUM_FREE:32
+time: 2405 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0105d593 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2415
+HEAD: 4 TAIL: 4 NUM_FREE:32
+time: 2416 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 01015713 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2425
+HEAD: 4 TAIL: 4 NUM_FREE:32
+time: 2426 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:111 ex_valid_inst_out: 111
+time: 2435
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX= 4
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX= 5
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX= 6
@@ -657,152 +650,129 @@ HEAD: 4 TAIL: 7 NUM_FREE:29
 COMMIT PC=00000090 MIS=0 IDX=         4
 COMMIT PC=00000094 MIS=0 IDX=         5
 COMMIT PC=00000098 MIS=0 IDX=         6
-time: 2386 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 01015713 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2395
-HEAD: 4 TAIL: 7 NUM_FREE:29
-time: 2405
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2415
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2425
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2435
-HEAD: 7 TAIL: 7 NUM_FREE:32
+COMMIT PC=00000090 MIS=0 IDX=         4
+COMMIT PC=00000094 MIS=0 IDX=         5
+COMMIT PC=00000098 MIS=0 IDX=         6
 time: 2445
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2455
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2465
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2475
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2475 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 01015713 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2485
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2486 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2495
-HEAD: 7 TAIL: 7 NUM_FREE:32
-time: 2496 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:111 ex_valid_inst_out: 111
-time: 2505
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX= 7
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX= 8
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX= 9
-HEAD: 7 TAIL:10 NUM_FREE:29
+HEAD: 4 TAIL:10 NUM_FREE:26
 COMMIT PC=0000009c MIS=0 IDX=         7
 COMMIT PC=000000a0 MIS=0 IDX=         8
 COMMIT PC=000000a4 MIS=1 IDX=         9
 MISPREDICT
-time: 2506 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2515
-time: 2516 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2525
+time: 2446 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2455
+time: 2456 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2465
 HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 2526 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2535
+time: 2466 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2475
 HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 2536 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 2545
+time: 2476 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 2485
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX= 0
 HEAD: 0 TAIL: 3 NUM_FREE:29
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=00000068 MIS=0 IDX=         0
-time: 2546 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2555
+time: 2486 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2495
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX= 1
 HEAD: 0 TAIL: 6 NUM_FREE:26
 COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=0000006c MIS=0 IDX=         1
-time: 2556 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2565
+time: 2496 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2505
 HEAD: 1 TAIL: 9 NUM_FREE:24
-time: 2566 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2575
+time: 2506 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2515
 HEAD: 2 TAIL:12 NUM_FREE:22
-time: 2575 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 2576 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 011
-time: 2585
+time: 2515 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 2516 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 011
+time: 2525
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=14
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX= 2
 HEAD: 2 TAIL:15 NUM_FREE:19
-time: 2585 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2525 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
 COMMIT PC=00000070 MIS=0 IDX=         2
-time: 2595
+time: 2535
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX= 3
 HEAD: 2 TAIL:15 NUM_FREE:19
-time: 2595 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
 COMMIT PC=00000074 MIS=0 IDX=         3
-time: 2596 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 2605
+COMMIT PC=00000074 MIS=0 IDX=         3
+time: 2536 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 2545
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=10
 HEAD: 3 TAIL:15 NUM_FREE:20
-time: 2606 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2615
-HEAD: 4 TAIL:15 NUM_FREE:21
-time: 2616 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2625
+time: 2546 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2555
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=15
 HEAD: 4 TAIL:16 NUM_FREE:20
-time: 2626 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2635
+time: 2556 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2565
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=16
 HEAD: 4 TAIL:19 NUM_FREE:17
-time: 2635 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
-time: 2636 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 011
-time: 2645
+time: 2566 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2575
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=17
-DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
 HEAD: 4 TAIL:22 NUM_FREE:14
-time: 2645 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2575 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 011
+time: 2576 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 2585
+DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
+HEAD: 4 TAIL:25 NUM_FREE:11
+time: 2585 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=         4
-COMMIT PC=00000078 MIS=0 IDX=         4
-time: 2655
+time: 2586 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2595
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX= 5
 HEAD: 4 TAIL:25 NUM_FREE:11
 COMMIT PC=0000007c MIS=0 IDX=         5
-time: 2656 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 2665
+time: 2596 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 2605
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=11
 HEAD: 5 TAIL:25 NUM_FREE:12
-time: 2666 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2675
+time: 2606 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2615
 HEAD: 6 TAIL:25 NUM_FREE:13
-time: 2685
+time: 2625
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 2695
+time: 2635
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 2695 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 2705
+time: 2635 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 2645
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 6
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 2705 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2645 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000080 MIS=0 IDX=         6
-time: 2706 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2715
+time: 2646 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2655
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 7
 HEAD: 6 TAIL:28 NUM_FREE:10
 COMMIT PC=00000084 MIS=0 IDX=         7
-time: 2716 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 2725
+time: 2656 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 2665
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=12
 HEAD: 7 TAIL:28 NUM_FREE:11
-time: 2726 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2735
+time: 2666 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2675
 HEAD: 8 TAIL:28 NUM_FREE:12
-time: 2736 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2745
+time: 2676 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2685
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=30
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 2746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2755
+time: 2686 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2695
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 2755 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 2765
+time: 2695 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 2705
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 8
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 2765 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2705 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000088 MIS=0 IDX=         8
-time: 2766 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2775
+time: 2706 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2715
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 9
 HEAD: 8 TAIL:31 NUM_FREE: 9
 COMMIT PC=0000008c MIS=0 IDX=         9
@@ -811,8 +781,8 @@ COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=0000008c MIS=0 IDX=         9
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
-time: 2776 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 2785
+time: 2716 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 2725
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=13
 HEAD: 9 TAIL:31 NUM_FREE:10
 COMMIT PC=00000098 MIS=0 IDX=        12
@@ -821,8 +791,8 @@ COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
-time: 2786 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2795
+time: 2726 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2735
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=31
 HEAD:12 TAIL: 0 NUM_FREE:12
 COMMIT PC=000000a4 MIS=0 IDX=        15
@@ -831,92 +801,92 @@ COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=000000a4 MIS=0 IDX=        15
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
-time: 2796 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2805
+time: 2736 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2745
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX= 0
 HEAD:15 TAIL: 3 NUM_FREE:12
-time: 2806 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2815
+time: 2746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2755
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX= 1
 HEAD:18 TAIL: 3 NUM_FREE:15
-time: 2815 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
-time: 2816 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 2825
+time: 2755 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
+time: 2756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 2765
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX=18
 HEAD:18 TAIL: 6 NUM_FREE:12
-time: 2825 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2765 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000070 MIS=0 IDX=        18
-time: 2826 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2835
+time: 2766 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2775
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX=19
 HEAD:18 TAIL: 6 NUM_FREE:12
 COMMIT PC=00000074 MIS=0 IDX=        19
-time: 2836 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 2845
+time: 2776 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 2785
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=26
 HEAD:19 TAIL: 6 NUM_FREE:13
-time: 2846 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2855
+time: 2786 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2795
 HEAD:20 TAIL: 6 NUM_FREE:14
-time: 2865
+time: 2805
 HEAD:20 TAIL: 9 NUM_FREE:11
-time: 2875
+time: 2815
 HEAD:20 TAIL: 9 NUM_FREE:11
-time: 2875 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 2885
+time: 2815 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 2825
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=20
 HEAD:20 TAIL: 9 NUM_FREE:11
-time: 2885 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2825 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=        20
-time: 2886 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2895
+time: 2826 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2835
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=21
 HEAD:20 TAIL: 9 NUM_FREE:11
 COMMIT PC=0000007c MIS=0 IDX=        21
-time: 2896 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 2905
+time: 2836 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 2845
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=27
 HEAD:21 TAIL: 9 NUM_FREE:12
-time: 2906 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2915
+time: 2846 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2855
 HEAD:22 TAIL: 9 NUM_FREE:13
-time: 2925
+time: 2865
 HEAD:22 TAIL:12 NUM_FREE:10
-time: 2935
+time: 2875
 HEAD:22 TAIL:12 NUM_FREE:10
-time: 2935 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 2945
+time: 2875 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 2885
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX=22
 HEAD:22 TAIL:12 NUM_FREE:10
-time: 2945 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2885 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000080 MIS=0 IDX=        22
-time: 2946 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2955
+time: 2886 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2895
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX=23
 HEAD:22 TAIL:12 NUM_FREE:10
 COMMIT PC=00000084 MIS=0 IDX=        23
-time: 2956 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 2965
+time: 2896 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 2905
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=28
 HEAD:23 TAIL:12 NUM_FREE:11
-time: 2966 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2975
+time: 2906 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2915
 HEAD:24 TAIL:12 NUM_FREE:12
-time: 2976 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 2985
+time: 2916 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2925
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=14
 HEAD:24 TAIL:15 NUM_FREE: 9
-time: 2986 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 2995
+time: 2926 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2935
 HEAD:24 TAIL:15 NUM_FREE: 9
-time: 2995 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3005
+time: 2935 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 2945
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX=24
 HEAD:24 TAIL:15 NUM_FREE: 9
-time: 3005 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 2945 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000088 MIS=0 IDX=        24
-time: 3006 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3015
+time: 2946 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2955
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX=25
 HEAD:24 TAIL:15 NUM_FREE: 9
 COMMIT PC=0000008c MIS=0 IDX=        25
@@ -925,8 +895,8 @@ COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=0000008c MIS=0 IDX=        25
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
-time: 3016 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3025
+time: 2956 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 2965
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=29
 HEAD:25 TAIL:15 NUM_FREE:10
 COMMIT PC=00000098 MIS=0 IDX=        28
@@ -935,8 +905,8 @@ COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=00000098 MIS=0 IDX=        28
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
-time: 3026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3035
+time: 2966 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 2975
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=15
 HEAD:28 TAIL:16 NUM_FREE:12
 COMMIT PC=000000a4 MIS=0 IDX=        31
@@ -945,199 +915,199 @@ COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=000000a4 MIS=0 IDX=        31
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
-time: 3036 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
-time: 3045
+time: 2976 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 2985
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=16
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=12
 HEAD:31 TAIL:19 NUM_FREE:12
-time: 3046 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 100
-time: 3055
+time: 2986 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 100
+time: 2995
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=17
 HEAD: 2 TAIL:19 NUM_FREE:15
-time: 3055 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 110
-time: 3056 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3065
+time: 2995 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 110
+time: 2996 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3005
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX= 2
 HEAD: 2 TAIL:22 NUM_FREE:12
-time: 3065 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3005 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000070 MIS=0 IDX=         2
 COMMIT PC=00000070 MIS=0 IDX=         2
-time: 3066 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 3075
+time: 3006 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 3015
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX= 3
 HEAD: 2 TAIL:25 NUM_FREE: 9
 COMMIT PC=00000074 MIS=0 IDX=         3
-time: 3076 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:110 ex_valid_inst_out: 100
-time: 3085
+time: 3016 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:110 ex_valid_inst_out: 100
+time: 3025
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=10
 HEAD: 3 TAIL:25 NUM_FREE:10
-time: 3085 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:110 ex_valid_inst_out: 101
-time: 3086 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 3095
+time: 3025 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:110 ex_valid_inst_out: 101
+time: 3026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 3035
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 8
 HEAD: 4 TAIL:25 NUM_FREE:11
-time: 3095 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3096 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3105
+time: 3035 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3036 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3045
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 9
 HEAD: 4 TAIL:28 NUM_FREE: 8
-time: 3106 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:101 ex_valid_inst_out: 001
-time: 3115
+time: 3046 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:101 ex_valid_inst_out: 001
+time: 3055
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=13
 HEAD: 4 TAIL:28 NUM_FREE: 8
-time: 3115 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:101 ex_valid_inst_out: 011
-time: 3116 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3125
+time: 3055 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:101 ex_valid_inst_out: 011
+time: 3056 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3065
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
 HEAD: 4 TAIL:28 NUM_FREE: 8
-time: 3125 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3065 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=         4
 COMMIT PC=00000078 MIS=0 IDX=         4
-time: 3126 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 011
-time: 3135
+time: 3066 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 011
+time: 3075
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX= 5
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=30
 HEAD: 4 TAIL:31 NUM_FREE: 5
 COMMIT PC=0000007c MIS=0 IDX=         5
-time: 3136 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 3145
+time: 3076 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 3085
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=11
 HEAD: 5 TAIL:31 NUM_FREE: 6
-time: 3145 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 110
-time: 3146 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 100
-time: 3155
+time: 3085 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 110
+time: 3086 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 100
+time: 3095
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX=18
 HEAD: 6 TAIL:31 NUM_FREE: 7
-time: 3155 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
-time: 3165
+time: 3095 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3096 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
+time: 3105
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=31
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX=19
 HEAD: 6 TAIL: 0 NUM_FREE: 6
-time: 3166 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 010
-time: 3175
+time: 3106 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 010
+time: 3115
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX= 0
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 3175 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 011
-time: 3176 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 011
-time: 3185
+time: 3115 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 011
+time: 3116 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 011
+time: 3125
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 6
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=28
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 3185 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 3125 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
 COMMIT PC=00000080 MIS=0 IDX=         6
-time: 3186 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3195
+time: 3126 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3135
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 7
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 3195 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3135 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
 COMMIT PC=00000084 MIS=0 IDX=         7
 COMMIT PC=00000088 MIS=0 IDX=         8
 COMMIT PC=0000008c MIS=0 IDX=         9
 COMMIT PC=00000084 MIS=0 IDX=         7
 COMMIT PC=00000088 MIS=0 IDX=         8
 COMMIT PC=0000008c MIS=0 IDX=         9
-time: 3196 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3205
+time: 3136 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3145
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=26
 HEAD: 7 TAIL: 3 NUM_FREE: 4
-time: 3205 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 101
+time: 3145 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 101
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=00000098 MIS=0 IDX=        12
-time: 3206 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 101
-time: 3215
+time: 3146 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 101
+time: 3155
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX= 1
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX=24
 HEAD:10 TAIL: 6 NUM_FREE: 4
-time: 3215 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3155 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=000000a4 MIS=0 IDX=        15
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=000000a4 MIS=0 IDX=        15
-time: 3216 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3225
+time: 3156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3165
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX=25
 HEAD:13 TAIL: 9 NUM_FREE: 4
-time: 3225 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 011
+time: 3165 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 011
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=00000070 MIS=0 IDX=        18
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=00000070 MIS=0 IDX=        18
-time: 3226 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:101 ex_valid_inst_out: 011
-time: 3235
+time: 3166 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:101 ex_valid_inst_out: 011
+time: 3175
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=29
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=20
 HEAD:16 TAIL:12 NUM_FREE: 4
-time: 3235 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:101 ex_valid_inst_out: 001
+time: 3175 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:101 ex_valid_inst_out: 001
 COMMIT PC=00000074 MIS=0 IDX=        19
 COMMIT PC=00000078 MIS=0 IDX=        20
 COMMIT PC=00000074 MIS=0 IDX=        19
 COMMIT PC=00000078 MIS=0 IDX=        20
-time: 3236 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3245
+time: 3176 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3185
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=21
 HEAD:19 TAIL:12 NUM_FREE: 7
 COMMIT PC=0000007c MIS=0 IDX=        21
 COMMIT PC=0000007c MIS=0 IDX=        21
-time: 3246 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 3255
+time: 3186 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 3195
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=27
 HEAD:21 TAIL:15 NUM_FREE: 6
-time: 3256 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 3265
+time: 3196 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 3205
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=14
 HEAD:22 TAIL:15 NUM_FREE: 7
-time: 3265 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 110
-time: 3266 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 110
-time: 3275
+time: 3205 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 110
+time: 3206 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 110
+time: 3215
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=15
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX= 2
 HEAD:22 TAIL:16 NUM_FREE: 6
-time: 3275 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 3276 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
-time: 3285
+time: 3215 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 3216 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
+time: 3225
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX= 3
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=16
 HEAD:22 TAIL:19 NUM_FREE: 3
-time: 3285 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
-time: 3295
+time: 3225 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
+time: 3235
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX=22
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=10
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=17
 HEAD:22 TAIL:19 NUM_FREE: 3
-time: 3295 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
+time: 3235 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
 COMMIT PC=00000080 MIS=0 IDX=        22
-time: 3296 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3305
+time: 3236 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3245
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX=23
 HEAD:22 TAIL:19 NUM_FREE: 3
-time: 3305 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3245 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
 COMMIT PC=00000084 MIS=0 IDX=        23
 COMMIT PC=00000088 MIS=0 IDX=        24
 COMMIT PC=0000008c MIS=0 IDX=        25
 COMMIT PC=00000084 MIS=0 IDX=        23
 COMMIT PC=00000088 MIS=0 IDX=        24
 COMMIT PC=0000008c MIS=0 IDX=        25
-time: 3306 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3315
+time: 3246 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3255
 HEAD:23 TAIL:19 NUM_FREE: 4
-time: 3315 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3255 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=00000098 MIS=0 IDX=        28
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=00000098 MIS=0 IDX=        28
-time: 3316 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3325
+time: 3256 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3265
 HEAD:26 TAIL:22 NUM_FREE: 4
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
@@ -1145,67 +1115,67 @@ COMMIT PC=000000a4 MIS=0 IDX=        31
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=000000a4 MIS=0 IDX=        31
-time: 3335
+time: 3275
 HEAD:29 TAIL:25 NUM_FREE: 4
-time: 3335 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3275 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=00000070 MIS=0 IDX=         2
-time: 3345
+time: 3285
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
 HEAD: 0 TAIL:25 NUM_FREE: 7
-time: 3345 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3285 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000074 MIS=0 IDX=         3
 COMMIT PC=00000078 MIS=0 IDX=         4
-time: 3346 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3355
+time: 3286 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3295
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX= 5
 HEAD: 3 TAIL:25 NUM_FREE:10
 COMMIT PC=0000007c MIS=0 IDX=         5
-time: 3356 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 3365
+time: 3296 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 3305
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=11
 HEAD: 5 TAIL:25 NUM_FREE:12
-time: 3366 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3375
+time: 3306 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3315
 HEAD: 6 TAIL:25 NUM_FREE:13
-time: 3385
+time: 3325
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 3395
+time: 3335
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 3395 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 3405
+time: 3335 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 3345
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 6
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 3405 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3345 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000080 MIS=0 IDX=         6
-time: 3406 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3415
+time: 3346 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3355
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 7
 HEAD: 6 TAIL:28 NUM_FREE:10
 COMMIT PC=00000084 MIS=0 IDX=         7
-time: 3416 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3425
+time: 3356 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3365
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=12
 HEAD: 7 TAIL:28 NUM_FREE:11
-time: 3426 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3435
+time: 3366 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3375
 HEAD: 8 TAIL:28 NUM_FREE:12
-time: 3436 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3445
+time: 3376 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3385
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=30
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 3446 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3455
+time: 3386 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3395
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 3455 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3465
+time: 3395 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3405
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 8
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 3465 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3405 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000088 MIS=0 IDX=         8
-time: 3466 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3475
+time: 3406 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3415
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 9
 HEAD: 8 TAIL:31 NUM_FREE: 9
 COMMIT PC=0000008c MIS=0 IDX=         9
@@ -1214,8 +1184,8 @@ COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=0000008c MIS=0 IDX=         9
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
-time: 3476 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3485
+time: 3416 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3425
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=13
 HEAD: 9 TAIL:31 NUM_FREE:10
 COMMIT PC=00000098 MIS=0 IDX=        12
@@ -1224,8 +1194,8 @@ COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
-time: 3486 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3495
+time: 3426 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3435
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=31
 HEAD:12 TAIL: 0 NUM_FREE:12
 COMMIT PC=000000a4 MIS=0 IDX=        15
@@ -1234,92 +1204,92 @@ COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=000000a4 MIS=0 IDX=        15
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
-time: 3496 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3505
+time: 3436 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3445
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX= 0
 HEAD:15 TAIL: 3 NUM_FREE:12
-time: 3506 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3515
+time: 3446 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3455
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX= 1
 HEAD:18 TAIL: 3 NUM_FREE:15
-time: 3515 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
-time: 3516 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3525
+time: 3455 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
+time: 3456 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3465
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX=18
 HEAD:18 TAIL: 6 NUM_FREE:12
-time: 3525 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3465 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000070 MIS=0 IDX=        18
-time: 3526 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3535
+time: 3466 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3475
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX=19
 HEAD:18 TAIL: 6 NUM_FREE:12
 COMMIT PC=00000074 MIS=0 IDX=        19
-time: 3536 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3545
+time: 3476 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3485
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=26
 HEAD:19 TAIL: 6 NUM_FREE:13
-time: 3546 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3555
+time: 3486 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3495
 HEAD:20 TAIL: 6 NUM_FREE:14
-time: 3565
+time: 3505
 HEAD:20 TAIL: 9 NUM_FREE:11
-time: 3575
+time: 3515
 HEAD:20 TAIL: 9 NUM_FREE:11
-time: 3575 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3585
+time: 3515 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3525
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=20
 HEAD:20 TAIL: 9 NUM_FREE:11
-time: 3585 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3525 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=        20
-time: 3586 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3595
+time: 3526 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3535
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=21
 HEAD:20 TAIL: 9 NUM_FREE:11
 COMMIT PC=0000007c MIS=0 IDX=        21
-time: 3596 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 3605
+time: 3536 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 3545
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=27
 HEAD:21 TAIL: 9 NUM_FREE:12
-time: 3606 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3615
+time: 3546 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3555
 HEAD:22 TAIL: 9 NUM_FREE:13
-time: 3625
+time: 3565
 HEAD:22 TAIL:12 NUM_FREE:10
-time: 3635
+time: 3575
 HEAD:22 TAIL:12 NUM_FREE:10
-time: 3635 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 3645
+time: 3575 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 3585
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX=22
 HEAD:22 TAIL:12 NUM_FREE:10
-time: 3645 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3585 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000080 MIS=0 IDX=        22
-time: 3646 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3655
+time: 3586 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3595
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX=23
 HEAD:22 TAIL:12 NUM_FREE:10
 COMMIT PC=00000084 MIS=0 IDX=        23
-time: 3656 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3665
+time: 3596 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3605
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=28
 HEAD:23 TAIL:12 NUM_FREE:11
-time: 3666 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3675
+time: 3606 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3615
 HEAD:24 TAIL:12 NUM_FREE:12
-time: 3676 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3685
+time: 3616 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3625
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=14
 HEAD:24 TAIL:15 NUM_FREE: 9
-time: 3686 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3695
+time: 3626 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3635
 HEAD:24 TAIL:15 NUM_FREE: 9
-time: 3695 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3705
+time: 3635 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3645
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX=24
 HEAD:24 TAIL:15 NUM_FREE: 9
-time: 3705 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3645 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000088 MIS=0 IDX=        24
-time: 3706 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3715
+time: 3646 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3655
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX=25
 HEAD:24 TAIL:15 NUM_FREE: 9
 COMMIT PC=0000008c MIS=0 IDX=        25
@@ -1328,8 +1298,8 @@ COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=0000008c MIS=0 IDX=        25
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
-time: 3716 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3725
+time: 3656 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3665
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=29
 HEAD:25 TAIL:15 NUM_FREE:10
 COMMIT PC=00000098 MIS=0 IDX=        28
@@ -1338,8 +1308,8 @@ COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=00000098 MIS=0 IDX=        28
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
-time: 3726 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3735
+time: 3666 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3675
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=15
 HEAD:28 TAIL:16 NUM_FREE:12
 COMMIT PC=000000a4 MIS=0 IDX=        31
@@ -1348,95 +1318,95 @@ COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=000000a4 MIS=0 IDX=        31
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
-time: 3736 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
-time: 3745
+time: 3676 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 3685
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=16
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=12
 HEAD:31 TAIL:19 NUM_FREE:12
-time: 3746 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 100
-time: 3755
+time: 3686 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 100
+time: 3695
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=17
 HEAD: 2 TAIL:19 NUM_FREE:15
-time: 3755 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 110
-time: 3756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3765
+time: 3695 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 110
+time: 3696 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3705
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX= 2
 HEAD: 2 TAIL:22 NUM_FREE:12
-time: 3765 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3705 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000070 MIS=0 IDX=         2
 COMMIT PC=00000070 MIS=0 IDX=         2
-time: 3766 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 3775
+time: 3706 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 3715
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX= 3
 HEAD: 2 TAIL:25 NUM_FREE: 9
 COMMIT PC=00000074 MIS=0 IDX=         3
-time: 3776 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:110 ex_valid_inst_out: 010
-time: 3785
+time: 3716 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:110 ex_valid_inst_out: 010
+time: 3725
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=10
 HEAD: 3 TAIL:25 NUM_FREE:10
-time: 3785 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:110 ex_valid_inst_out: 011
-time: 3786 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 3795
+time: 3725 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:110 ex_valid_inst_out: 011
+time: 3726 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 3735
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 8
 HEAD: 4 TAIL:25 NUM_FREE:11
-time: 3795 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3796 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3805
+time: 3735 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3736 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3745
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 9
 HEAD: 4 TAIL:28 NUM_FREE: 8
-time: 3806 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3815
+time: 3746 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3755
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=13
 HEAD: 4 TAIL:28 NUM_FREE: 8
-time: 3815 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 101
-time: 3816 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 100
-time: 3825
+time: 3755 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 101
+time: 3756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 100
+time: 3765
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
 HEAD: 4 TAIL:28 NUM_FREE: 8
-time: 3825 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3765 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=         4
 COMMIT PC=00000078 MIS=0 IDX=         4
-time: 3826 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:101 ex_valid_inst_out: 101
-time: 3835
+time: 3766 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 3775
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX= 5
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=30
 HEAD: 4 TAIL:31 NUM_FREE: 5
 COMMIT PC=0000007c MIS=0 IDX=         5
-time: 3836 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:101 ex_valid_inst_out: 100
-time: 3845
+time: 3776 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:101 ex_valid_inst_out: 100
+time: 3785
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=11
 HEAD: 5 TAIL:31 NUM_FREE: 6
-time: 3845 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:101 ex_valid_inst_out: 110
-time: 3846 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 3855
+time: 3785 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:101 ex_valid_inst_out: 110
+time: 3786 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3795
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX=18
 HEAD: 6 TAIL:31 NUM_FREE: 7
-time: 3855 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3856 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
-time: 3865
+time: 3795 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3796 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
+time: 3805
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=31
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX=19
 HEAD: 6 TAIL: 0 NUM_FREE: 6
-time: 3875
+time: 3815
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX= 0
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=21
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 3875 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
-time: 3885
+time: 3815 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
+time: 3825
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 6
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=28
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=27
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 3885 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
+time: 3825 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
 COMMIT PC=00000080 MIS=0 IDX=         6
-time: 3886 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 110
-time: 3895
+time: 3826 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 110
+time: 3835
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=26
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX= 1
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 3895 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 110
-time: 3896 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:110 ex_valid_inst_out: 100
-time: 3905
+time: 3835 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 110
+time: 3836 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:110 ex_valid_inst_out: 100
+time: 3845
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 7
 HEAD: 7 TAIL: 3 NUM_FREE: 4
 COMMIT PC=00000084 MIS=0 IDX=         7
@@ -1445,60 +1415,60 @@ COMMIT PC=0000008c MIS=0 IDX=         9
 COMMIT PC=00000084 MIS=0 IDX=         7
 COMMIT PC=00000088 MIS=0 IDX=         8
 COMMIT PC=0000008c MIS=0 IDX=         9
-time: 3906 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:100 ex_valid_inst_out: 000
-time: 3915
+time: 3846 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:100 ex_valid_inst_out: 000
+time: 3855
 HEAD: 7 TAIL: 6 NUM_FREE: 1
-time: 3915 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:100 ex_valid_inst_out: 000
+time: 3855 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:100 ex_valid_inst_out: 000
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=00000098 MIS=0 IDX=        12
-time: 3916 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 3925
+time: 3856 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3865
 HEAD:10 TAIL: 6 NUM_FREE: 4
-time: 3925 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 3865 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 001
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=000000a4 MIS=0 IDX=        15
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=000000a4 MIS=0 IDX=        15
-time: 3926 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 3935
+time: 3866 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 3875
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX=22
 HEAD:13 TAIL: 9 NUM_FREE: 4
-time: 3935 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3875 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 010
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=00000070 MIS=0 IDX=        18
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=00000070 MIS=0 IDX=        18
-time: 3936 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 011
-time: 3945
+time: 3876 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 011
+time: 3885
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX=23
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX=24
 HEAD:16 TAIL:12 NUM_FREE: 4
-time: 3945 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 101
+time: 3885 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 101
 COMMIT PC=00000074 MIS=0 IDX=        19
 COMMIT PC=00000074 MIS=0 IDX=        19
-time: 3946 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 111
-time: 3955
+time: 3886 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 111
+time: 3895
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX=25
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=14
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=20
 HEAD:19 TAIL:15 NUM_FREE: 4
-time: 3955 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 011
+time: 3895 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 011
 COMMIT PC=00000078 MIS=0 IDX=        20
 COMMIT PC=0000007c MIS=0 IDX=        21
 COMMIT PC=00000080 MIS=0 IDX=        22
 COMMIT PC=00000078 MIS=0 IDX=        20
 COMMIT PC=0000007c MIS=0 IDX=        21
 COMMIT PC=00000080 MIS=0 IDX=        22
-time: 3956 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 3965
+time: 3896 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3905
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=29
 HEAD:20 TAIL:15 NUM_FREE: 5
 COMMIT PC=00000084 MIS=0 IDX=        23
@@ -1507,8 +1477,8 @@ COMMIT PC=0000008c MIS=0 IDX=        25
 COMMIT PC=00000084 MIS=0 IDX=        23
 COMMIT PC=00000088 MIS=0 IDX=        24
 COMMIT PC=0000008c MIS=0 IDX=        25
-time: 3966 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3975
+time: 3906 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3915
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=15
 HEAD:23 TAIL:16 NUM_FREE: 7
 COMMIT PC=00000090 MIS=0 IDX=        26
@@ -1517,8 +1487,8 @@ COMMIT PC=00000098 MIS=0 IDX=        28
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=00000098 MIS=0 IDX=        28
-time: 3976 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3985
+time: 3916 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3925
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=16
 HEAD:26 TAIL:19 NUM_FREE: 7
 COMMIT PC=0000009c MIS=0 IDX=        29
@@ -1527,92 +1497,92 @@ COMMIT PC=000000a4 MIS=0 IDX=        31
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=000000a4 MIS=0 IDX=        31
-time: 3986 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 3995
+time: 3926 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3935
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=17
 HEAD:29 TAIL:19 NUM_FREE:10
-time: 3995 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
+time: 3935 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
-time: 3996 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4005
+time: 3936 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 3945
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX= 2
 HEAD: 0 TAIL:22 NUM_FREE:10
-time: 4005 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3945 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000070 MIS=0 IDX=         2
-time: 4006 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4015
+time: 3946 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 3955
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX= 3
 HEAD: 2 TAIL:22 NUM_FREE:12
 COMMIT PC=00000074 MIS=0 IDX=         3
-time: 4016 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 4025
+time: 3956 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 3965
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=10
 HEAD: 3 TAIL:22 NUM_FREE:13
-time: 4026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4035
+time: 3966 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 3975
 HEAD: 4 TAIL:22 NUM_FREE:14
-time: 4045
+time: 3985
 HEAD: 4 TAIL:25 NUM_FREE:11
-time: 4055
+time: 3995
 HEAD: 4 TAIL:25 NUM_FREE:11
-time: 4055 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4065
+time: 3995 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4005
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
 HEAD: 4 TAIL:25 NUM_FREE:11
-time: 4065 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4005 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=         4
-time: 4066 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4075
+time: 4006 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4015
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX= 5
 HEAD: 4 TAIL:25 NUM_FREE:11
 COMMIT PC=0000007c MIS=0 IDX=         5
-time: 4076 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 4085
+time: 4016 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 4025
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=11
 HEAD: 5 TAIL:25 NUM_FREE:12
-time: 4086 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4095
+time: 4026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4035
 HEAD: 6 TAIL:25 NUM_FREE:13
-time: 4105
+time: 4045
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 4115
+time: 4055
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 4115 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 4125
+time: 4055 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 4065
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 6
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 4125 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4065 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000080 MIS=0 IDX=         6
-time: 4126 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4135
+time: 4066 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4075
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 7
 HEAD: 6 TAIL:28 NUM_FREE:10
 COMMIT PC=00000084 MIS=0 IDX=         7
-time: 4136 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 4145
+time: 4076 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 4085
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=12
 HEAD: 7 TAIL:28 NUM_FREE:11
-time: 4146 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4155
+time: 4086 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4095
 HEAD: 8 TAIL:28 NUM_FREE:12
-time: 4156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4165
+time: 4096 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4105
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=30
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 4166 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4175
+time: 4106 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4115
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 4175 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4185
+time: 4115 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4125
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 8
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 4185 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4125 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000088 MIS=0 IDX=         8
-time: 4186 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4195
+time: 4126 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4135
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 9
 HEAD: 8 TAIL:31 NUM_FREE: 9
 COMMIT PC=0000008c MIS=0 IDX=         9
@@ -1621,8 +1591,8 @@ COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=0000008c MIS=0 IDX=         9
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
-time: 4196 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 4205
+time: 4136 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 4145
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=13
 HEAD: 9 TAIL:31 NUM_FREE:10
 COMMIT PC=00000098 MIS=0 IDX=        12
@@ -1631,8 +1601,8 @@ COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
-time: 4206 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
-time: 4215
+time: 4146 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 4155
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=31
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=21
 HEAD:12 TAIL: 0 NUM_FREE:12
@@ -1642,106 +1612,106 @@ COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=000000a4 MIS=0 IDX=        15
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
-time: 4216 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 000
-time: 4225
+time: 4156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 000
+time: 4165
 HEAD:15 TAIL: 3 NUM_FREE:12
-time: 4226 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4235
+time: 4166 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4175
 HEAD:18 TAIL: 6 NUM_FREE:12
-time: 4235 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4245
+time: 4175 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4185
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX=18
 HEAD:18 TAIL: 6 NUM_FREE:12
-time: 4245 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4185 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000070 MIS=0 IDX=        18
-time: 4246 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4255
+time: 4186 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4195
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX=19
 HEAD:18 TAIL: 6 NUM_FREE:12
-time: 4255 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:010 ex_valid_inst_out: 111
+time: 4195 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:010 ex_valid_inst_out: 111
 COMMIT PC=00000074 MIS=0 IDX=        19
 COMMIT PC=00000074 MIS=0 IDX=        19
-time: 4256 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:010 ex_valid_inst_out: 111
-time: 4265
+time: 4196 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:010 ex_valid_inst_out: 111
+time: 4205
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX=22
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX= 0
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX=24
 HEAD:19 TAIL: 6 NUM_FREE:13
-time: 4265 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4266 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:111 ex_valid_inst_out: 111
-time: 4275
+time: 4205 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4206 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:111 ex_valid_inst_out: 111
+time: 4215
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX=25
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX= 1
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=27
 HEAD:20 TAIL: 9 NUM_FREE:11
-time: 4276 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:111 ex_valid_inst_out: 011
-time: 4285
+time: 4216 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:111 ex_valid_inst_out: 011
+time: 4225
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=28
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=29
 HEAD:20 TAIL: 9 NUM_FREE:11
-time: 4286 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 4295
+time: 4226 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 4235
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX=23
 HEAD:20 TAIL:12 NUM_FREE: 8
-time: 4296 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4305
+time: 4236 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4245
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=12
 HEAD:20 TAIL:15 NUM_FREE: 5
-time: 4306 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4315
+time: 4246 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4255
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=15
 HEAD:20 TAIL:16 NUM_FREE: 4
-time: 4315 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 110
-time: 4325
+time: 4255 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 110
+time: 4265
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=16
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX= 2
 HEAD:20 TAIL:19 NUM_FREE: 1
-time: 4325 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 011
-time: 4326 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
-time: 4335
+time: 4265 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 011
+time: 4266 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
+time: 4275
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=20
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX= 3
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=26
 HEAD:20 TAIL:19 NUM_FREE: 1
-time: 4335 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
+time: 4275 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
 COMMIT PC=00000078 MIS=0 IDX=        20
 COMMIT PC=0000007c MIS=0 IDX=        21
 COMMIT PC=00000080 MIS=0 IDX=        22
-time: 4336 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 111
-time: 4345
+time: 4276 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 111
+time: 4285
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=17
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=14
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=10
 HEAD:20 TAIL:19 NUM_FREE: 1
-time: 4345 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 111
+time: 4285 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 111
 COMMIT PC=00000084 MIS=0 IDX=        23
 COMMIT PC=00000088 MIS=0 IDX=        24
 COMMIT PC=0000008c MIS=0 IDX=        25
 COMMIT PC=00000084 MIS=0 IDX=        23
 COMMIT PC=00000088 MIS=0 IDX=        24
 COMMIT PC=0000008c MIS=0 IDX=        25
-time: 4346 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 000
-time: 4355
+time: 4286 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 000
+time: 4295
 HEAD:23 TAIL:19 NUM_FREE: 4
-time: 4355 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 000
+time: 4295 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 000
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=00000098 MIS=0 IDX=        28
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=00000098 MIS=0 IDX=        28
-time: 4356 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4365
+time: 4296 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4305
 HEAD:26 TAIL:22 NUM_FREE: 4
-time: 4365 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4305 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=000000a4 MIS=0 IDX=        31
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=000000a4 MIS=0 IDX=        31
-time: 4366 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4375
+time: 4306 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4315
 HEAD:29 TAIL:25 NUM_FREE: 4
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
@@ -1749,83 +1719,83 @@ COMMIT PC=00000070 MIS=0 IDX=         2
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=00000070 MIS=0 IDX=         2
-time: 4385
+time: 4325
 HEAD: 0 TAIL:28 NUM_FREE: 4
-time: 4385 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 011
+time: 4325 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 011
 COMMIT PC=00000074 MIS=0 IDX=         3
-time: 4395
+time: 4335
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 8
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
 HEAD: 3 TAIL:28 NUM_FREE: 7
-time: 4395 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4335 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=         4
-time: 4396 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 011
-time: 4405
+time: 4336 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 011
+time: 4345
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 9
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX= 5
 HEAD: 4 TAIL:28 NUM_FREE: 8
 COMMIT PC=0000007c MIS=0 IDX=         5
-time: 4406 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:111 ex_valid_inst_out: 110
-time: 4415
+time: 4346 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:111 ex_valid_inst_out: 110
+time: 4355
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=13
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=11
 HEAD: 5 TAIL:28 NUM_FREE: 9
-time: 4416 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:010 ex_valid_inst_out: 000
-time: 4425
+time: 4356 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:010 ex_valid_inst_out: 000
+time: 4365
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 4426 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:100 ex_valid_inst_out: 100
-time: 4435
+time: 4366 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:100 ex_valid_inst_out: 100
+time: 4375
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=30
 HEAD: 6 TAIL:31 NUM_FREE: 7
-time: 4436 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:100 ex_valid_inst_out: 100
-time: 4445
+time: 4376 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:100 ex_valid_inst_out: 100
+time: 4385
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=31
 HEAD: 6 TAIL: 0 NUM_FREE: 6
-time: 4445 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:100 ex_valid_inst_out: 101
-time: 4455
+time: 4385 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:100 ex_valid_inst_out: 101
+time: 4395
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 6
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=28
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 4455 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:100 ex_valid_inst_out: 110
+time: 4395 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:100 ex_valid_inst_out: 110
 COMMIT PC=00000080 MIS=0 IDX=         6
-time: 4456 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 111
-time: 4465
+time: 4396 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 111
+time: 4405
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX= 0
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX=18
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 7
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 4465 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 4405 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
 COMMIT PC=00000084 MIS=0 IDX=         7
 COMMIT PC=00000088 MIS=0 IDX=         8
 COMMIT PC=0000008c MIS=0 IDX=         9
 COMMIT PC=00000084 MIS=0 IDX=         7
 COMMIT PC=00000088 MIS=0 IDX=         8
 COMMIT PC=0000008c MIS=0 IDX=         9
-time: 4466 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:111 ex_valid_inst_out: 101
-time: 4475
+time: 4406 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:111 ex_valid_inst_out: 101
+time: 4415
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX=19
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX= 1
 HEAD: 7 TAIL: 3 NUM_FREE: 4
-time: 4475 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:111 ex_valid_inst_out: 101
+time: 4415 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:111 ex_valid_inst_out: 101
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=00000098 MIS=0 IDX=        12
-time: 4476 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:101 ex_valid_inst_out: 001
-time: 4485
+time: 4416 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:101 ex_valid_inst_out: 001
+time: 4425
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=26
 HEAD:10 TAIL: 6 NUM_FREE: 4
-time: 4485 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:101 ex_valid_inst_out: 001
+time: 4425 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:101 ex_valid_inst_out: 001
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=000000a4 MIS=0 IDX=        15
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=000000a4 MIS=0 IDX=        15
-time: 4486 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4495
+time: 4426 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4435
 HEAD:13 TAIL: 9 NUM_FREE: 4
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
@@ -1833,62 +1803,62 @@ COMMIT PC=00000070 MIS=0 IDX=        18
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=00000070 MIS=0 IDX=        18
-time: 4505
+time: 4445
 HEAD:16 TAIL:12 NUM_FREE: 4
-time: 4505 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4445 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 010
 COMMIT PC=00000074 MIS=0 IDX=        19
-time: 4515
+time: 4455
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX=24
 HEAD:19 TAIL:12 NUM_FREE: 7
-time: 4515 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 100
-time: 4516 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 101
-time: 4525
+time: 4455 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 100
+time: 4456 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 101
+time: 4465
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX=25
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=20
 HEAD:20 TAIL:12 NUM_FREE: 8
-time: 4525 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4465 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
 COMMIT PC=00000078 MIS=0 IDX=        20
-time: 4526 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:111 ex_valid_inst_out: 011
-time: 4535
+time: 4466 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:111 ex_valid_inst_out: 011
+time: 4475
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 9
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=21
 HEAD:20 TAIL:12 NUM_FREE: 8
 COMMIT PC=0000007c MIS=0 IDX=        21
 COMMIT PC=0000007c MIS=0 IDX=        21
-time: 4536 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 4545
+time: 4476 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 4485
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=27
 HEAD:21 TAIL:12 NUM_FREE: 9
-time: 4546 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4555
+time: 4486 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4495
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=29
 HEAD:22 TAIL:15 NUM_FREE: 7
-time: 4556 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4565
+time: 4496 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4505
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=15
 HEAD:22 TAIL:16 NUM_FREE: 6
-time: 4565 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 110
-time: 4575
+time: 4505 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 110
+time: 4515
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=16
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX= 2
 HEAD:22 TAIL:19 NUM_FREE: 3
-time: 4575 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 011
-time: 4576 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
-time: 4585
+time: 4515 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 011
+time: 4516 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
+time: 4525
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX=22
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX= 3
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=13
 HEAD:22 TAIL:19 NUM_FREE: 3
-time: 4585 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
+time: 4525 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
 COMMIT PC=00000080 MIS=0 IDX=        22
-time: 4586 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 101
-time: 4595
+time: 4526 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 101
+time: 4535
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=10
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=14
 HEAD:22 TAIL:19 NUM_FREE: 3
-time: 4595 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 101
-time: 4596 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
-time: 4605
+time: 4535 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:111 ex_valid_inst_out: 101
+time: 4536 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 4545
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=17
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX=23
 HEAD:23 TAIL:19 NUM_FREE: 4
@@ -1898,162 +1868,162 @@ COMMIT PC=0000008c MIS=0 IDX=        25
 COMMIT PC=00000084 MIS=0 IDX=        23
 COMMIT PC=00000088 MIS=0 IDX=        24
 COMMIT PC=0000008c MIS=0 IDX=        25
-time: 4606 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 000
-time: 4615
+time: 4546 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 000
+time: 4555
 HEAD:23 TAIL:22 NUM_FREE: 1
-time: 4615 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 000
+time: 4555 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 000
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=00000098 MIS=0 IDX=        28
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=00000098 MIS=0 IDX=        28
-time: 4616 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4625
+time: 4556 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4565
 HEAD:26 TAIL:22 NUM_FREE: 4
-time: 4625 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4565 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=000000a4 MIS=0 IDX=        31
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=000000a4 MIS=0 IDX=        31
-time: 4626 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4635
+time: 4566 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4575
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX=18
 HEAD:29 TAIL:25 NUM_FREE: 4
-time: 4635 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4575 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=00000070 MIS=0 IDX=         2
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=00000070 MIS=0 IDX=         2
-time: 4636 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4645
+time: 4576 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4585
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX=19
 HEAD: 0 TAIL:28 NUM_FREE: 4
-time: 4645 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:010 ex_valid_inst_out: 011
+time: 4585 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:010 ex_valid_inst_out: 011
 COMMIT PC=00000074 MIS=0 IDX=         3
-time: 4646 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:110 ex_valid_inst_out: 011
-time: 4655
+time: 4586 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:110 ex_valid_inst_out: 011
+time: 4595
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=26
 HEAD: 3 TAIL:28 NUM_FREE: 7
-time: 4655 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:110 ex_valid_inst_out: 010
+time: 4595 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:110 ex_valid_inst_out: 010
 COMMIT PC=00000078 MIS=0 IDX=         4
 COMMIT PC=00000078 MIS=0 IDX=         4
-time: 4656 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4665
+time: 4596 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4605
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX= 5
 HEAD: 4 TAIL:28 NUM_FREE: 8
 COMMIT PC=0000007c MIS=0 IDX=         5
 COMMIT PC=0000007c MIS=0 IDX=         5
-time: 4666 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 4675
+time: 4606 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 4615
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=11
 HEAD: 5 TAIL:31 NUM_FREE: 6
-time: 4676 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4685
+time: 4616 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4625
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=30
 HEAD: 6 TAIL:31 NUM_FREE: 7
-time: 4685 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 110
-time: 4686 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 110
-time: 4695
+time: 4625 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:010 ex_valid_inst_out: 110
+time: 4626 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 110
+time: 4635
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=31
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX=20
 HEAD: 6 TAIL: 0 NUM_FREE: 6
-time: 4695 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
-time: 4696 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
-time: 4705
+time: 4635 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:010 ex_valid_inst_out: 010
+time: 4636 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 110
+time: 4645
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX= 0
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX=21
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 4705 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
-time: 4706 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 101
-time: 4715
+time: 4645 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 111
+time: 4646 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 101
+time: 4655
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 6
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX= 1
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 4715 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 100
+time: 4655 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:110 ex_valid_inst_out: 100
 COMMIT PC=00000080 MIS=0 IDX=         6
-time: 4716 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
-time: 4725
+time: 4656 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 4665
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=27
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 7
 HEAD: 6 TAIL: 3 NUM_FREE: 3
-time: 4725 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 4665 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
 COMMIT PC=00000084 MIS=0 IDX=         7
 COMMIT PC=00000084 MIS=0 IDX=         7
-time: 4726 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 001
-time: 4735
+time: 4666 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:101 ex_valid_inst_out: 001
+time: 4675
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=12
 HEAD: 7 TAIL: 3 NUM_FREE: 4
-time: 4736 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4745
+time: 4676 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4685
 HEAD: 8 TAIL: 6 NUM_FREE: 2
-time: 4745 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4755
+time: 4685 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4695
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX=22
 HEAD: 8 TAIL: 6 NUM_FREE: 2
-time: 4755 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4756 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4765
+time: 4695 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4696 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4705
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX=23
 HEAD: 8 TAIL: 6 NUM_FREE: 2
-time: 4765 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 101
-time: 4766 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 101
-time: 4775
+time: 4705 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 101
+time: 4706 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 101
+time: 4715
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=28
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 8
 HEAD: 8 TAIL: 6 NUM_FREE: 2
-time: 4775 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 4715 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
 COMMIT PC=00000088 MIS=0 IDX=         8
 COMMIT PC=0000008c MIS=0 IDX=         9
 COMMIT PC=00000090 MIS=0 IDX=        10
-time: 4776 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4785
+time: 4716 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4725
 HEAD: 8 TAIL: 6 NUM_FREE: 2
-time: 4785 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4725 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=0000009c MIS=0 IDX=        13
-time: 4786 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4795
+time: 4726 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4735
 HEAD:11 TAIL: 6 NUM_FREE: 5
-time: 4795 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4735 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=000000a4 MIS=0 IDX=        15
 COMMIT PC=00000068 MIS=0 IDX=        16
 COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=000000a4 MIS=0 IDX=        15
 COMMIT PC=00000068 MIS=0 IDX=        16
-time: 4796 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4805
+time: 4736 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4745
 HEAD:14 TAIL: 9 NUM_FREE: 5
-time: 4805 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4745 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 010
 COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=00000070 MIS=0 IDX=        18
 COMMIT PC=00000074 MIS=0 IDX=        19
 COMMIT PC=0000006c MIS=0 IDX=        17
 COMMIT PC=00000070 MIS=0 IDX=        18
 COMMIT PC=00000074 MIS=0 IDX=        19
-time: 4806 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4815
+time: 4746 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4755
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX=24
 HEAD:17 TAIL:12 NUM_FREE: 5
-time: 4815 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4755 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=        20
 COMMIT PC=0000007c MIS=0 IDX=        21
 COMMIT PC=00000080 MIS=0 IDX=        22
 COMMIT PC=00000078 MIS=0 IDX=        20
 COMMIT PC=0000007c MIS=0 IDX=        21
 COMMIT PC=00000080 MIS=0 IDX=        22
-time: 4816 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 011
-time: 4825
+time: 4756 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:011 ex_valid_inst_out: 011
+time: 4765
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX=25
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=14
 HEAD:20 TAIL:15 NUM_FREE: 5
@@ -2063,8 +2033,8 @@ COMMIT PC=0000008c MIS=0 IDX=        25
 COMMIT PC=00000084 MIS=0 IDX=        23
 COMMIT PC=00000088 MIS=0 IDX=        24
 COMMIT PC=0000008c MIS=0 IDX=        25
-time: 4826 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 4835
+time: 4766 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 4775
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=29
 HEAD:23 TAIL:15 NUM_FREE: 8
 COMMIT PC=00000090 MIS=0 IDX=        26
@@ -2073,8 +2043,8 @@ COMMIT PC=00000098 MIS=0 IDX=        28
 COMMIT PC=00000090 MIS=0 IDX=        26
 COMMIT PC=00000094 MIS=0 IDX=        27
 COMMIT PC=00000098 MIS=0 IDX=        28
-time: 4836 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4845
+time: 4776 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4785
 DONE ROB : PC=000000a4 CDB TARGET=000000a8 IDX=15
 HEAD:26 TAIL:16 NUM_FREE:10
 COMMIT PC=0000009c MIS=0 IDX=        29
@@ -2083,96 +2053,96 @@ COMMIT PC=000000a4 MIS=0 IDX=        31
 COMMIT PC=0000009c MIS=0 IDX=        29
 COMMIT PC=000000a0 MIS=0 IDX=        30
 COMMIT PC=000000a4 MIS=0 IDX=        31
-time: 4846 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4855
+time: 4786 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4795
 DONE ROB : PC=00000068 CDB TARGET=0000006c IDX=16
 HEAD:29 TAIL:19 NUM_FREE:10
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
 COMMIT PC=00000068 MIS=0 IDX=         0
 COMMIT PC=0000006c MIS=0 IDX=         1
-time: 4856 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4865
+time: 4796 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4805
 DONE ROB : PC=0000006c CDB TARGET=00000070 IDX=17
 HEAD: 0 TAIL:19 NUM_FREE:13
-time: 4865 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
-time: 4866 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4875
+time: 4805 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 011
+time: 4806 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4815
 DONE ROB : PC=00000070 CDB TARGET=00000074 IDX= 2
 HEAD: 2 TAIL:22 NUM_FREE:12
-time: 4875 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4815 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000070 MIS=0 IDX=         2
-time: 4876 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4885
+time: 4816 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4825
 DONE ROB : PC=00000074 CDB TARGET=00000078 IDX= 3
 HEAD: 2 TAIL:22 NUM_FREE:12
 COMMIT PC=00000074 MIS=0 IDX=         3
-time: 4886 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 4895
+time: 4826 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 023606b3 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 4835
 DONE ROB : PC=00000090 CDB TARGET=00000094 IDX=10
 HEAD: 3 TAIL:22 NUM_FREE:13
-time: 4896 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4905
+time: 4836 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4845
 HEAD: 4 TAIL:22 NUM_FREE:14
-time: 4915
+time: 4855
 HEAD: 4 TAIL:25 NUM_FREE:11
-time: 4925
+time: 4865
 HEAD: 4 TAIL:25 NUM_FREE:11
-time: 4925 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 4935
+time: 4865 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4875
 DONE ROB : PC=00000078 CDB TARGET=0000007c IDX= 4
 HEAD: 4 TAIL:25 NUM_FREE:11
-time: 4935 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4875 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000078 MIS=0 IDX=         4
-time: 4936 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 4945
+time: 4876 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00410133 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4885
 DONE ROB : PC=0000007c CDB TARGET=00000080 IDX= 5
 HEAD: 4 TAIL:25 NUM_FREE:11
 COMMIT PC=0000007c MIS=0 IDX=         5
-time: 4946 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
-time: 4955
+time: 4886 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00410133 rs_valid_inst_out:011 ex_valid_inst_out: 010
+time: 4895
 DONE ROB : PC=00000094 CDB TARGET=00000098 IDX=11
 HEAD: 5 TAIL:25 NUM_FREE:12
-time: 4956 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 4965
+time: 4896 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4905
 HEAD: 6 TAIL:25 NUM_FREE:13
-time: 4975
+time: 4915
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 4985
+time: 4925
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 4985 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
-time: 4995
+time: 4925 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 001
+time: 4935
 DONE ROB : PC=00000080 CDB TARGET=00000084 IDX= 6
 HEAD: 6 TAIL:28 NUM_FREE:10
-time: 4995 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4935 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000080 MIS=0 IDX=         6
-time: 4996 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 5005
+time: 4936 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 0106d693 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4945
 DONE ROB : PC=00000084 CDB TARGET=00000088 IDX= 7
 HEAD: 6 TAIL:28 NUM_FREE:10
 COMMIT PC=00000084 MIS=0 IDX=         7
-time: 5006 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 5015
+time: 4946 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 0106d693 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 4955
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=12
 HEAD: 7 TAIL:28 NUM_FREE:11
-time: 5016 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 5025
+time: 4956 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4965
 HEAD: 8 TAIL:28 NUM_FREE:12
-time: 5026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 5035
+time: 4966 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 4975
 DONE ROB : PC=000000a0 CDB TARGET=000000a4 IDX=30
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 5036 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 5045
+time: 4976 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4985
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 5045 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
-time: 5055
+time: 4985 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 010
+time: 4995
 DONE ROB : PC=00000088 CDB TARGET=0000008c IDX= 8
 HEAD: 8 TAIL:31 NUM_FREE: 9
-time: 5055 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 4995 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: fc0312e3 rs_valid_inst_out:000 ex_valid_inst_out: 000
 COMMIT PC=00000088 MIS=0 IDX=         8
-time: 5056 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 5065
+time: 4996 if_valid_inst_out: 011 id_valid_inst_out: 001 id_IR_out[0]: fc0312e3 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 5005
 DONE ROB : PC=0000008c CDB TARGET=00000090 IDX= 9
 HEAD: 8 TAIL:31 NUM_FREE: 9
 COMMIT PC=0000008c MIS=0 IDX=         9
@@ -2181,8 +2151,8 @@ COMMIT PC=00000094 MIS=0 IDX=        11
 COMMIT PC=0000008c MIS=0 IDX=         9
 COMMIT PC=00000090 MIS=0 IDX=        10
 COMMIT PC=00000094 MIS=0 IDX=        11
-time: 5066 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
-time: 5075
+time: 5006 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 00128293 rs_valid_inst_out:011 ex_valid_inst_out: 001
+time: 5015
 DONE ROB : PC=0000009c CDB TARGET=000000a0 IDX=13
 HEAD: 9 TAIL:31 NUM_FREE:10
 COMMIT PC=00000098 MIS=0 IDX=        12
@@ -2191,8 +2161,8 @@ COMMIT PC=000000a0 MIS=0 IDX=        14
 COMMIT PC=00000098 MIS=0 IDX=        12
 COMMIT PC=0000009c MIS=0 IDX=        13
 COMMIT PC=000000a0 MIS=0 IDX=        14
-time: 5076 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
-time: 5085
+time: 5016 if_valid_inst_out: 111 id_valid_inst_out: 111 id_IR_out[0]: 004585b3 rs_valid_inst_out:101 ex_valid_inst_out: 101
+time: 5025
 DONE ROB : PC=000000a4 CDB TARGET=00000068 IDX=31
 DONE ROB : PC=00000098 CDB TARGET=0000009c IDX=28
 HEAD:12 TAIL: 0 NUM_FREE:12
@@ -2200,43 +2170,20 @@ COMMIT PC=000000a4 MIS=1 IDX=        15
 MISPREDICT
 COMMIT PC=000000a4 MIS=1 IDX=        15
 MISPREDICT
-time: 5086 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 5095
-time: 5096 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 10500073 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 5105
+time: 5026 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 023606b3 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 5035
+time: 5036 if_valid_inst_out: 001 id_valid_inst_out: 001 id_IR_out[0]: 10500073 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 5045
 HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5115
+time: 5046 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 5055
 HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5125
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5135
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5145
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5155
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5165
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5175
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5185
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5195
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5205
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5205 if_valid_inst_out: 001 id_valid_inst_out: 001 id_IR_out[0]: 10500073 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 5215
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5216 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 rs_valid_inst_out:000 ex_valid_inst_out: 000
-time: 5225
-HEAD: 0 TAIL: 0 NUM_FREE:32
-time: 5226 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 rs_valid_inst_out:001 ex_valid_inst_out: 001
-time: 5235
+time: 5056 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 rs_valid_inst_out:001 ex_valid_inst_out: 001
+time: 5065
 DONE ROB : PC=000000a8 CDB TARGET=000000ac IDX= 0
 HEAD: 0 TAIL: 1 NUM_FREE:31
 COMMIT PC=000000a8 MIS=0 IDX=         0
-time: 5236 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 5066 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 rs_valid_inst_out:000 ex_valid_inst_out: 000
 @@@ Unified Memory contents hex on left, decimal on right: 
 @@@
 @@@ mem[    0] = 000021b700800113 : 37069871120659
@@ -2263,40 +2210,40 @@ time: 5236 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: 00000000 
 @@@ mem[  168] = 0000000010500073 : 273678451
 @@@
 @@@
-@@                 52420 : System halted
+@@                 50720 : System halted
 @@
 @@@ System halted on WFI instruction
 @@@
 @@
-@@  521 cycles / 282 instrs = 1.847518 CPI
+@@  504 cycles / 282 instrs = 1.787234 CPI
 @@
-@@  5200.00 ns total time to execute
+@@  5030.00 ns total time to execute
 @@
 
-time: 5245
+time: 5075
 HEAD: 0 TAIL: 1 NUM_FREE:31
-time: 5255
+time: 5085
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5265
+time: 5095
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5275
+time: 5105
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5285
+time: 5115
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5295
+time: 5125
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5305
+time: 5135
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5315
+time: 5145
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5325
+time: 5155
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5335
+time: 5156 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
+time: 5165
 HEAD: 1 TAIL: 1 NUM_FREE:32
-time: 5336 if_valid_inst_out: 000 id_valid_inst_out: 000 id_IR_out[0]: xxxxxxxx rs_valid_inst_out:000 ex_valid_inst_out: 000
 $finish called from file "testbench/testbench.sv", line 307.
-$finish at simulation time                53420
+$finish at simulation time                51720
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 5342000 ps
-CPU Time:      0.560 seconds;       Data structure size:   1.0Mb
-Mon Apr 13 17:02:35 2020
+Time: 5172000 ps
+CPU Time:      0.580 seconds;       Data structure size:   1.0Mb
+Mon Apr 13 17:18:10 2020
