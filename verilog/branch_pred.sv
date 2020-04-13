@@ -1,4 +1,4 @@
-module branch_pred_v2 #(parameter SIZE=128,//Size of BHT
+/*module branch_pred_v2 #(parameter SIZE=128,//Size of BHT
     parameter PSZ=128,//Size of PHT
     parameter PL=7,//PL=$clog2(PSZ)
     parameter NS=32,//Num of set of BTB
@@ -106,33 +106,6 @@ module branch_pred_v2 #(parameter SIZE=128,//Size of BHT
                           end
                         end
 
-
-
-                        /*
-                        if(!hit)begin
-                            for(int j=0; j < NW; j++)begin
-                               if(BTB_valid[PC_update[i][$clog2(NS)+1:2]][j]==0)begin
-                                  BTB_PC[PC_update[i][$clog2(NS)+1:2]][j] <= `SD PC_update[i];
-                                  BTB_target[PC_update[i][$clog2(NS)+1:2]][j] <= `SD target_update[i];
-                                  BTB_valid[PC_update[i][$clog2(NS)+1:2]][j] <= `SD 1'b1;
-                                  hit = 1;
-                                  break;
-                                end
-                           end
-                        end
-                       if(!hit)begin
-                            for(int j=0; j < NW; j++)begin
-                               if(BTB_LRU[PC_update[i][$clog2(NS)+1:2]][j]==NW-1)begin
-                                  BTB_PC[PC_update[i][$clog2(NS)+1:2]][j] <= `SD PC_update[i];
-                                  BTB_target[PC_update[i][$clog2(NS)+1:2]][j] <= `SD target_update[i];
-                                  BTB_valid[PC_update[i][$clog2(NS)+1:2]][j] <= `SD 1'b1;
-                                  
-                                end
-                           end
-                        end
-*/
-
-
                     end else begin
                          BHT[PC_update[i][$clog2(SIZE)+1:2]] <= `SD {BHT[PC_update[i][$clog2(SIZE)+1:2]][PL-2:0],1'b0};
                         if(PHT[BHT[PC_update[i][$clog2(SIZE)+1:2]]] > 2'b00)begin
@@ -144,11 +117,11 @@ module branch_pred_v2 #(parameter SIZE=128,//Size of BHT
         end // if(!reset)
     end // always_ff
 endmodule
+*/
 
 
 
 
-/*
 
 module branch_pred #(parameter SIZE=128) (
     input clock, reset,
@@ -219,4 +192,3 @@ module branch_pred #(parameter SIZE=128) (
 endmodule
 
 
-*/
