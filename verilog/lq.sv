@@ -1,15 +1,4 @@
-`define WAYS 4
-`define PRF 64
-`define LSQSZ 16
-`define ROB 32
 
-`define BYTE 2'b0
-`define HALF 2'h1
-`define WORD 2'h2
-`define DOUBLE 2'h3
-
-
-`define MEM_SIZE [1:0]
 
 module LQ(
     input                                       clock,
@@ -17,7 +6,7 @@ module LQ(
     input                                       except,
 
     // SQ
-    input [`LSQSZ-1:0] `MEM_SIZE                store_sz,
+    input [`LSQSZ-1:0] [1:0]                store_sz,
     input [`LSQSZ-1:0] [15:0]                   store_addr,
     input [`LSQSZ-1:0] [31:0]                   store_data,
     input [`LSQSZ-1:0]                          store_addr_valid,
@@ -25,7 +14,7 @@ module LQ(
     input [$clog2(`LSQSZ)-1:0]                  sq_head,
 
     // issue
-    input [`WAYS-1:0] `MEM_SIZE                 ld_size,
+    input [`WAYS-1:0] [1:0]                 ld_size,
     input [`WAYS-1:0]                           ld_en,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx,
@@ -49,7 +38,7 @@ module LQ(
     output wor [2:0]                            rd_offset,
     output wor [4:0]                            rd_idx,
     output wor [7:0]                            rd_tag,
-    output wor `MEM_SIZE                        rd_size,
+    output wor [1:0]                        rd_size,
     output wor                                  rd_en,
     output wor [`LSQSZ-1:0]                     rd_gnt,
 
@@ -62,7 +51,7 @@ module LQ(
   	output wire [31:0]                          CDB_target
 );
 
-reg [`LSQSZ-1:0] `MEM_SIZE ld_sz_reg;
+reg [`LSQSZ-1:0] [1:0] ld_sz_reg;
 reg [`LSQSZ-1:0] [$clog2(`ROB)-1:0] ld_ROB_idx_reg;
 reg [`LSQSZ-1:0] [$clog2(`PRF)-1:0] ld_PRF_idx_reg;
 reg [`LSQSZ-1:0] ld_free;
@@ -74,7 +63,7 @@ reg [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old;
 reg [`LSQSZ-1:0] ld_data_reg;
 reg [$clog2(`LSQSZ):0] lq_num_free;
 
-wire [`LSQSZ-1:0] `MEM_SIZE ld_sz_in_bus;
+wire [`LSQSZ-1:0] [1:0] ld_sz_in_bus;
 wire [`LSQSZ-1:0] [$clog2(`ROB)-1:0] ld_ROB_idx_in_bus;
 wire [`LSQSZ-1:0] [$clog2(`PRF)-1:0] ld_PRF_idx_in_bus;
 wire [`LSQSZ-1:0] ld_en_in_bus; // these are coming into LQ
@@ -245,7 +234,6 @@ generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
         assign {rd_tag, rd_idx, rd_offset} = cache_gnt[gi] ? ld_addr_reg[gi][15:0] : 0;
         assign rd_size = cache_gnt[gi] ? ld_sz_reg[gi] : 0;
-        assign 
     end
 endgenerate
 
@@ -280,7 +268,7 @@ wire [`LSQSZ-1:0] ld_free_next;
 assign ld_free_hold = ld_free | cdb_gnt;
 assign ld_free_next = ld_free_hold & (~ld_en_in_bus);
 
-wire [`LSQSZ-1:0] `MEM_SIZE ld_sz_next;
+wire [`LSQSZ-1:0] [1:0] ld_sz_next;
 wire [`LSQSZ-1:0] [15:0] ld_addr_next;
 wire [`LSQSZ-1:0] ld_addr_ready_next;
 
@@ -398,14 +386,14 @@ parameter WIDTH = `LSQSZ;
 // Inputs
 input wire [WIDTH-1:0]                          req;
 input wire [REQS-1:0]                           ld_en;
-input wire [REQS-1:0] `MEM_SIZE                 ld_size;
+input wire [REQS-1:0] [1:0]                 ld_size;
 input wire [REQS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx;
 input wire [REQS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx;
 input wire [`WAYS-1:0] [$clog2(`LSQSZ)-1:0]     sq_tail_in;
 
 // Outputs
 output wor  [WIDTH-1:0]                         gnt;
-output wor [REQS-1:0] `MEM_SIZE                 ld_sz_in_bus;
+output wor [REQS-1:0] [1:0]                 ld_sz_in_bus;
 output wor [REQS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx_in_bus;
 output wor [REQS-1:0]                           ld_en_in_bus;
 output wor [`LSQSZ-1:0] [$clog2(`PRF)-1:0]      ld_PRF_idx_in_bus;

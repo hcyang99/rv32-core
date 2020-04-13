@@ -43,6 +43,9 @@ module testbench;
 	logic        pipeline_commit_wr_en;
 	logic [`XLEN-1:0] pipeline_commit_NPC;
 
+	logic [1:0]     proc2mem_size;
+
+
 // if
 	logic [`WAYS-1:0]	if_valid_inst_out;
 	logic [`WAYS-1:0] [`XLEN-1:0] if_IR_out;
@@ -100,6 +103,7 @@ module testbench;
         .proc2mem_command           (proc2mem_command),
         .proc2mem_addr              (proc2mem_addr),
         .proc2mem_data              (proc2mem_data),
+        .proc2mem_size              (proc2mem_size),
 
 	    .pipeline_completed_insts  	(pipeline_completed_insts),
 	    .pipeline_error_status   	(pipeline_error_status),
@@ -152,9 +156,7 @@ module testbench;
         .proc2mem_command  (proc2mem_command),
         .proc2mem_addr     (proc2mem_addr),
         .proc2mem_data     (proc2mem_data),
-`ifndef CACHE_MODE
         .proc2mem_size     (proc2mem_size),
-`endif
 
         // Outputs
 

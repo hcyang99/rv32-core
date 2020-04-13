@@ -1,16 +1,6 @@
-`define WAYS 4
-`define PRF 64
-`define LSQSZ 16
-`define ROB 32
-
-`define BYTE 2'b0
-`define HALF 2'h1
-`define WORD 2'h2
-`define DOUBLE 2'h3
-`define MEM_SIZE [1:0]
 
 typedef struct packed {
-    logic `MEM_SIZE                             size;
+    logic [1:0]                             size;
     logic [31:0]                                data;
     logic                                       data_valid;
     logic [$clog2(`ROB)-1:0]                    ROB_idx;
@@ -36,7 +26,7 @@ module LSQ(
     input [`WAYS-1:0]                           ALU_data,
 
     // SQ
-    input [`WAYS-1:0] `MEM_SIZE                 st_size,
+    input [`WAYS-1:0] [1:0]                 st_size,
     input [`WAYS-1:0] [31:0]                    st_data,
     input [`WAYS-1:0]                           st_data_valid,
     input [`WAYS-1:0]                           st_en,
@@ -44,7 +34,7 @@ module LSQ(
     input                                       commit,   // from ROB, whether head of SQ should commit
 
     // LQ
-    input [`WAYS-1:0] `MEM_SIZE                 ld_size,
+    input [`WAYS-1:0] [1:0]                 ld_size,
     input [`WAYS-1:0]                           ld_en,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx,
@@ -65,13 +55,13 @@ module LSQ(
     output logic [4:0]                          wr_idx,
     output logic [7:0]                          wr_tag,
     output logic [31:0]                         wr_data,
-    output logic `MEM_SIZE                      wr_size,
+    output logic [1:0]                      wr_size,
 
     // read from DCache
     output logic [2:0]                          rd_offset,
     output logic [4:0]                          rd_idx,
     output logic [7:0]                          rd_tag,
-    output logic `MEM_SIZE                      rd_size,
+    output logic [1:0]                      rd_size,
     output logic                                rd_en,
     output logic [`LSQSZ-1:0]                   rd_gnt,
 
@@ -84,7 +74,7 @@ module LSQ(
   	output logic [31:0]                         CDB_target_out
 );
 
-    wire [`LSQSZ-1:0] `MEM_SIZE                    store_sz;
+    wire [`LSQSZ-1:0] [1:0]                    store_sz;
     wire [`LSQSZ-1:0] [15:0]                       store_addr;
     wire [`LSQSZ-1:0] [31:0]                       store_data;
     wire [`LSQSZ-1:0]                              store_data_valid;
@@ -112,7 +102,7 @@ module LSQ(
         end
     endgenerate
 
-    wire [`WAYS-1:0] `MEM_SIZE                 ld_size_in;
+    wire [`WAYS-1:0] [1:0]                 ld_size_in;
     wire [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx_in;
     wire [`WAYS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx_in;
     generate;

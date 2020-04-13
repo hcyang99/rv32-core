@@ -23,7 +23,7 @@
 `define REGS		32
 `define REG_LEN     64
 `define PRF         64
-`define ROB         16
+`define ROB         32
 `define RS          16
 
 `define OLEN        16
@@ -36,15 +36,33 @@
 // R10K algorithm
 //
 //////////////////////////////////////////////
-`define PRF         64
 `define LOGPRF      6 //$clog2(`PRF)
 
-`define ROB         16
-`define RS          16
 
-`define OLEN        16
-`define WAYS        3
+/* 
+`define BYTE 2'b0
+`define HALF 2'h1
+`define WORD 2'h2
+`define DOUBLE 2'h3
 
+`define MEM_SIZE [1:0]
+*/
+typedef enum logic [1:0] {
+	BUS_NONE     = 2'h0,
+	BUS_LOAD     = 2'h1,
+	BUS_STORE    = 2'h2
+} BUS_COMMAND;
+
+typedef enum logic [1:0] {
+	BYTE = 2'h0,
+	HALF = 2'h1,
+	WORD = 2'h2,
+	DOUBLE = 2'h3
+} MEM_SIZE;
+
+
+
+`define LSQSZ 16
 
 
 //////////////////////////////////////////////
@@ -181,18 +199,8 @@ typedef enum logic [4:0] {
 //
 // Memory bus commands control signals
 //
-typedef enum logic [1:0] {
-	BUS_NONE     = 2'h0,
-	BUS_LOAD     = 2'h1,
-	BUS_STORE    = 2'h2
-} BUS_COMMAND;
 
-typedef enum logic [1:0] {
-	BYTE = 2'h0,
-	HALF = 2'h1,
-	WORD = 2'h2,
-	DOUBLE = 2'h3
-} MEM_SIZE;
+
 //
 // useful boolean single-bit definitions
 //
@@ -313,6 +321,8 @@ typedef struct packed {
 	
 	logic [$clog2(`PRF)-1:0] dest_PRF_idx;  // destination (writeback) register index 
 	logic [$clog2(`ROB)-1:0] rob_idx;       
+	logic [1:0]       	  mem_size; // byte, half-word or word
+
 
 	ALU_FUNC    alu_func;      // ALU function select (ALU_xxx *)
 	logic       rd_mem;        // does inst read memory?
@@ -337,7 +347,6 @@ typedef struct packed {
 	logic [$clog2(`ROB)-1:0] 		rob_idx;       
 
 	logic             halt, illegal, csr_op, valid;
-	logic [2:0]       mem_size; // byte, half-word or word
 } EX_MEM_PACKET;
 
 `endif // __SYS_DEFS_VH__

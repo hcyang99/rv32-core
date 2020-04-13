@@ -91,10 +91,14 @@ HEADERS = sys_defs.svh	\
 		ISA.svh  
 
 SIMFILES = verilog/branch_pred.sv	\
+		verilog/dcache_ctrl.sv	\
+		verilog/dcache.sv	\
+		verilog/dmem.sv		\
 		verilog/ex_stage.sv	\
 		verilog/FreeList.sv \
 		verilog/id_stage.sv	\
 		verilog/if_stage.sv \
+		verilog/lq.sv	\
 		verilog/lsq.sv  \
 		verilog/mem_arbiter.sv \
 		verilog/mult.sv \
@@ -103,6 +107,7 @@ SIMFILES = verilog/branch_pred.sv	\
 		verilog/RAT_RRAT.sv \
 		verilog/rob.sv	\
 		verilog/rs.sv \
+		verilog/sq.sv	\
 		verilog/Validlist.sv \
 		module_provided/freelist_psl_gen.v \
 		module_provided/rs_psl_gen.v \

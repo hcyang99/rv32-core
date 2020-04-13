@@ -1,12 +1,6 @@
 // write-back no write allocate dcache controller
 // serialize only, no forwarding
 
-`define LSQSZ 16
-`define BYTE 2'b0
-`define HALF 2'h1
-`define WORD 2'h2
-`define DOUBLE 2'h3
-`define MEM_SIZE [1:0]
 module dcache_ctrl(
     input                       clock,
     input                       reset,
@@ -16,19 +10,19 @@ module dcache_ctrl(
     input                       wb_en_in,
     input [15:0]                wb_addr_in,
     input [63:0]                wb_data_in,
-    input `MEM_SIZE             wb_size_in,
+    input [1:0]             wb_size_in,
 
     // write directly to mem on wr miss
     input                       wr_en_in,
     input [15:0]                wr_addr_in,
     input [63:0]                wr_data_in,
-    input `MEM_SIZE             wr_size_in,
+    input [1:0]             wr_size_in,
 
     // read from mem on rd miss
     input                       rd_en_in,
     input [15:0]                rd_addr_in,
     input [`LSQSZ-1:0]          rd_gnt_in,
-    input `MEM_SIZE             rd_size_in, // used for lsq feedback only, always ask for DOUBLE from mem
+    input [1:0]             rd_size_in, // used for lsq feedback only, always ask for DOUBLE from mem
 
     // from mem
     input [3:0]                 mem2proc_response,// 0 = can't accept, other=tag of transaction
@@ -38,7 +32,7 @@ module dcache_ctrl(
     // to mem
     output wor [1:0]            Dmem_command, 
     output logic [15:0]         Dmem_addr,
-    output wor `MEM_SIZE        Dmem_size,
+    output wor [1:0]        Dmem_size,
     output wire [63:0]          Dmem_data,
 
     // feedback to lsq
@@ -58,7 +52,7 @@ reg [2:0] valid_new_reg;
 reg [2:0] [15:0] addr_new_reg;
 reg [2:0] is_wr_new_reg;
 reg [2:0] is_rd_new_reg;
-reg [2:0] `MEM_SIZE sz_new_reg;
+reg [2:0] [1:0] sz_new_reg;
 reg [2:0] [`LSQSZ-1:0] rd_gnt_new_reg;
 reg [2:0] [63:0] data_new_reg;
 
@@ -66,7 +60,7 @@ reg [2:0] [63:0] data_new_reg;
 reg [WIDTH-1:0] [15:0] addr_q1_reg;
 reg [WIDTH-1:0] is_wr_q1_reg;
 reg [WIDTH-1:0] is_rd_q1_reg;
-reg [WIDTH-1:0] `MEM_SIZE sz_q1_reg;
+reg [WIDTH-1:0] [1:0] sz_q1_reg;
 reg [WIDTH-1:0] [`LSQSZ-1:0] rd_gnt_q1_reg;
 reg [WIDTH-1:0] [63:0] data_q1_reg;
 
@@ -76,12 +70,12 @@ reg [`LSQSZ-1:0] is_wr_q2_reg;
 reg [`LSQSZ-1:0] is_rd_q2_reg;
 reg [`LSQSZ-1:0] [`LSQSZ-1:0] rd_gnt_q2_reg;
 reg [`LSQSZ-1:0] [3:0] mem_tag_q2_reg;
-reg [`LSQSZ-1:0] `MEM_SIZE sz_q2_reg;
+reg [`LSQSZ-1:0] [1:0] sz_q2_reg;
 
 reg [15:0] q1_head_addr_reg;
 reg q1_head_is_wr_reg;
 reg q1_head_is_rd_reg;
-reg `MEM_SIZE q1_head_sz_reg;
+reg [1:0] q1_head_sz_reg;
 reg [`LSQSZ-1:0] q1_head_rd_gnt_reg;
 reg [63:0] q1_head_data_reg;
 
@@ -90,7 +84,7 @@ reg q2_head_is_wr_reg;
 reg q2_head_is_rd_reg;
 reg [`LSQSZ-1:0] q2_head_rd_gnt_reg;
 reg [3:0] q2_head_mem_tag_reg;
-reg `MEM_SIZE q2_head_sz_reg;
+reg [1:0] q2_head_sz_reg;
 
 reg [WIDTH-1:0] q1_head_reg;
 reg [WIDTH-1:0] q1_tail_reg;
@@ -110,14 +104,14 @@ wor [`LSQSZ-1:0] is_wr_q2_next;
 wor [`LSQSZ-1:0] is_rd_q2_next;
 wor [`LSQSZ-1:0] [`LSQSZ-1:0] rd_gnt_q2_next;
 wor [`LSQSZ-1:0] [3:0] mem_tag_q2_next;
-wor [`LSQSZ-1:0] `MEM_SIZE sz_q2_next;
+wor [`LSQSZ-1:0] [1:0] sz_q2_next;
 
 wor [15:0] q2_head_addr_next;
 wor q2_head_is_wr_next;
 wor q2_head_is_rd_next;
 wor [`LSQSZ-1:0] q2_head_rd_gnt_next;
 wor [3:0] q2_head_mem_tag_next;
-wor `MEM_SIZE q2_head_sz_next;
+wor [1:0] q2_head_sz_next;
 
 wire [`LSQSZ-1:0] q2_head_tmp;
 wire [`LSQSZ-1:0] q2_head_next;
@@ -210,14 +204,14 @@ wire [2:0] valid_new_in;
 wire [2:0] [15:0] addr_new_in;
 wire [2:0] is_wr_new_in;
 wire [2:0] is_rd_new_in;
-wire [2:0] `MEM_SIZE sz_new_in;
+wire [2:0] [1:0] sz_new_in;
 wire [2:0] [`LSQSZ-1:0] rd_gnt_new_in;
 wire [2:0] [63:0] data_new_in;
 assign valid_new_in = {rd_en_in, wr_en_in, wb_en_in};
 assign addr_new_in = {rd_addr_in, wr_addr_in, wb_addr_in};
 assign is_wr_new_in = {1'b0, wr_en_in, wb_en_in};
 assign is_rd_new_in = {rd_addr_in, 2'b0};
-assign sz_new_in = {rd_size_in, wr_size_in, `DOUBLE};
+assign sz_new_in = {rd_size_in, wr_size_in, DOUBLE};
 assign rd_gnt_new_in = {rd_gnt_in, `LSQSZ'b0, `LSQSZ'b0};
 assign data_new_in = {64'b0, wr_data_in, wb_data_in};
 
@@ -225,7 +219,7 @@ wor [2:0] valid_new_next;
 wor [2:0] [15:0] addr_new_next;
 wor [2:0] is_wr_new_next;
 wor [2:0] is_rd_new_next;
-wor [2:0] `MEM_SIZE sz_new_next;
+wor [2:0] [1:0] sz_new_next;
 wor [2:0] [`LSQSZ-1:0] rd_gnt_new_next;
 wor [2:0] [63:0] data_new_next;
 
@@ -266,14 +260,14 @@ end
 wor [WIDTH-1:0] [15:0] addr_q1_next;
 wor [WIDTH-1:0] is_wr_q1_next;
 wor [WIDTH-1:0] is_rd_q1_next;
-wor [WIDTH-1:0] `MEM_SIZE sz_q1_next;
+wor [WIDTH-1:0] [1:0] sz_q1_next;
 wor [WIDTH-1:0] [`LSQSZ-1:0] rd_gnt_q1_next;
 wor [WIDTH-1:0] [63:0] data_q1_next;
 
 wor [15:0] q1_head_addr_next;
 wor q1_head_is_wr_next;
 wor q1_head_is_rd_next;
-wor `MEM_SIZE q1_head_sz_next;
+wor [1:0] q1_head_sz_next;
 wor [`LSQSZ-1:0] q1_head_rd_gnt_next;
 wor [63:0] q1_head_data_next;
 
@@ -363,7 +357,7 @@ end
 assign Dmem_command = q1_head_is_rd_reg ? BUS_LOAD : BUS_NONE;
 assign Dmem_command = q1_head_is_wr_reg ? BUS_STORE : BUS_NONE;
 assign Dmem_addr = q1_head_addr_reg;
-assign Dmem_size = q1_head_is_rd_reg ? `DOUBLE : 0;
+assign Dmem_size = q1_head_is_rd_reg ? DOUBLE : 0;
 assign Dmem_size = q1_head_is_wr_reg ? q1_head_sz_reg : 0;
 assign Dmem_data = q1_head_is_wr_reg ? q1_head_data_reg : 0;
 
@@ -379,9 +373,9 @@ wire [63:0] mem_data_tmp;
 assign mem_feedback = q2_head_mem_response ? q2_head_rd_gnt_reg : 0;
 always_comb begin
     case(q2_head_sz_reg)
-        `BYTE:      mem_data_msk = {56'b0, {8{1'b1}}};
-        `HALF:      mem_data_msk = {48'b0, {16{1'b1}}};
-        `WORD:      mem_data_msk = {32'b0, {32{1'b1}}};
+        BYTE:      mem_data_msk = {56'b0, {8{1'b1}}};
+        HALF:      mem_data_msk = {48'b0, {16{1'b1}}};
+        WORD:      mem_data_msk = {32'b0, {32{1'b1}}};
         default:    mem_data_msk = {64{1'b1}};
     endcase
 end
