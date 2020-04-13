@@ -1,5 +1,5 @@
 #/***********************************************************/
-#/*   FILE        : rs.tcl                                  */
+#/*   FILE        : rob.tcl                                 */
 #/*   Description : Default Synopsys Design Compiler Script */
 #/*   Usage       : dc_shell -tcl_mode -f default.tcl       */
 #/*   You'll need to minimally set design_name & read files */
@@ -9,10 +9,14 @@
 #/* The following five lines must be updated for every      */
 #/* new design                                              */
 #/***********************************************************/
-set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/"]
-read_file -f sverilog [list "verilog/dmem.sv" "verilog/lsq.sv" "verilog/lq.sv" "verilog/sq.sv"\
-    "verilog/arbiter_rr.sv" "verilog/dcache.sv" "verilog/dcache_ctrl.sv" "module_provided/wand_sel.v"]
-set design_name DMEM
+lappend search_path ../
+
+#set simfiles [getenv SIMFILES]
+
+read_file -f sverilog [list "verilog/id_stage.sv" "verilog/RAT_RRAT.sv"\
+    "verilog/Validlist.sv" "verilog/FreeList.sv" "module_provided/wand_sel.v"\
+    "verilog/branch_pred.sv" "verilog/PRF.sv"]
+set design_name id_stage
 set clock_name clock
 set reset_name reset
 set CLK_PERIOD 0
@@ -132,5 +136,6 @@ if {  $dc_shell_status != [list] } {
 } else {
    quit
 }
+
 
 
