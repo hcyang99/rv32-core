@@ -43,7 +43,7 @@ module LQ(
     output wor [`LSQSZ-1:0]                     rd_gnt,
 
     // LQ to CDB, highest priority REQUIRED
-    output wor [31:0]                           CDB_Data,
+    output logic [31:0]                         CDB_Data,
   	output wor [$clog2(`PRF)-1:0]               CDB_PRF_idx,
   	output wire                                 CDB_valid,
 	output wor [$clog2(`ROB)-1:0]               CDB_ROB_idx,
@@ -60,7 +60,7 @@ reg [`LSQSZ-1:0] [15:0] ld_addr_reg;
 reg [`LSQSZ-1:0] ld_done_reg;       // data loaded/forwarded, ready for CDB bcast
 reg [`LSQSZ-1:0] ld_waiting_reg;    // cache miss, waiting for mem
 reg [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old;
-reg [`LSQSZ-1:0] ld_data_reg;
+reg [`LSQSZ-1:0] [31:0] ld_data_reg;
 reg [$clog2(`LSQSZ):0] lq_num_free;
 
 wire [`LSQSZ-1:0] [1:0] ld_sz_in_bus;
@@ -246,16 +246,29 @@ arbiter_rr #(.WIDTH(`LSQSZ)) arb_rr_cdb (
     .req(ld_done_reg),
     .gnt(cdb_gnt)
 );
+
+wor [31:0] CDB_Data_tmp;
+wor [1:0] CDB_sz_tmp;
 generate;
     assign CDB_valid = cdb_gnt != 0;
     assign CDB_direction = 0;
     assign CDB_target = 0;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
-        assign CDB_Data = cdb_gnt[gi] ? ld_data_reg[gi] : 0;
+        assign CDB_Data_tmp = cdb_gnt[gi] ? ld_data_reg[gi] : 0;
   	    assign CDB_PRF_idx = cdb_gnt[gi] ? ld_PRF_idx_reg[gi] : 0;
 	    assign CDB_ROB_idx = cdb_gnt[gi] ? ld_ROB_idx_reg[gi] : 0;
+        assign CDB_sz_tmp = cdb_gnt[gi] ? ld_sz_reg[gi] : 0;
     end
 endgenerate
+
+always_comb begin
+    case(CDB_sz_tmp)
+        BYTE:       CDB_Data = {{24{CDB_Data_tmp[7]}}, CDB_Data_tmp[7:0]};
+        HALF:       CDB_Data = {{16{CDB_Data_tmp[15]}}, CDB_Data_tmp[15:0]};
+        default:    CDB_Data = CDB_Data_tmp;
+    endcase 
+end
+
 
 // free count
 wire [$clog2(`LSQSZ):0]  lq_num_free_next;
