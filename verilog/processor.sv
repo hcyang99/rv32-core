@@ -489,7 +489,7 @@ generate
 	for(genvar i = 0; i < `WAYS; i = i + 1)begin
 		assign ALU_is_valid[i] 	= ex_packet_out[i].valid;
 		assign ALU_ROB_idx[i]	= ex_packet_out[i].rob_idx;
-		assign ALU_is_ls[i] 	= ex_packet_out[i].rd_mem & ex_packet_out[i].wr_mem;
+		assign ALU_is_ls[i] 	= ex_packet_out[i].rd_mem | ex_packet_out[i].wr_mem;
 		assign ALU_data[i]		= ex_packet_out[i].alu_result;
 
 		assign ROB_idx[i]		= id_ex_packet[i].rob_idx;
