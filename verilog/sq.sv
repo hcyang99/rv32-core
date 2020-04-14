@@ -123,8 +123,8 @@ module store_queue(
     generate;
         for (gi = 0; gi < `WAYS; ++gi) begin
             for (gj = 0; gj < `LSQSZ; ++gj) begin
-                assign CDB_hit[gi][gj] = valid_reg[gi] & CDB_valid[gi] & CDB_PRF_idx[gi] == data_reg[gj] & (~data_valid_reg[gj]);
-                assign ALU_hit[gi][gj] = valid_reg[gi] & ALU_is_valid[gi] & ALU_ROB_idx[gi] == ROB_idx_reg[gj] & (~addr_valid_reg[gj]);
+                assign CDB_hit[gi][gj] = valid_reg[gj] & CDB_valid[gi] & CDB_PRF_idx[gi] == data_reg[gj] & (~data_valid_reg[gj]);
+                assign ALU_hit[gi][gj] = valid_reg[gj] & ALU_is_valid[gi] & ALU_ROB_idx[gi] == ROB_idx_reg[gj] & (~addr_valid_reg[gj]);
             end
         end
     endgenerate
