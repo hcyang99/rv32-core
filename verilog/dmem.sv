@@ -136,7 +136,7 @@ LSQ LSQ_0(
     .ld_is_signed(ld_is_signed),
 
     .dc_feedback(dc_feedback),
-    .dc_data(dc_to_lsq_rd_data),
+    .dc_data(dc_to_lsq_rd_data[31:0]),
     .mem_feedback(mem_feedback),
     .mem_data(mem_data),
 
