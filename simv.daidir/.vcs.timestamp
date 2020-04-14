@@ -69,16 +69,16 @@ sysc_uni_pwd=/home/sunsusan/Desktop/group7w20
 _LMFILES_=/usr/caen/misc/modules/vscode/1.32.3:/usr/caen/misc/modules/vcs/2017.12-SP2-1
 XMODIFIERS=@im=ibus
 XDG_SESSION_TYPE=x11
-XDG_SESSION_ID=833
+XDG_SESSION_ID=6847
 XDG_SESSION_DESKTOP=gnome-classic
 XDG_RUNTIME_DIR=/run/user/114191087
 XDG_MENU_PREFIX=gnome-
 XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/:/usr/caen/misc/menus
 XDG_CURRENT_DESKTOP=GNOME-Classic:GNOME
-XAUTHORITY=/run/gdm/auth-for-sunsusan-ERNHNP/database
+XAUTHORITY=/run/gdm/auth-for-sunsusan-GiWaIC/database
 VTE_VERSION=5202
 VSCODE_NLS_CONFIG={"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
-VSCODE_LOGS=/home/sunsusan/.config/Code/logs/20200414T093758
+VSCODE_LOGS=/home/sunsusan/.config/Code/logs/20200414T104010
 VSCODE_IPC_HOOK=/run/user/114191087/vscode-f03f62c4-1.32.3-main.sock
 VSCODE_CLI=1
 VMR_MODE_FLAG=64
@@ -92,10 +92,10 @@ UNAME=/bin/uname
 TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
 SSH_AUTH_SOCK=/run/user/114191087/keyring/ssh
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
-SSH_AGENT_PID=5509
+SSH_AGENT_PID=15740
 SOURCES=verilog/rob.sv 
 SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
-SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/5160,unix/unix:/tmp/.ICE-unix/5160
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/15506,unix/unix:/tmp/.ICE-unix/15506
 SCRNAME=vcs
 SCRIPT_NAME=vcs
 RESET_NET_NAME=reset
@@ -114,7 +114,7 @@ LOADEDMODULES=vscode/1.32.3:vcs/2017.12-SP2-1
 LESSOPEN=||/usr/bin/lesspipe.sh %s
 LC_ALL=C
 LAMMPS_POTENTIALS=/usr/share/lammps/potentials
-KRB5CCNAME=FILE:/tmp/krb5cc_114191087_HiAJOR
+KRB5CCNAME=FILE:/tmp/krb5cc_114191087_aBF8si
 KDEDIRS=/usr
 IMSETTINGS_MODULE=none
 IMSETTINGS_INTEGRATE_DESKTOP=yes
@@ -122,7 +122,7 @@ ICEAUTHORITY=/run/user/114191087/iceauthority
 HISTCONTROL=ignoredups
 HEADERS=sys_defs.svh ISA.svh  
 GNOME_TERMINAL_SERVICE=:1.86
-GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/54babd26_d2f8_46b1_ae0f_9d51043713e3
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/158fe56a_4fe3_4414_a34e_af9599a84b83
 GNOME_SHELL_SESSION_MODE=classic
 GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 GJS_DEBUG_TOPICS=JS ERROR;JS LOG
@@ -132,7 +132,7 @@ GDMSESSION=gnome-classic
 ELECTRON_NO_ATTACH_CONSOLE=1
 DESKTOP_SESSION=gnome-classic
 DESIGN_NAME=rob
-DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-ZDf7anMEC5,guid=58a13901f0d0807fe58a64515e95bc7d
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-F5cE1A5NiU,guid=dd0b88d7d5f04ecdf3b3bdc45e95cb2d
 COLORTERM=truecolor
 CLOCK_PERIOD=5	
 CLOCK_NET_NAME=clock
@@ -151,19 +151,19 @@ APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
 1586812158 verilog/rs.sv
 1586812158 verilog/rob.sv
 1586810278 verilog/RAT_RRAT.sv
-1586872464 verilog/processor.sv
+1586893556 verilog/processor.sv
 1586812158 verilog/PRF.sv
 1586810241 verilog/mult.sv
 1586812158 verilog/mem_arbiter.sv
-1586833674 verilog/lsq.sv
-1586836684 verilog/lq.sv
+1586893471 verilog/lsq.sv
+1586893471 verilog/lq.sv
 1586812158 verilog/if_stage.sv
-1586818278 verilog/id_stage.sv
+1586895538 verilog/id_stage.sv
 1586810278 verilog/FreeList.sv
 1586812158 verilog/ex_stage.sv
-1586812158 verilog/dmem.sv
-1586812158 verilog/dcache.sv
-1586812158 verilog/dcache_ctrl.sv
+1586893471 verilog/dmem.sv
+1586893471 verilog/dcache.sv
+1586893471 verilog/dcache_ctrl.sv
 1586812158 verilog/branch_pred.sv
 1586812158 verilog/arbiter_rr.sv
 1586871651 testbench/testbench.sv
@@ -178,4 +178,4 @@ APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
 1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
 1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
 1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
-1586872496 simv.daidir
+1586895565 simv.daidir

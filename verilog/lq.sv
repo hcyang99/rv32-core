@@ -6,7 +6,7 @@ module LQ(
     input                                       except,
 
     // SQ
-    input [`LSQSZ-1:0] [1:0]                store_sz,
+    input [`LSQSZ-1:0] [1:0]                    store_sz,
     input [`LSQSZ-1:0] [15:0]                   store_addr,
     input [`LSQSZ-1:0] [31:0]                   store_data,
     input [`LSQSZ-1:0]                          store_addr_valid,
@@ -14,10 +14,11 @@ module LQ(
     input [$clog2(`LSQSZ)-1:0]                  sq_head,
 
     // issue
-    input [`WAYS-1:0] [1:0]                 ld_size,
+    input [`WAYS-1:0] [1:0]                     ld_size,
     input [`WAYS-1:0]                           ld_en,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx,
+    input [`WAYS-1:0]                           ld_is_signed,
     input [`WAYS-1:0] [$clog2(`LSQSZ)-1:0]      sq_tail_in,
 
     // ALU
@@ -59,6 +60,7 @@ reg [`LSQSZ-1:0] ld_addr_ready_reg;
 reg [`LSQSZ-1:0] [15:0] ld_addr_reg;
 reg [`LSQSZ-1:0] ld_done_reg;       // data loaded/forwarded, ready for CDB bcast
 reg [`LSQSZ-1:0] ld_waiting_reg;    // cache miss, waiting for mem
+reg [`LSQSZ-1:0] ld_is_signed_reg;
 reg [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old;
 reg [`LSQSZ-1:0] [31:0] ld_data_reg;
 reg [$clog2(`LSQSZ):0] lq_num_free;
@@ -67,6 +69,7 @@ wire [`LSQSZ-1:0] [1:0] ld_sz_in_bus;
 wire [`LSQSZ-1:0] [$clog2(`ROB)-1:0] ld_ROB_idx_in_bus;
 wire [`LSQSZ-1:0] [$clog2(`PRF)-1:0] ld_PRF_idx_in_bus;
 wire [`LSQSZ-1:0] ld_en_in_bus; // these are coming into LQ
+wire [`LSQSZ-1:0] ld_is_signed_in_bus;
 wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_in_bus;
 // wire [`LSQSZ-1:0] lq_in_gnt;      // these are coming into LQ
 
@@ -92,6 +95,7 @@ lq_ps_in ps_in(
     .ld_size(ld_size),
     .ld_ROB_idx(ld_ROB_idx),
     .ld_PRF_idx(ld_PRF_idx),
+    .ld_is_signed(ld_is_signed),
     .sq_tail_in(sq_tail_in),
 
     .gnt(),
@@ -99,6 +103,7 @@ lq_ps_in ps_in(
     .ld_ROB_idx_in_bus(ld_ROB_idx_in_bus),
     .ld_PRF_idx_in_bus(ld_PRF_idx_in_bus),
     .ld_en_in_bus(ld_en_in_bus),
+    .ld_is_signed_in_bus(ld_is_signed_in_bus),
     .sq_tail_in_bus(sq_tail_in_bus)
 );
 
@@ -211,11 +216,18 @@ lq_wand_sel sel [`LSQSZ-1:0] (
     .gnt(ls_addr_block_hit_selected)
 );
 
+wor [`LSQSZ-1:0] ld_done_next;
+wor [`LSQSZ-1:0] ld_waiting_next;
+wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old_next;
+wor [`LSQSZ-1:0] [31:0] ld_data_next;
+wire [`LSQSZ-1:0] mem_load_in;
+wire dc_miss;
+
 // check if can forward, can goto mem, should wait
 assign ls_addr_forward_wire = ls_addr_block_hit_selected & ls_addr_all_hit_msk_all;
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
-        assign ls_addr_ready_to_load_wire[gi] = (ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]);
+        assign ls_addr_ready_to_load_wire[gi] = (ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]) & (~ld_waiting_next[gi]);
         assign ls_addr_stall_wire[gi] = (ls_addr_block_hit_selected[gi] & ~(ls_addr_all_hit_msk_all[gi])) != 0;
         assign ls_addr_stall_wire[gi] = (ls_addr_block_hit_selected[gi] & ~(store_addr_valid[gi])) != 0;
     end
@@ -249,6 +261,7 @@ arbiter_rr #(.WIDTH(`LSQSZ)) arb_rr_cdb (
 
 wor [31:0] CDB_Data_tmp;
 wor [1:0] CDB_sz_tmp;
+wor CDB_is_ext;
 generate;
     assign CDB_valid = cdb_gnt != 0;
     assign CDB_direction = 0;
@@ -258,16 +271,19 @@ generate;
   	    assign CDB_PRF_idx = cdb_gnt[gi] ? ld_PRF_idx_reg[gi] : 0;
 	    assign CDB_ROB_idx = cdb_gnt[gi] ? ld_ROB_idx_reg[gi] : 0;
         assign CDB_sz_tmp = cdb_gnt[gi] ? ld_sz_reg[gi] : 0;
+        assign CDB_is_ext = cdb_gnt[gi] ? ld_is_signed_reg[gi] : 0;
     end
 endgenerate
 
+logic [31:0] CDB_Data_ext;
 always_comb begin
     case(CDB_sz_tmp)
-        BYTE:       CDB_Data = {{24{CDB_Data_tmp[7]}}, CDB_Data_tmp[7:0]};
-        HALF:       CDB_Data = {{16{CDB_Data_tmp[15]}}, CDB_Data_tmp[15:0]};
-        default:    CDB_Data = CDB_Data_tmp;
+        BYTE:       CDB_Data_ext = {{24{CDB_Data_tmp[7]}}, CDB_Data_tmp[7:0]};
+        HALF:       CDB_Data_ext = {{16{CDB_Data_tmp[15]}}, CDB_Data_tmp[15:0]};
+        default:    CDB_Data_ext = CDB_Data_tmp;
     endcase 
 end
+assign CDB_Data = CDB_is_ext ? CDB_Data_ext: CDB_Data_tmp;
 
 
 // free count
@@ -288,13 +304,9 @@ wire [`LSQSZ-1:0] ld_addr_ready_next;
 
 wire [`LSQSZ-1:0] [$clog2(`ROB)-1:0] ld_ROB_idx_next;
 wire [`LSQSZ-1:0] [$clog2(`PRF)-1:0] ld_PRF_idx_next;
+wire [`LSQSZ-1:0] ld_is_signed_next;
 
-wor [`LSQSZ-1:0] ld_done_next;
-wor [`LSQSZ-1:0] ld_waiting_next;
-wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old_next;
-wor [`LSQSZ-1:0] [31:0] ld_data_next;
-wire [`LSQSZ-1:0] mem_load_in;
-wire dc_miss;
+
 
 assign dc_miss = dc_feedback == 0;
 
@@ -309,6 +321,9 @@ generate;
 
         assign ld_PRF_idx_next[gi] = ld_free_hold[gi] ? 
             (ld_en_in_bus[gi] ? ld_PRF_idx_in_bus[gi] : 0) : ld_PRF_idx_reg[gi];
+        
+        assign ld_is_signed_next[gi] = ld_free_hold[gi] ? 
+            (ld_en_in_bus[gi] ? ld_is_signed_in_bus[gi] : 0) : ld_is_signed_reg[gi];
 
         assign ld_addr_next[gi] = ld_free_next[gi] ? 0 : ld_addr_wire[gi];
         
@@ -319,8 +334,8 @@ generate;
             (ld_en_in_bus[gi] ? sq_tail_in_bus[gi] : 0) : sq_tail_old[gi];
         
         assign ld_data_next[gi] = cdb_gnt[gi] ? 0 : ld_data_reg[gi];    // zero bcasted
-        assign ld_data_next[gi] = dc_feedback[gi] ? dc_data[gi] : 0;    // read from DCache
-        assign ld_data_next[gi] = (mem_feedback[gi] & ld_waiting_reg[gi]) ? mem_data[gi] : 0;   // from mem
+        assign ld_data_next[gi] = dc_feedback[gi] ? dc_data : 0;    // read from DCache
+        assign ld_data_next[gi] = (mem_feedback[gi] & ld_waiting_reg[gi]) ? mem_data : 0;   // from mem
         // forwarding
         for (gj = 0; gj < `LSQSZ; ++gj) begin
             assign ld_data_next[gi] = ls_addr_forward_wire[gi][gj] ? store_data[gj] : 0;
@@ -342,6 +357,7 @@ always_ff @ (posedge clock) begin
         ld_sz_reg <= 0;
         ld_ROB_idx_reg <= 0;
         ld_PRF_idx_reg <= 0;
+        ld_is_signed_reg <= 0;
         ld_free <= {`LSQSZ{1'b1}};
         ld_addr_ready_reg <= 0;
         ld_addr_reg <= 0;
@@ -358,6 +374,7 @@ always_ff @ (posedge clock) begin
         ld_sz_reg <= ld_sz_next;
         ld_ROB_idx_reg <= ld_ROB_idx_next;
         ld_PRF_idx_reg <= ld_PRF_idx_next;
+        ld_is_signed_reg <= ld_is_signed_next;
         ld_free <= ld_free_next;
         ld_addr_ready_reg <= ld_addr_ready_next;
         ld_addr_reg <= ld_addr_next;
@@ -382,6 +399,7 @@ module lq_ps_in(
     ld_size,
     ld_ROB_idx,
     ld_PRF_idx,
+    ld_is_signed,
     sq_tail_in,
                  
     // Outputs
@@ -390,6 +408,7 @@ module lq_ps_in(
     ld_ROB_idx_in_bus,
     ld_PRF_idx_in_bus,
     ld_en_in_bus,
+    ld_is_signed_in_bus,
     sq_tail_in_bus
 );
 
@@ -400,17 +419,19 @@ parameter WIDTH = `LSQSZ;
 // Inputs
 input wire [WIDTH-1:0]                          req;
 input wire [REQS-1:0]                           ld_en;
-input wire [REQS-1:0] [1:0]                 ld_size;
+input wire [REQS-1:0] [1:0]                     ld_size;
 input wire [REQS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx;
 input wire [REQS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx;
+input wire [REQS-1:0]                           ld_is_signed;
 input wire [`WAYS-1:0] [$clog2(`LSQSZ)-1:0]     sq_tail_in;
 
 // Outputs
 output wor  [WIDTH-1:0]                         gnt;
-output wor [`LSQSZ-1:0] [1:0]                 ld_sz_in_bus;
-output wor [`LSQSZ-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx_in_bus;
-output wor [`LSQSZ-1:0]                           ld_en_in_bus;
+output wor [`LSQSZ-1:0] [1:0]                   ld_sz_in_bus;
+output wor [`LSQSZ-1:0] [$clog2(`ROB)-1:0]      ld_ROB_idx_in_bus;
+output wor [`LSQSZ-1:0]                         ld_en_in_bus;
 output wor [`LSQSZ-1:0] [$clog2(`PRF)-1:0]      ld_PRF_idx_in_bus;
+output wor [`LSQSZ-1:0]                         ld_is_signed_in_bus;
 output wor [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0]    sq_tail_in_bus;
 
 wand [WIDTH*REQS-1:0]                           gnt_bus;
@@ -479,6 +500,7 @@ for(k = 0; k < REQS; ++k) begin
         assign ld_ROB_idx_in_bus[x] = gnt_bus[x + k * WIDTH] ? ld_ROB_idx[k] : 0;
         assign ld_PRF_idx_in_bus[x] = gnt_bus[x + k * WIDTH] ? ld_PRF_idx[k] : 0;
         assign ld_en_in_bus[x] = gnt_bus[x + k * WIDTH] ? ld_en[k] : 0;
+        assign ld_is_signed_in_bus[x] = gnt_bus[x + k * WIDTH] ? ld_is_signed[k] : 0;
         assign sq_tail_in_bus[x] = gnt_bus[x + k * WIDTH] ? sq_tail_in[k] : 0;
     end
 end

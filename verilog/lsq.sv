@@ -26,7 +26,7 @@ module LSQ(
     input [`WAYS-1:0] [15:0]                    ALU_data,
 
     // SQ
-    input [`WAYS-1:0] [1:0]                 st_size,
+    input [`WAYS-1:0] [1:0]                     st_size,
     input [`WAYS-1:0] [31:0]                    st_data,
     input [`WAYS-1:0]                           st_data_valid,
     input [`WAYS-1:0]                           st_en,
@@ -34,10 +34,11 @@ module LSQ(
     input                                       commit,   // from ROB, whether head of SQ should commit
 
     // LQ
-    input [`WAYS-1:0] [1:0]                 ld_size,
+    input [`WAYS-1:0] [1:0]                     ld_size,
     input [`WAYS-1:0]                           ld_en,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx,
+    input [`WAYS-1:0]                           ld_is_signed,
 
     // feedback from DCache
     input [`LSQSZ-1:0]                          dc_feedback,
@@ -131,6 +132,7 @@ module LSQ(
         .ld_en(ld_en),
         .ld_ROB_idx(ld_ROB_idx_in),
         .ld_PRF_idx(ld_PRF_idx_in),
+        .ld_is_signed(ld_is_signed),
         .sq_tail_in(ld_sq_tail),
 
         // ALU

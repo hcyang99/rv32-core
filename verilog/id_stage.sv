@@ -50,21 +50,32 @@ module decoder(
 	assign inst          = if_packet.inst;
 	assign valid_inst_in = if_packet.valid;
 	assign valid_inst    = valid_inst_in & ~illegal;
-	assign sign					 = (inst == `RV32_LB) | (inst == `RV32_LH) | (inst ==`RV32_LW);
 
 	always_comb begin
 		mem_size = DOUBLE;
+		sign		 = 0;
 			casez (inst) 
-				`RV32_LB, `RV32_SB, `RV32_LBU: begin
+				`RV32_LB: begin
+					mem_size = BYTE;
+					sign		 = 1;
+				end
+				`RV32_SB, `RV32_LBU: begin
 					mem_size = BYTE;
 				end
-				`RV32_LH, `RV32_LHU, `RV32_SH: begin
+				`RV32_LH: begin
+					mem_size = HALF;
+					sign		 = 1;
+				end
+				`RV32_LHU, `RV32_SH: begin
 					mem_size = HALF;
 				end
 				`RV32_LW, `RV32_SW: begin
 					mem_size = WORD;
 				end
-				default: mem_size = DOUBLE;
+				default: begin
+					mem_size = DOUBLE;
+					sign = 0;
+				end
 			endcase
 	end
 	

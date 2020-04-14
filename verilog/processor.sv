@@ -536,6 +536,7 @@ DMEM DMEM_0(
     .ld_en (ld_en),
     .ld_ROB_idx (ROB_idx),
 	.ld_PRF_idx (ld_ex_prf_idx),
+	.ld_is_signed(id_ex_sign),
 
     // from mem
     .mem2proc_response (mem_to_dcache_response),// 0 = can't accept, other=tag of transaction
