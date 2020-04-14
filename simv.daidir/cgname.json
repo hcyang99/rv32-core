@@ -1,57 +1,15 @@
 {
+    "alu": [
+        "alu",
+        "C26kq",
+        "module",
+        10
+    ],
     "_vcs_unit__4293599388": [
         "_vcs_unit__4293599388",
         "PGa5H",
         "module",
         1
-    ],
-    "lq_ps_in_0000": [
-        "lq_ps_in_0000",
-        "gqQ8q",
-        "module",
-        14
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
-    "ar_wand_sel_0000": [
-        "ar_wand_sel_0000",
-        "sYgZs",
-        "module",
-        6
-    ],
-    "mem": [
-        "mem",
-        "FSbWZ",
-        "module",
-        3
-    ],
-    "processor_0000": [
-        "processor_0000",
-        "UzNI6",
-        "module",
-        17
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
-    ],
-    "dcache_ctrl_0000": [
-        "dcache_ctrl_0000",
-        "j2LDI",
-        "module",
-        7
-    ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
-        "module",
-        12
     ],
     "dcache_0000": [
         "dcache_0000",
@@ -59,47 +17,11 @@
         "module",
         8
     ],
-    "arbiter_rr_0000": [
-        "arbiter_rr_0000",
-        "Tjq5i",
+    "std": [
+        "std",
+        "reYIK",
         "module",
-        5
-    ],
-    "store_queue_0000": [
-        "store_queue_0000",
-        "fNfNe",
-        "module",
-        21
-    ],
-    "DMEM_0000": [
-        "DMEM_0000",
-        "BaCRA",
-        "module",
-        9
-    ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
-        "module",
-        19
-    ],
-    "lq_wand_sel_0000": [
-        "lq_wand_sel_0000",
-        "RCLGV",
-        "module",
-        15
-    ],
-    "alu": [
-        "alu",
-        "C26kq",
-        "module",
-        10
-    ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
-        "module",
-        11
+        2
     ],
     "decoder": [
         "decoder",
@@ -107,23 +29,47 @@
         "module",
         13
     ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
+    "mem": [
+        "mem",
+        "FSbWZ",
         "module",
-        22
+        3
     ],
-    "mult_stage": [
-        "mult_stage",
-        "aUVMg",
+    "brcond": [
+        "brcond",
+        "VqGv5",
         "module",
-        16
+        11
     ],
-    "rob": [
-        "rob",
-        "vtxDx",
+    "testbench": [
+        "testbench",
+        "iAVhC",
         "module",
-        18
+        4
+    ],
+    "arbiter_rr_0000": [
+        "arbiter_rr_0000",
+        "Tjq5i",
+        "module",
+        5
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        12
+    ],
+    "ar_wand_sel_0000": [
+        "ar_wand_sel_0000",
+        "sYgZs",
+        "module",
+        6
+    ],
+    "dcache_ctrl_0000": [
+        "dcache_ctrl_0000",
+        "j2LDI",
+        "module",
+        7
     ],
     "RS_0000": [
         "RS_0000",
@@ -131,11 +77,71 @@
         "module",
         20
     ],
+    "lq_wand_sel_0000": [
+        "lq_wand_sel_0000",
+        "RCLGV",
+        "module",
+        15
+    ],
+    "DMEM_0000": [
+        "DMEM_0000",
+        "BaCRA",
+        "module",
+        9
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        26
+    ],
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
+        "module",
+        22
+    ],
+    "lq_ps_in_0000": [
+        "lq_ps_in_0000",
+        "gqQ8q",
+        "module",
+        14
+    ],
+    "mult_stage": [
+        "mult_stage",
+        "aUVMg",
+        "module",
+        16
+    ],
+    "processor_0000": [
+        "processor_0000",
+        "UzNI6",
+        "module",
+        17
+    ],
+    "rob": [
+        "rob",
+        "vtxDx",
+        "module",
+        18
+    ],
     "rs_psel_gen_0000": [
         "rs_psel_gen_0000",
         "xjVMK",
         "module",
         23
+    ],
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
+        "module",
+        19
+    ],
+    "store_queue_0000": [
+        "store_queue_0000",
+        "fNfNe",
+        "module",
+        21
     ],
     "wand_sel_0000": [
         "wand_sel_0000",
@@ -148,11 +154,5 @@
         "ci1CE",
         "module",
         25
-    ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
-        "module",
-        26
     ]
 }

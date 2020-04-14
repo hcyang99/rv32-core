@@ -220,6 +220,7 @@ module processor (
   	logic [`WAYS-1:0]                           CDB_direction;
   	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_target;
 	logic [`WAYS-1:0]							CDB_reg_write;
+	logic [`WAYS-1:0]							CDB_is_load_from_ex;
 
 // output of dmem
     logic [1:0]                          Dmem_command;
@@ -295,6 +296,7 @@ module processor (
 			assign CDB_PRF_idx[i]   	 = lq_CDB_valid[i]? lq_CDB_PRF_idx : ex_packet_out[i].dest_PRF_idx;
 			assign CDB_ROB_idx[i]   	 = lq_CDB_valid[i]? lq_CDB_ROB_idx : ex_packet_out[i].rob_idx; // the rob index of the CDB's inst
 			assign CDB_target[i]    	 = lq_CDB_valid[i]? 0: ex_packet_out[i].take_branch ? ex_packet_out[i].alu_result: ex_packet_out[i].NPC ;  // if  			
+			assign CDB_is_load_from_ex[i]= ~lq_CDB_valid[i] & ex_packet_out[i].valid & ex_packet_out[i].rd_mem;
 		end
 	endgenerate
 
@@ -591,7 +593,7 @@ assign rob_PC_out        = PC_out;
 
     // wire declarations for rob inputs/outputs
     .CDB_ROB_idx,
-    .CDB_valid,
+    .CDB_valid (CDB_valid & ~CDB_is_load_from_ex),
     .CDB_direction,
     .CDB_target,
 
