@@ -116,11 +116,10 @@ module processor (
 
 	// Outputs from ID stage
 	ID_EX_PACKET [`WAYS-1 : 0] 		id_packet;
-
+	logic [`WAYS-1:0]				id_sign_out;
 	// Outputs from ID/Rob&RS Pipeline Register
 	logic rob_is_full;
 	logic rs_is_full;
-	
   	logic [`WAYS-1:0] [4:0]        				  	dest_ARN;
   	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]            dest_PRN;
   	logic [`WAYS-1:0]                               id_reg_write;
@@ -135,6 +134,7 @@ module processor (
 	logic [`WAYS-1:0] [$clog2(`ROB)-1:0] 			ROB_idx;
 
 	ID_EX_PACKET [`WAYS-1:0] 						id_ex_packet;
+	logic [`WAYS-1:0]								id_ex_sign;
 
 	logic [`WAYS-1:0]								id_ex_reg_write;
 	
@@ -431,6 +431,7 @@ endgenerate
 //--------------------------------------------------------------
 		// Outputs
 		.id_packet_out(id_packet),
+		.sign_out	(id_sign_out),
 		.opa_valid (id_opa_valid),
 		.opb_valid (id_opb_valid)
 	);
@@ -455,8 +456,7 @@ endgenerate
 assign rob_is_full = next_num_free < `WAYS + 1;
 assign rs_is_full  = num_is_free_next < `WAYS;
 
-
-	assign id_ex_enable = ~rob_is_full & ~rs_is_full & ~lq_is_full & ~ sq_is_full & ~except;
+assign id_ex_enable = ~rob_is_full & ~rs_is_full & ~lq_is_full & ~ sq_is_full & ~except;
 	// synopsys sync_set_reset "reset"
 	always_ff @(posedge clock) begin
 		if (reset | rob_is_full | rs_is_full | lq_is_full | sq_is_full | except) begin
@@ -465,6 +465,7 @@ assign rs_is_full  = num_is_free_next < `WAYS;
 			id_ex_predictions 	<= `SD {`WAYS{1'b0}};
 			id_ex_opa_valid		<= `SD 0;
 			id_ex_opb_valid		<= `SD 0;
+			id_ex_sign			<= `SD 0;
 		end else begin // if (reset)
 			if (id_ex_enable) begin
 				id_ex_packet 		<= `SD id_packet;
@@ -472,6 +473,7 @@ assign rs_is_full  = num_is_free_next < `WAYS;
 				id_ex_predictions	<= `SD id_predictions ;//| id_predictions_tmp;
 				id_ex_opa_valid		<= `SD id_opa_valid;
 				id_ex_opb_valid		<= `SD id_opb_valid;
+				id_ex_sign			<= `SD id_sign_out;
 				for(int i = 0; i < `WAYS; i = i + 1) begin
 					id_ex_packet[i].rob_idx <= `SD (next_tail + i)%`ROB;
 				end

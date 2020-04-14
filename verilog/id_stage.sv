@@ -25,7 +25,7 @@ module decoder(
 	                      // reflect noop (except valid_inst)
 	//see sys_defs.svh for definition
 	input IF_ID_PACKET 		if_packet,
-	
+	output logic				sign,
 	output logic [1:0]      mem_size, // byte, half-word or word
 	output ALU_OPA_SELECT opa_select,
 	output ALU_OPB_SELECT opb_select,
@@ -50,6 +50,7 @@ module decoder(
 	assign inst          = if_packet.inst;
 	assign valid_inst_in = if_packet.valid;
 	assign valid_inst    = valid_inst_in & ~illegal;
+	assign sign					 = (inst == `RV32_LB) | (inst == `RV32_LH) | (inst ==`RV32_LW);
 
 	always_comb begin
 		mem_size = DOUBLE;
@@ -267,6 +268,7 @@ module id_stage(
 //--------------------------------------------------------------
 
 	output ID_EX_PACKET [`WAYS-1:0] 			id_packet_out,
+	output logic [`WAYS-1:0]					sign_out,
 	output logic [`WAYS-1:0]					opa_valid,
 	output logic [`WAYS-1:0]					opb_valid
 
@@ -317,6 +319,7 @@ module id_stage(
 					decoder decoder_0 (
 						.if_packet(if_id_packet_in[i]),	 
 							// Outputs
+						.sign(sign_out[i]),
 						.mem_size(id_packet_out[i].mem_size),
 						.opa_select(id_packet_out[i].opa_select),
 						.opb_select(id_packet_out[i].opb_select),
