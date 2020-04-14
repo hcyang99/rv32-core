@@ -1,0 +1,45 @@
+
+program.debug.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <.text>:
+   0:	00000013          	addi	zero,zero,0
+   4:	00000513          	addi	a0,zero,0
+   8:	000035b7          	lui	a1,0x3
+   c:	01a58593          	addi	a1,a1,26 # 301a <_ebss+0x2f7a>
+  10:	15600613          	addi	a2,zero,342
+  14:	00001137          	lui	sp,0x1
+  18:	80010113          	addi	sp,sp,-2048 # 800 <_ebss+0x760>
+  1c:	00b12023          	sw	a1,0(sp)
+  20:	00410113          	addi	sp,sp,4
+  24:	00a60533          	add	a0,a2,a0
+  28:	00b60533          	add	a0,a2,a1
+  2c:	00a12023          	sw	a0,0(sp)
+  30:	ff010113          	addi	sp,sp,-16
+  34:	00012503          	lw	a0,0(sp)
+  38:	40a60533          	sub	a0,a2,a0
+  3c:	00000013          	addi	zero,zero,0
+  40:	00000013          	addi	zero,zero,0
+  44:	10500073          	wfi
+	...
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1e41                	c.addi	t3,-16
+   2:	0000                	c.unimp
+   4:	7200                	c.flw	fs0,32(a2)
+   6:	7369                	c.lui	t1,0xffffa
+   8:	01007663          	bgeu	zero,a6,14 <_ebss-0x8c>
+   c:	0014                	0x14
+   e:	0000                	c.unimp
+  10:	7205                	c.lui	tp,0xfffe1
+  12:	3376                	c.fldsp	ft6,376(sp)
+  14:	6932                	c.flwsp	fs2,12(sp)
+  16:	7032                	c.flwsp	ft0,44(sp)
+  18:	5f30                	c.lw	a2,120(a4)
+  1a:	326d                	c.jal	fffff9c4 <_sp+0xfffef9c4>
+  1c:	3070                	c.fld	fa2,224(s0)
+	...

@@ -14,7 +14,7 @@
 # make assembly SOURCE=test_progs/rv32_copy.s
 # make program SOURCE=test_progs/quicksort.c
 
-SOURCE = test_progs/mult_no_lsq.s
+SOURCE = test_progs/haha.s
 
 CRT = crt.s
 LINKERS = linker.lds
