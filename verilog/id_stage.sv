@@ -451,7 +451,7 @@ end
 		for(int i = 0; i < `WAYS; i = i + 1) begin
 		// to be update later with LSQ
 			if(id_packet_out[i].opa_select == OPA_IS_RS1 | id_packet_out[i].cond_branch) begin
-				if(opa_arn == 0) begin
+				if(opa_arn[i] == 0) begin
 					opa_valid[i] = 1;
 					id_packet_out[i].rs1_value = 0;
 				end else begin
