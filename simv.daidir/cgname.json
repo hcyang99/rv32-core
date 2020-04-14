@@ -1,45 +1,9 @@
 {
-    "dcache_0000": [
-        "dcache_0000",
-        "Nmdq6",
-        "module",
-        8
-    ],
     "_vcs_unit__4293599388": [
         "_vcs_unit__4293599388",
         "PGa5H",
         "module",
         1
-    ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
-        "module",
-        11
-    ],
-    "lq_wand_sel_0000": [
-        "lq_wand_sel_0000",
-        "RCLGV",
-        "module",
-        15
-    ],
-    "ar_wand_sel_0000": [
-        "ar_wand_sel_0000",
-        "sYgZs",
-        "module",
-        6
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
-    "lq_ps_in_0000": [
-        "lq_ps_in_0000",
-        "gqQ8q",
-        "module",
-        14
     ],
     "arbiter_rr_0000": [
         "arbiter_rr_0000",
@@ -47,17 +11,11 @@
         "module",
         5
     ],
-    "store_queue_0000": [
-        "store_queue_0000",
-        "fNfNe",
+    "std": [
+        "std",
+        "reYIK",
         "module",
-        21
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
+        2
     ],
     "mem": [
         "mem",
@@ -65,23 +23,17 @@
         "module",
         3
     ],
-    "dcache_ctrl_0000": [
-        "dcache_ctrl_0000",
-        "j2LDI",
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
         "module",
-        7
+        12
     ],
-    "DMEM_0000": [
-        "DMEM_0000",
-        "BaCRA",
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
         "module",
-        9
-    ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
-        "module",
-        13
+        23
     ],
     "alu": [
         "alu",
@@ -89,17 +41,89 @@
         "module",
         10
     ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
+    "dcache_0000": [
+        "dcache_0000",
+        "Nmdq6",
         "module",
-        12
+        8
+    ],
+    "testbench": [
+        "testbench",
+        "iAVhC",
+        "module",
+        4
+    ],
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
+        "module",
+        25
+    ],
+    "dcache_ctrl_0000": [
+        "dcache_ctrl_0000",
+        "j2LDI",
+        "module",
+        7
+    ],
+    "ar_wand_sel_0000": [
+        "ar_wand_sel_0000",
+        "sYgZs",
+        "module",
+        6
+    ],
+    "DMEM_0000": [
+        "DMEM_0000",
+        "BaCRA",
+        "module",
+        9
+    ],
+    "brcond": [
+        "brcond",
+        "VqGv5",
+        "module",
+        11
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        26
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        13
+    ],
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
+        "module",
+        22
+    ],
+    "lq_ps_in_0000": [
+        "lq_ps_in_0000",
+        "gqQ8q",
+        "module",
+        14
+    ],
+    "lq_wand_sel_0000": [
+        "lq_wand_sel_0000",
+        "RCLGV",
+        "module",
+        15
     ],
     "mult_stage": [
         "mult_stage",
         "aUVMg",
         "module",
         16
+    ],
+    "store_queue_0000": [
+        "store_queue_0000",
+        "fNfNe",
+        "module",
+        21
     ],
     "processor_0000": [
         "processor_0000",
@@ -113,12 +137,6 @@
         "module",
         18
     ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
-        "module",
-        23
-    ],
     "RS_Line_0000": [
         "RS_Line_0000",
         "Z4jCT",
@@ -131,28 +149,10 @@
         "module",
         20
     ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        22
-    ],
     "wand_sel_0000": [
         "wand_sel_0000",
         "hckDL",
         "module",
         24
-    ],
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
-        "module",
-        25
-    ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
-        "module",
-        26
     ]
 }

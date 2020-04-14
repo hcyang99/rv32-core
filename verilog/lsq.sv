@@ -182,7 +182,7 @@ module LSQ(
         .CDB_valid,
 
         .ALU_ROB_idx,
-        .ALU_is_valid(ALU_is_valid & ~ALU_is_ls),
+        .ALU_is_valid(ALU_is_valid & ALU_is_ls),
         .ALU_data(ALU_data),
 
         .sq_head,

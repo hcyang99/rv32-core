@@ -123,8 +123,8 @@ module store_queue(
     generate;
         for (gi = 0; gi < `WAYS; ++gi) begin
             for (gj = 0; gj < `LSQSZ; ++gj) begin
-                assign CDB_hit[gi][gj] = CDB_valid[gi] & CDB_PRF_idx[gi] == data_reg[gj] & (~data_valid_reg[gj]);
-                assign ALU_hit[gi][gj] = ALU_is_valid[gi] & ALU_ROB_idx[gi] == ROB_idx_reg[gj] & (~addr_valid_reg[gj]);
+                assign CDB_hit[gi][gj] = valid_reg[gi] & CDB_valid[gi] & CDB_PRF_idx[gi] == data_reg[gj] & (~data_valid_reg[gj]);
+                assign ALU_hit[gi][gj] = valid_reg[gi] & ALU_is_valid[gi] & ALU_ROB_idx[gi] == ROB_idx_reg[gj] & (~addr_valid_reg[gj]);
             end
         end
     endgenerate
@@ -161,7 +161,7 @@ module store_queue(
         for (gi = 0; gi < `WAYS; ++gi) begin
             assign size_tmp[gi] = enable[gi] ? size[gi] : 0;
             assign data_tmp[gi] = enable[gi] ? data[gi] : 0;
-            assign data_valid_tmp[gi] = enable[gi] ? data[gi] : 0;
+            assign data_valid_tmp[gi] = enable[gi] ? data_valid[gi] : 0;
             assign ROB_idx_tmp[gi] = enable[gi] ? ROB_idx[gi] : 0;
         end
     endgenerate
@@ -207,8 +207,8 @@ module store_queue(
     generate;
         // hold original values, clear going head and coming tail
         for (gi = 0; gi < `LSQSZ; ++gi) begin
-            assign data_next[gi] = cdb_hold[gi] ? addr_reg[gi] : 0;
-            assign data_valid_next[gi] = cdb_hold[gi] ? addr_valid_reg[gi] : 0;
+            assign data_next[gi] = cdb_hold[gi] ? data_reg[gi] : 0;
+            assign data_valid_next[gi] = cdb_hold[gi] ? data_valid_reg[gi] : 0;
         end
         // going head; do nothing
         // coming tails
@@ -218,7 +218,7 @@ module store_queue(
                 assign data_valid_next[gi] = sq_tail_internal_tmp[gj][gi] ? data_valid_tmp[gj] : 0;
             end
         end
-        // ALU hits
+        // CDB hits
         for (gi = 0; gi < `WAYS; ++gi) begin
             for (gj = 0; gj < `LSQSZ; ++gj) begin
                 assign data_next[gj] = CDB_hit[gi][gj] ? CDB_Data[gi] : 0;

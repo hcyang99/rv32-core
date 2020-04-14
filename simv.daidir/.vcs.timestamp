@@ -64,38 +64,36 @@ verilog/processor.sv
 verilog/rob.sv
 verilog/rs.sv
 verilog/sq.sv
-74
-sysc_uni_pwd=/home/sunsusan/Desktop/group7w20
-_LMFILES_=/usr/caen/misc/modules/vscode/1.32.3:/usr/caen/misc/modules/vcs/2017.12-SP2-1
+73
+sysc_uni_pwd=/home/hcyang/Downloads/group7w20
+_LMFILES_=/usr/caen/misc/modules/vcs/2017.12-SP2-1
 XMODIFIERS=@im=ibus
 XDG_SESSION_TYPE=x11
-XDG_SESSION_ID=564
+XDG_SESSION_ID=8832
 XDG_SESSION_DESKTOP=gnome-classic
-XDG_RUNTIME_DIR=/run/user/114191087
+XDG_RUNTIME_DIR=/run/user/114191736
 XDG_MENU_PREFIX=gnome-
-XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/:/usr/caen/misc/menus
+XDG_DATA_DIRS=/home/hcyang/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/:/usr/caen/misc/menus
 XDG_CURRENT_DESKTOP=GNOME-Classic:GNOME
-XAUTHORITY=/run/gdm/auth-for-sunsusan-mOvWKW/database
+XAUTHORITY=/run/gdm/auth-for-hcyang-48e2oe/database
 VTE_VERSION=5202
-VSCODE_NLS_CONFIG={"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
-VSCODE_LOGS=/home/sunsusan/.config/Code/logs/20200413T091921
-VSCODE_IPC_HOOK=/run/user/114191087/vscode-f03f62c4-1.32.3-main.sock
-VSCODE_CLI=1
 VMR_MODE_FLAG=64
 VCS_MODE_FLAG=64
 VCS_HOME=/usr/caen/vcs-2017.12-SP2-1
 VCS_DEPTH=0
 VCS_ARG_ADDED_FOR_TMP=1
 VCS_ARCH=linux64
-USERNAME=sunsusan
+USERNAME=hcyang
 UNAME=/bin/uname
 TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
-SSH_AUTH_SOCK=/run/user/114191087/keyring/ssh
+TERM_PROGRAM_VERSION=1.43.2
+TERM_PROGRAM=vscode
+SSH_AUTH_SOCK=/run/user/114191736/keyring/ssh
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
-SSH_AGENT_PID=7042
+SSH_AGENT_PID=5274
 SOURCES=verilog/rob.sv 
 SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
-SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/6878,unix/unix:/tmp/.ICE-unix/6878
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/5041,unix/unix:/tmp/.ICE-unix/5041
 SCRNAME=vcs
 SCRIPT_NAME=vcs
 RESET_NET_NAME=reset
@@ -104,78 +102,79 @@ QT_IM_MODULE=ibus
 QT_GRAPHICSSYSTEM_CHECKED=1
 PIPELINE_NAME=processor
 OVA_UUM=0
+NO_AT_BRIDGE=1
 MSI2LMP_LIBRARY=/usr/share/lammps/frc_files
 MODULESHOME=/usr/share/Modules
 MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/caen/misc/modules:/afs/umich.edu/class/coe/modules
 MFLAGS=
 MAKELEVEL=1
 MAKEFLAGS=
-LOADEDMODULES=vscode/1.32.3:vcs/2017.12-SP2-1
+LOADEDMODULES=vcs/2017.12-SP2-1
 LESSOPEN=||/usr/bin/lesspipe.sh %s
 LC_ALL=C
 LAMMPS_POTENTIALS=/usr/share/lammps/potentials
-KRB5CCNAME=FILE:/tmp/krb5cc_114191087_TWNDYS
+KRB5CCNAME=FILE:/tmp/krb5cc_114191736_3qYPLs
 KDEDIRS=/usr
 IMSETTINGS_MODULE=none
 IMSETTINGS_INTEGRATE_DESKTOP=yes
-ICEAUTHORITY=/run/user/114191087/iceauthority
+ICEAUTHORITY=/run/user/114191736/iceauthority
 HISTCONTROL=ignoredups
 HEADERS=sys_defs.svh ISA.svh  
-GNOME_TERMINAL_SERVICE=:1.185
-GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/f47107f3_c7f1_4210_b98e_80833c448045
+GNOME_TERMINAL_SERVICE=:1.83
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/4cc43233_c685_424b_8a42_fdbc8fccc586
 GNOME_SHELL_SESSION_MODE=classic
 GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 GJS_DEBUG_TOPICS=JS ERROR;JS LOG
 GJS_DEBUG_OUTPUT=stderr
 GDM_LANG=en_US.UTF-8
 GDMSESSION=gnome-classic
-ELECTRON_NO_ATTACH_CONSOLE=1
 DESKTOP_SESSION=gnome-classic
 DESIGN_NAME=rob
-DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-E2S3JGjcay,guid=ca103db9f0b793fc7e275aa35e9466a1
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-Sao39EjJ4t,guid=7b65f9c82a6efe51dcb4e7bd5e950dea
 COLORTERM=truecolor
 CLOCK_PERIOD=5	
 CLOCK_NET_NAME=clock
 CINNAMON_2D=1
+CHROME_DESKTOP=code-url-handler.desktop
 BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL=true
 0
 30
-1586812394 verilog/icache.sv
-1586812421 verilog/cache/cachemem.sv
-1586810240 module_provided/wand_sel.v
-1586810275 module_provided/rs_psl_gen.v
-1586810275 module_provided/freelist_psl_gen.v
-1586810278 verilog/Validlist.sv
-1586812158 verilog/sq.sv
-1586812158 verilog/rs.sv
-1586812158 verilog/rob.sv
-1586810278 verilog/RAT_RRAT.sv
-1586827510 verilog/processor.sv
-1586812158 verilog/PRF.sv
-1586810241 verilog/mult.sv
-1586812158 verilog/mem_arbiter.sv
-1586812158 verilog/lsq.sv
-1586812158 verilog/lq.sv
-1586812158 verilog/if_stage.sv
-1586818278 verilog/id_stage.sv
-1586810278 verilog/FreeList.sv
-1586812158 verilog/ex_stage.sv
-1586812158 verilog/dmem.sv
-1586812158 verilog/dcache.sv
-1586812158 verilog/dcache_ctrl.sv
-1586812158 verilog/branch_pred.sv
-1586812158 verilog/arbiter_rr.sv
-1586826329 testbench/testbench.sv
-1586812157 testbench/mem.sv
-1586810240 ISA.svh
-1586813350 sys_defs.svh
+1586820017 verilog/icache.sv
+1586820017 verilog/cache/cachemem.sv
+1586388368 module_provided/wand_sel.v
+1585836993 module_provided/rs_psl_gen.v
+1586108938 module_provided/freelist_psl_gen.v
+1586741421 verilog/Validlist.sv
+1586788044 verilog/sq.sv
+1586797466 verilog/rs.sv
+1586797455 verilog/rob.sv
+1586741421 verilog/RAT_RRAT.sv
+1586828024 verilog/processor.sv
+1586741421 verilog/PRF.sv
+1585748207 verilog/mult.sv
+1586820017 verilog/mem_arbiter.sv
+1586789016 verilog/lsq.sv
+1586829540 verilog/lq.sv
+1586797444 verilog/if_stage.sv
+1586820017 verilog/id_stage.sv
+1586786565 verilog/FreeList.sv
+1586786565 verilog/ex_stage.sv
+1586804366 verilog/dmem.sv
+1586804270 verilog/dcache.sv
+1586745453 verilog/dcache_ctrl.sv
+1586779084 verilog/branch_pred.sv
+1586786565 verilog/arbiter_rr.sv
+1586820017 testbench/testbench.sv
+1586745453 testbench/mem.sv
+1585748207 ISA.svh
+1586820017 sys_defs.svh
 1531624678 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/vcsdp.tab
 6
-1586815466 testbench/pipe_print.c
+1586820017 testbench/pipe_print.c
 0 
 1531625631 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvirsim.so
 1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
 1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
 1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
-1586827555 simv.daidir
+1586829558 simv.daidir

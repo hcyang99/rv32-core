@@ -109,7 +109,7 @@ generate;
     for (gi = 0; gi < `WAYS; ++gi) begin
         for (gj = 0; gj < `LSQSZ; ++gj) begin
             // hit iff (ld is valid) && (ld addr is not ready) && (ALU is valid) && (ROB idx match)
-            assign ALU_hit[gi][gj] = (~ld_free[gi]) & ALU_is_valid[gi] & ALU_is_ls[gi] & 
+            assign ALU_hit[gi][gj] = (~ld_free[gj]) & ALU_is_valid[gi] & ALU_is_ls[gi] & 
                 (~ld_addr_ready_reg[gj]) & (ALU_ROB_idx[gi] == ld_ROB_idx_reg[gj]);
         end
     end
@@ -132,9 +132,9 @@ endgenerate
 wand [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit; // [lq_idx] [sq_idx]
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_offset_hit;
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_size_hit;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit;
+wand [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit;
 
-assign ls_addr_all_hit = ls_addr_block_hit & ls_addr_offset_hit & ls_addr_size_hit & store_data_valid;
+assign ls_addr_all_hit = ls_addr_block_hit & ls_addr_offset_hit & ls_addr_size_hit;
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
         for (gj = 0; gj < `LSQSZ; ++gj) begin
@@ -143,6 +143,7 @@ generate;
             assign ls_addr_block_hit[gi][gj] = ~ld_free[gi];
             assign ls_addr_offset_hit[gi][gj] = ld_addr_reg[gi][2:0] == store_addr[gj][2:0];
             assign ls_addr_size_hit[gi][gj] = ld_sz_reg[gi] == store_sz[gj];
+            assign ls_addr_all_hit[gi][gj] = store_data_valid[gj];
         end
     end
 endgenerate
@@ -284,7 +285,7 @@ wire dc_miss;
 
 assign dc_miss = dc_feedback == 0;
 
-assign ld_addr_ready_next = ld_addr_ready_next & (~ld_free_next);
+assign ld_addr_ready_next = ld_addr_ready_wire & (~ld_free_next);
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
         assign ld_sz_next[gi] = ld_free_hold[gi] ? 
@@ -296,7 +297,7 @@ generate;
         assign ld_PRF_idx_next[gi] = ld_free_hold[gi] ? 
             (ld_en_in_bus[gi] ? ld_PRF_idx_in_bus[gi] : 0) : ld_PRF_idx_reg[gi];
 
-        assign ld_addr_next[gi] = ld_free_next[gi] ? ld_addr_wire[gi] : 0;
+        assign ld_addr_next[gi] = ld_free_next[gi] ? 0 : ld_addr_wire[gi];
         
         assign ld_waiting_next[gi] = cdb_gnt[gi] ? 0 : ld_waiting_reg[gi];
         assign ld_waiting_next[gi] = cache_gnt[gi] & dc_miss;

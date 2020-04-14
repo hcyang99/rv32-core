@@ -1,18 +1,16 @@
 # Begin_DVE_Session_Save_Info
 # DVE restart session
-# Saved on Mon Apr 13 14:46:39 2020
+# Saved on Mon Apr 13 22:39:45 2020
 # Designs open: 1
 #   Sim: /afs/umich.edu/user/h/c/hcyang/Downloads/group7w20/dve
 # Toplevel windows open: 2
 # 	TopLevel.1
 # 	TopLevel.2
 #   Source.1: _vcs_unit__4293599388
-#   Wave.1: 7 signals
-#   Group count = 4
-#   Group Group1 signal count = 4
+#   Wave.1: 9 signals
+#   Group count = 2
+#   Group Group1 signal count = 9
 #   Group Group2 signal count = 1
-#   Group Group3 signal count = 6
-#   Group Group4 signal count = 7
 # End_DVE_Session_Save_Info
 
 # DVE version: N-2017.12-SP2-1_Full64
@@ -22,7 +20,7 @@
 #<Session mode="Restart" path=".restartSimSession.tcl" type="Debug">
 
 gui_set_loading_session_type Restart
-gui_continuetime_set -value 200
+gui_continuetime_set -value 5200
 gui_clear_window -type Wave
 gui_clear_window -type List
 
@@ -62,7 +60,7 @@ gui_sync_global -id ${TopLevel.2} -option true
 
 # MDI window settings
 set Wave.1 Wave.1
-gui_update_layout -id ${Wave.1} {{show_state maximized} {dock_state undocked} {dock_on_new_line false} {child_wave_left 445} {child_wave_right 1085} {child_wave_colname 220} {child_wave_colvalue 221} {child_wave_col1 0} {child_wave_col2 1}}
+gui_update_layout -id ${Wave.1} {{show_state maximized} {dock_state undocked} {dock_on_new_line false} {child_wave_left 445} {child_wave_right 1085} {child_wave_colname 220} {child_wave_colvalue 220} {child_wave_col1 0} {child_wave_col2 1}}
 
 # End MDI window settings
 
@@ -89,33 +87,19 @@ gui_set_time_units 1ns
 # Global: Signal Compare
 
 # Global: Signal Groups
-gui_load_child_values {testbench.core}
-gui_load_child_values {testbench.core.cache_0}
 
 
-set _session_group_8 Group1
-gui_sg_create "$_session_group_8"
-set Group1 "$_session_group_8"
+set _session_group_1 Group1
+gui_sg_create "$_session_group_1"
+set Group1 "$_session_group_1"
 
-gui_sg_addsignal -group "$_session_group_8" { testbench.core.cache_0.rd_idx testbench.core.cache_0.rd_tag testbench.core.cache_0.rd_data testbench.core.cache_0.rd_valid }
+gui_sg_addsignal -group "$_session_group_1" { testbench.core.DMEM_0.LSQ_0.lq.ld_size testbench.core.DMEM_0.LSQ_0.lq.ld_en testbench.core.DMEM_0.LSQ_0.lq.ld_ROB_idx testbench.core.DMEM_0.LSQ_0.lq.ld_PRF_idx testbench.core.DMEM_0.LSQ_0.lq.ls_addr_block_hit testbench.core.DMEM_0.LSQ_0.lq.ls_addr_all_hit testbench.core.DMEM_0.LSQ_0.lq.ls_addr_all_hit_msk_all testbench.core.DMEM_0.LSQ_0.sq.data testbench.core.DMEM_0.LSQ_0.sq.data_valid }
 
-set _session_group_9 Group2
-gui_sg_create "$_session_group_9"
-set Group2 "$_session_group_9"
+set _session_group_2 Group2
+gui_sg_create "$_session_group_2"
+set Group2 "$_session_group_2"
 
-gui_sg_addsignal -group "$_session_group_9" { testbench.core.cache_0.rd_tag }
-
-set _session_group_10 Group3
-gui_sg_create "$_session_group_10"
-set Group3 "$_session_group_10"
-
-gui_sg_addsignal -group "$_session_group_10" { testbench.core.cache_0.wr_idx testbench.core.cache_0.wr_data testbench.core.cache_0.wr_en testbench.core.cache_0.wr_tag testbench.core.icache_to_proc_data testbench.core.icache_to_proc_data_valid }
-
-set _session_group_11 Group4
-gui_sg_create "$_session_group_11"
-set Group4 "$_session_group_11"
-
-gui_sg_addsignal -group "$_session_group_11" { testbench.core.DMEM_0.LSQ_0.lq.lq_num_free_out testbench.core.DMEM_0.LSQ_0.lq.lq_num_free_next testbench.core.DMEM_0.LSQ_0.lq.lq_num_free_out_next testbench.core.DMEM_0.LSQ_0.lq.incoming_cnt testbench.core.DMEM_0.LSQ_0.lq.CDB_valid testbench.core.DMEM_0.LSQ_0.lq.cdb_gnt testbench.core.DMEM_0.LSQ_0.lq.ld_done_reg }
+gui_sg_addsignal -group "$_session_group_2" { testbench.core.DMEM_0.LSQ_0.lq.ld_PRF_idx }
 
 # Global: Highlighting
 
@@ -148,19 +132,19 @@ catch {gui_list_expand -id ${Hier.1} testbench}
 catch {gui_list_expand -id ${Hier.1} testbench.core}
 catch {gui_list_expand -id ${Hier.1} testbench.core.DMEM_0}
 catch {gui_list_expand -id ${Hier.1} testbench.core.DMEM_0.LSQ_0}
-catch {gui_list_select -id ${Hier.1} {testbench.core.DMEM_0.LSQ_0.lq}}
-gui_view_scroll -id ${Hier.1} -vertical -set 187
+catch {gui_list_select -id ${Hier.1} {testbench.core.DMEM_0.LSQ_0.sq}}
+gui_view_scroll -id ${Hier.1} -vertical -set 177
 gui_view_scroll -id ${Hier.1} -horizontal -set 0
 
 # Data 'Data.1'
 gui_list_set_filter -id ${Data.1} -list { {Buffer 1} {Input 1} {Others 1} {Linkage 1} {Output 1} {LowPower 1} {Parameter 1} {All 1} {Aggregate 1} {LibBaseMember 1} {Event 1} {Assertion 1} {Constant 1} {Interface 1} {BaseMembers 1} {Signal 1} {$unit 1} {Inout 1} {Variable 1} }
 gui_list_set_filter -id ${Data.1} -text {*}
-gui_list_show_data -id ${Data.1} {testbench.core.DMEM_0.LSQ_0.lq}
+gui_list_show_data -id ${Data.1} {testbench.core.DMEM_0.LSQ_0.sq}
 gui_show_window -window ${Data.1}
-catch { gui_list_select -id ${Data.1} {testbench.core.DMEM_0.LSQ_0.lq.ld_done_reg }}
-gui_view_scroll -id ${Data.1} -vertical -set 500
+catch { gui_list_select -id ${Data.1} {testbench.core.DMEM_0.LSQ_0.sq.data_valid }}
+gui_view_scroll -id ${Data.1} -vertical -set 0
 gui_view_scroll -id ${Data.1} -horizontal -set 0
-gui_view_scroll -id ${Hier.1} -vertical -set 187
+gui_view_scroll -id ${Hier.1} -vertical -set 177
 gui_view_scroll -id ${Hier.1} -horizontal -set 0
 
 # Source 'Source.1'
@@ -178,8 +162,8 @@ set origWaveHeight [gui_get_pref_value -category Wave -key waveRowHeight]
 gui_list_set_height -id Wave -height 25
 set origGroupCreationState [gui_list_create_group_when_add -wave]
 gui_list_create_group_when_add -wave -disable
-gui_wv_zoom_timerange -id ${Wave.1} 31.6 67.1
-gui_list_add_group -id ${Wave.1} -after {New Group} {Group4}
+gui_wv_zoom_timerange -id ${Wave.1} 5139.9 5175.4
+gui_list_add_group -id ${Wave.1} -after {New Group} {Group1}
 gui_seek_criteria -id ${Wave.1} {Any Edge}
 
 
@@ -195,7 +179,7 @@ if { $groupExD } {
 }
 gui_list_set_filter -id ${Wave.1} -list { {Buffer 1} {Input 1} {Others 1} {Linkage 1} {Output 1} {Parameter 1} {All 1} {Aggregate 1} {LibBaseMember 1} {Event 1} {Assertion 1} {Constant 1} {Interface 1} {BaseMembers 1} {Signal 1} {$unit 1} {Inout 1} {Variable 1} }
 gui_list_set_filter -id ${Wave.1} -text {*}
-gui_list_set_insertion_bar  -id ${Wave.1} -group Group4  -position in
+gui_list_set_insertion_bar  -id ${Wave.1} -group Group1  -position in
 
 gui_view_scroll -id ${Wave.1} -vertical -set 0
 gui_show_grid -id ${Wave.1} -enable false
