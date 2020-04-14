@@ -10,6 +10,8 @@
 
 `timescale 1ns/100ps
 
+`define VISUAL_DEBUGGER
+
 extern void initcurses(int,int,int,int,int,int);
 extern void flushproc();
 extern void waitforresponse();
@@ -219,13 +221,16 @@ mem memory (
 
   always @(negedge clock)
   begin
+      if(reset) begin
+          debug_counter <= `SD 0;
+      end
     if(!reset)
     begin
       `SD;
       `SD;
 
       // deal with any halting conditions
-      if(pipeline_error_status!=NO_ERROR || debug_counter > 500000)
+      if(pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT)
       begin
         #100
         $display("\nDONE\n");
@@ -272,13 +277,37 @@ mem memory (
     // Current register groups (and prefixes) are:
     // f: IF   d: ID   s: RS   o: ROB    r: RAT   v: misc. reg
 
+    // IF signals
+    for(int i = 0; i < `WAYS; i++) begin
+        $display("f%d %d %h %h",
+            i,
+            core.if_packet[i].inst.inst,
+            core.if_packet[i].valid,
+            core.if_packet[i].PC);
+    end
+
+    // ID signals
+    for(int i = 0; i < `WAYS; i++) begin
+        $display("d%d %d %h %h",
+            i,
+            core.id_packet[i].inst.inst,
+            core.id_packet[i].valid,
+            core.id_packet[i].PC);
+    end
+
 
     // ROB signals
+    $display("op %d %d %d",
+        core.Rob.num_free,
+        core.Rob.head,
+        core.Rob.tail);
+
     for(int i = 0; i < `ROB; i++) begin
+        $display("o%d", i);
         $display("o%d %h %h %h %h %h %h %h %h %h %h %h",
             i,
-            core.Rob.entries[i].dest_PRN,
             core.Rob.entries[i].dest_ARN,
+            core.Rob.entries[i].dest_PRN,
             core.Rob.entries[i].reg_write,
             core.Rob.entries[i].is_branch,
             core.Rob.entries[i].PC,
@@ -291,15 +320,43 @@ mem memory (
     end
 
     // RS signals
+    $display("sp %d", core.Rs.num_is_free);
     for(int i = 0; i < `RS; i++) begin
-        $display("s%d %h %h %h %h %h",
+        $display("s%d %d %h %h %h %h %h %h %h",
             i,
             core.Rs.rs_packet_out_hub[i].alu_func,
+            core.Rs.opa_valid_reg[i],
             core.Rs.rs_packet_out_hub[i].rs1_value,
+            core.Rs.opb_valid_reg[i],
             core.Rs.rs_packet_out_hub[i].rs2_value,
             core.Rs.rs_packet_out_hub[i].dest_PRF_idx,
-            core.Rs.rs_packet_out_hub[i].rob_idx);
+            core.Rs.rs_packet_out_hub[i].rob_idx,
+            core.Rs.rs_packet_out_hub[i].PC);
     end
+
+    // RAT and RRAT signals
+    for(int i = 0; i < 32; i++) begin
+        $display("ra%d %h %h",
+            i,
+            core.id_stage_0.rat.RAT_reg_out[i],
+            core.id_stage_0.rat.RRAT_reg_out[i]);
+    end
+    for(int i = 0; i < `PRF; i++) begin
+        $display("r%d %h %h %h %h",
+            i,
+            core.id_stage_0.rat.free_RAT_reg_out[i],
+            core.id_stage_0.rat.valid_RAT_reg_out[i],
+            core.id_stage_0.rat.free_RRAT_reg_out[i],
+            core.id_stage_0.rat.valid_RRAT_reg_out[i]);
+    end
+
+
+    // PRF signals
+    for(int i = 0; i <`PRF; i++) begin
+        $display("p%d %h", i, core.id_stage_0.prf.registers[i]);
+    end
+
+
 /*
     // IF signals (6) - prefix 'f'
     $display("fNPC 8:%h",          pipeline_0.if_packet.NPC);

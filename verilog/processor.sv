@@ -653,13 +653,13 @@ assign rs_num_is_free = num_is_free;
         .reset(reset | except),
         .CDB_Data,
         .CDB_PRF_idx,
-        .CDB_valid,
+        .CDB_valid (CDB_reg_write),
 		
         .opa_valid_in(id_ex_opa_valid),
         .opb_valid_in(id_ex_opb_valid),
         .id_rs_packet_in(id_ex_packet),                            
         .load_in(~(num_free<`WAYS) & ~(num_is_free<`WAYS)),
-			.ALU_occupied (ALU_occupied | lq_CDB_valid),
+		.ALU_occupied (ALU_occupied | lq_CDB_valid),
 
         // output
         .rs_packet_out,

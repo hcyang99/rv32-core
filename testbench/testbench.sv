@@ -249,8 +249,7 @@ module testbench;
 
 			// print the processor stuff via c code to the processor.out
 			for(int i = 0; i < `WAYS; i++) begin
-				int rt = $realtime;
-				print_cycles(rt, clock_count);
+				print_cycles($realtime, clock_count);
 				print_stage(" ", if_IR_out[i], {31'b0,if_valid_inst_out[i]});
 				print_stage("|", id_IR_out[i], {31'b0,id_valid_inst_out[i]});
 				print_valids({31'b0, id_opa_valid[i]}, {31'b0, id_opb_valid[i]});
