@@ -79,7 +79,6 @@ logic [`LSQSZ-1:0]                          lsq_to_dc_rd_gnt;
 
 // feedback from DCache
 logic [`LSQSZ-1:0]                          dc_feedback;
-logic [31:0]                                dc_data;        // from dcache, on the same cycle
 logic [`LSQSZ-1:0]                          mem_feedback;
 logic [31:0]                                mem_data;       // from mem, only overwrites "waiting" entries
 
@@ -135,7 +134,7 @@ LSQ LSQ_0(
     .ld_PRF_idx(ld_PRF_idx),
 
     .dc_feedback(dc_feedback),
-    .dc_data(dc_data),
+    .dc_data(dc_to_lsq_rd_data),
     .mem_feedback(mem_feedback),
     .mem_data(mem_data),
 

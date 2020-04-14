@@ -120,7 +120,7 @@ wire q2_empty;
 wire [`LSQSZ-1:0] q2_tail_next;
 
 assign q2_empty = q2_head_reg == q2_tail_reg;
-assign q2_incoming = q1_head_is_wr_reg | q1_head_is_rd_reg;
+assign q2_incoming = q1_head_is_rd_reg;
 assign q2_head_tmp = q2_head_mem_response ? {q2_head_reg[`LSQSZ-2:0], q2_head_reg[`LSQSZ-1]} : q2_head_reg;
 assign q2_head_next = q2_empty ? q2_head_reg : q2_head_tmp;
 assign q2_tail_next = q2_incoming ? {q2_tail_reg[`LSQSZ-2:0], q2_tail_reg[`LSQSZ-1]} : q2_tail_reg;
@@ -195,10 +195,14 @@ always_ff @(posedge clock) begin
 end
 
 // new entries
-wire [2:0] [2:0] insert_pos;
-assign insert_pos[0] = {2'b0, wb_en_in | wr_en_in | rd_en_in};
-assign insert_pos[1] = wb_en_in ? {1'b0, wr_en_in | rd_en_in, 1'b0} : {2'b0, wr_en_in | rd_en_in};
-assign insert_pos[2] = {wb_en_in & wr_en_in & rd_en_in, 2'b0};
+wor [2:0] [2:0] insert_pos;    // [incoming idx] [new reg idx] 
+assign insert_pos[0] = {2'b0, wb_en_in};
+
+assign insert_pos[1] = wb_en_in ? {1'b0, wr_en_in, 1'b0} : {2'b0, wr_en_in};
+
+assign insert_pos[2] = (wb_en_in | wr_en_in) ?
+                    ((wb_en_in & wr_en_in) ? {rd_en_in, 2'b0} : {1'b0, rd_en_in, 1'b0}) 
+                    : {2'b0, rd_en_in};
 
 wire [2:0] valid_new_in;
 wire [2:0] [15:0] addr_new_in;
@@ -210,7 +214,7 @@ wire [2:0] [63:0] data_new_in;
 assign valid_new_in = {rd_en_in, wr_en_in, wb_en_in};
 assign addr_new_in = {rd_addr_in, wr_addr_in, wb_addr_in};
 assign is_wr_new_in = {1'b0, wr_en_in, wb_en_in};
-assign is_rd_new_in = {rd_addr_in, 2'b0};
+assign is_rd_new_in = {rd_en_in, 2'b0};
 assign sz_new_in = {rd_size_in, wr_size_in, DOUBLE};
 assign rd_gnt_new_in = {rd_gnt_in, `LSQSZ'b0, `LSQSZ'b0};
 assign data_new_in = {64'b0, wr_data_in, wb_data_in};
@@ -224,8 +228,8 @@ wor [2:0] [`LSQSZ-1:0] rd_gnt_new_next;
 wor [2:0] [63:0] data_new_next;
 
 for (gi = 0; gi < 3; ++gi) begin
-    for (gj = 0; gj < 3; ++gj) begin
-        assign valid_new_next[gj] = insert_pos[gi][gj];
+    for (gj = 0; gj < 3; ++gj) begin 
+        assign valid_new_next[gj] = insert_pos[gi][gj]; // [incoming idx] [new reg idx]
         assign addr_new_next[gj] = insert_pos[gi][gj] ? addr_new_in[gi] : 0;
         assign is_wr_new_next[gj] = insert_pos[gi][gj] ? is_wr_new_in[gi] : 0;
         assign is_rd_new_next[gj] = insert_pos[gi][gj] ? (is_rd_new_in[gi] & ~except) : 0;
@@ -325,12 +329,14 @@ always_ff @(posedge clock) begin
         is_rd_q1_reg <= 0;
         sz_q1_reg <= 0;
         rd_gnt_q1_reg <= 0;
+        data_q1_reg <= 0;
 
         q1_head_addr_reg <= 0;
         q1_head_is_wr_reg <= 0;
         q1_head_is_rd_reg <= 0;
         q1_head_sz_reg <= 0;
         q1_head_rd_gnt_reg <= 0;
+        q1_head_data_reg <= 0;
 
         q1_head_reg <= {{(WIDTH-1){1'b0}}, 1'b1};
         q1_tail_reg <= {{(WIDTH-1){1'b0}}, 1'b1};
@@ -341,12 +347,14 @@ always_ff @(posedge clock) begin
         is_rd_q1_reg <= is_rd_q1_next;
         sz_q1_reg <= sz_q1_next;
         rd_gnt_q1_reg <= rd_gnt_q1_next;
+        data_q1_reg <= data_q1_next;
 
         q1_head_addr_reg <= q1_head_addr_next;
         q1_head_is_wr_reg <= q1_head_is_wr_next;
         q1_head_is_rd_reg <= q1_head_is_rd_next;
         q1_head_sz_reg <= q1_head_sz_next;
         q1_head_rd_gnt_reg <= q1_head_rd_gnt_next;
+        q1_head_data_reg <= q1_head_data_next;
 
         q1_head_reg <= q1_head_next;
         q1_tail_reg <= q1_tail_next;

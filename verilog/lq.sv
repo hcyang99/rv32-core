@@ -6,7 +6,7 @@ module LQ(
     input                                       except,
 
     // SQ
-    input [`LSQSZ-1:0] [1:0]                store_sz,
+    input [`LSQSZ-1:0] [1:0]                    store_sz,
     input [`LSQSZ-1:0] [15:0]                   store_addr,
     input [`LSQSZ-1:0] [31:0]                   store_data,
     input [`LSQSZ-1:0]                          store_addr_valid,
@@ -14,7 +14,7 @@ module LQ(
     input [$clog2(`LSQSZ)-1:0]                  sq_head,
 
     // issue
-    input [`WAYS-1:0] [1:0]                 ld_size,
+    input [`WAYS-1:0] [1:0]                     ld_size,
     input [`WAYS-1:0]                           ld_en,
     input [`WAYS-1:0] [$clog2(`ROB)-1:0]        ld_ROB_idx,
     input [`WAYS-1:0] [$clog2(`PRF)-1:0]        ld_PRF_idx,
@@ -211,11 +211,18 @@ lq_wand_sel sel [`LSQSZ-1:0] (
     .gnt(ls_addr_block_hit_selected)
 );
 
+wor [`LSQSZ-1:0] ld_done_next;
+wor [`LSQSZ-1:0] ld_waiting_next;
+wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old_next;
+wor [`LSQSZ-1:0] [31:0] ld_data_next;
+wire [`LSQSZ-1:0] mem_load_in;
+wire dc_miss;
+
 // check if can forward, can goto mem, should wait
 assign ls_addr_forward_wire = ls_addr_block_hit_selected & ls_addr_all_hit_msk_all;
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
-        assign ls_addr_ready_to_load_wire[gi] = (ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]);
+        assign ls_addr_ready_to_load_wire[gi] = (ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]) & (~ld_waiting_next[gi]);
         assign ls_addr_stall_wire[gi] = (ls_addr_block_hit_selected[gi] & ~(ls_addr_all_hit_msk_all[gi])) != 0;
         assign ls_addr_stall_wire[gi] = (ls_addr_block_hit_selected[gi] & ~(store_addr_valid[gi])) != 0;
     end
@@ -289,12 +296,7 @@ wire [`LSQSZ-1:0] ld_addr_ready_next;
 wire [`LSQSZ-1:0] [$clog2(`ROB)-1:0] ld_ROB_idx_next;
 wire [`LSQSZ-1:0] [$clog2(`PRF)-1:0] ld_PRF_idx_next;
 
-wor [`LSQSZ-1:0] ld_done_next;
-wor [`LSQSZ-1:0] ld_waiting_next;
-wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old_next;
-wor [`LSQSZ-1:0] [31:0] ld_data_next;
-wire [`LSQSZ-1:0] mem_load_in;
-wire dc_miss;
+
 
 assign dc_miss = dc_feedback == 0;
 
@@ -319,8 +321,8 @@ generate;
             (ld_en_in_bus[gi] ? sq_tail_in_bus[gi] : 0) : sq_tail_old[gi];
         
         assign ld_data_next[gi] = cdb_gnt[gi] ? 0 : ld_data_reg[gi];    // zero bcasted
-        assign ld_data_next[gi] = dc_feedback[gi] ? dc_data[gi] : 0;    // read from DCache
-        assign ld_data_next[gi] = (mem_feedback[gi] & ld_waiting_reg[gi]) ? mem_data[gi] : 0;   // from mem
+        assign ld_data_next[gi] = dc_feedback[gi] ? dc_data : 0;    // read from DCache
+        assign ld_data_next[gi] = (mem_feedback[gi] & ld_waiting_reg[gi]) ? mem_data : 0;   // from mem
         // forwarding
         for (gj = 0; gj < `LSQSZ; ++gj) begin
             assign ld_data_next[gi] = ls_addr_forward_wire[gi][gj] ? store_data[gj] : 0;
