@@ -123,8 +123,8 @@ module store_queue(
     generate;
         for (gi = 0; gi < `WAYS; ++gi) begin
             for (gj = 0; gj < `LSQSZ; ++gj) begin
-                assign CDB_hit[gi][gj] = valid_reg[gi] & CDB_valid[gi] & CDB_PRF_idx[gi] == data_reg[gj] & (~data_valid_reg[gj]);
-                assign ALU_hit[gi][gj] = valid_reg[gi] & ALU_is_valid[gi] & ALU_ROB_idx[gi] == ROB_idx_reg[gj] & (~addr_valid_reg[gj]);
+                assign CDB_hit[gi][gj] = valid_reg[gj] & CDB_valid[gi] & CDB_PRF_idx[gi] == data_reg[gj] & (~data_valid_reg[gj]);
+                assign ALU_hit[gi][gj] = valid_reg[gj] & ALU_is_valid[gi] & ALU_ROB_idx[gi] == ROB_idx_reg[gj] & (~addr_valid_reg[gj]);
             end
         end
     endgenerate
@@ -299,10 +299,10 @@ module store_queue(
     end
 
     // output to dcache
-    assign write_en = sq_head_valid_reg;
-    assign write_addr = sq_head_addr_reg;
-    assign write_data = sq_head_data_reg;
-    assign write_size = sq_head_size_reg;
+    assign write_en = commit ? sq_head_valid_reg : 0;
+    assign write_addr = commit ? sq_head_addr_reg : 0;
+    assign write_data = commit ? sq_head_data_reg : 0;
+    assign write_size = commit ? sq_head_size_reg : 0;
 
 
     // num free
