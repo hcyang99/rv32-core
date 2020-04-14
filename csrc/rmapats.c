@@ -34,7 +34,7 @@ void  hsG_0__0 (struct dummyq_struct * I1253, EBLK  * I1247, U  I675)
         sched_hsopt(pQ, I1247, I1506);
     }
 }
-void  hs_0_M_52_0__dve_daidir (UB  * pcode, vec32  * I987, U  I900)
+void  hs_0_M_51_0__simv_daidir (UB  * pcode, vec32  * I987, U  I900)
 {
     UB  * I1570;
     typedef
@@ -94,7 +94,7 @@ void  hs_0_M_52_0__dve_daidir (UB  * pcode, vec32  * I987, U  I900)
         }
     }
 }
-void  hs_0_M_52_9__dve_daidir (UB  * pcode, vec32  * I987)
+void  hs_0_M_51_9__simv_daidir (UB  * pcode, vec32  * I987)
 {
     U  I900;
     I900 = *(U  *)((pcode + 0) - sizeof(RP ));
@@ -167,7 +167,7 @@ void  hs_0_M_52_9__dve_daidir (UB  * pcode, vec32  * I987)
     pcode = (UB  *)((((RP )pcode + 0) + 7) & (~7));
     ((FPV )(((RmaIbfIp  *)(pcode + 0))->I986))((void *)((RmaIbfIp  *)(pcode + 0))->I718, (UB  *)I987);
 }
-void  hs_0_M_53_0__dve_daidir (UB  * pcode, vec32  * I987, U  I900)
+void  hs_0_M_52_0__simv_daidir (UB  * pcode, vec32  * I987, U  I900)
 {
     UB  * I1570;
     typedef
@@ -227,7 +227,7 @@ void  hs_0_M_53_0__dve_daidir (UB  * pcode, vec32  * I987, U  I900)
         }
     }
 }
-void  hs_0_M_53_9__dve_daidir (UB  * pcode, vec32  * I987)
+void  hs_0_M_52_9__simv_daidir (UB  * pcode, vec32  * I987)
 {
     U  I900;
     I900 = *(U  *)((pcode + 0) - sizeof(RP ));
@@ -299,7 +299,7 @@ void  hs_0_M_53_9__dve_daidir (UB  * pcode, vec32  * I987)
     pcode = (UB  *)((((RP )pcode + 0) + 7) & (~7));
     ((FPV )(((RmaIbfIp  *)(pcode + 0))->I986))((void *)((RmaIbfIp  *)(pcode + 0))->I718, (UB  *)I987);
 }
-void  hs_0_M_90_0__dve_daidir (UB  * pcode, vec32  * I987, U  I900)
+void  hs_0_M_89_0__simv_daidir (UB  * pcode, vec32  * I987, U  I900)
 {
     UB  * I1570;
     typedef
@@ -359,7 +359,7 @@ void  hs_0_M_90_0__dve_daidir (UB  * pcode, vec32  * I987, U  I900)
         }
     }
 }
-void  hs_0_M_90_9__dve_daidir (UB  * pcode, vec32  * I987)
+void  hs_0_M_89_9__simv_daidir (UB  * pcode, vec32  * I987)
 {
     U  I900;
     I900 = *(U  *)((pcode + 0) - sizeof(RP ));
@@ -432,7 +432,7 @@ void  hs_0_M_90_9__dve_daidir (UB  * pcode, vec32  * I987)
     pcode = (UB  *)((((RP )pcode + 0) + 7) & (~7));
     ((FPV )(((RmaIbfIp  *)(pcode + 0))->I986))((void *)((RmaIbfIp  *)(pcode + 0))->I718, (UB  *)I987);
 }
-void  hs_0_M_91_0__dve_daidir (UB  * pcode, vec32  * I987, U  I900)
+void  hs_0_M_90_0__simv_daidir (UB  * pcode, vec32  * I987, U  I900)
 {
     UB  * I1570;
     typedef
@@ -492,7 +492,7 @@ void  hs_0_M_91_0__dve_daidir (UB  * pcode, vec32  * I987, U  I900)
         }
     }
 }
-void  hs_0_M_91_9__dve_daidir (UB  * pcode, vec32  * I987)
+void  hs_0_M_90_9__simv_daidir (UB  * pcode, vec32  * I987)
 {
     U  I900;
     I900 = *(U  *)((pcode + 0) - sizeof(RP ));

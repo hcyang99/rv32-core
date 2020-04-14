@@ -5,53 +5,11 @@
         "module",
         1
     ],
-    "arbiter_rr_0000": [
-        "arbiter_rr_0000",
-        "Tjq5i",
-        "module",
-        5
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
-    "mem": [
-        "mem",
-        "FSbWZ",
-        "module",
-        3
-    ],
     "ex_stage_0000": [
         "ex_stage_0000",
         "tmdK7",
         "module",
         12
-    ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
-        "module",
-        23
-    ],
-    "alu": [
-        "alu",
-        "C26kq",
-        "module",
-        10
-    ],
-    "dcache_0000": [
-        "dcache_0000",
-        "Nmdq6",
-        "module",
-        8
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
     ],
     "wand_sel_0001": [
         "wand_sel_0001",
@@ -59,17 +17,83 @@
         "module",
         25
     ],
-    "dcache_ctrl_0000": [
-        "dcache_ctrl_0000",
-        "j2LDI",
+    "wand_sel_0000": [
+        "wand_sel_0000",
+        "hckDL",
         "module",
-        7
+        24
+    ],
+    "testbench": [
+        "testbench",
+        "iAVhC",
+        "module",
+        4
+    ],
+    "std": [
+        "std",
+        "reYIK",
+        "module",
+        2
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        26
     ],
     "ar_wand_sel_0000": [
         "ar_wand_sel_0000",
         "sYgZs",
         "module",
         6
+    ],
+    "mem": [
+        "mem",
+        "FSbWZ",
+        "module",
+        3
+    ],
+    "lq_wand_sel_0000": [
+        "lq_wand_sel_0000",
+        "RCLGV",
+        "module",
+        15
+    ],
+    "decoder": [
+        "decoder",
+        "zf0bY",
+        "module",
+        13
+    ],
+    "arbiter_rr_0000": [
+        "arbiter_rr_0000",
+        "Tjq5i",
+        "module",
+        5
+    ],
+    "dcache_ctrl_0000": [
+        "dcache_ctrl_0000",
+        "j2LDI",
+        "module",
+        7
+    ],
+    "dcache_0000": [
+        "dcache_0000",
+        "Nmdq6",
+        "module",
+        8
+    ],
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
+        "module",
+        23
+    ],
+    "rob": [
+        "rob",
+        "vtxDx",
+        "module",
+        18
     ],
     "DMEM_0000": [
         "DMEM_0000",
@@ -83,23 +107,17 @@
         "module",
         11
     ],
-    "...MASTER...": [
-        "SIM",
-        "amcQw",
+    "RS_0000": [
+        "RS_0000",
+        "vG3v3",
         "module",
-        26
+        20
     ],
-    "decoder": [
-        "decoder",
-        "zf0bY",
+    "alu": [
+        "alu",
+        "C26kq",
         "module",
-        13
-    ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        22
+        10
     ],
     "lq_ps_in_0000": [
         "lq_ps_in_0000",
@@ -107,23 +125,11 @@
         "module",
         14
     ],
-    "lq_wand_sel_0000": [
-        "lq_wand_sel_0000",
-        "RCLGV",
-        "module",
-        15
-    ],
     "mult_stage": [
         "mult_stage",
         "aUVMg",
         "module",
         16
-    ],
-    "store_queue_0000": [
-        "store_queue_0000",
-        "fNfNe",
-        "module",
-        21
     ],
     "processor_0000": [
         "processor_0000",
@@ -131,11 +137,11 @@
         "module",
         17
     ],
-    "rob": [
-        "rob",
-        "vtxDx",
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
         "module",
-        18
+        22
     ],
     "RS_Line_0000": [
         "RS_Line_0000",
@@ -143,16 +149,10 @@
         "module",
         19
     ],
-    "RS_0000": [
-        "RS_0000",
-        "vG3v3",
+    "store_queue_0000": [
+        "store_queue_0000",
+        "fNfNe",
         "module",
-        20
-    ],
-    "wand_sel_0000": [
-        "wand_sel_0000",
-        "hckDL",
-        "module",
-        24
+        21
     ]
 }
