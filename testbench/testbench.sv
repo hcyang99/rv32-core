@@ -227,7 +227,7 @@ module testbench;
 	// Count the number of posedges and number of instructions completed
 	// till simulation ends
 	always @(posedge clock) begin
-	$display("time: %4.0f",$time);
+//	$display("time: %4.0f",$time);
 		if(reset) begin
 	//		$display("@@ %t : System at reset", $realtime); // FOR DEBUG
 			clock_count <= `SD 0;
@@ -304,7 +304,7 @@ module testbench;
 				show_clk_count(pipeline_completed_insts);
 //				print_close(); // close the pipe_print output file
 				$fclose(wb_fileno);
-				#100 $finish;
+				#500 $finish;
 			end
 
             debug_counter <= debug_counter + 1;
@@ -318,8 +318,8 @@ module testbench;
 
         clock = 1'b0;
         reset = 1'b1;
-	$monitor("time: %4.0f if_valid_inst_out: %b id_valid_inst_out: %b id_IR_out[0]: %h rs_valid_inst_out:%b ex_valid_inst_out: %b",
-	$time,if_valid_inst_out,id_valid_inst_out,id_IR_out[0],rs_valid_inst_out,ex_valid_inst_out);
+//	$monitor("time: %4.0f if_valid_inst_out: %b id_valid_inst_out: %b id_IR_out[0]: %h rs_valid_inst_out:%b ex_valid_inst_out: %b",
+//	$time,if_valid_inst_out,id_valid_inst_out,id_IR_out[0],rs_valid_inst_out,ex_valid_inst_out);
         $display("@@\n@@\n@@  %t  Asserting System reset......", $realtime);
         reset = 1'b1;
 		@(posedge clock);
