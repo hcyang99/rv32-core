@@ -224,8 +224,7 @@ always_ff @(posedge clock) begin
             if(CDB_valid[i] && entries[CDB_ROB_idx[i]]!=0) begin
                 //$display("ROB idx%d now done!", CDB_ROB_idx[i]);
                 entries[CDB_ROB_idx[i]].done             <= `SD 1'b1;
-                entries[CDB_ROB_idx[i]].mispredicted     <= `SD entries[CDB_ROB_idx[i]].is_branch && (CDB_target[i]!=entries[CDB_ROB_idx[i]].target);              // entries[CDB_ROB_idx[i]].mispredicted     <= `SD
-            //   entries[CDB_ROB_idx[i]].is_branch && 
+                entries[CDB_ROB_idx[i]].mispredicted     <= `SD entries[CDB_ROB_idx[i]].is_branch && (CDB_target[i]!=entries[CDB_ROB_idx[i]].target);            //   entries[CDB_ROB_idx[i]].is_branch && 
          //           (entries[CDB_ROB_idx[i]].branch_direction != CDB_direction[i]) ||
         //            (CDB_direction[i] == 1 && entries[CDB_ROB_idx[i]].target != CDB_target[i]);
                 entries[CDB_ROB_idx[i]].branch_direction <= `SD CDB_direction[i];
