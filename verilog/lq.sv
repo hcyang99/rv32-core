@@ -227,7 +227,8 @@ wire dc_miss;
 assign ls_addr_forward_wire = ls_addr_block_hit_selected & ls_addr_all_hit_msk_all;
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
-        assign ls_addr_ready_to_load_wire[gi] = (ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]) & (~ld_waiting_next[gi]);
+        assign ls_addr_ready_to_load_wire[gi] = (ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]) 
+            & (~ld_waiting_next[gi]) & ld_addr_ready_reg[gi];
         assign ls_addr_stall_wire[gi] = (ls_addr_block_hit_selected[gi] & ~(ls_addr_all_hit_msk_all[gi])) != 0;
         assign ls_addr_stall_wire[gi] = (ls_addr_block_hit_selected[gi] & ~(store_addr_valid[gi])) != 0;
     end
