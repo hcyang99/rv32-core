@@ -10,19 +10,19 @@ module dcache_ctrl(
     input                       wb_en_in,
     input [15:0]                wb_addr_in,
     input [63:0]                wb_data_in,
-    input [1:0]             wb_size_in,
+    input [1:0]                 wb_size_in,
 
     // write directly to mem on wr miss
     input                       wr_en_in,
     input [15:0]                wr_addr_in,
     input [63:0]                wr_data_in,
-    input [1:0]             wr_size_in,
+    input [1:0]                 wr_size_in,
 
     // read from mem on rd miss
     input                       rd_en_in,
     input [15:0]                rd_addr_in,
     input [`LSQSZ-1:0]          rd_gnt_in,
-    input [1:0]             rd_size_in, // used for lsq feedback only, always ask for DOUBLE from mem
+    input [1:0]                 rd_size_in, // used for lsq feedback only, always ask for DOUBLE from mem
 
     // from mem
     input [3:0]                 mem2proc_response,// 0 = can't accept, other=tag of transaction
@@ -32,7 +32,7 @@ module dcache_ctrl(
     // to mem
     output wor [1:0]            Dmem_command, 
     output logic [15:0]         Dmem_addr,
-    output wor [1:0]        Dmem_size,
+    output wor [1:0]            Dmem_size,
     output wire [63:0]          Dmem_data,
 
     // feedback to lsq
@@ -93,7 +93,7 @@ reg [`LSQSZ-1:0] q2_tail_reg;
 
 
 wire q2_head_mem_response;
-assign q2_head_mem_response = q2_head_mem_tag_reg == mem2proc_tag & q2_head_is_rd_reg;
+assign q2_head_mem_response = (q2_head_mem_tag_reg == mem2proc_tag) & q2_head_is_rd_reg;
 
 genvar gi, gj;
 

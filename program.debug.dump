@@ -4,25 +4,156 @@ program.debug.elf:     file format elf32-littleriscv
 
 Disassembly of section .text:
 
-00000000 <.text>:
-   0:	00000013          	addi	x0,x0,0
-   4:	00000513          	addi	x10,x0,0
-   8:	000035b7          	lui	x11,0x3
-   c:	01a58593          	addi	x11,x11,26 # 301a <_ebss+0x2f7a>
-  10:	15600613          	addi	x12,x0,342
-  14:	00001137          	lui	x2,0x1
-  18:	80010113          	addi	x2,x2,-2048 # 800 <_ebss+0x760>
-  1c:	00b12023          	sw	x11,0(x2)
-  20:	00410113          	addi	x2,x2,4
-  24:	00a60533          	add	x10,x12,x10
-  28:	00b60533          	add	x10,x12,x11
-  2c:	00a12023          	sw	x10,0(x2)
-  30:	ff010113          	addi	x2,x2,-16
-  34:	00012503          	lw	x10,0(x2)
-  38:	40a60533          	sub	x10,x12,x10
-  3c:	00000013          	addi	x0,x0,0
-  40:	00000013          	addi	x0,x0,0
-  44:	10500073          	wfi
+00000000 <start-0x130>:
+   0:	1300006f          	jal	x0,130 <start>
+   4:	00000013          	addi	x0,x0,0
+   8:	00000003          	lb	x0,0(x0) # 0 <start-0x130>
+   c:	0000                	c.unimp
+   e:	0000                	c.unimp
+  10:	0001                	c.addi	x0,0
+  12:	0000                	c.unimp
+  14:	0000                	c.unimp
+  16:	0000                	c.unimp
+  18:	0004                	0x4
+  1a:	0000                	c.unimp
+  1c:	0000                	c.unimp
+  1e:	0000                	c.unimp
+  20:	0001                	c.addi	x0,0
+  22:	0000                	c.unimp
+  24:	0000                	c.unimp
+  26:	0000                	c.unimp
+  28:	0005                	c.addi	x0,1
+  2a:	0000                	c.unimp
+  2c:	0000                	c.unimp
+  2e:	0000                	c.unimp
+  30:	0009                	c.addi	x0,2
+  32:	0000                	c.unimp
+  34:	0000                	c.unimp
+  36:	0000                	c.unimp
+  38:	0002                	c.slli64	x0
+  3a:	0000                	c.unimp
+  3c:	0000                	c.unimp
+  3e:	0000                	c.unimp
+  40:	0006                	c.slli	x0,0x1
+  42:	0000                	c.unimp
+  44:	0000                	c.unimp
+  46:	0000                	c.unimp
+  48:	0005                	c.addi	x0,1
+  4a:	0000                	c.unimp
+  4c:	0000                	c.unimp
+  4e:	0000                	c.unimp
+  50:	00000003          	lb	x0,0(x0) # 0 <start-0x130>
+  54:	0000                	c.unimp
+  56:	0000                	c.unimp
+  58:	0005                	c.addi	x0,1
+  5a:	0000                	c.unimp
+  5c:	0000                	c.unimp
+  5e:	0000                	c.unimp
+  60:	0008                	0x8
+  62:	0000                	c.unimp
+  64:	0000                	c.unimp
+  66:	0000                	c.unimp
+  68:	0009                	c.addi	x0,2
+  6a:	0000                	c.unimp
+  6c:	0000                	c.unimp
+  6e:	0000                	c.unimp
+  70:	00000007          	0x7
+  74:	0000                	c.unimp
+  76:	0000                	c.unimp
+  78:	0009                	c.addi	x0,2
+  7a:	0000                	c.unimp
+  7c:	0000                	c.unimp
+  7e:	0000                	c.unimp
+  80:	00000003          	lb	x0,0(x0) # 0 <start-0x130>
+  84:	0000                	c.unimp
+  86:	0000                	c.unimp
+  88:	0002                	c.slli64	x0
+  8a:	0000                	c.unimp
+  8c:	0000                	c.unimp
+  8e:	0000                	c.unimp
+  90:	00000003          	lb	x0,0(x0) # 0 <start-0x130>
+  94:	0000                	c.unimp
+  96:	0000                	c.unimp
+  98:	0001                	c.addi	x0,0
+  9a:	0000                	c.unimp
+  9c:	0000                	c.unimp
+  9e:	0000                	c.unimp
+  a0:	0004                	0x4
+  a2:	0000                	c.unimp
+  a4:	0000                	c.unimp
+  a6:	0000                	c.unimp
+  a8:	0001                	c.addi	x0,0
+  aa:	0000                	c.unimp
+  ac:	0000                	c.unimp
+  ae:	0000                	c.unimp
+  b0:	0004                	0x4
+  b2:	0000                	c.unimp
+  b4:	0000                	c.unimp
+  b6:	0000                	c.unimp
+  b8:	0002                	c.slli64	x0
+  ba:	0000                	c.unimp
+  bc:	0000                	c.unimp
+  be:	0000                	c.unimp
+  c0:	0001                	c.addi	x0,0
+  c2:	0000                	c.unimp
+  c4:	0000                	c.unimp
+  c6:	0000                	c.unimp
+  c8:	00000003          	lb	x0,0(x0) # 0 <start-0x130>
+  cc:	0000                	c.unimp
+  ce:	0000                	c.unimp
+  d0:	0005                	c.addi	x0,1
+  d2:	0000                	c.unimp
+  d4:	0000                	c.unimp
+  d6:	0000                	c.unimp
+  d8:	0006                	c.slli	x0,0x1
+  da:	0000                	c.unimp
+  dc:	0000                	c.unimp
+  de:	0000                	c.unimp
+  e0:	0002                	c.slli64	x0
+  e2:	0000                	c.unimp
+  e4:	0000                	c.unimp
+  e6:	0000                	c.unimp
+  e8:	00000003          	lb	x0,0(x0) # 0 <start-0x130>
+  ec:	0000                	c.unimp
+  ee:	0000                	c.unimp
+  f0:	00000007          	0x7
+  f4:	0000                	c.unimp
+  f6:	0000                	c.unimp
+  f8:	00000003          	lb	x0,0(x0) # 0 <start-0x130>
+	...
+ 108:	0009                	c.addi	x0,2
+ 10a:	0000                	c.unimp
+ 10c:	0000                	c.unimp
+ 10e:	0000                	c.unimp
+ 110:	0005                	c.addi	x0,1
+	...
+ 11e:	0000                	c.unimp
+ 120:	0004                	0x4
+ 122:	0000                	c.unimp
+ 124:	0000                	c.unimp
+ 126:	0000                	c.unimp
+ 128:	00000013          	addi	x0,x0,0
+ 12c:	00000013          	addi	x0,x0,0
+
+00000130 <start>:
+ 130:	00000313          	addi	x6,x0,0
+ 134:	000023b7          	lui	x7,0x2
+ 138:	70f38393          	addi	x7,x7,1807 # 270f <_ebss+0x254f>
+ 13c:	00800093          	addi	x1,x0,8
+ 140:	09800113          	addi	x2,x0,152
+
+00000144 <loop>:
+ 144:	0000a183          	lw	x3,0(x1)
+ 148:	027181b3          	mul	x3,x3,x7
+ 14c:	00012203          	lw	x4,0(x2)
+ 150:	003201b3          	add	x3,x4,x3
+ 154:	00312023          	sw	x3,0(x2)
+ 158:	00808093          	addi	x1,x1,8
+ 15c:	00810113          	addi	x2,x2,8
+ 160:	00130313          	addi	x6,x6,1
+ 164:	01233293          	sltiu	x5,x6,18
+ 168:	fc029ee3          	bne	x5,x0,144 <loop>
+ 16c:	10500073          	wfi
 	...
 
 Disassembly of section .riscv.attributes:
@@ -32,7 +163,7 @@ Disassembly of section .riscv.attributes:
    2:	0000                	c.unimp
    4:	7200                	c.flw	f8,32(x12)
    6:	7369                	c.lui	x6,0xffffa
-   8:	01007663          	bgeu	x0,x16,14 <_ebss-0x8c>
+   8:	01007663          	bgeu	x0,x16,14 <start-0x11c>
    c:	0014                	0x14
    e:	0000                	c.unimp
   10:	7205                	c.lui	x4,0xfffe1

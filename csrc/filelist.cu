@@ -1,16 +1,16 @@
 PIC_LD=ld
 
 ARCHIVE_OBJS=
-ARCHIVE_OBJS += _20140_archive_1.so
-_20140_archive_1.so : archive.2/_20140_archive_1.a
+ARCHIVE_OBJS += _29115_archive_1.so
+_29115_archive_1.so : archive.3/_29115_archive_1.a
 	@$(AR) -s $<
-	@$(PIC_LD) -shared  -o .//../dve.daidir//_20140_archive_1.so --whole-archive $< --no-whole-archive
+	@$(PIC_LD) -shared  -o .//../dve.daidir//_29115_archive_1.so --whole-archive $< --no-whole-archive
 	@rm -f $@
-	@ln -sf .//../dve.daidir//_20140_archive_1.so $@
+	@ln -sf .//../dve.daidir//_29115_archive_1.so $@
 
 
 ARCHIVE_OBJS += _prev_archive_1.so
-_prev_archive_1.so : archive.2/_prev_archive_1.a
+_prev_archive_1.so : archive.3/_prev_archive_1.a
 	@$(AR) -s $<
 	@$(PIC_LD) -shared  -o .//../dve.daidir//_prev_archive_1.so --whole-archive $< --no-whole-archive
 	@rm -f $@
