@@ -144,7 +144,7 @@ module store_queue(
         end
     endgenerate
 
-    wor [`LSQSZ-1:0] [1:0]                        size_next;
+    wor [`LSQSZ-1:0] [1:0]                          size_next;
     wor [`LSQSZ-1:0] [31:0]                           data_next;
     wor [`LSQSZ-1:0]                                  data_valid_next;
     wor [`LSQSZ-1:0] [$clog2(`ROB)-1:0]               ROB_idx_next;
@@ -152,17 +152,34 @@ module store_queue(
     wor [`LSQSZ-1:0]                                  addr_valid_next;
     wor [`LSQSZ-1:0]                                  valid_next;
 
-    // clear invalid inputs
-    wire [`WAYS-1:0] [1:0]                     size_tmp;
-    wire [`WAYS-1:0] [31:0]                        data_tmp;
-    wire [`WAYS-1:0]                               data_valid_tmp;
+    // clear invalid inputs, do forwarding
+    wire [`WAYS-1:0] [1:0]                         size_tmp;
+    wor [`WAYS-1:0] [31:0]                        data_tmp;
+    wor [`WAYS-1:0]                               data_valid_tmp;
     wire [`WAYS-1:0] [$clog2(`ROB)-1:0]            ROB_idx_tmp;
+    wire [`WAYS-1:0] [`WAYS-1:0]                    CDB_new_hit; // [new idx] [CDB idx]
+    wire [`WAYS-1:0]                                new_hold;
     generate;
         for (gi = 0; gi < `WAYS; ++gi) begin
+            for (gj = 0; gj < `WAYS; ++gj) begin
+                assign CDB_new_hit[gi][gj] = CDB_valid[gj] & enable[gi] & ~data_valid[gi] &
+                    (data[gi] == CDB_PRF_idx[gj]);
+            end
+        end
+
+        for (gi = 0; gi < `WAYS; ++gi) begin
+            assign new_hold[gi] = enable[gi] & (CDB_new_hit[gi] == 0);
             assign size_tmp[gi] = enable[gi] ? size[gi] : 0;
-            assign data_tmp[gi] = enable[gi] ? data[gi] : 0;
-            assign data_valid_tmp[gi] = enable[gi] ? data_valid[gi] : 0;
+            assign data_tmp[gi] = new_hold[gi] ? data[gi] : 0;
+            assign data_valid_tmp[gi] = new_hold[gi] ? data_valid[gi] : 0;
             assign ROB_idx_tmp[gi] = enable[gi] ? ROB_idx[gi] : 0;
+        end
+
+        for (gi = 0; gi < `WAYS; ++gi) begin
+            for (gj = 0; gj < `WAYS; ++gj) begin
+                assign data_tmp[gi] = CDB_new_hit[gi][gj] ? CDB_Data[gj] : 0;
+                assign data_valid_tmp[gi] = CDB_new_hit[gi][gj];
+            end
         end
     endgenerate
 
