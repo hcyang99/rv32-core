@@ -1,7 +1,7 @@
 rc file Version 1.0
 
 [Design]
-COMPILE_PATH=/afs/umich.edu/user/h/c/hcyang/Videos/group7w20
+COMPILE_PATH=/afs/umich.edu/user/s/u/sunsusan/Desktop/group7w20
 SystemC=FALSE
 UUM=FALSE
 KDB=FALSE
