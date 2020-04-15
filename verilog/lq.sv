@@ -58,7 +58,6 @@ reg [`LSQSZ-1:0] [$clog2(`PRF)-1:0] ld_PRF_idx_reg;
 reg [`LSQSZ-1:0] ld_free;
 reg [`LSQSZ-1:0] ld_addr_ready_reg;
 reg [`LSQSZ-1:0] [15:0] ld_addr_reg;
-reg [`LSQSZ-1:0] ld_done_reg;       // data loaded/forwarded, ready for CDB bcast
 reg [`LSQSZ-1:0] ld_waiting_reg;    // cache miss, waiting for mem
 reg [`LSQSZ-1:0] ld_is_signed_reg;
 reg [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old;
@@ -75,6 +74,7 @@ wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_in_bus;
 
 wor [`LSQSZ-1:0] [15:0] ld_addr_wire;
 wor [`LSQSZ-1:0] ld_addr_ready_wire;
+wire [`LSQSZ-1:0] ld_done;       // data loaded/forwarded, ready for CDB bcast
 
 wire [`WAYS-1:0] [`LSQSZ-1:0] ALU_hit;
 
@@ -187,11 +187,10 @@ wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_lt_tail;
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_final; // goes to wand sel
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_selected; // from wand sel
 
-wire [`LSQSZ-1:0] ls_addr_ready_to_load_wire;
-wor [`LSQSZ-1:0] ls_addr_stall_wire;
+logic [`LSQSZ-1:0] [1:0] ls_state_next;
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_forward_wire;
-reg [`LSQSZ-1:0] ls_addr_ready_to_load_reg;     
-reg [`LSQSZ-1:0] ls_addr_stall_reg;
+reg [`LSQSZ-1:0] [1:0] ls_state;     
+wire [`LSQSZ-1:0] ls_addr_ready_to_load;
 
 assign ls_addr_block_hit_msk_all = ls_addr_block_hit & age_mask;
 assign ls_addr_block_hit_msk_ge_head = ls_addr_block_hit & ge_head;
@@ -216,21 +215,62 @@ lq_wand_sel sel [`LSQSZ-1:0] (
     .gnt(ls_addr_block_hit_selected)
 );
 
-wor [`LSQSZ-1:0] ld_done_next;
 wor [`LSQSZ-1:0] ld_waiting_next;
 wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old_next;
 wor [`LSQSZ-1:0] [31:0] ld_data_next;
 wire [`LSQSZ-1:0] mem_load_in;
 wire dc_miss;
 
+// output done entries to CDB, free one entry
+wire [`LSQSZ-1:0] cdb_gnt;
+arbiter_rr #(.WIDTH(`LSQSZ)) arb_rr_cdb (
+    .clock(clock),
+    .reset(reset),
+    .req(ld_done),
+    .gnt(cdb_gnt)
+);
+
 // check if can forward, can goto mem, should wait
 assign ls_addr_forward_wire = ls_addr_block_hit_selected & ls_addr_all_hit_msk_all;
+wire [`LSQSZ-1:0] ls_addr_can_forward;
+
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
-        assign ls_addr_ready_to_load_wire[gi] = (ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]) 
-            & (~ld_waiting_next[gi]) & (~ld_waiting_reg[gi]) & ld_addr_ready_reg[gi];
-        assign ls_addr_stall_wire[gi] = (ls_addr_block_hit_selected[gi] & ~(ls_addr_all_hit_msk_all[gi])) != 0;
-        assign ls_addr_stall_wire[gi] = (ls_addr_block_hit_selected[gi] & ~(store_addr_valid[gi])) != 0;
+        always_comb begin
+            case(ls_state[gi])
+                2'h0:   // wait for addr and conflicting store
+                    if ((ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]) & ld_addr_ready_reg[gi])
+                        ls_state_next[gi] = 2'h1;
+                    else if (ls_addr_can_forward[gi])
+                        ls_state_next[gi] = 2'h3;
+                    else
+                        ls_state_next[gi] = 2'h0;
+                2'h1:   // wait to goto cache
+                    if (rd_gnt[gi]) begin
+                        if (dc_miss)
+                            ls_state_next[gi] = 2'h2;
+                        else
+                            ls_state_next[gi] = 2'h3;
+                    end
+                    else begin
+                        ls_state_next[gi] = 2'h1;
+                    end
+                2'h2:   // wait for mem response
+                    if (mem_feedback[gi])
+                        ls_state_next[gi] = 2'h3;
+                    else
+                        ls_state_next[gi] = 2'h2;
+                default:    // wait for cdb gnt
+                    if (cdb_gnt[gi])
+                        ls_state_next[gi] = 2'h0;
+                    else    
+                        ls_state_next[gi] = 2'h3;
+            endcase
+        end
+
+        assign ls_addr_can_forward[gi] = ls_addr_forward_wire[gi] != 0;
+        assign ls_addr_ready_to_load[gi] = ls_state[gi] == 2'h1; 
+        assign ld_done[gi] = ls_state[gi] == 2'h3;
     end
 endgenerate
 
@@ -239,7 +279,7 @@ wire [`LSQSZ-1:0] cache_gnt;
 arbiter_rr #(.WIDTH(`LSQSZ)) arb_rr_cache (
     .clock(clock),
     .reset(reset),
-    .req(ls_addr_ready_to_load_reg),
+    .req(ls_addr_ready_to_load),
     .gnt(cache_gnt)
 );
 generate;
@@ -250,15 +290,6 @@ generate;
         assign rd_size = cache_gnt[gi] ? ld_sz_reg[gi] : 0;
     end
 endgenerate
-
-// output done entries to CDB, free one entry
-wire [`LSQSZ-1:0] cdb_gnt;
-arbiter_rr #(.WIDTH(`LSQSZ)) arb_rr_cdb (
-    .clock(clock),
-    .reset(reset),
-    .req(ld_done_reg),
-    .gnt(cdb_gnt)
-);
 
 wor [31:0] CDB_Data_tmp;
 wor [1:0] CDB_sz_tmp;
@@ -344,13 +375,6 @@ generate;
     end
 endgenerate
 
-wire [`LSQSZ-1:0] ls_addr_can_forward;
-generate;
-    for (gi = 0; gi < `LSQSZ; ++gi) begin
-        assign ls_addr_can_forward[gi] = ls_addr_forward_wire[gi] != 0;
-    end
-endgenerate
-assign ld_done_next = (ld_done_reg & (~cdb_gnt)) | ls_addr_can_forward | dc_feedback | mem_feedback;
 
 
 always_ff @ (posedge clock) begin
@@ -362,14 +386,12 @@ always_ff @ (posedge clock) begin
         ld_free <= {`LSQSZ{1'b1}};
         ld_addr_ready_reg <= 0;
         ld_addr_reg <= 0;
-        ld_done_reg <= 0;
         ld_waiting_reg <= 0;
         sq_tail_old <= 0;
         ld_data_reg <= 0;
         lq_num_free <= `LSQSZ;
         lq_num_free_out <= `LSQSZ;
-        ls_addr_ready_to_load_reg <= 0;
-        ls_addr_stall_reg <= 0;
+        ls_state <= 0;
     end
     else begin
         ld_sz_reg <= ld_sz_next;
@@ -379,14 +401,12 @@ always_ff @ (posedge clock) begin
         ld_free <= ld_free_next;
         ld_addr_ready_reg <= ld_addr_ready_next;
         ld_addr_reg <= ld_addr_next;
-        ld_done_reg <= ld_done_next;
         ld_waiting_reg <= ld_waiting_next;
         sq_tail_old <= sq_tail_old_next;
         ld_data_reg <= ld_data_next;
         lq_num_free <= lq_num_free_next;
         lq_num_free_out <= lq_num_free_out_next;
-        ls_addr_ready_to_load_reg <= ls_addr_ready_to_load_wire;
-        ls_addr_stall_reg <= ls_addr_stall_wire;
+        ls_state <= ls_state_next;
     end
 end
     
