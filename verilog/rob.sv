@@ -154,7 +154,7 @@ always_comb begin
         // If committing, set outputs and check for mispredicted branch
         // Everything after the && makes sure we only commit one store per cycle
         if(entries[(head + i) % `ROB].done && (!entries[(head + i) % `ROB].is_store || !commit)) begin
-        $display("COMMIT PC=%h MIS=%b IDX=%d",entries[(head + i) % `ROB].PC,entries[(head + i) % `ROB].mispredicted,(head + i) % `ROB);
+//        $display("COMMIT PC=%h MIS=%b IDX=%d",entries[(head + i) % `ROB].PC,entries[(head + i) % `ROB].mispredicted,(head + i) % `ROB);
             dest_PRN_out[i] = entries[(head + i) % `ROB].dest_PRN;
             dest_ARN_out[i] = entries[(head + i) % `ROB].dest_ARN;
             valid_out[i] = entries[(head + i) % `ROB].reg_write;
@@ -180,7 +180,7 @@ always_comb begin
             
 
             if(entries[(head + i) % `ROB].is_branch && entries[(head + i) % `ROB].mispredicted) begin
-            $display("MISPREDICT");
+ //           $display("MISPREDICT");
                 proc_nuke = 1;
                 if(entries[(head + i) % `ROB].branch_direction)
                     next_pc = entries[(head + i) % `ROB].target;
@@ -230,7 +230,7 @@ always_ff @(posedge clock) begin
                 entries[CDB_ROB_idx[i]].branch_direction <= `SD CDB_direction[i];
                 entries[CDB_ROB_idx[i]].target           <= `SD CDB_target[i];
 
-                $display("DONE ROB : PC=%h CDB TARGET=%h IDX=%d",  entries[CDB_ROB_idx[i]].PC ,CDB_target[i],CDB_ROB_idx[i]);
+//                $display("DONE ROB : PC=%h CDB TARGET=%h IDX=%d",  entries[CDB_ROB_idx[i]].PC ,CDB_target[i],CDB_ROB_idx[i]);
             end
         end
 
@@ -243,7 +243,7 @@ always_ff @(posedge clock) begin
         tail                <= `SD next_tail;
         head                <= `SD next_head;
         num_free            <= `SD next_num_free;
-        $display("HEAD:%d TAIL:%d NUM_FREE:%d",head,tail,num_free);
+//        $display("HEAD:%d TAIL:%d NUM_FREE:%d",head,tail,num_free);
     end
     //$display("sequential end!");
 end

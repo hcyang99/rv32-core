@@ -1,117 +1,9 @@
 {
-    "wand_sel_0001": [
-        "wand_sel_0001",
-        "ci1CE",
-        "module",
-        25
-    ],
-    "std": [
-        "std",
-        "reYIK",
-        "module",
-        2
-    ],
-    "lq_ps_in_0000": [
-        "lq_ps_in_0000",
-        "gqQ8q",
-        "module",
-        14
-    ],
-    "store_queue_0000": [
-        "store_queue_0000",
-        "fNfNe",
-        "module",
-        21
-    ],
-    "ar_wand_sel_0000": [
-        "ar_wand_sel_0000",
-        "sYgZs",
-        "module",
-        6
-    ],
     "_vcs_unit__4293599388": [
         "_vcs_unit__4293599388",
         "PGa5H",
         "module",
         1
-    ],
-    "mem": [
-        "mem",
-        "FSbWZ",
-        "module",
-        3
-    ],
-    "processor_0000": [
-        "processor_0000",
-        "UzNI6",
-        "module",
-        17
-    ],
-    "dcache_ctrl_0000": [
-        "dcache_ctrl_0000",
-        "j2LDI",
-        "module",
-        7
-    ],
-    "testbench": [
-        "testbench",
-        "iAVhC",
-        "module",
-        4
-    ],
-    "arbiter_rr_0000": [
-        "arbiter_rr_0000",
-        "Tjq5i",
-        "module",
-        5
-    ],
-    "dcache_0000": [
-        "dcache_0000",
-        "Nmdq6",
-        "module",
-        8
-    ],
-    "wand_sel_0000": [
-        "wand_sel_0000",
-        "hckDL",
-        "module",
-        24
-    ],
-    "DMEM_0000": [
-        "DMEM_0000",
-        "BaCRA",
-        "module",
-        9
-    ],
-    "alu": [
-        "alu",
-        "C26kq",
-        "module",
-        10
-    ],
-    "rs_psel_gen_0000": [
-        "rs_psel_gen_0000",
-        "xjVMK",
-        "module",
-        23
-    ],
-    "brcond": [
-        "brcond",
-        "VqGv5",
-        "module",
-        11
-    ],
-    "freelist_psel_gen_0000": [
-        "freelist_psel_gen_0000",
-        "L652r",
-        "module",
-        22
-    ],
-    "ex_stage_0000": [
-        "ex_stage_0000",
-        "tmdK7",
-        "module",
-        12
     ],
     "decoder": [
         "decoder",
@@ -119,29 +11,71 @@
         "module",
         13
     ],
-    "lq_wand_sel_0000": [
-        "lq_wand_sel_0000",
-        "RCLGV",
-        "module",
-        15
-    ],
     "mult_stage": [
         "mult_stage",
         "aUVMg",
         "module",
         16
     ],
-    "rob": [
-        "rob",
-        "vtxDx",
+    "mem": [
+        "mem",
+        "FSbWZ",
         "module",
-        18
+        3
     ],
-    "RS_Line_0000": [
-        "RS_Line_0000",
-        "Z4jCT",
+    "std": [
+        "std",
+        "reYIK",
         "module",
-        19
+        2
+    ],
+    "testbench": [
+        "testbench",
+        "iAVhC",
+        "module",
+        4
+    ],
+    "DMEM_0000": [
+        "DMEM_0000",
+        "BaCRA",
+        "module",
+        9
+    ],
+    "dcache_ctrl_0000": [
+        "dcache_ctrl_0000",
+        "j2LDI",
+        "module",
+        7
+    ],
+    "arbiter_rr_0000": [
+        "arbiter_rr_0000",
+        "Tjq5i",
+        "module",
+        5
+    ],
+    "ar_wand_sel_0000": [
+        "ar_wand_sel_0000",
+        "sYgZs",
+        "module",
+        6
+    ],
+    "alu": [
+        "alu",
+        "C26kq",
+        "module",
+        10
+    ],
+    "wand_sel_0000": [
+        "wand_sel_0000",
+        "hckDL",
+        "module",
+        24
+    ],
+    "rs_psel_gen_0000": [
+        "rs_psel_gen_0000",
+        "xjVMK",
+        "module",
+        23
     ],
     "RS_0000": [
         "RS_0000",
@@ -149,10 +83,76 @@
         "module",
         20
     ],
+    "dcache_0000": [
+        "dcache_0000",
+        "Nmdq6",
+        "module",
+        8
+    ],
+    "brcond": [
+        "brcond",
+        "VqGv5",
+        "module",
+        11
+    ],
+    "store_queue_0000": [
+        "store_queue_0000",
+        "fNfNe",
+        "module",
+        21
+    ],
+    "ex_stage_0000": [
+        "ex_stage_0000",
+        "tmdK7",
+        "module",
+        12
+    ],
+    "freelist_psel_gen_0000": [
+        "freelist_psel_gen_0000",
+        "L652r",
+        "module",
+        22
+    ],
+    "lq_ps_in_0000": [
+        "lq_ps_in_0000",
+        "gqQ8q",
+        "module",
+        14
+    ],
+    "lq_wand_sel_0000": [
+        "lq_wand_sel_0000",
+        "RCLGV",
+        "module",
+        15
+    ],
+    "wand_sel_0001": [
+        "wand_sel_0001",
+        "ci1CE",
+        "module",
+        25
+    ],
+    "processor_0000": [
+        "processor_0000",
+        "UzNI6",
+        "module",
+        17
+    ],
+    "rob": [
+        "rob",
+        "vtxDx",
+        "module",
+        18
+    ],
     "...MASTER...": [
         "SIM",
         "amcQw",
         "module",
         26
+    ],
+    "RS_Line_0000": [
+        "RS_Line_0000",
+        "Z4jCT",
+        "module",
+        19
     ]
 }
