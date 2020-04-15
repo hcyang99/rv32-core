@@ -69,13 +69,13 @@ sysc_uni_pwd=/home/sunsusan/Desktop/group7w20
 _LMFILES_=/usr/caen/misc/modules/vcs/2017.12-SP2-1
 XMODIFIERS=@im=ibus
 XDG_SESSION_TYPE=x11
-XDG_SESSION_ID=6847
+XDG_SESSION_ID=9047
 XDG_SESSION_DESKTOP=gnome-classic
 XDG_RUNTIME_DIR=/run/user/114191087
 XDG_MENU_PREFIX=gnome-
 XDG_DATA_DIRS=/home/sunsusan/.local/share/flatpak/exports/share/:/var/lib/flatpak/exports/share/:/usr/local/share/:/usr/share/:/usr/caen/misc/menus
 XDG_CURRENT_DESKTOP=GNOME-Classic:GNOME
-XAUTHORITY=/run/gdm/auth-for-sunsusan-GiWaIC/database
+XAUTHORITY=/run/gdm/auth-for-sunsusan-SsSUGz/database
 VTE_VERSION=5202
 VMR_MODE_FLAG=64
 VCS_MODE_FLAG=64
@@ -88,10 +88,10 @@ UNAME=/bin/uname
 TOOL_HOME=/usr/caen/vcs-2017.12-SP2-1/linux64
 SSH_AUTH_SOCK=/run/user/114191087/keyring/ssh
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
-SSH_AGENT_PID=15740
+SSH_AGENT_PID=23218
 SOURCES=verilog/rob.sv 
 SNPS_VCS_CLANG_PATH=/fs/src/interfaces/LLVM_Project/QSCM/opt/llvm-3.9.1/linux64
-SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/15506,unix/unix:/tmp/.ICE-unix/15506
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/20503,unix/unix:/tmp/.ICE-unix/20503
 SCRNAME=vcs
 SCRIPT_NAME=vcs
 RESET_NET_NAME=reset
@@ -110,15 +110,15 @@ LOADEDMODULES=vcs/2017.12-SP2-1
 LESSOPEN=||/usr/bin/lesspipe.sh %s
 LC_ALL=C
 LAMMPS_POTENTIALS=/usr/share/lammps/potentials
-KRB5CCNAME=FILE:/tmp/krb5cc_114191087_aBF8si
+KRB5CCNAME=FILE:/tmp/krb5cc_114191087_6aPJwm
 KDEDIRS=/usr
 IMSETTINGS_MODULE=none
 IMSETTINGS_INTEGRATE_DESKTOP=yes
 ICEAUTHORITY=/run/user/114191087/iceauthority
 HISTCONTROL=ignoredups
 HEADERS=sys_defs.svh ISA.svh  
-GNOME_TERMINAL_SERVICE=:1.86
-GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/e62041ca_43b1_49fc_b512_875a2b9deadb
+GNOME_TERMINAL_SERVICE=:1.83
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/1a7c748f_8f8c_4ef6_afe1_4bd8eb3e428b
 GNOME_SHELL_SESSION_MODE=classic
 GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 GJS_DEBUG_TOPICS=JS ERROR;JS LOG
@@ -127,7 +127,7 @@ GDM_LANG=en_US.UTF-8
 GDMSESSION=gnome-classic
 DESKTOP_SESSION=gnome-classic
 DESIGN_NAME=rob
-DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-F5cE1A5NiU,guid=dd0b88d7d5f04ecdf3b3bdc45e95cb2d
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-ymvxdjq9qa,guid=814550c1d99e4e02ccbdd0f45e967090
 COLORTERM=truecolor
 CLOCK_PERIOD=5	
 CLOCK_NET_NAME=clock
@@ -143,14 +143,14 @@ BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
 1586810278 verilog/Validlist.sv
 1586902793 verilog/sq.sv
 1586812158 verilog/rs.sv
-1586812158 verilog/rob.sv
+1586922800 verilog/rob.sv
 1586810278 verilog/RAT_RRAT.sv
 1586893556 verilog/processor.sv
 1586812158 verilog/PRF.sv
 1586810241 verilog/mult.sv
 1586812158 verilog/mem_arbiter.sv
 1586893471 verilog/lsq.sv
-1586893471 verilog/lq.sv
+1586919481 verilog/lq.sv
 1586812158 verilog/if_stage.sv
 1586904525 verilog/id_stage.sv
 1586810278 verilog/FreeList.sv
@@ -172,4 +172,4 @@ BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`_}
 1531624898 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/liberrorinf.so
 1531624871 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libsnpsmalloc.so
 1531625298 /usr/caen/vcs-2017.12-SP2-1/linux64/lib/libvfs.so
-1586905103 simv.daidir
+1586922811 simv.daidir
