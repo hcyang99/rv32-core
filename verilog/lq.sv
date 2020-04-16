@@ -143,11 +143,13 @@ assign ls_addr_all_hit = ls_addr_block_hit & ls_addr_offset_hit & ls_addr_size_h
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
         for (gj = 0; gj < `LSQSZ; ++gj) begin
-            assign ls_addr_block_hit[gi][gj] = ld_addr_reg[gi][15:3] == store_addr[gj][15:3];
-            assign ls_addr_block_hit[gi][gj] = ld_addr_ready_reg[gi];
+            assign ls_addr_block_hit[gi][gj] = (ld_addr_reg[gi][15:3] == store_addr[gj][15:3]) |
+                ~ld_addr_ready_reg[gi] | ~store_addr_valid[gj];
+            
             assign ls_addr_block_hit[gi][gj] = ~ld_free[gi];
             assign ls_addr_offset_hit[gi][gj] = ld_addr_reg[gi][2:0] == store_addr[gj][2:0];
             assign ls_addr_size_hit[gi][gj] = ld_sz_reg[gi] == store_sz[gj];
+            assign ls_addr_all_hit[gi][gj] = ld_addr_ready_reg[gi];
             assign ls_addr_all_hit[gi][gj] = store_data_valid[gj];
         end
     end
