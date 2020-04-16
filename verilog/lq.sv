@@ -253,7 +253,7 @@ generate;
         always_comb begin
             case(ls_state[gi])
                 2'h0:   // wait for addr and conflicting store
-                    if ((ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]))
+                    if ((ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]) & ld_addr_ready_reg[gi])
                         ls_state_next[gi] = 2'h1;
                     else if (ls_addr_can_forward[gi])
                         ls_state_next[gi] = 2'h3;
