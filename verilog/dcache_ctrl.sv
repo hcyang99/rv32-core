@@ -36,8 +36,8 @@ module dcache_ctrl(
     output wire [63:0]          Dmem_data,
 
     // feedback to lsq
-    output logic [`LSQSZ-1:0]   mem_feedback,
-    output logic [31:0]         mem_data,
+    output reg [`LSQSZ-1:0]     mem_feedback,
+    output reg [31:0]           mem_data,
 
     // to dcache
     output logic                mem_wr_en,
@@ -90,6 +90,9 @@ reg [WIDTH-1:0] q1_head_reg;
 reg [WIDTH-1:0] q1_tail_reg;
 reg [`LSQSZ-1:0] q2_head_reg;
 reg [`LSQSZ-1:0] q2_tail_reg;
+
+logic [`LSQSZ-1:0]   mem_feedback_next;
+logic [31:0]         mem_data_next;
 
 
 wire q2_head_mem_response;
@@ -378,7 +381,7 @@ assign mem_wr_data = mem2proc_data;
 logic [63:0] mem_data_msk;
 wire [63:0] mem_data_tmp;
 
-assign mem_feedback = q2_head_mem_response ? q2_head_rd_gnt_reg : 0;
+assign mem_feedback_next = q2_head_mem_response ? q2_head_rd_gnt_reg : 0;
 always_comb begin
     case(q2_head_sz_reg)
         BYTE:      mem_data_msk = {56'b0, {8{1'b1}}};
@@ -388,7 +391,18 @@ always_comb begin
     endcase
 end
 assign mem_data_tmp = (mem2proc_data >> {q2_head_addr_reg[2:0], 3'b0}) & mem_data_msk;
-assign mem_data = q2_head_mem_response ? mem_data_tmp[31:0] : 0;
+assign mem_data_next = q2_head_mem_response ? mem_data_tmp[31:0] : 0;
+
+always_ff @(posedge clock) begin
+    if (reset) begin
+        mem_data <= 0;
+        mem_feedback <= 0;
+    end
+    else begin
+        mem_data <= mem_data_next;
+        mem_feedback <= mem_feedback_next;
+    end
+end
 
 
 endmodule
