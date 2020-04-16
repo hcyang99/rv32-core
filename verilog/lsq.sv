@@ -101,7 +101,9 @@ module LSQ(
 
         assign ld_sq_tail[0] = sq_tail;
         for (gi = 1; gi < `WAYS; ++gi) begin
-            assign ld_sq_tail[gi] = (ld_sq_tail[gi - 1] == `LSQSZ - 1) ? 0 : ld_sq_tail[gi - 1] + 1;
+            assign ld_sq_tail[gi] = st_en[gi - 1] ? 
+                ((ld_sq_tail[gi - 1] == `LSQSZ - 1) ? 0 : ld_sq_tail[gi - 1] + 1) :
+                ld_sq_tail[gi - 1];
         end
     endgenerate
 
