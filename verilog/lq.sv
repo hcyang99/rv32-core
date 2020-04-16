@@ -59,7 +59,6 @@ reg [`LSQSZ-1:0] [$clog2(`PRF)-1:0] ld_PRF_idx_reg;
 reg [`LSQSZ-1:0] ld_free;
 reg [`LSQSZ-1:0] ld_addr_ready_reg;
 reg [`LSQSZ-1:0] [15:0] ld_addr_reg;
-reg [`LSQSZ-1:0] ld_waiting_reg;    // cache miss, waiting for mem
 reg [`LSQSZ-1:0] ld_is_signed_reg;
 reg [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old;
 reg [`LSQSZ-1:0] [31:0] ld_data_reg;
@@ -71,6 +70,7 @@ wire [`LSQSZ-1:0] [$clog2(`PRF)-1:0] ld_PRF_idx_in_bus;
 wire [`LSQSZ-1:0] ld_en_in_bus; // these are coming into LQ
 wire [`LSQSZ-1:0] ld_is_signed_in_bus;
 wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_in_bus;
+wire [`LSQSZ-1:0] ld_waiting;    // cache miss, waiting for mem
 // wire [`LSQSZ-1:0] lq_in_gnt;      // these are coming into LQ
 
 wor [`LSQSZ-1:0] [15:0] ld_addr_wire;
@@ -229,7 +229,6 @@ lq_wand_sel sel [`LSQSZ-1:0] (
     .gnt(ls_addr_block_hit_selected)
 );
 
-wor [`LSQSZ-1:0] ld_waiting_next;
 wire [`LSQSZ-1:0] [$clog2(`LSQSZ)-1:0] sq_tail_old_next;
 wor [`LSQSZ-1:0] [31:0] ld_data_next;
 wire [`LSQSZ-1:0] mem_load_in;
@@ -281,7 +280,7 @@ generate;
                         ls_state_next[gi] = 2'h3;
             endcase
         end
-
+        assign ld_waiting[gi] = ls_state[gi] == 2'h2;
         assign ls_addr_can_forward[gi] = ls_addr_forward_wire[gi] != 0;
         assign ls_addr_ready_to_load[gi] = ls_state[gi] == 2'h1; 
         assign ld_done[gi] = ls_state[gi] == 2'h3;
@@ -372,16 +371,13 @@ generate;
             (ld_en_in_bus[gi] ? ld_is_signed_in_bus[gi] : 0) : ld_is_signed_reg[gi];
 
         assign ld_addr_next[gi] = ld_free_next[gi] ? 0 : ld_addr_wire[gi];
-        
-        assign ld_waiting_next[gi] = cdb_gnt[gi] ? 0 : ld_waiting_reg[gi];
-        assign ld_waiting_next[gi] = cache_gnt[gi] & dc_miss;
 
         assign sq_tail_old_next[gi] = ld_free_hold[gi] ? 
             (ld_en_in_bus[gi] ? sq_tail_in_bus[gi] : 0) : sq_tail_old[gi];
         
         assign ld_data_next[gi] = (cdb_gnt[gi] | ls_addr_can_forward[gi]) ? 0 : ld_data_reg[gi];    // zero bcasted
         assign ld_data_next[gi] = dc_feedback[gi] ? dc_data : 0;    // read from DCache
-        assign ld_data_next[gi] = (mem_feedback[gi] & ld_waiting_reg[gi]) ? mem_data : 0;   // from mem
+        assign ld_data_next[gi] = (mem_feedback[gi] & ld_waiting[gi]) ? mem_data : 0;   // from mem
         // forwarding
         for (gj = 0; gj < `LSQSZ; ++gj) begin
             assign ld_data_next[gi] = ls_addr_forward_wire[gi][gj] ? store_data[gj] : 0;
@@ -400,7 +396,6 @@ always_ff @ (posedge clock) begin
         ld_free <= {`LSQSZ{1'b1}};
         ld_addr_ready_reg <= 0;
         ld_addr_reg <= 0;
-        ld_waiting_reg <= 0;
         sq_tail_old <= 0;
         ld_data_reg <= 0;
         lq_num_free <= `LSQSZ;
@@ -415,7 +410,6 @@ always_ff @ (posedge clock) begin
         ld_free <= ld_free_next;
         ld_addr_ready_reg <= ld_addr_ready_next;
         ld_addr_reg <= ld_addr_next;
-        ld_waiting_reg <= ld_waiting_next;
         sq_tail_old <= sq_tail_old_next;
         ld_data_reg <= ld_data_next;
         lq_num_free <= lq_num_free_next;
