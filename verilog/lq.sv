@@ -379,7 +379,7 @@ generate;
         assign sq_tail_old_next[gi] = ld_free_hold[gi] ? 
             (ld_en_in_bus[gi] ? sq_tail_in_bus[gi] : 0) : sq_tail_old[gi];
         
-        assign ld_data_next[gi] = cdb_gnt[gi] ? 0 : ld_data_reg[gi];    // zero bcasted
+        assign ld_data_next[gi] = (cdb_gnt[gi] | ls_addr_can_forward[gi]) ? 0 : ld_data_reg[gi];    // zero bcasted
         assign ld_data_next[gi] = dc_feedback[gi] ? dc_data : 0;    // read from DCache
         assign ld_data_next[gi] = (mem_feedback[gi] & ld_waiting_reg[gi]) ? mem_data : 0;   // from mem
         // forwarding
