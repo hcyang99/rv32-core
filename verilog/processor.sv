@@ -574,7 +574,7 @@ generate
 		assign dest_ARN[i]          = id_ex_packet[i].inst.r.rd;
 		assign dest_PRN[i]          = id_ex_packet[i].dest_PRF_idx;
 		assign is_branch[i]         = id_ex_packet[i].cond_branch | id_ex_packet[i].uncond_branch;
-		assign valid[i]             = id_ex_packet[i].valid;
+		assign valid[i]             = id_ex_packet[i].valid & ~except;
 		assign illegal[i]			= id_ex_packet[i].illegal;
 		assign halt[i]				= id_ex_packet[i].halt;
 		assign PC[i]				= id_ex_packet[i].PC;
@@ -661,7 +661,7 @@ assign rs_num_is_free = num_is_free;
         .opa_valid_in(id_ex_opa_valid),
         .opb_valid_in(id_ex_opb_valid),
         .id_rs_packet_in(id_ex_packet),                            
-        .load_in(~(num_free<`WAYS) & ~(num_is_free<`WAYS)),
+        .load_in(~(num_free<`WAYS) & ~(num_is_free<`WAYS) & ~except),
 		.ALU_occupied (ALU_occupied | lq_CDB_valid),
 
         // output
