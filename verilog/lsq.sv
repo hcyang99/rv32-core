@@ -127,6 +127,7 @@ module LSQ(
         .store_data(store_data),
         .store_addr_valid(store_addr_valid),
         .store_data_valid(store_data_valid),
+        .store_valid(store_valid),
         .sq_head(sq_head),
 
         // issue
