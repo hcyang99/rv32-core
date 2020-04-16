@@ -11,6 +11,7 @@ module LQ(
     input [`LSQSZ-1:0] [31:0]                   store_data,
     input [`LSQSZ-1:0]                          store_addr_valid,
     input [`LSQSZ-1:0]                          store_data_valid,
+    input [`LSQSZ-1:0]                          store_valid,
     input [$clog2(`LSQSZ)-1:0]                  sq_head,
 
     // issue
@@ -139,6 +140,27 @@ wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_offset_hit;
 wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_size_hit;
 wand [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit;
 
+// 1 for valid sq entries older than each load; [lq_idx] [sq_idx]
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] age_mask; 
+wire [`LSQSZ-1:0]              ge_head; // sq_idx only
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] lt_tail;
+wire [`LSQSZ-1:0] wrap_around;
+
+// wire [`LSQSZ-1:0] [`LSQSZ-1:0] st_addr_valid_msk_all;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_all; // [lq_idx] [sq_idx]
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_ge_head;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_lt_tail;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_all;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_ge_head;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_lt_tail;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_final; // goes to wand sel
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_selected; // from wand sel
+
+logic [`LSQSZ-1:0] [1:0] ls_state_next;
+wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_forward_wire;
+reg [`LSQSZ-1:0] [1:0] ls_state;     
+wire [`LSQSZ-1:0] ls_addr_ready_to_load;
+
 assign ls_addr_all_hit = ls_addr_block_hit & ls_addr_offset_hit & ls_addr_size_hit;
 generate;
     for (gi = 0; gi < `LSQSZ; ++gi) begin
@@ -147,19 +169,15 @@ generate;
                 ~ld_addr_ready_reg[gi] | ~store_addr_valid[gj];
             
             assign ls_addr_block_hit[gi][gj] = ~ld_free[gi];
+            assign ls_addr_block_hit[gi][gj] = store_valid[gj];
             assign ls_addr_offset_hit[gi][gj] = ld_addr_reg[gi][2:0] == store_addr[gj][2:0];
             assign ls_addr_size_hit[gi][gj] = ld_sz_reg[gi] == store_sz[gj];
             assign ls_addr_all_hit[gi][gj] = ld_addr_ready_reg[gi];
             assign ls_addr_all_hit[gi][gj] = store_data_valid[gj];
+            assign ls_addr_all_hit[gi][gj] = store_addr_valid[gj];
         end
     end
 endgenerate
-
-// 1 for valid sq entries older than each load; [lq_idx] [sq_idx]
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] age_mask; 
-wire [`LSQSZ-1:0]              ge_head; // sq_idx only
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] lt_tail;
-wire [`LSQSZ-1:0] wrap_around;
 
 // age logic
 generate;
@@ -180,19 +198,13 @@ generate;
 
 endgenerate
 
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_all; // [lq_idx] [sq_idx]
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_ge_head;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_msk_lt_tail;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_all;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_ge_head;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_all_hit_msk_lt_tail;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_final; // goes to wand sel
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_block_hit_selected; // from wand sel
-
-logic [`LSQSZ-1:0] [1:0] ls_state_next;
-wire [`LSQSZ-1:0] [`LSQSZ-1:0] ls_addr_forward_wire;
-reg [`LSQSZ-1:0] [1:0] ls_state;     
-wire [`LSQSZ-1:0] ls_addr_ready_to_load;
+// generate;
+//     for (gi = 0; gi < `LSQSZ; ++gi) begin
+//         for (gj = 0; gj < `LSQSZ; ++gj) begin
+//             assign st_addr_valid_msk_all[gi][gj] = store_addr_valid[gj] | (~age_mask[gi][gj]) | (~store_valid[gj]);
+//         end
+//     end
+// endgenerate
 
 assign ls_addr_block_hit_msk_all = ls_addr_block_hit & age_mask;
 assign ls_addr_block_hit_msk_ge_head = ls_addr_block_hit & ge_head;
@@ -241,7 +253,7 @@ generate;
         always_comb begin
             case(ls_state[gi])
                 2'h0:   // wait for addr and conflicting store
-                    if ((ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]) & ld_addr_ready_reg[gi])
+                    if ((ls_addr_block_hit_selected[gi] == 0) & (~ld_free[gi]))
                         ls_state_next[gi] = 2'h1;
                     else if (ls_addr_can_forward[gi])
                         ls_state_next[gi] = 2'h3;

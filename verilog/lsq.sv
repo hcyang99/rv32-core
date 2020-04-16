@@ -75,11 +75,12 @@ module LSQ(
   	output logic [31:0]                         CDB_target_out
 );
 
-    wire [`LSQSZ-1:0] [1:0]                    store_sz;
+    wire [`LSQSZ-1:0] [1:0]                         store_sz;
     wire [`LSQSZ-1:0] [15:0]                       store_addr;
     wire [`LSQSZ-1:0] [31:0]                       store_data;
     wire [`LSQSZ-1:0]                              store_data_valid;
     wire [`LSQSZ-1:0]                              store_addr_valid;
+    wire [`LSQSZ-1:0]                               store_valid;
     wire [`WAYS-1:0] [$clog2(`LSQSZ)-1:0]          ld_sq_tail;
 
     // For store queue
@@ -95,6 +96,7 @@ module LSQ(
             assign store_addr_valid[gi] = sq_entries[gi].addr_valid;
             assign store_data[gi] = sq_entries[gi].data;
             assign store_data_valid[gi] = sq_entries[gi].data_valid;
+            assign store_valid[gi] = sq_entries[gi].valid;
         end
 
         assign ld_sq_tail[0] = sq_tail;
