@@ -42,7 +42,7 @@ void print_cycles(int time_in, int cycle_count);
 void print_stage(const char* div, int inst, int valid_inst);
 void print_rs(const char* div, int inst, int valid_inst, int num_free, int load_in_hub, int is_free_hub, int ready_hub);
 void print_rob(const char* div, int except, int direction, int PC, int num_free, int dest_ARN_out, int valid_out);
-void print_ex_out(const char* div, int alu_result, int valid, int alu_occupied, int brand_results);
+void print_ex_out(const char* div, int alu_result, int valid, int alu_occupied, int brand_results, int NPC);
 void print_valids(int opa_valid, int opb_valid);
 void print_opaopb(int opa_valid, int opb_valid, int rs1_value, int rs2_value);
 void print_reg(int wb_reg_wr_data_out_hi, int wb_reg_wr_data_out_lo, int wb_reg_wr_idx_out, int wb_reg_wr_en_out);
