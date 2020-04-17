@@ -273,7 +273,8 @@ module testbench;
 			if(pipeline_completed_insts>0) begin
                 for(int i = 0; i < `WAYS; i++) begin
                     if(core.valid_out[i])
-                        $fdisplay(wb_fileno, "PC=%x, REG[%d]=%x",
+                        $fdisplay(wb_fileno, "%4.0f PC=%x, REG[%d]=%x",
+							$realtime,
                             core.PC_out[i],
                             core.dest_ARN_out[i],
                             core.id_stage_0.prf.registers[core.dest_PRN_out[i]]);
