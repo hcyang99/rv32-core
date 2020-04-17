@@ -369,7 +369,7 @@ end
 // q1 head to mem
 assign Dmem_command = q1_head_is_rd_reg ? BUS_LOAD : BUS_NONE;
 assign Dmem_command = q1_head_is_wr_reg ? BUS_STORE : BUS_NONE;
-assign Dmem_addr = q1_head_addr_reg;
+assign Dmem_addr = q1_head_is_wr_reg ? q1_head_addr_reg : {q1_head_addr_reg[15:3], 3'b0};
 assign Dmem_size = q1_head_is_rd_reg ? DOUBLE : 0;
 assign Dmem_size = q1_head_is_wr_reg ? q1_head_sz_reg : 0;
 assign Dmem_data = q1_head_is_wr_reg ? q1_head_data_reg : 0;
