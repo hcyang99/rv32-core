@@ -249,7 +249,7 @@ always_comb begin
         else begin
             // cache miss victim miss: goto mem
             rd_en_out = 1'b1;
-            rd_addr_out = {rd_tag, rd_idx, 3'b0};
+            rd_addr_out = {rd_tag, rd_idx, rd_offset};
             rd_gnt_out = rd_gnt;
             rd_size_out = rd_size;
         end
