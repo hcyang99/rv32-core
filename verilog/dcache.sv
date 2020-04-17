@@ -170,21 +170,21 @@ always_comb begin
     if (proc_wr_en) begin
         if (wr_cache_hit) begin
             // cache match: write directly to cache entry
-            data_after_wr[proc_wr_idx] = data_after_wr[proc_wr_idx] & (~proc_wr_mask);
-            data_after_wr[proc_wr_idx] = data_after_wr[proc_wr_idx] | (proc_wr_mask & (proc_wr_data << {proc_wr_offset, 3'b0}));
+            data_after_wr[proc_wr_idx] = (data[proc_wr_idx] & ~proc_wr_mask) |
+                                    (proc_wr_mask & (proc_wr_data << {proc_wr_offset, 3'b0}));
             dirty_after_wr[proc_wr_idx] = 1'b1;
         end
         else if (wr_victim_hit) begin
-            // cache miss victim match: swap
+            // cache miss victim match: overwrite matching victim with old cache, overwrite old cache
             victim_lru_after_wr = ~wr_victim_match[0];
             for (int i = 0; i < 2; ++i) begin
                 if (wr_victim_match[i]) begin
-                    victim_data_after_wr[i] &= (~proc_wr_mask);
-                    victim_data_after_wr[i] |= (proc_wr_mask & (proc_wr_data << {proc_wr_offset, 3'b0}));
-                    victim_dirty_after_wr[i] = 1'b1;
+                    victim_data_after_wr[i] = data[proc_wr_idx];
+                    victim_dirty_after_wr[i] = dirty[proc_wr_idx];
                     victim_tags_after_wr[i] = {tags[proc_wr_idx], proc_wr_idx};
-                    swap_data_tmp_wr = victim_data[i];
-                    swap_dirty_tmp_wr = victim_dirty[i];
+                    swap_data_tmp_wr = (victim_data_after_wr[i] & ~proc_wr_mask) | 
+                                        (proc_wr_mask & (proc_wr_data << {proc_wr_offset, 3'b0}));
+                    swap_dirty_tmp_wr = 1'b1;
                     swap_tag_tmp_wr = victim_tags[i][12:5];
                 end
             end
