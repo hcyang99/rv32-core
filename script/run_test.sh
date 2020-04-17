@@ -9,7 +9,7 @@ make assembly SOURCE=$file > /dev/null
 make > /dev/null
 # echo "Saving $filename output"
 # save program.out and writeback.out
-rm program.out
+cat program.out | grep "@@@" > ./outputs/$filename.program.out
 mv writeback.out ./outputs/$filename.writeback.out
 done
 
@@ -40,9 +40,9 @@ then
     continue
 fi
 # diff lines starting with "@@@" only
-# cat "models/$filename.writeback.out" | grep "REG" > model.temp
-# cat "outputs/$filename.writeback.out" | grep "REG" > out.temp
-# diff -q out.temp model.temp > /dev/null
+# cat "models/$filename.program.out" | grep "REG" > model.temp
+# cat "outputs/$filename.program.out" | grep "REG" > out.temp
+# diff -q outputs/$filename.program.out models/$filename.program.out > /dev/null
 # if [ $? -ne 0 ] 
 # then
 #     echo "$filename failed!!!"
