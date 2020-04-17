@@ -128,8 +128,8 @@ end
 
 // check if incoming mem already exists in cache/victim
 assign mem_cache_conflict = valid_after_rd[mem_wr_idx] && mem_wr_tag == tags_after_rd[mem_wr_idx];
-assign mem_cache_conflict = victim_valid_after_rd[0] && mem_wr_tag == victim_tags_after_rd[0][12:5];
-assign mem_cache_conflict = victim_valid_after_rd[1] && mem_wr_tag == victim_tags_after_rd[1][12:5];
+assign mem_cache_conflict = victim_valid_after_rd[0] && {mem_wr_tag, mem_wr_idx} == victim_tags_after_rd[0];
+assign mem_cache_conflict = victim_valid_after_rd[1] && {mem_wr_tag, mem_wr_idx} == victim_tags_after_rd[1];
 
 // check if read hit
 assign rd_data_cache_raw = data_after_wr[rd_idx];
@@ -293,9 +293,9 @@ always_comb begin
             valid_after_mem[mem_wr_idx] = 1'b1;
             dirty_after_mem[mem_wr_idx] = 1'b0;
             // overwrite victim lru
-            victim_tags_after_mem = tags_after_rd[mem_wr_idx];
+            victim_tags_after_mem = {tags_after_rd[mem_wr_idx], mem_wr_idx};
             victim_data_after_mem = data_after_rd[mem_wr_idx];
-            victim_valid_after_mem = valid_after_rd[mem_wr_idx];
+            victim_valid_after_mem[victim_lru_after_rd] = valid_after_rd[mem_wr_idx];
             victim_dirty_after_mem = dirty_after_rd[mem_wr_idx];
             victim_lru_after_mem = ~victim_lru_after_rd;
         end
@@ -307,9 +307,9 @@ always_comb begin
             valid_after_mem[mem_wr_idx] = 1'b1;
             dirty_after_mem[mem_wr_idx] = 1'b0;
             // overwrite victim lru
-            victim_tags_after_mem = tags_after_rd[mem_wr_idx];
+            victim_tags_after_mem = {tags_after_rd[mem_wr_idx], mem_wr_idx};
             victim_data_after_mem = data_after_rd[mem_wr_idx];
-            victim_valid_after_mem = valid_after_rd[mem_wr_idx];
+            victim_valid_after_mem[victim_lru_after_rd] = valid_after_rd[mem_wr_idx];
             victim_dirty_after_mem = dirty_after_rd[mem_wr_idx];
             victim_lru_after_mem = ~victim_lru_after_rd;
             // write back
@@ -325,26 +325,26 @@ end
 
 always_ff @(posedge clock) begin
     if (reset) begin
-        data = 0;
-        tags = 0; 
-        valid = 0;
-        dirty = 0;
-        victim_tags = 0;
-        victim_data = 0;
-        victim_valid = 0;
-        victim_dirty = 0;
-        victim_lru = 0;
+        data <= 0;
+        tags <= 0; 
+        valid <= 0;
+        dirty <= 0;
+        victim_tags <= 0;
+        victim_data <= 0;
+        victim_valid <= 0;
+        victim_dirty <= 0;
+        victim_lru <= 0;
     end
     else begin
-        data = data_after_mem;
-        tags = tags_after_mem; 
-        valid = valid_after_mem;
-        dirty = dirty_after_mem;
-        victim_tags = victim_tags_after_mem;
-        victim_data = victim_data_after_mem;
-        victim_valid = victim_valid_after_mem;
-        victim_dirty = victim_dirty_after_mem;
-        victim_lru = victim_lru_after_mem;
+        data <= data_after_mem;
+        tags <= tags_after_mem; 
+        valid <= valid_after_mem;
+        dirty <= dirty_after_mem;
+        victim_tags <= victim_tags_after_mem;
+        victim_data <= victim_data_after_mem;
+        victim_valid <= victim_valid_after_mem;
+        victim_dirty <= victim_dirty_after_mem;
+        victim_lru <= victim_lru_after_mem;
     end
 end
 
