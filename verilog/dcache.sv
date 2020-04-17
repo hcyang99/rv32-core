@@ -142,10 +142,10 @@ for (gi = 0; gi < 2; ++gi) begin
 end
 
 // check if write hit
-assign wr_cache_hit = tags[rd_idx] == rd_tag && valid[rd_idx];
+assign wr_cache_hit = (tags[proc_wr_idx] == proc_wr_tag) && valid[proc_wr_idx];
 assign wr_victim_hit = wr_victim_match != 0;
 for (gi = 0; gi < 2; ++gi) begin
-    assign wr_victim_match[gi] = victim_tags[gi] == {rd_tag, rd_idx} && victim_valid[gi];
+    assign wr_victim_match[gi] = (victim_tags[gi] == {proc_wr_tag, proc_wr_idx}) && victim_valid[gi];
 end
 
 // handle write
