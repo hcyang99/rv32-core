@@ -186,13 +186,13 @@ module testbench;
 	task clean_cache_and_write_mem;
 		for(int i = 0; i < 32; i++) begin
 			if(core.DMEM_0.dcache_0.valid[i] & core.DMEM_0.dcache_0.dirty[i]) begin
-				mem.unified_memory[256 * i + core.DMEM_0.dcache_0.tags[i]] = core.DMEM_0.dcache_0.data[i];
+				mem.unified_memory[32 * core.DMEM_0.dcache_0.tags[i] + i] = core.DMEM_0.dcache_0.data[i];
 			end
 		end
 
 		for(int i = 0; i < 2; i++) begin
 			if(core.DMEM_0.dcache_0.victim_valid[i] & core.DMEM_0.dcache_0.victim_dirty[i]) begin
-				mem.unified_memory[4096 * i + core.DMEM_0.dcache_0.victim_tags[i]] = core.DMEM_0.dcache_0.victim_data[i];
+				mem.unified_memory[core.DMEM_0.dcache_0.victim_tags[i]] = core.DMEM_0.dcache_0.victim_data[i];
 			end
 		end
 	endtask
