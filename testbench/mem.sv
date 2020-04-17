@@ -104,9 +104,9 @@ module mem (
                             unified_memory[proc2mem_addr[`XLEN-1:3]] = c.word_level;
                         end
                         default: begin
-							assert(proc2mem_addr[1:0] == 0);
-							c.byte_level[proc2mem_addr[2]] = proc2mem_data[31:0];
-                            unified_memory[proc2mem_addr[`XLEN-1:3]] = c.word_level;
+							assert(proc2mem_addr[2:0] == 0);
+							// c.byte_level[proc2mem_addr[2]] = proc2mem_data[31:0];
+                            unified_memory[proc2mem_addr[`XLEN-1:3]] = proc2mem_data;
                         end
 					endcase
 				end
