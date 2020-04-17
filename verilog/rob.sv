@@ -153,7 +153,7 @@ always_comb begin
 
         // If committing, set outputs and check for mispredicted branch
         // Everything after the && makes sure we only commit one store per cycle
-        if(entries[(head + i) % `ROB].done && (!entries[(head + i) % `ROB].is_store || !commit)) begin
+        if(entries[(head + i) % `ROB].done) begin
 //        $display("COMMIT PC=%h MIS=%b IDX=%d",entries[(head + i) % `ROB].PC,entries[(head + i) % `ROB].mispredicted,(head + i) % `ROB);
             dest_PRN_out[i] = entries[(head + i) % `ROB].dest_PRN;
             dest_ARN_out[i] = entries[(head + i) % `ROB].dest_ARN;
@@ -169,7 +169,7 @@ always_comb begin
             commit = commit | entries[(head + i) % `ROB].is_store;
             
             num_committed = i + 1;
-           if(halt_out)begin
+           if(halt_out | commit) begin
          //  proc_nuke=1;
            break;
            end
