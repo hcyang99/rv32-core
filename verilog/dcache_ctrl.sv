@@ -96,6 +96,8 @@ logic [31:0]         mem_data_next;
 
 
 wire q2_head_mem_response;
+wire q2_head_clr;
+assign q2_head_clr = (q2_head_mem_tag_reg == mem2proc_tag) && (mem2proc_tag != 0);
 assign q2_head_mem_response = (q2_head_mem_tag_reg == mem2proc_tag) & q2_head_is_rd_reg;
 
 genvar gi, gj;
@@ -124,7 +126,7 @@ wire [`LSQSZ-1:0] q2_tail_next;
 
 assign q2_empty = q2_head_reg == q2_tail_reg;
 assign q2_incoming = q1_head_is_rd_reg;
-assign q2_head_tmp = q2_head_mem_response ? {q2_head_reg[`LSQSZ-2:0], q2_head_reg[`LSQSZ-1]} : q2_head_reg;
+assign q2_head_tmp = q2_head_clr ? {q2_head_reg[`LSQSZ-2:0], q2_head_reg[`LSQSZ-1]} : q2_head_reg;
 assign q2_head_next = q2_empty ? q2_head_reg : q2_head_tmp;
 assign q2_tail_next = q2_incoming ? {q2_tail_reg[`LSQSZ-2:0], q2_tail_reg[`LSQSZ-1]} : q2_tail_reg;
 generate;
@@ -140,12 +142,12 @@ generate;
     end
     // clear curr q2 head
     for (gi = 0; gi < `LSQSZ; ++gi) begin
-        assign addr_q2_next[gi] = (q2_head_reg[gi] & q2_head_mem_response) ? 0 : addr_q2_reg[gi];
-        assign is_wr_q2_next[gi] = (q2_head_reg[gi] & q2_head_mem_response) ? 0 : is_wr_q2_reg[gi];
-        assign is_rd_q2_next[gi] = (q2_head_reg[gi] & q2_head_mem_response) ? 0 : (is_rd_q2_reg[gi] & ~except);
-        assign rd_gnt_q2_next[gi] = (q2_head_reg[gi] & q2_head_mem_response) ? 0 : rd_gnt_q2_reg[gi];
-        assign mem_tag_q2_next[gi] = (q2_head_reg[gi] & q2_head_mem_response) ? 0 : mem_tag_q2_reg[gi];
-        assign sz_q2_next[gi] = (q2_head_reg[gi] & q2_head_mem_response) ? 0 : sz_q2_reg[gi];
+        assign addr_q2_next[gi] = (q2_head_reg[gi] & q2_head_clr) ? 0 : addr_q2_reg[gi];
+        assign is_wr_q2_next[gi] = (q2_head_reg[gi] & q2_head_clr) ? 0 : is_wr_q2_reg[gi];
+        assign is_rd_q2_next[gi] = (q2_head_reg[gi] & q2_head_clr) ? 0 : (is_rd_q2_reg[gi] & ~except);
+        assign rd_gnt_q2_next[gi] = (q2_head_reg[gi] & q2_head_clr) ? 0 : rd_gnt_q2_reg[gi];
+        assign mem_tag_q2_next[gi] = (q2_head_reg[gi] & q2_head_clr) ? 0 : mem_tag_q2_reg[gi];
+        assign sz_q2_next[gi] = (q2_head_reg[gi] & q2_head_clr) ? 0 : sz_q2_reg[gi];
     end
     // write curr q2 tail
     for (gi = 0; gi < `LSQSZ; ++gi) begin
