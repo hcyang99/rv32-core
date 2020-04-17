@@ -496,8 +496,8 @@ generate
 
 		assign ROB_idx[i]		= id_ex_packet[i].rob_idx;
 		assign st_data[i]		= id_ex_packet[i].rs2_value;
-		assign st_en[i]			= id_ex_packet[i].wr_mem;
-		assign ld_en[i]			= id_ex_packet[i].rd_mem;
+		assign st_en[i]			= id_ex_packet[i].wr_mem & id_ex_packet[i].valid;
+		assign ld_en[i]			= id_ex_packet[i].rd_mem & id_ex_packet[i].valid;
 		assign ld_ex_prf_idx[i]	= id_ex_packet[i].dest_PRF_idx;
 		assign id_ex_ld_st_size[i] = id_ex_packet[i].mem_size;
 	end
