@@ -39,16 +39,12 @@ then
     fail=1
     continue
 fi
-# diff lines starting with "@@@" only
-# cat "models/$filename.program.out" | grep "REG" > model.temp
-# cat "outputs/$filename.program.out" | grep "REG" > out.temp
-# diff -q outputs/$filename.program.out models/$filename.program.out > /dev/null
-# if [ $? -ne 0 ] 
-# then
-#     echo "$filename failed!!!"
-#     fail=1
-# fi
-# rm out.temp model.temp
+diff -q outputs/$filename.program.out models/$filename.program.out > /dev/null
+if [ $? -ne 0 ] 
+then
+    echo "$filename failed!!!"
+    fail=1
+fi
 done
 
 if [ $fail -eq 0 ]
