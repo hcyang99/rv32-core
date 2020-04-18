@@ -34,6 +34,7 @@ int N_WAYS;
 int RS_SIZE;
 int ROB_SIZE;
 int PRF_SIZE;
+int LSQ_SIZE;
 int NUM_REGS;
 int XLEN;
 
@@ -87,7 +88,27 @@ typedef struct rob_entry_struct {
     char halt[2];
 } ROB_ENTRY;
 
+typedef struct sq_entry_struct{
+    char size[2];
+    char data[17];
+    char data_valid[2];
+    char ROB_idx[3];
+    char addr[9];
+    char addr_valid[2];
+    char valid[2];
+} SQ_ENTRY;
 
+typedef struct lq_entry_struct{
+    char size[2];
+    char ROB_idx[3];
+    char PRF_idx[3];
+    char free[2];
+    char addr_ready[2];
+    char addr[9];
+    char is_signed[2];
+    char sq_tail_old[3];
+    char data[17];
+} LQ_ENTRY;
 
 typedef struct if_struct {
     char ** insts;
@@ -121,8 +142,11 @@ typedef struct prf_struct {
     char ** value;
 } PRF;
 
-typedef struct lsq_struct {
-    // TODO: include data for the lsq here
+typedef struct lsq_struct{
+    SQ_ENTRY * sq;
+    LQ_ENTRY * lq;
+    char sq_head[3];
+    char sq_tail[3];
 } LSQ;
 
 typedef struct cache_struct {
@@ -137,7 +161,7 @@ RS * rs;
 RAT * rat;
 RAT * rrat;
 PRF * prf;
-
+LSQ * lsq;
 
 /* -------------------- structs for displaying system information -------------------- */
 
@@ -169,6 +193,7 @@ WINDOW * display_win;
 WINDOW * display_rob_win;
 WINDOW * display_rs_win;
 WINDOW * display_rat_prf_win;
+WINDOW * display_lsq_win;
 WINDOW * clock_win;
 
 WINDOW * if_win;
@@ -179,6 +204,8 @@ WINDOW * rs_win;
 WINDOW * rat_win;
 WINDOW * rrat_win;
 WINDOW * prf_win;
+WINDOW * lq_win;
+WINDOW * sq_win;
 
 // TODO: include windows for displaying system information
 
@@ -351,6 +378,47 @@ void draw_rat_prf(){
 
 }
 
+
+void draw_lsq(){
+    LQ_ENTRY * clq = lsq[history_num].lq;
+    SQ_ENTRY * csq = lsq[history_num].sq;
+
+    // DRAW LQ
+    box(lq_win, 0, 0);
+    mvwaddstr(lq_win, 0, 5, "LOAD QUEUE");
+    mvwaddstr(lq_win, 1, 1, "S ROB PRF F AF ADDR     S SQTAIL      DATA");
+
+    for(int i = 0; i < LSQ_SIZE; ++i){
+        mvwaddstr(lq_win, 2 + i, 1, clq[i].size);
+        mvwaddstr(lq_win, 2 + i, 3, clq[i].ROB_idx);
+        mvwaddstr(lq_win, 2 + i, 7, clq[i].PRF_idx);
+        mvwaddstr(lq_win, 2 + i, 11, clq[i].free);
+        mvwaddstr(lq_win, 2 + i, 13,  clq[i].addr_ready);
+        mvwaddstr(lq_win, 2 + i, 16,  clq[i].addr);
+        mvwaddstr(lq_win, 2 + i, 25,  clq[i].is_signed);
+        mvwaddstr(lq_win, 2 + i, 27,  clq[i].sq_tail_old);
+        mvwaddstr(lq_win, 2 + i, 35,  clq[i].data);
+    }
+    wrefresh(lq_win);
+
+
+    // DRAW SQ
+    box(sq_win, 0, 0);
+    mvwaddstr(sq_win, 0, 5, "STORE QUEUE");
+    mvwaddstr(sq_win, 1, 1, "S     DATA         D_V ROB ADDR     A_V V");
+
+    for(int i = 0; i < LSQ_SIZE; ++i){
+        mvwaddstr(sq_win, 2 + i, 1, csq[i].size);
+        mvwaddstr(sq_win, 2 + i, 3, csq[i].data);
+        mvwaddstr(sq_win, 2 + i, 20, csq[i].data_valid);
+        mvwaddstr(sq_win, 2 + i, 24, csq[i].ROB_idx);
+        mvwaddstr(sq_win, 2 + i, 28, csq[i].addr);
+        mvwaddstr(sq_win, 2 + i, 37, csq[i].addr_valid);
+        mvwaddstr(sq_win, 2 + i, 41, csq[i].valid);
+    }
+    wrefresh(sq_win);
+}
+
 void draw_menu(){
     mvaddstr(ymax / 2 - 2, xmax / 2 - 18, "__     _______ _   _ ____  _____ ____");
     mvaddstr(ymax / 2 - 1, xmax / 2 - 18, "\\ \\   / /_   _| | | | __ )| ____|  _ \\");
@@ -375,24 +443,29 @@ void draw_display(){
     wattroff(display_rob_win, COLOR_PAIR(1));
     wattroff(display_rs_win, COLOR_PAIR(1));
     wattroff(display_rat_prf_win, COLOR_PAIR(1));
+    wattroff(display_lsq_win, COLOR_PAIR(1));
 
     switch(mode){
     case 'o': wattron(display_rob_win, COLOR_PAIR(1)); break;
     case 's': wattron(display_rs_win, COLOR_PAIR(1)); break;
     case 'r': wattron(display_rat_prf_win, COLOR_PAIR(1)); break;
+    case 'l': wattron(display_lsq_win, COLOR_PAIR(1)); break;
     }
 
     box(display_rob_win, 0, 0);
     box(display_rs_win, 0, 0);
     box(display_rat_prf_win, 0, 0);
+    box(display_lsq_win, 0, 0);
 
     mvwaddstr(display_rob_win, 1, 1, "ROB");
     mvwaddstr(display_rs_win, 1, 1, "RS");
     mvwaddstr(display_rat_prf_win, 1, 1, "RAT");
+    mvwaddstr(display_lsq_win, 1, 1, "LSQ");
 
     wrefresh(display_rob_win);
     wrefresh(display_rs_win);
     wrefresh(display_rat_prf_win);
+    wrefresh(display_lsq_win);
 }
 
 void draw_clock(){
@@ -417,6 +490,7 @@ void redraw(){
         case 'o': draw_rob(); break;
         case 's': draw_rs(); break;
         case 'r': draw_rat_prf(); break;
+        case 'l': draw_lsq(); break;
         default: draw_menu(); break;
     }
     draw_if();
@@ -467,14 +541,17 @@ void setup_gui(){
     rat_win = newwin(num_rows + 4, 24 * num_cols, 0, 0);
     rrat_win = newwin(num_rows + 4, 24 * num_cols, 0, 24 * num_cols);
     prf_win = newwin(num_rows + 4, 14 * num_cols, 0, 48 * num_cols);
+    lq_win = newwin(LSQ_SIZE + 4, 60, 2, 10);
+    sq_win = newwin(LSQ_SIZE + 4, 45, 2, 75);
 
     legend_win = newwin(9, 25, ymax - 9, 0);
     wattron(legend_win, COLOR_PAIR(5));
     clock_win = newwin(5, 12, ymax - 8, xmax - 12);
 
-    display_rob_win = newwin(3, 5, ymax - 3, xmax - 21);
-    display_rs_win = newwin(3, 5, ymax - 3, xmax - 14);
-    display_rat_prf_win = newwin(3, 5, ymax - 3, xmax - 7);
+    display_rob_win = newwin(3, 5, ymax - 3, xmax - 20);
+    display_rs_win = newwin(3, 5, ymax - 3, xmax - 15);
+    display_rat_prf_win = newwin(3, 5, ymax - 3, xmax - 10);
+    display_lsq_win = newwin(3, 5, ymax - 3, xmax - 5);
 
     refresh();
 }
@@ -603,6 +680,43 @@ int processinput(){
         sscanf(readbuffer, "p%d", &i);
         sscanf(readbuffer, "p%d %s", &i, cprf->value[i]);
     }
+    else if(strncmp(readbuffer,"q",1) == 0){
+        if(strncmp(readbuffer+1,"l",1) == 0){
+            LSQ * clsq = lsq + ((history_num + 1) % NUM_HISTORY);
+            int i;
+            sscanf(readbuffer, "ql%d", &i);
+            sscanf(readbuffer, "ql%d %s %s %s %s %s %s %s %s %s",
+                &i,
+                clsq->lq[i].size,
+                clsq->lq[i].ROB_idx,
+                clsq->lq[i].PRF_idx,
+                clsq->lq[i].free,
+                clsq->lq[i].addr_ready,
+                clsq->lq[i].addr,
+                clsq->lq[i].is_signed,
+                clsq->lq[i].sq_tail_old,
+                clsq->lq[i].data);   
+        }
+        else if(strncmp(readbuffer+1,"s",1) == 0){
+            LSQ * clsq = lsq + ((history_num + 1) % NUM_HISTORY);
+            int i;
+            sscanf(readbuffer, "qs%d", &i);
+            sscanf(readbuffer, "qs%d %s %s %s %s %s %s %s",
+                &i,
+                clsq->sq[i].size,
+                clsq->sq[i].data,
+                clsq->sq[i].data_valid,
+                clsq->sq[i].ROB_idx,
+                clsq->sq[i].addr,
+                clsq->sq[i].addr_valid,
+                clsq->sq[i].valid);
+        }
+        else{
+            LSQ * clsq = lsq + ((history_num + 1) % NUM_HISTORY);
+            sscanf(readbuffer, "q%s %s", clsq->sq_head, clsq->sq_tail);
+        }
+
+    }
     else if(strncmp(readbuffer,"c",1) == 0){
         sscanf(readbuffer, "c %d %d", &clock_edge, &present_cycle);
     }
@@ -622,12 +736,13 @@ int processinput(){
 
 
 /* -------------------- driver function -------------------- */
-extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int prf_size_in, int num_regs_in, int xlen_in){
+extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int prf_size_in, int lsq_size_in, int num_regs_in, int xlen_in){
 
     N_WAYS = n_ways_in;
     RS_SIZE = rs_size_in;
     ROB_SIZE = rob_size_in;
     PRF_SIZE = prf_size_in;
+    LSQ_SIZE = lsq_size_in;
     NUM_REGS = num_regs_in;
     XLEN = xlen_in;
 
@@ -664,6 +779,7 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
         rat         = (RAT *)malloc(sizeof(RAT) * NUM_HISTORY);
         rrat        = (RAT *)malloc(sizeof(RAT) * NUM_HISTORY);
         prf         = (PRF *)malloc(sizeof(PRF) * NUM_HISTORY);
+        lsq         = (LSQ *)malloc(sizeof(LSQ) * NUM_HISTORY);
 
         for(int i = 0; i < NUM_HISTORY; ++i){
             if_stage[i].insts   = (char **)malloc(sizeof(char *) * N_WAYS);
@@ -684,7 +800,10 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
             rrat[i].validlist   = (char **)malloc(sizeof(char *) * PRF_SIZE);
 
             prf[i].value        = (char **)malloc(sizeof(char *) * PRF_SIZE);
-
+            
+            lsq[i].lq           = (LQ_ENTRY *)malloc(sizeof(LQ_ENTRY) * LSQ_SIZE);
+            lsq[i].sq           = (SQ_ENTRY *)malloc(sizeof(SQ_ENTRY) * LSQ_SIZE);
+            
             for(int j = 0; j < N_WAYS; ++j){
                 if_stage[i].insts[j]    = (char *)(malloc(9));
                 if_stage[i].pc[j]       = (char *)(malloc(9));
@@ -815,6 +934,7 @@ extern "C" void initcurses(int n_ways_in, int rs_size_in, int rob_size_in, int p
                     case 'o': mode = 'o'; break;
                     case 's': mode = 's'; break;
                     case 'r': mode = 'r'; break;
+                    case 'l': mode = 'l'; break;
                     //case '\r':
                         //if(cycle_dest != 0)
                             //skip_cycles = 1;

@@ -12,7 +12,7 @@
 
 `define VISUAL_DEBUGGER
 
-extern void initcurses(int,int,int,int,int,int);
+extern void initcurses(int,int,int,int,int,int,int);
 extern void flushproc();
 extern void waitforresponse();
 extern void initmem();
@@ -202,7 +202,7 @@ mem memory (
     // *Note that after this, all stdout output goes to visual debugger*
     // each argument is number of registers/signals for the group
     // (n_ways, rs_size, rob_size, prf_size, num_regs, xlen)
-    initcurses(`WAYS, `RS, `ROB, `PRF, `REGS, `XLEN);
+    initcurses(`WAYS, `RS, `ROB, `PRF, `LSQSZ, `REGS, `XLEN);
 
     // Pulse the reset signal
     reset = 1'b1;
@@ -354,6 +354,39 @@ mem memory (
     // PRF signals
     for(int i = 0; i <`PRF; i++) begin
         $display("p%d %h", i, core.id_stage_0.prf.registers[i]);
+    end
+
+
+    // LSQ signals
+    $display("q%h %h",
+      core.DMEM_0.LSQ_0.sq_head,
+      core.DMEM_0.LSQ_0.sq_tail);
+
+    // LQ signals
+    for(int i = 0; i < `LSQSZ; i++) begin
+      $display("ql%d %h %h %h %h %h %h %h %h %h",
+        i,
+        core.DMEM_0.LSQ_0.lq.ld_sz_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_ROB_idx_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_PRF_idx_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_free[i],
+        core.DMEM_0.LSQ_0.lq.ld_addr_ready_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_addr_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_is_signed_reg[i],
+        core.DMEM_0.LSQ_0.lq.sq_tail_old[i],
+        core.DMEM_0.LSQ_0.lq.ld_data_reg[i]);
+    end
+
+    for(int i = 0; i < `LSQSZ; i++) begin
+      $display("qs%d %h %h %h %h %h %h %h",
+        i,
+        core.DMEM_0.LSQ_0.sq.size_reg[i],
+        core.DMEM_0.LSQ_0.sq.data_reg[i],
+        core.DMEM_0.LSQ_0.sq.data_valid_reg[i],
+        core.DMEM_0.LSQ_0.sq.ROB_idx_reg[i],
+        core.DMEM_0.LSQ_0.sq.addr_reg[i],
+        core.DMEM_0.LSQ_0.sq.addr_valid_reg[i],
+        core.DMEM_0.LSQ_0.sq.valid_reg[i]);
     end
 
 
