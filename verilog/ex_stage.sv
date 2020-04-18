@@ -24,7 +24,7 @@
 // This module is purely combinational
 //
 
-typedef enum logic {INITIAL,  MULT_NOT_DONE } alu_state;
+typedef enum logic[1:0] {INITIAL,  MULT_NOT_DONE. MULT_DONE_WAIT_FOR_CDB } alu_state;
 
 module alu(
 	input 		clock,
@@ -68,7 +68,7 @@ module alu(
 		.done(mult_done)
 	);
 
-assign occupied = (state == MULT_NOT_DONE);
+assign occupied = (state != INITIAL);
 
 	always_comb begin
 		valid_out = 0;
@@ -88,8 +88,9 @@ assign occupied = (state == MULT_NOT_DONE);
 				if(mult_done & ~lq_CDB_valid)	begin
 					valid_out = 1;
 					next_state = INITIAL; 
-				end	else begin 
-					//start = 1;
+				end	else if(mult_done & lq_CDB_valid) begin
+					next_state = MULT_DONE_WAIT_FOR_CDB;
+				end else begin 
 					next_state = MULT_NOT_DONE;
 				end
 			end
@@ -98,11 +99,10 @@ assign occupied = (state == MULT_NOT_DONE);
 	end
 
 	always_ff @(posedge clock) begin
-//		$display("state: %b next_stage: %b valid_in: %b",state,next_state,valid_in);
 		if(reset) begin
 					state <= `SD INITIAL; 
 		end else begin
-										state <= `SD next_state;
+					state <= `SD next_state;
 			if(is_mult)	range_reg <= `SD range;
 		end	
 	end
