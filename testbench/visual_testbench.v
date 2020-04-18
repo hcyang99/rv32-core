@@ -34,15 +34,15 @@ module testbench();
 	logic  [3:0] mem2proc_response;
 	logic [63:0] mem2proc_data;
 	logic  [3:0] mem2proc_tag;
-`ifndef CACHE_MODE
-	MEM_SIZE     proc2mem_size;
-`endif
+	logic  [1:0]     proc2mem_size;
+
 	logic  [3:0] pipeline_completed_insts;
 	EXCEPTION_CODE   pipeline_error_status;
 	logic  [4:0] pipeline_commit_wr_idx;
 	logic [`XLEN-1:0] pipeline_commit_wr_data;
 	logic        pipeline_commit_wr_en;
 	logic [`XLEN-1:0] pipeline_commit_NPC;
+  logic [`WAYS-1:0] [`XLEN-1:0] 	PC_out;
 
 // if
 	logic [`WAYS-1:0]	if_valid_inst_out;
@@ -103,9 +103,7 @@ processor core(
     .proc2mem_command           (proc2mem_command),
     .proc2mem_addr              (proc2mem_addr),
     .proc2mem_data              (proc2mem_data),
-`ifndef CACHE_MODE
     .proc2mem_size              (proc2mem_size),
-`endif
 
     .pipeline_completed_insts  	(pipeline_completed_insts),
     .pipeline_error_status   	(pipeline_error_status),
@@ -113,6 +111,7 @@ processor core(
     .pipeline_commit_wr_data 	(pipeline_commit_wr_data),
     .pipeline_commit_wr_en      (pipeline_commit_wr_en),
     .pipeline_commit_NPC 	    (pipeline_commit_NPC),
+    .PC_out                      (PC_out),
   
 // newly-added for debugging
     .if_valid_inst_out,
