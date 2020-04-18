@@ -293,10 +293,10 @@ always_comb begin
             valid_after_mem[mem_wr_idx] = 1'b1;
             dirty_after_mem[mem_wr_idx] = 1'b0;
             // overwrite victim lru
-            victim_tags_after_mem = {tags_after_rd[mem_wr_idx], mem_wr_idx};
-            victim_data_after_mem = data_after_rd[mem_wr_idx];
+            victim_tags_after_mem[victim_lru_after_rd] = {tags_after_rd[mem_wr_idx], mem_wr_idx};
+            victim_data_after_mem[victim_lru_after_rd] = data_after_rd[mem_wr_idx];
             victim_valid_after_mem[victim_lru_after_rd] = valid_after_rd[mem_wr_idx];
-            victim_dirty_after_mem = dirty_after_rd[mem_wr_idx];
+            victim_dirty_after_mem[victim_lru_after_rd] = dirty_after_rd[mem_wr_idx];
             victim_lru_after_mem = ~victim_lru_after_rd;
         end
         else begin
