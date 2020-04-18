@@ -435,7 +435,8 @@ void draw_legend(){
     mvwaddstr(legend_win, 3, 1, "o : display rob");
     mvwaddstr(legend_win, 4, 1, "s : display rs");
     mvwaddstr(legend_win, 5, 1, "r : display rat/prf");
-    mvwaddstr(legend_win, 6, 1, "q : quit");
+    mvwaddstr(legend_win, 6, 1, "l : display lsq");
+    mvwaddstr(legend_win, 7, 1, "q : quit");
     wrefresh(legend_win);
 }
 
