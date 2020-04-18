@@ -206,12 +206,18 @@ endgenerate
 //     end
 // endgenerate
 
+generate;
+    for (gi = 0; gi < `LSQSZ; ++gi) begin
+        assign ls_addr_block_hit_msk_ge_head[gi] = ls_addr_block_hit[gi] & ge_head;
+        assign ls_addr_all_hit_msk_ge_head[gi] = ls_addr_all_hit[gi] & ge_head;
+    end
+endgenerate
 assign ls_addr_block_hit_msk_all = ls_addr_block_hit & age_mask;
-assign ls_addr_block_hit_msk_ge_head = ls_addr_block_hit & ge_head;
 assign ls_addr_block_hit_msk_lt_tail = ls_addr_block_hit & lt_tail;
 assign ls_addr_all_hit_msk_all = ls_addr_all_hit & age_mask;
-assign ls_addr_all_hit_msk_ge_head = ls_addr_all_hit & ge_head;
 assign ls_addr_all_hit_msk_lt_tail = ls_addr_all_hit & lt_tail;
+
+
 
 // select the youngest store
 generate;
