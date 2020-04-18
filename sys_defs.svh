@@ -62,7 +62,7 @@ typedef enum logic [1:0] {
 
 
 
-`define LSQSZ 16
+`define LSQSZ 8
 
 
 //////////////////////////////////////////////
