@@ -46,7 +46,7 @@ module store_queue(
     output sq_entry [`LSQSZ-1:0]                    sq_out,
 
     // To flow control logic (stall)
-    output reg [$clog2(`LSQSZ):0]                   num_free
+    output logic [$clog2(`LSQSZ):0]                 num_free
 );
 
     reg [`LSQSZ-1:0] [1:0]                            size_reg;
@@ -56,6 +56,7 @@ module store_queue(
     reg [`LSQSZ-1:0] [15:0]                           addr_reg;
     reg [`LSQSZ-1:0]                                  addr_valid_reg;
     reg [`LSQSZ-1:0]                                  valid_reg;
+    reg [$clog2(`LSQSZ):0]                            num_free_reg;
 
     genvar gi, gj;
 
@@ -325,7 +326,8 @@ module store_queue(
     // num free
     logic [$clog2(`WAYS):0] num_dispatched;
     wire [$clog2(`LSQSZ):0] num_free_next;
-    assign num_free_next = (num_free - num_dispatched) + commit;
+    assign num_free_next = (num_free_reg - num_dispatched) + commit;
+    assign num_free = num_free_next;
 
     always_comb begin
         num_dispatched = 0;
@@ -336,10 +338,10 @@ module store_queue(
 
     always_ff @(posedge clock) begin
         if (reset | except) begin
-            num_free <= `LSQSZ;
+            num_free_reg <= `LSQSZ;
         end
         else begin
-            num_free <= num_free_next;
+            num_free_reg <= num_free_next;
         end
     end
 

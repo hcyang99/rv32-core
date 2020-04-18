@@ -34,7 +34,7 @@ module LQ(
     input [`LSQSZ-1:0]                          mem_feedback,
     input [31:0]                                mem_data,       // from mem, only overwrites "waiting" entries
 
-    output reg [$clog2(`LSQSZ):0]               lq_num_free_out,
+    output logic [$clog2(`LSQSZ):0]             lq_num_free_out,
 
     // read from DCache
     output wor [2:0]                            rd_offset,
@@ -339,9 +339,8 @@ assign CDB_Data = CDB_is_ext ? CDB_Data_ext: CDB_Data_tmp;
 
 // free count
 wire [$clog2(`LSQSZ):0]  lq_num_free_next;
-wire [$clog2(`LSQSZ):0]  lq_num_free_out_next;
 assign lq_num_free_next = lq_num_free - incoming_cnt + CDB_valid;
-assign lq_num_free_out_next = (lq_num_free_next < `WAYS) ? 0 : lq_num_free_next;
+assign lq_num_free_out = lq_num_free_next;
 
 // always_ff
 wire [`LSQSZ-1:0] ld_free_hold;
@@ -406,7 +405,6 @@ always_ff @ (posedge clock) begin
         sq_tail_old <= 0;
         ld_data_reg <= 0;
         lq_num_free <= `LSQSZ;
-        lq_num_free_out <= `LSQSZ;
         ls_state <= 0;
     end
     else begin
@@ -420,7 +418,6 @@ always_ff @ (posedge clock) begin
         sq_tail_old <= sq_tail_old_next;
         ld_data_reg <= ld_data_next;
         lq_num_free <= lq_num_free_next;
-        lq_num_free_out <= lq_num_free_out_next;
         ls_state <= ls_state_next;
     end
 end
