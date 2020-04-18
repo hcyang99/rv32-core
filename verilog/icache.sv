@@ -59,7 +59,7 @@ assign prefetch_addr_next = (Imem2proc_response != 0) ? (proc2Imem_addr + 8) : p
 
 always_comb begin
     prefetch_cnt_next = prefetch_cnt;
-    if (prefetch_cnt && !miss_outstanding) begin
+    if (prefetch_cnt && !miss_outstanding && Imem2proc_response) begin
         prefetch_cnt_next = prefetch_cnt - 1;
     end
     if (miss_outstanding)
