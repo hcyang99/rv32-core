@@ -24,7 +24,7 @@
 // This module is purely combinational
 //
 
-typedef enum logic[1:0] {INITIAL,  MULT_NOT_DONE. MULT_DONE_WAIT_FOR_CDB } alu_state;
+typedef enum logic[1:0] {INITIAL,  MULT_NOT_DONE, MULT_DONE_WAIT_FOR_CDB } alu_state;
 
 module alu(
 	input 		clock,
