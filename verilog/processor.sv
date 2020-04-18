@@ -453,7 +453,7 @@ generate
 endgenerate
 
 
-assign rob_is_full = next_num_free < `WAYS + 1;
+assign rob_is_full = next_num_free < 2*`WAYS;
 assign rs_is_full  = num_is_free_next < `WAYS;
 
 assign id_ex_enable = ~rob_is_full & ~rs_is_full & ~lq_is_full & ~ sq_is_full & ~except;
