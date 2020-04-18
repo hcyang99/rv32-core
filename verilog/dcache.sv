@@ -160,6 +160,10 @@ always_comb begin
     tags_after_wr = tags; 
     valid_after_wr = valid;
     dirty_after_wr = dirty;
+
+    swap_data_tmp_wr = 0;
+    swap_dirty_tmp_wr = 0;
+    swap_tag_tmp_wr = 0;
     // outputs
     wr_en_out = 0;
     wr_addr_out = 0;
@@ -182,6 +186,7 @@ always_comb begin
                     victim_data_after_wr[i] = data[proc_wr_idx];
                     victim_dirty_after_wr[i] = dirty[proc_wr_idx];
                     victim_tags_after_wr[i] = {tags[proc_wr_idx], proc_wr_idx};
+                    victim_valid_after_wr[i] = 1'b1;
                     swap_data_tmp_wr = (victim_data[i] & ~proc_wr_mask) | 
                                         (proc_wr_mask & (proc_wr_data << {proc_wr_offset, 3'b0}));
                     swap_dirty_tmp_wr = 1'b1;
@@ -191,6 +196,7 @@ always_comb begin
             data_after_wr[proc_wr_idx] = swap_data_tmp_wr;
             dirty_after_wr[proc_wr_idx] = swap_dirty_tmp_wr;
             tags_after_wr[proc_wr_idx] = swap_tag_tmp_wr;
+            valid_after_wr[proc_wr_idx] = 1'b1;
         end
         else begin
             // cache miss victim miss: goto mem
@@ -215,6 +221,10 @@ always_comb begin
     tags_after_rd = tags_after_wr;
     valid_after_rd = valid_after_wr;
     dirty_after_rd = dirty_after_wr;
+
+    swap_data_tmp_rd = 0;
+    swap_dirty_tmp_rd = 0;
+    swap_tag_tmp_rd = 0;
     // outputs
     rd_data = 0;
     rd_feedback = 0;
@@ -234,6 +244,7 @@ always_comb begin
                 if (rd_victim_match[i]) begin
                     victim_data_after_rd[i] = data_after_wr[rd_idx];
                     victim_dirty_after_rd[i] = dirty_after_wr[rd_idx];
+                    victim_valid_after_rd[i] = valid_after_wr[rd_idx];
                     victim_tags_after_rd[i] = {tags_after_wr[rd_idx], rd_idx};
                     swap_data_tmp_rd = victim_data_after_wr[i];
                     swap_dirty_tmp_rd = victim_dirty_after_wr[i];
@@ -242,6 +253,7 @@ always_comb begin
                     rd_feedback = rd_gnt;
                 end
             end
+            valid_after_rd[rd_idx] = 1'b1;
             data_after_rd[rd_idx] = swap_data_tmp_rd;
             dirty_after_rd[rd_idx] = swap_dirty_tmp_rd;
             tags_after_rd[rd_idx] = swap_tag_tmp_rd;
@@ -286,18 +298,27 @@ always_comb begin
             dirty_after_mem[mem_wr_idx] = 1'b0;
         end
         else if (victim_valid_after_rd != 2'b11) begin
-            // evict cache entry, overwrite victim cache lru
+            // evict cache entry, overwrite victim cache invalid
             // overwrite cache
             data_after_mem[mem_wr_idx] = mem_wr_data;
             tags_after_mem[mem_wr_idx] = mem_wr_tag;
             valid_after_mem[mem_wr_idx] = 1'b1;
             dirty_after_mem[mem_wr_idx] = 1'b0;
-            // overwrite victim lru
-            victim_tags_after_mem[victim_lru_after_rd] = {tags_after_rd[mem_wr_idx], mem_wr_idx};
-            victim_data_after_mem[victim_lru_after_rd] = data_after_rd[mem_wr_idx];
-            victim_valid_after_mem[victim_lru_after_rd] = valid_after_rd[mem_wr_idx];
-            victim_dirty_after_mem[victim_lru_after_rd] = dirty_after_rd[mem_wr_idx];
-            victim_lru_after_mem = ~victim_lru_after_rd;
+            // try to overwrite victim lru first
+            if (!victim_valid_after_rd[victim_lru_after_rd]) begin
+                victim_tags_after_mem[victim_lru_after_rd] = {tags_after_rd[mem_wr_idx], mem_wr_idx};
+                victim_data_after_mem[victim_lru_after_rd] = data_after_rd[mem_wr_idx];
+                victim_valid_after_mem[victim_lru_after_rd] = valid_after_rd[mem_wr_idx];
+                victim_dirty_after_mem[victim_lru_after_rd] = dirty_after_rd[mem_wr_idx];
+                victim_lru_after_mem = ~victim_lru_after_rd;
+            end
+            else begin  // otherwise, overwrite the non-lru invalid
+                victim_tags_after_mem[~victim_lru_after_rd] = {tags_after_rd[mem_wr_idx], mem_wr_idx};
+                victim_data_after_mem[~victim_lru_after_rd] = data_after_rd[mem_wr_idx];
+                victim_valid_after_mem[~victim_lru_after_rd] = valid_after_rd[mem_wr_idx];
+                victim_dirty_after_mem[~victim_lru_after_rd] = dirty_after_rd[mem_wr_idx];
+                // lru holds
+            end
         end
         else begin
             // evict cache entry, evict victim cache lru, write back to mem
