@@ -182,7 +182,7 @@ always_comb begin
                     victim_data_after_wr[i] = data[proc_wr_idx];
                     victim_dirty_after_wr[i] = dirty[proc_wr_idx];
                     victim_tags_after_wr[i] = {tags[proc_wr_idx], proc_wr_idx};
-                    swap_data_tmp_wr = (victim_data_after_wr[i] & ~proc_wr_mask) | 
+                    swap_data_tmp_wr = (victim_data[i] & ~proc_wr_mask) | 
                                         (proc_wr_mask & (proc_wr_data << {proc_wr_offset, 3'b0}));
                     swap_dirty_tmp_wr = 1'b1;
                     swap_tag_tmp_wr = victim_tags[i][12:5];
