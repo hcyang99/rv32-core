@@ -63,6 +63,19 @@ always_comb begin
     end
 end
 
+
+// always_ff @(negedge clock) begin
+//     int x;
+//     x = 0;
+//     for (int i = 0; i < `PRF; ++i) begin
+//         if (free_RRAT_reg[i]) ++x;
+//     end
+//     if (x != 32 && $realtime > 1000) begin
+//         $display("%4.0f Error: free_RRAT_count = %h", $realtime, x);
+//         $finish;
+//     end
+// end
+
 genvar gi;
 
 // always_comb begin

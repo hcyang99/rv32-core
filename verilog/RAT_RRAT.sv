@@ -184,6 +184,16 @@ assign RRAT_reg_out = RRAT_reg;
 assign is_renamed = RAT_idx_valid & PRF_idx_in_valid;
 
 
+// always_comb begin
+//     for (int i = 1; i < 32; ++i) begin
+//         for (int j = i + 1; j < 32; ++j) begin
+//             if (RAT_reg[i] == RAT_reg[j])   $display("Error at %4.0f: RAT[%h] == RAT[%h]", $realtime, i, j);
+//             if (RRAT_reg[i] == RRAT_reg[j]) $display("Error at %4.0f: RRAT[%h] == RRAT[%h]", $realtime, i, j);
+//         end
+//     end
+// end
+
+
 
 
 
@@ -238,7 +248,7 @@ generate
         always_comb begin
             RRAT_PRF_old[gi] = RRAT_reg[RRAT_ARF_idx[gi]];
             for (int j = 0; j < gi; ++j) begin
-                if (PRF_idx_in_valid[j] && (RRAT_ARF_idx[gi] == RRAT_ARF_idx[j])) begin
+                if (RRAT_idx_valid[j] && (RRAT_ARF_idx[gi] == RRAT_ARF_idx[j])) begin
                     RRAT_PRF_old[gi] = RRAT_PRF_idx[j];
                 end
             end
