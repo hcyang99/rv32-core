@@ -273,8 +273,7 @@ module testbench;
 			if(pipeline_completed_insts>0) begin
                 for(int i = 0; i < `WAYS; i++) begin
                     if(core.valid_out[i])
-                        $fdisplay(wb_fileno, "%4.0f PC=%x, REG[%d]=%x",
-							$realtime,
+                        $fdisplay(wb_fileno, "PC=%x, REG[%d]=%x",
                             core.PC_out[i],
                             core.dest_ARN_out[i],
                             core.id_stage_0.prf.registers[core.dest_PRN_out[i]]);
@@ -282,7 +281,7 @@ module testbench;
 			end
 `endif
 			// deal with any halting conditions
-			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT) || debug_counter > 1000000) begin
+			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT) || debug_counter > 2000000) begin
 				$display("@@@ Unified Memory contents hex on left, decimal on right: ");
 				clean_cache_and_write_mem;
 				show_mem_with_decimal(0,`MEM_64BIT_LINES - 1); 

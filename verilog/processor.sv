@@ -221,6 +221,8 @@ module processor (
   	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_target;
 	logic [`WAYS-1:0]							CDB_reg_write;
 	logic [`WAYS-1:0]							CDB_is_load_from_ex;
+	logic [`WAYS-1:0]                           CDB_is_branch;
+  	logic [`WAYS-1:0] [`XLEN-1:0]               CDB_PC;
 
 // output of dmem
     logic [1:0]                          Dmem_command;
@@ -297,6 +299,7 @@ module processor (
 			assign CDB_ROB_idx[i]   	 = lq_CDB_valid[i]? lq_CDB_ROB_idx : ex_packet_out[i].rob_idx; // the rob index of the CDB's inst
 			assign CDB_target[i]    	 = lq_CDB_valid[i]? 0: ex_packet_out[i].take_branch ? ex_packet_out[i].alu_result: ex_packet_out[i].NPC ;  // if  			
 			assign CDB_is_load_from_ex[i]= ~lq_CDB_valid[i] & ex_packet_out[i].valid & ex_packet_out[i].rd_mem;
+			assign CDB_PC[i]             = ex_packet_out[i].NPC-4;
 		end
 	endgenerate
 
@@ -418,12 +421,12 @@ endgenerate
 
 //-----------------branch predictor-----------------------------
 
-        .PC_update(PC_out),
-        .direction_update(direction_out),
+        .PC_update(CDB_PC),
+        .direction_update(CDB_direction),
 	
 
-        .target_update(target_out),
-        .valid_update,
+        .target_update(CDB_target),
+        .valid_update(CDB_valid & CDB_is_branch),
 //output
         .next_PC(id_next_PC),
         .predictions(id_predictions),
@@ -712,7 +715,9 @@ end
 		.id_ex_packet_in(ex_packet_in),
 		// Outputs
 		.ex_packet_out(ex_packet_out),
-		.occupied_hub(ALU_occupied)
+		.occupied_hub(ALU_occupied),
+		.ex_is_branch_out(CDB_is_branch)
+
 	);
 
 endmodule  // module verisimple

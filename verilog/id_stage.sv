@@ -358,8 +358,9 @@ logic [`WAYS-1:0]                   is_branch;
 				end
 			endgenerate
 
+
 //branch predictor
-branch_pred #(.SIZE(128)) predictor (
+branch_pred_v2 #(.SIZE(128),.PSZ(128),.PL(7),.NS(32),.NW(4)) predictor (
         .clock,
         .reset(reset),
 
@@ -378,6 +379,27 @@ branch_pred #(.SIZE(128)) predictor (
         .predictions
     );
 
+//branch predictor
+/*
+branch_pred #(.SIZE(128)) predictor (
+        .clock,
+        .reset(reset),
+
+        .PC(if_id_packet_in[0].PC),
+				.is_branch,
+				.is_valid(inst_valid_tmp),
+
+        .PC_update,
+        .direction_update,
+//	      .direction_update(0),
+
+        .target_update,
+        .valid_update,
+//output
+        .next_PC(next_PC),//useless
+        .predictions
+    );
+*/
 
 logic branch;
 always_comb begin

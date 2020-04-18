@@ -1,4 +1,4 @@
-/*module branch_pred_v2 #(parameter SIZE=128,//Size of BHT
+module branch_pred_v2 #(parameter SIZE=128,//Size of BHT
     parameter PSZ=128,//Size of PHT
     parameter PL=7,//PL=$clog2(PSZ)
     parameter NS=32,//Num of set of BTB
@@ -117,7 +117,7 @@
         end // if(!reset)
     end // always_ff
 endmodule
-*/
+
 
 
 

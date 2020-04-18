@@ -199,7 +199,9 @@ module ex_stage(
 	input	[`WAYS-1:0]							lq_CDB_valid,
 	input 	ID_EX_PACKET	[`WAYS-1:0]      	id_ex_packet_in,
 	output 	EX_MEM_PACKET	[`WAYS-1:0] 		ex_packet_out,
-	output [`WAYS-1:0] 							occupied_hub
+	output [`WAYS-1:0] 							occupied_hub,
+	output [`WAYS-1:0]                          ex_is_branch_out
+
 );
 
 	logic [`WAYS-1: 0][`XLEN-1:0] opa_mux_out, opb_mux_out;
@@ -219,6 +221,7 @@ module ex_stage(
 			assign ex_packet_out[i].csr_op 			= id_ex_packet_in[i].csr_op;
 			assign ex_packet_out[i].mem_size 		= id_ex_packet_in[i].mem_size;
 			assign ex_packet_out[i].reg_write		= id_ex_packet_in[i].reg_write;
+			assign ex_is_branch_out[i]              = (id_ex_packet_in[i].uncond_branch | id_ex_packet_in[i].cond_branch)&~lq_CDB_valid;
 
 			// ultimate "take branch" signal:
 	 		//	unconditional, or conditional and the condition is true
