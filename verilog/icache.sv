@@ -1,4 +1,4 @@
-// optimized non-blocking icache with prefetch disabled
+// optimized non-blocking icache with prefetch enabled
 module icache(
     input clock,
     input reset,
