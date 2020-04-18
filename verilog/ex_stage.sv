@@ -94,6 +94,14 @@ assign occupied = (state != INITIAL);
 					next_state = MULT_NOT_DONE;
 				end
 			end
+			MULT_DONE_WAIT_FOR_CDB: begin
+				if(lq_CDB_valid) begin
+					next_state = MULT_DONE_WAIT_FOR_CDB;
+				end else begin
+					valid_out = 1;
+					next_state = INITIAL;
+				end
+			end
 			default: 			next_state = INITIAL;
 		endcase
 	end
