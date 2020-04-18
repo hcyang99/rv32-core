@@ -9,7 +9,7 @@ extern void print_cycles(int time_in, int cycle_count);
 extern void print_stage(string div, int inst, int valid_inst);
 extern void print_rs(string div, int inst, int valid_inst, int num_free, int load_in_hub, int is_free_hub, int ready_hub);
 extern void print_rob(string div, int except, int direction, int PC, int num_free, int dest_ARN_out, int valid_out);
-extern void print_ex_out(string div, int alu_result, int valid, int alu_occupied, int brand_results,int NPC);
+extern void print_ex_out(string div, int alu_result, int valid, int alu_occupied, int brand_results);
 extern void print_valids(int opa_valid, int opb_valid);
 extern void print_opaopb(int opa_valid, int opb_valid, int rs1_value, int rs2_value);
 extern void print_reg(int wb_reg_wr_data_out_hi, int wb_reg_wr_data_out_lo,
@@ -182,19 +182,75 @@ module testbench;
 		end
 	endtask  // task show_clk_count 
 
+	task wr_mem(input [63:0] data, input MEM_SIZE size, input [15:0] addr);
+		EXAMPLE_CACHE_BLOCK c;
+		c.byte_level = mem.unified_memory[addr[15:3]];
+		c.half_level = mem.unified_memory[addr[15:3]];
+		c.word_level = mem.unified_memory[addr[15:3]];
+		case (size) 
+			BYTE: begin
+				c.byte_level[addr[2:0]] = data[7:0];
+				mem.unified_memory[addr[15:3]] = c.byte_level;
+			end
+			HALF: begin
+				c.half_level[addr[2:1]] = data[15:0];
+				mem.unified_memory[proc2mem_addr[15:3]] = c.half_level;
+			end
+			WORD: begin
+				c.word_level[addr[2]] = data[31:0];
+				mem.unified_memory[addr[15:3]] = c.word_level;
+			end
+			default: begin
+				mem.unified_memory[addr[15:3]] = data;
+			end
+		endcase
+	endtask
+
 
 	task clean_cache_and_write_mem;
+		// for(int i = 0; i < 32; i++) begin
+		// 	if(core.DMEM_0.dcache_0.valid[i] & core.DMEM_0.dcache_0.dirty[i]) begin
+		// 		mem.unified_memory[32 * core.DMEM_0.dcache_0.tags[i] + i] = core.DMEM_0.dcache_0.data[i];
+		// 	end
+
+		// 	if(core.DMEM_0.dcache_0.victim_valid[i] & core.DMEM_0.dcache_0.victim_dirty[i]) begin
+		// 		mem.unified_memory[core.DMEM_0.dcache_0.victim_tags[i]] = core.DMEM_0.dcache_0.victim_data[i];
+		// 	end
+		// end
+
 		for(int i = 0; i < 32; i++) begin
 			if(core.DMEM_0.dcache_0.valid[i] & core.DMEM_0.dcache_0.dirty[i]) begin
-				mem.unified_memory[32 * core.DMEM_0.dcache_0.tags[i] + i] = core.DMEM_0.dcache_0.data[i];
+				wr_mem(core.DMEM_0.dcache_0.data[i], DOUBLE, (32 * core.DMEM_0.dcache_0.tags[i] + i) * 8);
 			end
 		end
 
-		for(int i = 0; i < 2; i++) begin
+		for (int i = 0; i < 2; ++i) begin
 			if(core.DMEM_0.dcache_0.victim_valid[i] & core.DMEM_0.dcache_0.victim_dirty[i]) begin
-				mem.unified_memory[core.DMEM_0.dcache_0.victim_tags[i]] = core.DMEM_0.dcache_0.victim_data[i];
+				wr_mem(core.DMEM_0.dcache_0.victim_data[i], DOUBLE, core.DMEM_0.dcache_0.victim_tags[i] * 8);
 			end
 		end
+
+		if (core.DMEM_0.LSQ_0.sq.write_en) begin
+			wr_mem(core.DMEM_0.LSQ_0.sq.write_data, core.DMEM_0.LSQ_0.sq.write_size, core.DMEM_0.LSQ_0.sq.write_addr);
+		end
+		for (int i = 0; i < 3; ++i) begin
+			if (core.DMEM_0.dcache_ctrl_0.valid_new_reg[i] && core.DMEM_0.dcache_ctrl_0.is_wr_new_reg[i]) begin
+				wr_mem(core.DMEM_0.dcache_ctrl_0.data_new_reg[i],
+					core.DMEM_0.dcache_ctrl_0.sz_new_reg[i],
+					core.DMEM_0.dcache_ctrl_0.addr_new_reg);
+			end
+		end
+		for (int i = core.DMEM_0.dcache_ctrl_0.q1_head_reg; 
+			i != core.DMEM_0.dcache_ctrl_0.q1_tail_reg; 
+			i = (i + 1) % (2 * `LSQSZ)) begin
+			if (core.DMEM_0.dcache_ctrl_0.is_wr_q1_reg[i]) begin
+				wr_mem(core.DMEM_0.dcache_ctrl_0.data_q1_reg[i],
+					core.DMEM_0.dcache_ctrl_0.sz_q1_reg[i],
+					core.DMEM_0.dcache_ctrl_0.addr_q1_reg[i]);
+			end
+		end
+
+		
 	endtask
 
 	// Show contents of a range of Unified Memory, in both hex and decimal
@@ -257,7 +313,7 @@ module testbench;
 				print_opaopb({31'b0, id_ex_opa_valid[i]}, {31'b0, id_ex_opb_valid[i]}, id_ex_rs1_value[i], id_ex_rs2_value[i]);
 				print_rob("|", {31'b0, except}, {31'b0, rob_direction_out[i]}, rob_PC_out[i], {27'b0, rob_num_free}, {27'b0, dest_ARN_out[i]}, {31'b0, valid_out[i]});
 				print_rs("|", rs_IR_out[i], {31'b0,rs_valid_inst_out[i]}, {27'b0, rs_num_is_free}, {16'b0, rs_load_in_hub}, {16'b0, rs_is_free_hub}, {16'b0, rs_is_free_hub});
-				print_ex_out("|", ex_alu_result_out[i], {31'b0,ex_valid_inst_out[i]}, {31'b0, ALU_occupied[i]}, {31'b0, brand_result[i]},core.ex_packet_out[i].NPC);
+				print_ex_out("|", ex_alu_result_out[i], {31'b0,ex_valid_inst_out[i]}, {31'b0, ALU_occupied[i]}, {31'b0, brand_result[i]});
 
 				print_reg(32'b0, pipeline_commit_wr_data[31:0],
 					{27'b0,pipeline_commit_wr_idx}, {31'b0,pipeline_commit_wr_en});
@@ -281,7 +337,7 @@ module testbench;
 			end
 `endif
 			// deal with any halting conditions
-			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT) || debug_counter > 10000000) begin
+			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT) || debug_counter > 1500000) begin
 				$display("@@@ Unified Memory contents hex on left, decimal on right: ");
 				clean_cache_and_write_mem;
 				show_mem_with_decimal(0,`MEM_64BIT_LINES - 1); 
