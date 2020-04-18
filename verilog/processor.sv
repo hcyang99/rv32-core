@@ -506,8 +506,8 @@ generate
 	end
 endgenerate
 
-assign sq_is_full = sq_num_free < `WAYS;
-assign lq_is_full = lq_num_free < `WAYS;
+assign sq_is_full = sq_num_free < `WAYS+1;
+assign lq_is_full = lq_num_free < `WAYS+1;
 
 
 DMEM DMEM_0(
