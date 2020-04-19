@@ -337,7 +337,7 @@ module testbench;
 			end
 `endif
 			// deal with any halting conditions
-			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT) || debug_counter > 1500000) begin
+			if((pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT)) begin
 				$display("@@@ Unified Memory contents hex on left, decimal on right: ");
 				clean_cache_and_write_mem;
 				show_mem_with_decimal(0,`MEM_64BIT_LINES - 1); 
