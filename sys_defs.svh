@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //                                                                     //
-//   Modulename :  sys_defs.vh                                         //
+//   Modulename :  sys_defs.svh                                         //
 //                                                                     //
 //  Description :  This file has the macro-defines for macros used in  //
 //                 the pipeline design.                                //
@@ -19,12 +19,57 @@
 `define DUT(mod) mod
 `endif
 
+
+`define REGS		32
+`define REG_LEN     64
+`define PRF         64
+`define ROB         32
+`define RS          16
+
+`define OLEN        16
+`define PCLEN       32
+`define WAYS        3
+
+
+//////////////////////////////////////////////
+//
+// R10K algorithm
+//
+//////////////////////////////////////////////
+`define LOGPRF      6 //$clog2(`PRF)
+
+
+/* 
+`define BYTE 2'b0
+`define HALF 2'h1
+`define WORD 2'h2
+`define DOUBLE 2'h3
+
+`define MEM_SIZE [1:0]
+*/
+typedef enum logic [1:0] {
+	BUS_NONE     = 2'h0,
+	BUS_LOAD     = 2'h1,
+	BUS_STORE    = 2'h2
+} BUS_COMMAND;
+
+typedef enum logic [1:0] {
+	BYTE = 2'h0,
+	HALF = 2'h1,
+	WORD = 2'h2,
+	DOUBLE = 2'h3
+} MEM_SIZE;
+
+
+
+`define LSQSZ 8
+
+
 //////////////////////////////////////////////
 //
 // Memory/testbench attribute definitions
 //
 //////////////////////////////////////////////
-`define CACHE_MODE //removes the byte-level interface from the memory mode, DO NOT MODIFY!
 `define NUM_MEM_TAGS           15
 
 `define MEM_SIZE_IN_BYTES      (64*1024)
@@ -154,20 +199,8 @@ typedef enum logic [4:0] {
 //
 // Memory bus commands control signals
 //
-typedef enum logic [1:0] {
-	BUS_NONE     = 2'h0,
-	BUS_LOAD     = 2'h1,
-	BUS_STORE    = 2'h2
-} BUS_COMMAND;
 
-`ifndef CACHE_MODE
-typedef enum logic [1:0] {
-	BYTE = 2'h0,
-	HALF = 2'h1,
-	WORD = 2'h2,
-	DOUBLE = 2'h3
-} MEM_SIZE;
-`endif
+
 //
 // useful boolean single-bit definitions
 //
@@ -280,20 +313,24 @@ typedef struct packed {
 	logic [`XLEN-1:0] PC;    // PC
 
 	logic [`XLEN-1:0] rs1_value;    // reg A value                                  
-	logic [`XLEN-1:0] rs2_value;    // reg B value                                  
+	logic [`XLEN-1:0] rs2_value;    // reg B value 
 	                                                                                
 	ALU_OPA_SELECT opa_select; // ALU opa mux select (ALU_OPA_xxx *)
 	ALU_OPB_SELECT opb_select; // ALU opb mux select (ALU_OPB_xxx *)
 	INST inst;                 // instruction
 	
-	logic [4:0] dest_reg_idx;  // destination (writeback) register index      
+	logic [$clog2(`PRF)-1:0] dest_PRF_idx;  // destination (writeback) register index 
+	logic [$clog2(`ROB)-1:0] rob_idx;       
+	logic [1:0]       	  mem_size; // byte, half-word or word
+	logic 					reg_write;
+
 	ALU_FUNC    alu_func;      // ALU function select (ALU_xxx *)
 	logic       rd_mem;        // does inst read memory?
 	logic       wr_mem;        // does inst write memory?
 	logic       cond_branch;   // is inst a conditional branch?
 	logic       uncond_branch; // is inst an unconditional branch?
 	logic       halt;          // is this a halt?
-	logic       illegal;       // is this instruction illegal?
+	logic       illegal;       // is this instruction illegal? (unknown instruction)
 	logic       csr_op;        // is this a CSR operation? (we only used this as a cheap way to get return code)
 	logic       valid;         // is inst a valid instruction to be counted for CPI calculations?
 } ID_EX_PACKET;
@@ -304,10 +341,15 @@ typedef struct packed {
 	logic             take_branch; // is this a taken branch?
 	//pass throughs from decode stage
 	logic [`XLEN-1:0] rs2_value;
-	logic             rd_mem, wr_mem;
-	logic [4:0]       dest_reg_idx;
+	logic             rd_mem;
+	logic				wr_mem;
+	logic					 		reg_write;  
+	logic [1:0]       	  mem_size; // byte, half-word or word
+
+	logic [$clog2(`PRF)-1:0]       	dest_PRF_idx;
+	logic [$clog2(`ROB)-1:0] 		rob_idx;       
+
 	logic             halt, illegal, csr_op, valid;
-	logic [2:0]       mem_size; // byte, half-word or word
 } EX_MEM_PACKET;
 
 `endif // __SYS_DEFS_VH__

@@ -10,8 +10,9 @@
 #/* new design                                              */
 #/***********************************************************/
 set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/"]
-read_file -f sverilog [list "verilog/rs.sv" "module_provided/rs_psl_gen.v"]
-set design_name RS
+read_file -f sverilog [list "verilog/dmem.sv" "verilog/lsq.sv" "verilog/lq.sv" "verilog/sq.sv"\
+    "verilog/arbiter_rr.sv" "verilog/dcache.sv" "verilog/dcache_ctrl.sv" "module_provided/wand_sel.v"]
+set design_name DMEM
 set clock_name clock
 set reset_name reset
 set CLK_PERIOD 0

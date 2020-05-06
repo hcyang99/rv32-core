@@ -1,23 +1,27 @@
 #/***********************************************************/
-#/*   FILE        : rs.tcl                                  */
+#/*   FILE        : defaults.tcl                            */
 #/*   Description : Default Synopsys Design Compiler Script */
 #/*   Usage       : dc_shell -tcl_mode -f default.tcl       */
 #/*   You'll need to minimally set design_name & read files */
 #/***********************************************************/
+set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/" ]
+set target_library "lec25dscc25_TT.db"
+set link_library [concat  "*" $target_library]
+
+#/***********************************************************/
+#/* Set some flags to suppress warnings we don't care about */
+set suppress_errors [concat $suppress_errors "UID-401"]
+suppress_message {"VER-130"}
 
 #/***********************************************************/
 #/* The following five lines must be updated for every      */
 #/* new design                                              */
 #/***********************************************************/
-set search_path [ list "./" "/afs/umich.edu/class/eecs470/lib/synopsys/"]
-read_file -f sverilog [list "verilog/rs.sv" "module_provided/rs_psl_gen.v"]
-set design_name RS
+analyze -f sverilog [list "../sys_defs.svh" "../ISA.svh"  "../verilog/mem_arbiter.sv" "../verilog/lsq.sv" "../verilog/arbiter_rr.sv" "../verilog/lq.sv" "../verilog/dmem.sv" "../verilog/processor.sv" "../verilog/dcache.sv" "../verilog/dcache_ctrl.sv" "../verilog/branch_pred.sv" "../verilog/if_stage.sv" "../verilog/id_stage.sv" "../verilog/ex_stage.sv" "../verilog/sq.sv" "../verilog/FreeList.sv" "../verilog/mult.sv" "../verilog/PRF.sv" "../verilog/RAT_RRAT.sv" "../verilog/rob.sv" "../verilog/rs.sv" "../verilog/Validlist.sv" "../module_provided/freelist_psl_gen.v" "../module_provided/rs_psl_gen.v" "../module_provided/wand_sel.v" "../verilog/cache/cachemem.sv" "../verilog/icache.sv"]
+elaborate processor
+set design_name processor
 set clock_name clock
-set reset_name reset
-set CLK_PERIOD 0
-
-
-
+set CLK_PERIOD 10
 
 
 #/***********************************************************/
@@ -26,16 +30,13 @@ set CLK_PERIOD 0
 #/* when synthesizing your final project.                   */
 #/***********************************************************/
 set SYN_DIR ./
-set search_path "/afs/umich.edu/class/eecs470/lib/synopsys/"
-set target_library "lec25dscc25_TT.db"
-set link_library [concat  "*" $target_library]
 
 #/***********************************************************/
 #/* Set some flags for optimisation */
 
 set compile_top_all_paths "true"
 set auto_wire_load_selection "false"
-
+set compile_seqmap_synchronous_extraction "true"
 
 #/***********************************************************/
 #/*  Clk Periods/uncertainty/transition                     */
@@ -106,9 +107,6 @@ if {  $dc_shell_status != [list] } {
   set_input_delay $AVG_INPUT_DELAY -clock $sys_clk [all_inputs]
   remove_input_delay -clock $sys_clk [find port $sys_clk]
   set_output_delay $AVG_OUTPUT_DELAY -clock $sys_clk [all_outputs]
-  set_dont_touch $reset_name
-  set_resistance 0 $reset_name
-  set_drive 0 $reset_name
   set_critical_range $CRIT_RANGE [current_design]
   set_max_delay $CLK_PERIOD [all_outputs]
   set MAX_FANOUT $MAX_FANOUT
@@ -116,7 +114,7 @@ if {  $dc_shell_status != [list] } {
   uniquify
   ungroup -all -flatten
   redirect $chk_file { check_design }
-  compile -map_effort high
+  compile -map_effort medium
   write -hier -format verilog -output $netlist_file $design_name
   write -hier -format ddc -output $ddc_file $design_name
   redirect $rep_file { report_design -nosplit }
@@ -131,5 +129,4 @@ if {  $dc_shell_status != [list] } {
 } else {
    quit
 }
-
 

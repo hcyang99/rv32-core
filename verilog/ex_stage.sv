@@ -14,50 +14,147 @@
 `define __EX_STAGE_V__
 
 `timescale 1ns/100ps
-
 //
 // The ALU
 //
 // given the command code CMD and proper operands A and B, compute the
 // result of the instruction
-//
+//`timescale 1ns/100ps
+
 // This module is purely combinational
 //
+
+typedef enum logic[1:0] {INITIAL,  MULT_NOT_DONE, MULT_DONE_WAIT_FOR_CDB } alu_state;
+
 module alu(
+	input 		clock,
+	input		reset,
+	input 		valid_in,
+	input 		lq_CDB_valid,
+
 	input [`XLEN-1:0] opa,
 	input [`XLEN-1:0] opb,
 	ALU_FUNC     func,
 
-	output logic [`XLEN-1:0] result
+	output logic        		occupied,
+	output logic				valid_out,
+	output logic [`XLEN-1:0] 	result
 );
-	wire signed [`XLEN-1:0] signed_opa, signed_opb;
+
+	alu_state				state,next_state;
+	logic					start;
+	logic					is_mult;
+	logic					range, range_reg; // 1 if [63:32]
+	logic [(2*`XLEN)-1:0] 	product;
+	logic [`XLEN-1:0]		final_product,alu_result;
+	logic [1:0] sign;
+
+	
+	wire signed [`XLEN-1:0]   signed_opa, signed_opb;
 	wire signed [2*`XLEN-1:0] signed_mul, mixed_mul;
 	wire        [2*`XLEN-1:0] unsigned_mul;
-	assign signed_opa = opa;
-	assign signed_opb = opb;
-	assign signed_mul = signed_opa * signed_opb;
-	assign unsigned_mul = opa * opb;
-	assign mixed_mul = signed_opa * opb;
+
+	assign is_mult = (func == ALU_MUL) | (func == ALU_MULH) | (func == ALU_MULHSU) | (func == ALU_MULHU);
+
+	mult mult_0 (
+		.clock(clock), //check
+		.reset(reset), // check
+		.start(start), //check
+		.sign(sign), // check
+
+		.mcand(opa), 
+		.mplier(opb),
+		.product(product),
+		.done(mult_done)
+	);
+
+assign occupied = (state != INITIAL);
 
 	always_comb begin
-		case (func)
-			ALU_ADD:      result = opa + opb;
-			ALU_SUB:      result = opa - opb;
-			ALU_AND:      result = opa & opb;
-			ALU_SLT:      result = signed_opa < signed_opb;
-			ALU_SLTU:     result = opa < opb;
-			ALU_OR:       result = opa | opb;
-			ALU_XOR:      result = opa ^ opb;
-			ALU_SRL:      result = opa >> opb[4:0];
-			ALU_SLL:      result = opa << opb[4:0];
-			ALU_SRA:      result = signed_opa >>> opb[4:0]; // arithmetic from logical shift
-			ALU_MUL:      result = signed_mul[`XLEN-1:0];
-			ALU_MULH:     result = signed_mul[2*`XLEN-1:`XLEN];
-			ALU_MULHSU:   result = mixed_mul[2*`XLEN-1:`XLEN];
-			ALU_MULHU:    result = unsigned_mul[2*`XLEN-1:`XLEN];
-
-			default:      result = `XLEN'hfacebeec;  // here to prevent latches
+		valid_out = 0;
+		start = 0;
+		case (state)
+			INITIAL:	begin
+				if(~valid_in | lq_CDB_valid) 	next_state = INITIAL; 	else
+				if(~is_mult)	begin
+					valid_out = 1;
+					next_state = INITIAL; 
+				end	else begin 
+					start = 1;
+					next_state = MULT_NOT_DONE;
+				end
+			end
+			MULT_NOT_DONE:	begin
+				if(mult_done & ~lq_CDB_valid)	begin
+					valid_out = 1;
+					next_state = INITIAL; 
+				end	else if(mult_done & lq_CDB_valid) begin
+					next_state = MULT_DONE_WAIT_FOR_CDB;
+				end else begin 
+					next_state = MULT_NOT_DONE;
+				end
+			end
+			MULT_DONE_WAIT_FOR_CDB: begin
+				if(lq_CDB_valid) begin
+					next_state = MULT_DONE_WAIT_FOR_CDB;
+				end else begin
+					valid_out = 1;
+					next_state = INITIAL;
+				end
+			end
+			default: 			next_state = INITIAL;
 		endcase
+	end
+
+	always_ff @(posedge clock) begin
+		if(reset) begin
+					state <= `SD INITIAL; 
+		end else begin
+					state <= `SD next_state;
+			if(is_mult)	range_reg <= `SD range;
+		end	
+	end
+
+	assign signed_opa = opa;
+	assign signed_opb = opb;
+	assign result = is_mult ? final_product: alu_result;
+
+	always_comb begin
+	//$display("occupied: %b mult_done: %b is_mult: %b",occupied,mult_done,is_mult);
+		if(range_reg) 	final_product = product[2*`XLEN-1:`XLEN]; else
+						final_product = product[`XLEN-1:0];
+		sign = 0;
+		range = 0;
+		alu_result = 0;
+			case (func)
+			ALU_ADD:      alu_result = opa + opb;
+			ALU_SUB:      alu_result = opa - opb;
+			ALU_AND:      alu_result = opa & opb;
+			ALU_SLT:      alu_result = signed_opa < signed_opb;
+			ALU_SLTU:     alu_result = opa < opb;
+			ALU_OR:       alu_result = opa | opb;
+			ALU_XOR:      alu_result = opa ^ opb;
+			ALU_SRL:      alu_result = opa >> opb[4:0];
+			ALU_SLL:      alu_result = opa << opb[4:0];
+			ALU_SRA:      alu_result = signed_opa >>> opb[4:0]; // arithmetic from logical shift
+			ALU_MUL:      begin
+				sign = 2'b11;
+				range = 0;
+			end
+			ALU_MULH:     begin
+				sign = 2'b11;
+				range = 1;
+			end
+			ALU_MULHSU:   begin
+				sign = 2'b01;
+				range = 1;
+			end
+			ALU_MULHU:    begin
+				sign = 2'b00;
+				range = 1;
+			end
+			default:      alu_result = `XLEN'hfacebeec;  // here to prevent latches
+			endcase
 	end
 endmodule // alu
 
@@ -99,34 +196,54 @@ endmodule // brcond
 module ex_stage(
 	input clock,               // system clock
 	input reset,               // system reset
-	input ID_EX_PACKET   id_ex_packet_in,
-	output EX_MEM_PACKET ex_packet_out
-);
-	// Pass-throughs
-	assign ex_packet_out.NPC = id_ex_packet_in.NPC;
-	assign ex_packet_out.rs2_value = id_ex_packet_in.rs2_value;
-	assign ex_packet_out.rd_mem = id_ex_packet_in.rd_mem;
-	assign ex_packet_out.wr_mem = id_ex_packet_in.wr_mem;
-	assign ex_packet_out.dest_reg_idx = id_ex_packet_in.dest_reg_idx;
-	assign ex_packet_out.halt = id_ex_packet_in.halt;
-	assign ex_packet_out.illegal = id_ex_packet_in.illegal;
-	assign ex_packet_out.csr_op = id_ex_packet_in.csr_op;
-	assign ex_packet_out.valid = id_ex_packet_in.valid;
-	assign ex_packet_out.mem_size = id_ex_packet_in.inst.r.funct3;
+	input	[`WAYS-1:0]							lq_CDB_valid,
+	input 	ID_EX_PACKET	[`WAYS-1:0]      	id_ex_packet_in,
+	output 	EX_MEM_PACKET	[`WAYS-1:0] 		ex_packet_out,
+	output [`WAYS-1:0] 							occupied_hub,
+	output [`WAYS-1:0]                          ex_is_branch_out
 
-	logic [`XLEN-1:0] opa_mux_out, opb_mux_out;
-	logic brcond_result;
-	//
+);
+
+	logic [`WAYS-1: 0][`XLEN-1:0] opa_mux_out, opb_mux_out;
+	logic [`WAYS-1: 0]            brcond_result;
+
+	// Pass-throughs
+	generate
+		for (genvar i = 0; i < `WAYS; i = i + 1) begin
+           	assign ex_packet_out[i].NPC 			= id_ex_packet_in[i].NPC;
+			assign ex_packet_out[i].rs2_value 		= id_ex_packet_in[i].rs2_value;
+			assign ex_packet_out[i].rd_mem 			= id_ex_packet_in[i].rd_mem;
+			assign ex_packet_out[i].wr_mem 			= id_ex_packet_in[i].wr_mem;
+			assign ex_packet_out[i].dest_PRF_idx 	= id_ex_packet_in[i].dest_PRF_idx;
+			assign ex_packet_out[i].rob_idx      	= id_ex_packet_in[i].rob_idx;
+			assign ex_packet_out[i].halt 			= id_ex_packet_in[i].halt;
+			assign ex_packet_out[i].illegal 		= id_ex_packet_in[i].illegal;
+			assign ex_packet_out[i].csr_op 			= id_ex_packet_in[i].csr_op;
+			assign ex_packet_out[i].mem_size 		= id_ex_packet_in[i].mem_size;
+			assign ex_packet_out[i].reg_write		= id_ex_packet_in[i].reg_write;
+			assign ex_is_branch_out[i]              = (id_ex_packet_in[i].uncond_branch | id_ex_packet_in[i].cond_branch)&~lq_CDB_valid;
+
+			// ultimate "take branch" signal:
+	 		//	unconditional, or conditional and the condition is true
+			assign ex_packet_out[i].take_branch = id_ex_packet_in[i].uncond_branch
+		                          | (id_ex_packet_in[i].cond_branch & brcond_result[i]);
+        end
+	endgenerate
+
+
 	// ALU opA mux
 	//
 	always_comb begin
-		opa_mux_out = `XLEN'hdeadfbac;
-		case (id_ex_packet_in.opa_select)
-			OPA_IS_RS1:  opa_mux_out = id_ex_packet_in.rs1_value;
-			OPA_IS_NPC:  opa_mux_out = id_ex_packet_in.NPC;
-			OPA_IS_PC:   opa_mux_out = id_ex_packet_in.PC;
-			OPA_IS_ZERO: opa_mux_out = 0;
-		endcase
+//		$display("occupied_hub: %b",occupied_hub);
+			for( int i = 0; i < `WAYS; ++i) begin
+			opa_mux_out[i] = `XLEN'hdeadfbac;
+			case (id_ex_packet_in[i].opa_select)
+				OPA_IS_RS1:  opa_mux_out[i] = id_ex_packet_in[i].rs1_value;
+				OPA_IS_NPC:  opa_mux_out[i] = id_ex_packet_in[i].NPC;
+				OPA_IS_PC:   opa_mux_out[i] = id_ex_packet_in[i].PC;
+				OPA_IS_ZERO: opa_mux_out[i] = 0;
+			endcase
+		end
 	end
 
 	 //
@@ -135,45 +252,60 @@ module ex_stage(
 	always_comb begin
 		// Default value, Set only because the case isnt full.  If you see this
 		// value on the output of the mux you have an invalid opb_select
-		opb_mux_out = `XLEN'hfacefeed;
-		case (id_ex_packet_in.opb_select)
-			OPB_IS_RS2:   opb_mux_out = id_ex_packet_in.rs2_value;
-			OPB_IS_I_IMM: opb_mux_out = `RV32_signext_Iimm(id_ex_packet_in.inst);
-			OPB_IS_S_IMM: opb_mux_out = `RV32_signext_Simm(id_ex_packet_in.inst);
-			OPB_IS_B_IMM: opb_mux_out = `RV32_signext_Bimm(id_ex_packet_in.inst);
-			OPB_IS_U_IMM: opb_mux_out = `RV32_signext_Uimm(id_ex_packet_in.inst);
-			OPB_IS_J_IMM: opb_mux_out = `RV32_signext_Jimm(id_ex_packet_in.inst);
-		endcase 
+		for( int i = 0; i < `WAYS; ++i) begin
+			opb_mux_out[i] = `XLEN'hfacefeed;
+			case (id_ex_packet_in[i].opb_select)
+				OPB_IS_RS2:   opb_mux_out[i] = id_ex_packet_in[i].rs2_value;
+				OPB_IS_I_IMM: opb_mux_out[i] = `RV32_signext_Iimm(id_ex_packet_in[i].inst);
+				OPB_IS_S_IMM: opb_mux_out[i] = `RV32_signext_Simm(id_ex_packet_in[i].inst);
+				OPB_IS_B_IMM: opb_mux_out[i] = `RV32_signext_Bimm(id_ex_packet_in[i].inst);
+				OPB_IS_U_IMM: opb_mux_out[i] = `RV32_signext_Uimm(id_ex_packet_in[i].inst);
+				OPB_IS_J_IMM: opb_mux_out[i] = `RV32_signext_Jimm(id_ex_packet_in[i].inst);
+			endcase
+		end
 	end
 
 	//
 	// instantiate the ALU
 	//
-	alu alu_0 (// Inputs
-		.opa(opa_mux_out),
-		.opb(opb_mux_out),
-		.func(id_ex_packet_in.alu_func),
+	generate
+		genvar i;
+		for (i=0; i<`WAYS; i++) begin
+			alu alu_0(// Inputs
+				.clock(clock),
+				.reset(reset),
+				.valid_in(id_ex_packet_in[i].valid),
+				.lq_CDB_valid(lq_CDB_valid[i]),
+
+				.opa(opa_mux_out[i]),
+				.opb(opb_mux_out[i]),
+				.func(id_ex_packet_in[i].alu_func),
 
 		// Output
-		.result(ex_packet_out.alu_result)
-	);
+				.occupied(occupied_hub[i]),
+				.valid_out(ex_packet_out[i].valid),
+				.result(ex_packet_out[i].alu_result)
+			);
+
+			brcond brcond_0(// Inputs
+				.rs1(id_ex_packet_in[i].rs1_value), 
+				.rs2(id_ex_packet_in[i].rs2_value),
+				.func(id_ex_packet_in[i].inst.b.funct3), // inst bits to determine check
+
+		// Output
+				.cond(brcond_result[i])
+			);			
+		end
+	endgenerate
+
+
 
 	 //
 	 // instantiate the branch condition tester
 	 //
-	brcond brcond (// Inputs
-		.rs1(id_ex_packet_in.rs1_value), 
-		.rs2(id_ex_packet_in.rs2_value),
-		.func(id_ex_packet_in.inst.b.funct3), // inst bits to determine check
+	
 
-		// Output
-		.cond(brcond_result)
-	);
-
-	 // ultimate "take branch" signal:
-	 //	unconditional, or conditional and the condition is true
-	assign ex_packet_out.take_branch = id_ex_packet_in.uncond_branch
-		                          | (id_ex_packet_in.cond_branch & brcond_result);
+	 
 
 endmodule // module ex_stage
 `endif // __EX_STAGE_V__

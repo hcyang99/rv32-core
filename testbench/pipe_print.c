@@ -12,30 +12,11 @@
 
 #define NOOP_INST 0x00000013
 
-static int cycle_count = 0;
 static FILE* ppfile = NULL;
 
-
-void print_header(char* str)
-{
-  if (ppfile == NULL)
-    ppfile = fopen("pipeline.out", "w");
-
-  fprintf(ppfile, "%s", str);
-}
-
-void print_cycles()
-{
-  /* we'll enforce the printing of a header */
-  if (ppfile != NULL)
-    fprintf(ppfile, "\n%5d:", cycle_count++);
-}
-
-
-void print_stage(char* div, int inst, int npc, int valid_inst)
-{
+char* decode(int inst, int valid_inst){
   int opcode, funct3, funct7, funct12;
-  char *str;
+  char* str;
   
   if(!valid_inst)
     str = "-";
@@ -148,9 +129,67 @@ void print_stage(char* div, int inst, int npc, int valid_inst)
     default: str = "invalid"; break;
     }
   }
+  return str;
+}
+
+void print_header(char* str)
+{
+  if (ppfile == NULL)
+    ppfile = fopen("processor.out", "w");
+
+  fprintf(ppfile, "%s", str);
+}
+
+void print_cycles(int time_in, int cycle_count)
+{
+  /* we'll enforce the printing of a header */
+  if (ppfile != NULL)
+    fprintf(ppfile, "\n%10d %5d:", time_in, cycle_count);
+}
+
+
+void print_stage(char* div, int inst, int valid_inst)
+{
+  char *str = decode(inst, valid_inst);
 
   if (ppfile != NULL)
-    fprintf(ppfile, "%s%4d:%-8s", div, npc, str);
+    fprintf(ppfile, "%s %2d  %-8s", div, valid_inst, str);
+}
+
+void print_valids(int opa_valid, int opb_valid)
+{
+  if(ppfile != NULL){
+    fprintf(ppfile, "% 2d %2d", opa_valid, opb_valid);
+  }
+}
+
+void print_opaopb(int opa_valid, int opb_valid, int rs1_value, int rs2_value)
+{
+  if (ppfile != NULL)
+    fprintf(ppfile,"%2d %12x %2d %12x", opa_valid, rs1_value, opb_valid, rs2_value);
+}
+
+
+void print_rs(char* div, int inst, int valid_inst, int num_free, int load_in_hub, int is_free_hub, int ready_hub)
+{
+  char* str = decode(inst, valid_inst);
+
+  if (ppfile != NULL)
+    fprintf(ppfile, "%s%8s %4d %04x %04x %04x", div, str, num_free, load_in_hub, is_free_hub, ready_hub);
+
+}
+
+void print_rob(char* div, int except, int direction, int PC, int num_free, int dest_ARN_out, int valid_out)
+{
+  
+  if (ppfile != NULL)
+    fprintf(ppfile, "%s%4d  %08x%4d %2d   %-4d %2d", div, direction, PC, num_free, except, dest_ARN_out, valid_out);
+
+}
+
+void print_ex_out(char* div, int alu_result, int valid, int alu_occupied, int brand_results, int NPC){
+  if(ppfile != NULL)
+    fprintf(ppfile, "%s%3d %8x %2d %2d %2x   ", div, valid, alu_result, alu_occupied, brand_results,NPC);
 }
 
 void print_close()

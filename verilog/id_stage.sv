@@ -10,7 +10,8 @@
 
 
 `timescale 1ns/100ps
-
+// `include "../ISA.svh"
+// `include "../sys_defs.svh"
 
   // Decode an instruction: given instruction bits IR produce the
   // appropriate datapath control signals.
@@ -23,8 +24,9 @@ module decoder(
 	//input valid_inst_in,  // ignore inst when low, outputs will
 	                      // reflect noop (except valid_inst)
 	//see sys_defs.svh for definition
-	input IF_ID_PACKET if_packet,
-	
+	input IF_ID_PACKET 		if_packet,
+	output logic				sign,
+	output logic [1:0]      mem_size, // byte, half-word or word
 	output ALU_OPA_SELECT opa_select,
 	output ALU_OPB_SELECT opb_select,
 	output DEST_REG_SEL   dest_reg, // mux selects
@@ -48,6 +50,34 @@ module decoder(
 	assign inst          = if_packet.inst;
 	assign valid_inst_in = if_packet.valid;
 	assign valid_inst    = valid_inst_in & ~illegal;
+
+	always_comb begin
+		mem_size = DOUBLE;
+		sign		 = 0;
+			casez (inst) 
+				`RV32_LB: begin
+					mem_size = BYTE;
+					sign		 = 1;
+				end
+				`RV32_SB, `RV32_LBU: begin
+					mem_size = BYTE;
+				end
+				`RV32_LH: begin
+					mem_size = HALF;
+					sign		 = 1;
+				end
+				`RV32_LHU, `RV32_SH: begin
+					mem_size = HALF;
+				end
+				`RV32_LW, `RV32_SW: begin
+					mem_size = WORD;
+				end
+				default: begin
+					mem_size = DOUBLE;
+					sign = 0;
+				end
+			endcase
+	end
 	
 	always_comb begin
 		// default control values:
@@ -56,6 +86,7 @@ module decoder(
 		// - invalid instructions should clear valid_inst.
 		// - These defaults are equivalent to a noop
 		// * see sys_defs.vh for the constants used here
+//		$display("inst: %h valid_inst_in: %b",inst,valid_inst_in);
 		opa_select = OPA_IS_RS1;
 		opb_select = OPB_IS_RS2;
 		alu_func = ALU_ADD;
@@ -223,59 +254,280 @@ endmodule // decoder
 module id_stage(         
 	input         clock,              // system clock
 	input         reset,              // system reset
-	input         wb_reg_wr_en_out,    // Reg write enable from WB Stage
-	input  [4:0] wb_reg_wr_idx_out,  // Reg write index from WB Stage
-	input  [`XLEN-1:0] wb_reg_wr_data_out,  // Reg write data from WB Stage
-	input  IF_ID_PACKET if_id_packet_in,
-	
-	output ID_EX_PACKET id_packet_out
+
+  input [`WAYS-1:0] [$clog2(`PRF)-1:0]        reg_idx_wr_CDB,     // From CDB, these are now valid
+  input [`WAYS-1:0]                           wr_en_CDB,
+	input [`WAYS-1:0] [`XLEN-1:0]               wr_dat_CDB,
+
+	input [`WAYS-1:0] [4:0]                     RRAT_ARF_idx,   // ARF # to be renamed, from ROB
+	input [`WAYS-1:0]							RRAT_idx_valid,
+	input [`WAYS-1:0] [$clog2(`PRF)-1:0]		RRAT_PRF_idx,
+	input										except,
+
+	input  IF_ID_PACKET [`WAYS-1:0] 			if_id_packet_in,
+//-----------------branch predictor-----------------------------
+
+	  input [`WAYS-1:0] [`XLEN-1:0]       PC_update,
+    input [`WAYS-1:0]                   direction_update,
+    input [`WAYS-1:0] [`XLEN-1:0]       target_update,
+    input [`WAYS-1:0]                   valid_update,
+
+    // Output
+    output logic [`XLEN-1:0]            next_PC,
+    output logic [`WAYS-1:0]            predictions,
+
+//--------------------------------------------------------------
+
+	output ID_EX_PACKET [`WAYS-1:0] 			id_packet_out,
+	output logic [`WAYS-1:0]					sign_out,
+	output logic [`WAYS-1:0]					opa_valid,
+	output logic [`WAYS-1:0]					opb_valid,
+	output logic [`PRF-1:0] [`XLEN-1:0]        	prf_regs
+
 );
 
-    assign id_packet_out.inst = if_id_packet_in.inst;
-    assign id_packet_out.NPC  = if_id_packet_in.NPC;
-    assign id_packet_out.PC   = if_id_packet_in.PC;
-	DEST_REG_SEL dest_reg_select; 
+		logic [`WAYS-1:0] [$clog2(`PRF)-1:0] 	dest_PRF;
+		logic [`WAYS-1:0]						dest_PRF_valid;
 
-	// Instantiate the register file used by this pipeline
-	regfile regf_0 (
-		.rda_idx(if_id_packet_in.inst.r.rs1),
-		.rda_out(id_packet_out.rs1_value), 
+		logic [`WAYS-1:0][4:0]					opa_arn;
+		logic [`WAYS-1:0][4:0]					opb_arn;
+		logic [`WAYS-1:0][4:0]  				dest_arn;
 
-		.rdb_idx(if_id_packet_in.inst.r.rs2),
-		.rdb_out(id_packet_out.rs2_value),
+		logic [`WAYS-1:0][$clog2(`PRF)-1:0] 	opa_prn;
+		logic [`WAYS-1:0][$clog2(`PRF)-1:0] 	opb_prn;
+		logic [`WAYS-1:0][`XLEN-1:0]			opa_value;
+		logic [`WAYS-1:0][`XLEN-1:0]			opb_value;
+		logic [`WAYS-1:0]     					opa_valid_tmp;
+		logic [`WAYS-1:0]						opb_valid_tmp;
+		logic [`WAYS-1:0]						inst_valid_tmp;
+		//logic 									find_taken;
 
-		.wr_clk(clock),
-		.wr_en(wb_reg_wr_en_out),
-		.wr_idx(wb_reg_wr_idx_out),
-		.wr_data(wb_reg_wr_data_out)
-	);
+	 	logic [`WAYS-1:0]  					dest_arn_valid;
+
+
+		DEST_REG_SEL [`WAYS-1:0] dest_reg_select; 
+	
+	//	assign find_taken = (predictions != {`WAYS{1'b0}});
+
+    generate
+        for(genvar i = 0; i < `WAYS; i = i + 1) begin
+    			assign id_packet_out[i].inst = if_id_packet_in[i].inst;
+   	 			assign id_packet_out[i].NPC  = if_id_packet_in[i].NPC;
+    			assign id_packet_out[i].PC   = if_id_packet_in[i].PC;
+				assign dest_arn[i] 			 = if_id_packet_in[i].inst.r.rd;
+				assign opa_arn[i]			 = if_id_packet_in[i].inst.r.rs1;
+				assign opb_arn[i]			 = if_id_packet_in[i].inst.r.rs2;
+				assign dest_arn_valid[i] = (dest_reg_select[i] == DEST_RD) & id_packet_out[i].valid & ~(dest_arn[i] == 0);//if_id_packet_in[i].valid;//
+				assign id_packet_out[i].reg_write = dest_arn_valid[i];
+			end
+	endgenerate
+
+	
+		
 
 	// instantiate the instruction decoder
-	decoder decoder_0 (
-		.if_packet(if_id_packet_in),	 
-		// Outputs
-		.opa_select(id_packet_out.opa_select),
-		.opb_select(id_packet_out.opb_select),
-		.alu_func(id_packet_out.alu_func),
-		.dest_reg(dest_reg_select),
-		.rd_mem(id_packet_out.rd_mem),
-		.wr_mem(id_packet_out.wr_mem),
-		.cond_branch(id_packet_out.cond_branch),
-		.uncond_branch(id_packet_out.uncond_branch),
-		.csr_op(id_packet_out.csr_op),
-		.halt(id_packet_out.halt),
-		.illegal(id_packet_out.illegal),
-		.valid_inst(id_packet_out.valid)
+	    generate
+        for(genvar i = 0; i < `WAYS; i = i + 1) begin
+					decoder decoder_0 (
+						.if_packet(if_id_packet_in[i]),	 
+							// Outputs
+						.sign(sign_out[i]),
+						.mem_size(id_packet_out[i].mem_size),
+						.opa_select(id_packet_out[i].opa_select),
+						.opb_select(id_packet_out[i].opb_select),
+						.alu_func(id_packet_out[i].alu_func),
+						.dest_reg(dest_reg_select[i]),
+						.rd_mem(id_packet_out[i].rd_mem),
+						.wr_mem(id_packet_out[i].wr_mem),
+						.cond_branch(id_packet_out[i].cond_branch),
+						.uncond_branch(id_packet_out[i].uncond_branch),
+						.csr_op(id_packet_out[i].csr_op),
+						.halt(id_packet_out[i].halt),
+						.illegal(id_packet_out[i].illegal),
+						.valid_inst(inst_valid_tmp[i])
+					);
+				end
+			endgenerate
+
+
+logic [`WAYS-1:0]                   is_branch;
+  
+  generate
+        for(genvar i = 0; i < `WAYS; i = i + 1) begin
+					assign is_branch[i]=(id_packet_out[i].cond_branch|id_packet_out[i].uncond_branch)&inst_valid_tmp[i];
+				
+				end
+			endgenerate
+
+
+//branch predictor
+branch_pred_v2 #(.SIZE(128),.PSZ(128),.PL(7),.NS(32),.NW(4)) predictor (
+        .clock,
+        .reset(reset),
+
+        .PC(if_id_packet_in[0].PC),
+				.is_branch,
+				.is_valid(inst_valid_tmp),
+
+        .PC_update,
+        .direction_update,
+//	      .direction_update(0),
+
+        .target_update,
+        .valid_update,
+//output
+        .next_PC(next_PC),//useless
+        .predictions
+    );
+
+//branch predictor
+/*
+branch_pred #(.SIZE(128)) predictor (
+        .clock,
+        .reset(reset),
+
+        .PC(if_id_packet_in[0].PC),
+				.is_branch,
+				.is_valid(inst_valid_tmp),
+
+        .PC_update,
+        .direction_update,
+//	      .direction_update(0),
+
+        .target_update,
+        .valid_update,
+//output
+        .next_PC(next_PC),//useless
+        .predictions
+    );
+*/
+
+logic branch;
+always_comb begin
+   branch=0;
+   for(int i = 0; i < `WAYS ; i = i + 1)begin
+	      id_packet_out[i].valid =  branch ? 0 : inst_valid_tmp[i];
+				//if((branch==0)&&(predictions[i]==1)&&(inst_valid_tmp[i]==1)&&(id_packet_out[i].cond_branch|id_packet_out[i].uncond_branch))	branch=1;
+				if((branch==0)&&(predictions[i]==1))	branch=1;
+	 end
+end
+
+
+
+
+	PRF prf(
+	.clock(clock),
+	.reset(reset),
+	.rda_idx(opa_prn),
+	.rdb_idx(opb_prn),
+    
+	.wr_idx(reg_idx_wr_CDB),
+	.wr_dat(wr_dat_CDB),
+	.wr_en(wr_en_CDB),
+	.rda_dat(opa_value),
+	.rdb_dat(opb_value),
+	.prf_regs
 	);
+
+	RAT_RRAT rat(
+    .clock(clock),
+    .reset(reset),
+    .except(except),
+
+    .rda_idx(opa_arn),            // rename query 1
+    .rdb_idx(opb_arn),            // rename query 2
+    .RAT_dest_idx(dest_arn),       // ARF # to be renamed
+    .RAT_idx_valid(dest_arn_valid),      // how many ARF # to rename?
+
+    .reg_idx_wr_CDB(reg_idx_wr_CDB),     // From CDB, these are now valid
+    .wr_en_CDB(wr_en_CDB),
+
+    .RRAT_ARF_idx(RRAT_ARF_idx),       // ARF # to be renamed, from ROB
+    .RRAT_idx_valid(RRAT_idx_valid), 
+    .RRAT_PRF_idx(RRAT_PRF_idx),       // PRF # 
+
+    .rename_result(dest_PRF),      // New PRF # renamed to
+    .rename_result_valid(dest_PRF_valid), //***** SHOULD BE ALL 1s for M2
+
+    .rda_idx_out(opa_prn),        // PRF # 
+    .rdb_idx_out(opb_prn),        // PRF #
+    .rda_valid(opa_valid_tmp),
+    .rdb_valid(opb_valid_tmp)
+);
+
+   
+	
+
 
 	// mux to generate dest_reg_idx based on
 	// the dest_reg_select output from decoder
 	always_comb begin
-		case (dest_reg_select)
-			DEST_RD:    id_packet_out.dest_reg_idx = if_id_packet_in.inst.r.rd;
-			DEST_NONE:  id_packet_out.dest_reg_idx = `ZERO_REG;
-			default:    id_packet_out.dest_reg_idx = `ZERO_REG; 
-		endcase
+		for(int i = 0; i < `WAYS ; i = i + 1) begin
+			case (dest_reg_select[i])
+				DEST_RD:    id_packet_out[i].dest_PRF_idx = dest_PRF[i];
+				DEST_NONE:  id_packet_out[i].dest_PRF_idx = `ZERO_REG;
+				default:    id_packet_out[i].dest_PRF_idx = `ZERO_REG; 
+			endcase		
+		end
 	end
+
+	always_comb begin
+		for(int i = 0; i < `WAYS; i = i + 1) begin
+		// to be update later with LSQ
+			if(id_packet_out[i].opa_select == OPA_IS_RS1 | id_packet_out[i].cond_branch) begin
+				if(opa_arn[i] == 0) begin
+					opa_valid[i] = 1;
+					id_packet_out[i].rs1_value = 0;
+				end else begin
+					opa_valid[i] = opa_valid_tmp[i];
+					if(opa_valid[i]) begin
+						id_packet_out[i].rs1_value = opa_value[i];
+					end else begin
+						id_packet_out[i].rs1_value = opa_prn[i];
+					end
+					for(int j = 0; j < `WAYS; 	j = j +1) begin
+						if( j < i && dest_arn_valid[j] && dest_arn[j] == opa_arn[i]) begin
+							opa_valid[i] = 0;
+							id_packet_out[i].rs1_value = dest_PRF[j];
+						end
+					end
+				end
+			end else opa_valid[i] = 1;
+			if(id_packet_out[i].opb_select == OPB_IS_RS2 | id_packet_out[i].wr_mem | id_packet_out[i].cond_branch) begin
+				if(opb_arn[i] == 0) begin
+					opb_valid[i] = 1;
+					id_packet_out[i].rs2_value = 0;
+				end else begin
+					opb_valid[i] = opb_valid_tmp[i];
+					id_packet_out[i].rs2_value = opb_valid[i]? opb_value[i]:opb_prn[i];
+					for(int j = 0; j < `WAYS; j = j +1) begin
+						if( j < i && dest_arn_valid[j] && dest_arn[j] == opb_arn[i]) begin
+							opb_valid[i] = 0;
+							id_packet_out[i].rs2_value = dest_PRF[j];
+						end
+					end
+				end
+			end else opb_valid[i] = 1;
+		end
+	end
+
+/*
+always_ff @(posedge clock) begin
+$display("except in id_stage: %b",except);
+for(int i = 0; i < `WAYS ; i = i + 1) begin
+  //if(if_id_packet_in[i].inst == `XLEN'h00128293) begin
+  if(if_id_packet_in[i].valid) begin
+    $display("inst:%h",if_id_packet_in[i].inst);
+ 
+   $display("opa_arn: %d opb_arn: %d dest_arn: %d",opa_arn[i],opb_arn[i],dest_arn[i]);
+   $display("opa_prn: %d opb_prn: %d dest_prn: %d",opa_prn[i],opb_prn[i],id_packet_out[i].dest_PRF_idx); 
+   $display("opa_value[i]: %d opb_value[i]: %d",opa_value[i],opb_value[i]);
+   $display("rs1_value: %d rs2_value: %d",id_packet_out[i].rs1_value,id_packet_out[i].rs2_value);
+   $display("opa_valid: %b opb_valid: %b",opa_valid[i],opb_valid[i]);
+
+  end
+end
+end
+  */ 
    
 endmodule // module id_stage

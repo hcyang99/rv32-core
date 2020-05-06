@@ -10,8 +10,10 @@
 
 `timescale 1ns/100ps
 
-extern void initcurses(int,int,int,int,int,int,int,int,int,int);
-extern void flushpipe();
+`define VISUAL_DEBUGGER
+
+extern void initcurses(int,int,int,int,int,int,int);
+extern void flushproc();
 extern void waitforresponse();
 extern void initmem();
 extern int get_instr_at_pc(int);
@@ -19,105 +21,152 @@ extern int not_valid_pc(int);
 
 module testbench();
 
-  // Registers and wires used in the testbench
-  logic        clock;
-	logic        reset;
-	logic [31:0] clock_count;
-	logic [31:0] instr_count;
+    // ------------------------- wire & variable declarations -------------------------
+    logic   clock;
+    logic   reset;
+    logic [31:0] clock_count;
+    logic [31:0] instr_count;
 	int          wb_fileno;
-	
+
 	logic [1:0]  proc2mem_command;
 	logic [`XLEN-1:0] proc2mem_addr;
 	logic [63:0] proc2mem_data;
 	logic  [3:0] mem2proc_response;
 	logic [63:0] mem2proc_data;
 	logic  [3:0] mem2proc_tag;
-`ifndef CACHE_MODE
-	MEM_SIZE     proc2mem_size;
-`endif
+	logic  [1:0]     proc2mem_size;
+
 	logic  [3:0] pipeline_completed_insts;
 	EXCEPTION_CODE   pipeline_error_status;
 	logic  [4:0] pipeline_commit_wr_idx;
 	logic [`XLEN-1:0] pipeline_commit_wr_data;
 	logic        pipeline_commit_wr_en;
 	logic [`XLEN-1:0] pipeline_commit_NPC;
-	
-	
-	logic [`XLEN-1:0] if_NPC_out;
-	logic [31:0] if_IR_out;
-	logic        if_valid_inst_out;
-	logic [`XLEN-1:0] if_id_NPC;
-	logic [31:0] if_id_IR;
-	logic        if_id_valid_inst;
-	logic [`XLEN-1:0] id_ex_NPC;
-	logic [31:0] id_ex_IR;
-	logic        id_ex_valid_inst;
-	logic [`XLEN-1:0] ex_mem_NPC;
-	logic [31:0] ex_mem_IR;
-	logic        ex_mem_valid_inst;
-	logic [`XLEN-1:0] mem_wb_NPC;
-	logic [31:0] mem_wb_IR;
-	logic        mem_wb_valid_inst;
+  logic [`WAYS-1:0] [`XLEN-1:0] 	PC_out;
 
-  //counter used for when pipeline infinite loops, forces termination
-  logic [63:0] debug_counter;
-	// Instantiate the Pipeline
-	pipeline pipeline_0(
-		// Inputs
-		.clock             (clock),
-		.reset             (reset),
-		.mem2proc_response (mem2proc_response),
-		.mem2proc_data     (mem2proc_data),
-		.mem2proc_tag      (mem2proc_tag),
-		
-		
-		// Outputs
-		.proc2mem_command  (proc2mem_command),
-		.proc2mem_addr     (proc2mem_addr),
-		.proc2mem_data     (proc2mem_data),
-		.proc2mem_size     (proc2mem_size),
-		
-		.pipeline_completed_insts(pipeline_completed_insts),
-		.pipeline_error_status(pipeline_error_status),
-		.pipeline_commit_wr_data(pipeline_commit_wr_data),
-		.pipeline_commit_wr_idx(pipeline_commit_wr_idx),
-		.pipeline_commit_wr_en(pipeline_commit_wr_en),
-		.pipeline_commit_NPC(pipeline_commit_NPC),
-		
-		.if_NPC_out(if_NPC_out),
-		.if_IR_out(if_IR_out),
-		.if_valid_inst_out(if_valid_inst_out),
-		.if_id_NPC(if_id_NPC),
-		.if_id_IR(if_id_IR),
-		.if_id_valid_inst(if_id_valid_inst),
-		.id_ex_NPC(id_ex_NPC),
-		.id_ex_IR(id_ex_IR),
-		.id_ex_valid_inst(id_ex_valid_inst),
-		.ex_mem_NPC(ex_mem_NPC),
-		.ex_mem_IR(ex_mem_IR),
-		.ex_mem_valid_inst(ex_mem_valid_inst),
-		.mem_wb_NPC(mem_wb_NPC),
-		.mem_wb_IR(mem_wb_IR),
-		.mem_wb_valid_inst(mem_wb_valid_inst)
-	);
+// if
+	logic [`WAYS-1:0]	if_valid_inst_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] if_IR_out;
+// id
+	logic [`WAYS-1:0]	id_valid_inst_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] id_IR_out;
+	logic [`WAYS-1:0]	id_opa_valid;
+	logic [`WAYS-1:0]	id_opb_valid;
 
-	// Instantiate the Data Memory
-	mem memory (
-		// Inputs
-		.clk               (clock),
-		.proc2mem_command  (proc2mem_command),
-		.proc2mem_addr     (proc2mem_addr),
-		.proc2mem_data     (proc2mem_data),
+// id_ex
+	logic [`WAYS-1:0]	id_ex_valid_inst;
+	logic [`WAYS-1:0] [`XLEN-1:0] id_ex_IR;
+	logic [`WAYS-1:0]	id_ex_opa_valid;
+	logic [`WAYS-1:0]	id_ex_opb_valid;
+	logic [`WAYS-1:0][`XLEN-1:0] id_ex_rs1_value;
+	logic [`WAYS-1:0][`XLEN-1:0] id_ex_rs2_value;
+
+// rob
+	logic except;
+	logic [`WAYS-1:0]	rob_direction_out;
+    logic [`WAYS-1:0] [`XLEN-1:0] rob_PC_out;
+	logic [$clog2(`ROB):0]  rob_num_free;
+	logic [`WAYS-1:0] [4:0]    dest_ARN_out;
+	logic [`WAYS-1:0]          valid_out;
+
+// rs	
+	logic [`WAYS-1:0]    rs_valid_inst_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] rs_IR_out;
+    logic [$clog2(`RS):0]    rs_num_is_free;
+	logic [`RS-1:0]		rs_load_in_hub;
+	logic [`RS-1:0]		rs_is_free_hub;
+	logic [`RS-1:0]		rs_ready_hub;
+
+// ex_stage
+	logic [`WAYS-1:0]    ex_valid_inst_out;
+	logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out;
+	logic [`WAYS-1:0] 	ALU_occupied;
+	logic [`WAYS-1:0] 	brand_result;
+
+    //counter used for when processor infinite loops, forces termination
+    logic [63:0] debug_counter;
+
+
+
+
+// ------------------------- module instances ------------------------- 
+
+processor core(
+// Inputs
+    .clock                      (clock),
+    .reset                      (reset),
+    .mem2proc_response          (mem2proc_response),
+    .mem2proc_data              (mem2proc_data),
+    .mem2proc_tag               (mem2proc_tag),
+
+// Outputs
+    .proc2mem_command           (proc2mem_command),
+    .proc2mem_addr              (proc2mem_addr),
+    .proc2mem_data              (proc2mem_data),
+    .proc2mem_size              (proc2mem_size),
+
+    .pipeline_completed_insts  	(pipeline_completed_insts),
+    .pipeline_error_status   	(pipeline_error_status),
+    .pipeline_commit_wr_idx 	(pipeline_commit_wr_idx),
+    .pipeline_commit_wr_data 	(pipeline_commit_wr_data),
+    .pipeline_commit_wr_en      (pipeline_commit_wr_en),
+    .pipeline_commit_NPC 	    (pipeline_commit_NPC),
+    .PC_out                      (PC_out),
+  
+// newly-added for debugging
+    .if_valid_inst_out,
+    .if_IR_out,
+
+    .id_valid_inst_out,
+    .id_IR_out,
+    .id_opa_valid,
+    .id_opb_valid,
+
+    .id_ex_valid_inst,
+    .id_ex_IR,
+    .id_ex_opa_valid,
+    .id_ex_opb_valid,
+    .id_ex_rs1_value,
+    .id_ex_rs2_value,
+
+    .except,
+    .rob_direction_out,
+    .rob_PC_out,
+    .rob_num_free,
+    .dest_ARN_out,
+    .valid_out,
+	
+    .rs_valid_inst_out,
+    .rs_IR_out,
+    .rs_num_is_free,
+    .rs_load_in_hub(rs_load_in_hub),
+    .rs_is_free_hub(rs_is_free_hub),
+    .rs_ready_hub(rs_ready_hub),
+
+    .ex_valid_inst_out,
+    .ex_alu_result_out,
+    .ALU_occupied,
+    .brand_result
+);
+
+
+// Instantiate the Data Memory
+mem memory (
+// Inputs
+    .clk               (clock),
+    .proc2mem_command  (proc2mem_command),
+    .proc2mem_addr     (proc2mem_addr),
+    .proc2mem_data     (proc2mem_data),
 `ifndef CACHE_MODE
-		.proc2mem_size     (proc2mem_size),
+    .proc2mem_size     (proc2mem_size),
 `endif
 
-		// Outputs
+// Outputs
+    .mem2proc_response (mem2proc_response),
+    .mem2proc_data     (mem2proc_data),
+    .mem2proc_tag      (mem2proc_tag)
+);
 
-		.mem2proc_response (mem2proc_response),
-		.mem2proc_data     (mem2proc_data),
-		.mem2proc_tag      (mem2proc_tag)
-	);
 
   // Generate System Clock
   always
@@ -146,12 +195,13 @@ module testbench();
   begin
     clock = 0;
     reset = 0;
+    debug_counter = 0;
 
     // Call to initialize visual debugger
     // *Note that after this, all stdout output goes to visual debugger*
     // each argument is number of registers/signals for the group
-    // (IF, IF/ID, ID, ID/EX, EX, EX/MEM, MEM, MEM/WB, WB, Misc)
-    initcurses(6,4,13,17,4,14,5,9,3,2);
+    // (n_ways, rs_size, rob_size, prf_size, num_regs, xlen)
+    initcurses(`WAYS, `RS, `ROB, `PRF, `LSQSZ, `REGS, `XLEN);
 
     // Pulse the reset signal
     reset = 1'b1;
@@ -170,21 +220,24 @@ module testbench();
 
   always @(negedge clock)
   begin
+      if(reset) begin
+          debug_counter <= `SD 0;
+      end
     if(!reset)
     begin
       `SD;
       `SD;
 
       // deal with any halting conditions
-      if(pipeline_error_status!=NO_ERROR)
+      if(pipeline_error_status != NO_ERROR && pipeline_error_status != LOAD_ACCESS_FAULT)
       begin
         #100
         $display("\nDONE\n");
         waitforresponse();
-        flushpipe();
+        flushproc();
         $finish;
       end
-
+      debug_counter <= `SD (debug_counter + 1);
     end
   end 
 
@@ -194,35 +247,149 @@ module testbench();
     #2;
 
     // Dump clock and time onto stdout
-    $display("c%h%7.0d",clock,clock_count);
-    $display("t%8.0f",$time);
-    $display("z%h",reset);
+    $display("c %d %d",clock,clock_count);
+    //$display("t%8.0f",$time);
+    //$display("z%h",reset);
 
     // dump ARF contents
-    $write("a");
-    for(int i = 0; i < 32; i=i+1)
-    begin
-      $write("%h", pipeline_0.id_stage_0.regf_0.registers[i]);
-    end
-    $display("");
+    //$write("a");
+    //for(int i = 0; i < 32; i=i+1)
+    //begin
+      //$write("%h", pipeline_0.id_stage_0.regf_0.registers[i]);
+    //end
+    //$display("");
 
     // dump IR information so we can see which instruction
     // is in each stage
-    $write("p");
-    $write("%h%h%h%h%h%h%h%h%h%h ",
-            pipeline_0.if_IR_out, pipeline_0.if_valid_inst_out,
-            pipeline_0.if_id_IR,  pipeline_0.if_id_valid_inst,
-            pipeline_0.id_ex_IR,  pipeline_0.id_ex_valid_inst,
-            pipeline_0.ex_mem_IR, pipeline_0.ex_mem_valid_inst,
-            pipeline_0.mem_wb_IR, pipeline_0.mem_wb_valid_inst);
-    $display("");
+    //$write("p");
+    //$write("%h%h%h%h%h%h%h%h%h%h ",
+            // TODO: ask about what to print from the pipeline here
+            //pipeline_0.if_IR_out, pipeline_0.if_valid_inst_out,
+            //pipeline_0.if_id_IR,  pipeline_0.if_id_valid_inst,
+            //pipeline_0.id_ex_IR,  pipeline_0.id_ex_valid_inst,
+            //pipeline_0.ex_mem_IR, pipeline_0.ex_mem_valid_inst,
+            //pipeline_0.mem_wb_IR, pipeline_0.mem_wb_valid_inst);
+    //$display("");
     
     // Dump interesting register/signal contents onto stdout
     // format is "<reg group prefix><name> <width in hex chars>:<data>"
     // Current register groups (and prefixes) are:
-    // f: IF   d: ID   e: EX   m: MEM    w: WB  v: misc. reg
-    // g: IF/ID   h: ID/EX  i: EX/MEM  j: MEM/WB
+    // f: IF   d: ID   s: RS   o: ROB    r: RAT   v: misc. reg
 
+    // IF signals
+    for(int i = 0; i < `WAYS; i++) begin
+        $display("f%d %d %h %h",
+            i,
+            core.if_packet[i].inst.inst,
+            core.if_packet[i].valid,
+            core.if_packet[i].PC);
+    end
+
+    // ID signals
+    for(int i = 0; i < `WAYS; i++) begin
+        $display("d%d %d %h %h",
+            i,
+            core.id_packet[i].inst.inst,
+            core.id_packet[i].valid,
+            core.id_packet[i].PC);
+    end
+
+
+    // ROB signals
+    $display("op %d %d %d",
+        core.Rob.num_free,
+        core.Rob.head,
+        core.Rob.tail);
+
+    for(int i = 0; i < `ROB; i++) begin
+        $display("o%d", i);
+        $display("o%d %h %h %h %h %h %h %h %h %h %h %h",
+            i,
+            core.Rob.entries[i].dest_ARN,
+            core.Rob.entries[i].dest_PRN,
+            core.Rob.entries[i].reg_write,
+            core.Rob.entries[i].is_branch,
+            core.Rob.entries[i].PC,
+            core.Rob.entries[i].target,
+            core.Rob.entries[i].branch_direction,
+            core.Rob.entries[i].mispredicted,
+            core.Rob.entries[i].done,
+            core.Rob.entries[i].illegal,
+            core.Rob.entries[i].halt);
+    end
+
+    // RS signals
+    $display("sp %d", core.Rs.num_is_free);
+    for(int i = 0; i < `RS; i++) begin
+        $display("s%d %d %h %h %h %h %h %h %h",
+            i,
+            core.Rs.rs_packet_out_hub[i].alu_func,
+            core.Rs.opa_valid_reg[i],
+            core.Rs.rs_packet_out_hub[i].rs1_value,
+            core.Rs.opb_valid_reg[i],
+            core.Rs.rs_packet_out_hub[i].rs2_value,
+            core.Rs.rs_packet_out_hub[i].dest_PRF_idx,
+            core.Rs.rs_packet_out_hub[i].rob_idx,
+            core.Rs.rs_packet_out_hub[i].PC);
+    end
+
+    // RAT and RRAT signals
+    for(int i = 0; i < 32; i++) begin
+        $display("ra%d %h %h",
+            i,
+            core.id_stage_0.rat.RAT_reg_out[i],
+            core.id_stage_0.rat.RRAT_reg_out[i]);
+    end
+    for(int i = 0; i < `PRF; i++) begin
+        $display("r%d %h %h %h %h",
+            i,
+            core.id_stage_0.rat.free_RAT_reg_out[i],
+            core.id_stage_0.rat.valid_RAT_reg_out[i],
+            core.id_stage_0.rat.free_RRAT_reg_out[i],
+            core.id_stage_0.rat.valid_RRAT_reg_out[i]);
+    end
+
+
+    // PRF signals
+    for(int i = 0; i <`PRF; i++) begin
+        $display("p%d %h", i, core.id_stage_0.prf.registers[i]);
+    end
+
+
+    // LSQ signals
+    $display("q%h %h",
+      core.DMEM_0.LSQ_0.sq_head,
+      core.DMEM_0.LSQ_0.sq_tail);
+
+    // LQ signals
+    for(int i = 0; i < `LSQSZ; i++) begin
+      $display("ql%d %h %h %h %h %h %h %h %h %h",
+        i,
+        core.DMEM_0.LSQ_0.lq.ld_sz_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_ROB_idx_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_PRF_idx_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_free[i],
+        core.DMEM_0.LSQ_0.lq.ld_addr_ready_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_addr_reg[i],
+        core.DMEM_0.LSQ_0.lq.ld_is_signed_reg[i],
+        core.DMEM_0.LSQ_0.lq.sq_tail_old[i],
+        core.DMEM_0.LSQ_0.lq.ld_data_reg[i]);
+    end
+
+    for(int i = 0; i < `LSQSZ; i++) begin
+      $display("qs%d %h %h %h %h %h %h %h",
+        i,
+        core.DMEM_0.LSQ_0.sq.size_reg[i],
+        core.DMEM_0.LSQ_0.sq.data_reg[i],
+        core.DMEM_0.LSQ_0.sq.data_valid_reg[i],
+        core.DMEM_0.LSQ_0.sq.ROB_idx_reg[i],
+        core.DMEM_0.LSQ_0.sq.addr_reg[i],
+        core.DMEM_0.LSQ_0.sq.addr_valid_reg[i],
+        core.DMEM_0.LSQ_0.sq.valid_reg[i]);
+    end
+
+
+/*
     // IF signals (6) - prefix 'f'
     $display("fNPC 8:%h",          pipeline_0.if_packet.NPC);
     $display("fIR 8:%h",            pipeline_0.if_packet.inst);
@@ -320,13 +487,14 @@ module testbench();
     // Misc signals(2) - prefix 'v'
     $display("vcompleted 1:%h",     pipeline_0.pipeline_completed_insts);
     $display("vpipe_err 1:%h",      pipeline_error_status);
-
+*/
 
     // must come last
     $display("break");
 
     // This is a blocking call to allow the debugger to control when we
     // advance the simulation
+
     waitforresponse();
   end
 endmodule
