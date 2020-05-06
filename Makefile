@@ -58,31 +58,18 @@ disassemble: program.debug.elf
 hex: program.elf
 	$(ELF2HEX) 8 8192 program.elf > program.mem
 
-<<<<<<< HEAD
-VCS = SW_VCS=2017.12-SP2-1 vcs -sverilog +vc -Mupdate -line -full64 +define+DEBUG=1
-LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
-=======
 program: compile disassemble hex
 	@:
->>>>>>> final_project
 
 debug_program:
 	gcc -lm -g -std=gnu11 -DDEBUG $(SOURCE) -o debug_bin
 assembly: assemble disassemble hex
 	@:
 
-<<<<<<< HEAD
-SIMFILES	= verilog/rs.sv module_provided/psl_get.v sys_defs.svh
-TESTBENCH	= testbench/rs_final_test.sv sys_defs.svh
-
-# SYNTHESIS CONFIG
-SYNFILES	= RS.vg
-=======
 
 ################################################################################
 ## CONFIGURATION
 ################################################################################
->>>>>>> final_project
 
 VCS = vcs -V -sverilog +vc -Mupdate -line -full64 +vcs+vcdpluson -debug_pp 
 LIB = /afs/umich.edu/class/eecs470/lib/verilog/lec25dscc25.v
