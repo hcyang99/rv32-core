@@ -281,7 +281,8 @@ module id_stage(
 	output ID_EX_PACKET [`WAYS-1:0] 			id_packet_out,
 	output logic [`WAYS-1:0]					sign_out,
 	output logic [`WAYS-1:0]					opa_valid,
-	output logic [`WAYS-1:0]					opb_valid
+	output logic [`WAYS-1:0]					opb_valid,
+	output logic [`PRF-1:0] [`XLEN-1:0]        	prf_regs
 
 );
 
@@ -424,7 +425,8 @@ end
 	.wr_dat(wr_dat_CDB),
 	.wr_en(wr_en_CDB),
 	.rda_dat(opa_value),
-	.rdb_dat(opb_value)
+	.rdb_dat(opb_value),
+	.prf_regs
 	);
 
 	RAT_RRAT rat(

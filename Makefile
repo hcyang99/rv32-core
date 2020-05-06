@@ -158,7 +158,7 @@ vis_simv:	$(HEADERS) $(SIMFILES) $(CACHE_NAME) $(VTUBER)
 	$(VCS) $(VISFLAGS) $(VTUBER) $(HEADERS) $(SIMFILES) $(CACHE_NAME) -o vis_simv 
 	./vis_simv
 
-syn_simv:	$(HEADERS) $(SYNFILES) $(TESTBENCH)
+syn_simv:	#$(HEADERS) $(SYNFILES) $(TESTBENCH)
 	$(VCS) $(HEADERS) $(TESTBENCH) $(SYNFILES) $(LIB) -o syn_simv 
 
 syn:	syn_simv

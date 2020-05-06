@@ -17,7 +17,7 @@ suppress_message {"VER-130"}
 #/* The following five lines must be updated for every      */
 #/* new design                                              */
 #/***********************************************************/
-analyze -f sverilog [list "../sys_defs.svh" "../ISA.svh" "../verilog/processor.sv" "../verilog/branch_pred.sv" "../verilog/if_stage.sv" "../verilog/id_stage.sv" "../verilog/ex_stage.sv" "../verilog/FreeList.sv" "../verilog/mult.sv" "../verilog/PRF.sv" "../verilog/RAT_RRAT.sv" "../verilog/rob.sv" "../verilog/rs.sv" "../verilog/Validlist.sv" "../module_provided/freelist_psl_gen.v" "../module_provided/rs_psl_gen.v" "../module_provided/wand_sel.v" "../verilog/cache/cachemem.sv" "../verilog/icache.sv"]
+analyze -f sverilog [list "../sys_defs.svh" "../ISA.svh"  "../verilog/mem_arbiter.sv" "../verilog/lsq.sv" "../verilog/arbiter_rr.sv" "../verilog/lq.sv" "../verilog/dmem.sv" "../verilog/processor.sv" "../verilog/dcache.sv" "../verilog/dcache_ctrl.sv" "../verilog/branch_pred.sv" "../verilog/if_stage.sv" "../verilog/id_stage.sv" "../verilog/ex_stage.sv" "../verilog/sq.sv" "../verilog/FreeList.sv" "../verilog/mult.sv" "../verilog/PRF.sv" "../verilog/RAT_RRAT.sv" "../verilog/rob.sv" "../verilog/rs.sv" "../verilog/Validlist.sv" "../module_provided/freelist_psl_gen.v" "../module_provided/rs_psl_gen.v" "../module_provided/wand_sel.v" "../verilog/cache/cachemem.sv" "../verilog/icache.sv"]
 elaborate processor
 set design_name processor
 set clock_name clock

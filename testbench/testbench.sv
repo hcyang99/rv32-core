@@ -88,6 +88,32 @@ module testbench;
 	logic [`WAYS-1:0] 	ALU_occupied;
 	logic [`WAYS-1:0] 	brand_result;
 
+	logic [`PRF-1:0] [`XLEN-1:0]        	prf_regs;
+	logic [31:0]                         lsq_to_dc_wr_data;
+	logic                                lsq_to_dc_wr_en;
+	logic [1:0]                             lsq_to_dc_wr_size;
+	logic [15:0]                         lsq_to_dc_wr_addr;
+	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
+	logic [31:0] [63:0]  dcache_data;
+    logic [31:0] [7:0]   dcache_tags;
+    logic [31:0]         dcache_dirty;
+	logic [31:0]         dcache_valid;
+    logic [1:0] [12:0]     victim_tags;
+    logic [1:0] [63:0]     victim_data;
+    logic [1:0]            victim_valid;
+    logic [1:0]            victim_dirty;
+
+	logic [2:0]          dctrl_valid_new;
+    logic [2:0]          dctrl_is_wr_new;
+    logic [2:0] [63:0]   dctrl_data_new;
+    logic [2:0] [15:0]   dctrl_addr_new;
+    logic [15:0] [15:0]  dctrl_addr_q1;
+    logic [15:0]         dctrl_is_wr_q1;
+    logic [15:0]         dctrl_is_rd_q1;
+    logic [15:0] [1:0]   dctrl_sz_q1;
+	logic [2:0] [1:0]    dctrl_sz_new;
+	logic [15:0] [63:0]  dctrl_data_q1;
+
     logic [63:0] debug_counter;
 
     // ------------------------- module instances ------------------------- 
@@ -147,7 +173,31 @@ module testbench;
 	.ex_valid_inst_out,
 	.ex_alu_result_out,
 	.ALU_occupied,
-	.brand_result
+	.brand_result,
+	.prf_regs,
+	.dest_PRN_out,
+	.lsq_to_dc_wr_data,
+	.lsq_to_dc_wr_addr,
+	.lsq_to_dc_wr_en,
+	.lsq_to_dc_wr_size,
+	.dcache_data,
+    .dcache_tags,
+    .dcache_dirty,
+	.dcache_valid,
+    .victim_tags,
+    .victim_data,
+    .victim_valid,
+    .victim_dirty,
+
+	.dctrl_valid_new,
+    .dctrl_is_wr_new,
+    .dctrl_data_new,
+    .dctrl_addr_new,
+    .dctrl_addr_q1,
+    .dctrl_is_wr_q1,
+    .dctrl_is_rd_q1,
+    .dctrl_sz_q1,
+	.dctrl_sz_new
     );
 
 
@@ -208,45 +258,34 @@ module testbench;
 
 
 	task clean_cache_and_write_mem;
-		// for(int i = 0; i < 32; i++) begin
-		// 	if(core.DMEM_0.dcache_0.valid[i] & core.DMEM_0.dcache_0.dirty[i]) begin
-		// 		mem.unified_memory[32 * core.DMEM_0.dcache_0.tags[i] + i] = core.DMEM_0.dcache_0.data[i];
-		// 	end
-
-		// 	if(core.DMEM_0.dcache_0.victim_valid[i] & core.DMEM_0.dcache_0.victim_dirty[i]) begin
-		// 		mem.unified_memory[core.DMEM_0.dcache_0.victim_tags[i]] = core.DMEM_0.dcache_0.victim_data[i];
-		// 	end
-		// end
 
 		for(int i = 0; i < 32; i++) begin
-			if(core.DMEM_0.dcache_0.valid[i] & core.DMEM_0.dcache_0.dirty[i]) begin
-				wr_mem(core.DMEM_0.dcache_0.data[i], DOUBLE, (32 * core.DMEM_0.dcache_0.tags[i] + i) * 8);
+			if(dcache_valid[i] & dcache_dirty[i]) begin
+				wr_mem(dcache_data[i], DOUBLE, (32 * dcache_tags[i] + i) * 8);
 			end
 		end
 
 		for (int i = 0; i < 2; ++i) begin
-			if(core.DMEM_0.dcache_0.victim_valid[i] & core.DMEM_0.dcache_0.victim_dirty[i]) begin
-				wr_mem(core.DMEM_0.dcache_0.victim_data[i], DOUBLE, core.DMEM_0.dcache_0.victim_tags[i] * 8);
+			if(victim_valid[i] & victim_dirty[i]) begin
+				wr_mem(victim_data[i], DOUBLE, victim_tags[i] * 8);
 			end
 		end
 
-		if (core.DMEM_0.LSQ_0.sq.write_en) begin
-			wr_mem(core.DMEM_0.LSQ_0.sq.write_data, core.DMEM_0.LSQ_0.sq.write_size, core.DMEM_0.LSQ_0.sq.write_addr);
+		if (lsq_to_dc_wr_en) begin
+			wr_mem(lsq_to_dc_wr_data, lsq_to_dc_wr_size, lsq_to_dc_wr_addr);
 		end
 		for (int i = 0; i < 3; ++i) begin
-			if (core.DMEM_0.dcache_ctrl_0.valid_new_reg[i] && core.DMEM_0.dcache_ctrl_0.is_wr_new_reg[i]) begin
-				wr_mem(core.DMEM_0.dcache_ctrl_0.data_new_reg[i],
-					core.DMEM_0.dcache_ctrl_0.sz_new_reg[i],
-					core.DMEM_0.dcache_ctrl_0.addr_new_reg);
+			if (dctrl_valid_new[i] && dctrl_is_wr_new[i]) begin
+				wr_mem(dctrl_data_new[i],
+					dctrl_sz_new[i],
+					dctrl_addr_new[i]);
 			end
 		end
-		for (int i = core.DMEM_0.dcache_ctrl_0.q1_head_reg; 
-			i != core.DMEM_0.dcache_ctrl_0.q1_tail_reg; 
-			i = (i + 1) % (2 * `LSQSZ)) begin
-			if (core.DMEM_0.dcache_ctrl_0.is_wr_q1_reg[i]) begin
-				wr_mem(core.DMEM_0.dcache_ctrl_0.data_q1_reg[i],
-					core.DMEM_0.dcache_ctrl_0.sz_q1_reg[i],
-					core.DMEM_0.dcache_ctrl_0.addr_q1_reg[i]);
+		for (int i = 0; i < 2 * `LSQSZ; ++i) begin
+			if (dctrl_is_wr_q1[i]) begin
+				wr_mem(dctrl_data_q1[i],
+					dctrl_sz_q1[i],
+					dctrl_addr_q1[i]);
 			end
 		end
 
@@ -328,11 +367,11 @@ module testbench;
 			// print the writeback information to writeback.out
 			if(pipeline_completed_insts>0) begin
                 for(int i = 0; i < `WAYS; i++) begin
-                    if(core.valid_out[i])
+                    if(valid_out[i])
                         $fdisplay(wb_fileno, "PC=%x, REG[%d]=%x",
-                            core.PC_out[i],
-                            core.dest_ARN_out[i],
-                            core.id_stage_0.prf.registers[core.dest_PRN_out[i]]);
+                            PC_out[i],
+                            dest_ARN_out[i],
+                            prf_regs[dest_PRN_out[i]]);
                 end
 			end
 `endif

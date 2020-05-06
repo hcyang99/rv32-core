@@ -51,7 +51,31 @@ module DMEM(
     output logic [1:0]                          Dmem_command, 
     output logic [15:0]                         Dmem_addr,
     output logic [1:0]                          Dmem_size,
-    output logic [63:0]                         Dmem_data
+    output logic [63:0]                         Dmem_data,
+
+    output logic [31:0]                         lsq_to_dc_wr_data,
+    output logic                                lsq_to_dc_wr_en,
+    output logic [1:0]                             lsq_to_dc_wr_size,
+    output logic [15:0]                         lsq_to_dc_wr_addr,
+    output logic [31:0] [63:0]  dcache_data,
+    output logic [31:0] [7:0]   dcache_tags,
+    output logic [31:0]         dcache_dirty,
+    output logic [31:0]         dcache_valid,
+    output logic [1:0] [12:0]     victim_tags,
+    output logic [1:0] [63:0]     victim_data,
+    output logic [1:0]            victim_valid,
+    output logic [1:0]            victim_dirty,
+
+    output logic [2:0]          dctrl_valid_new,
+    output logic [2:0]          dctrl_is_wr_new,
+    output logic [2:0] [63:0]   dctrl_data_new,
+    output logic [2:0] [15:0]   dctrl_addr_new,
+    output logic [15:0] [15:0]  dctrl_addr_q1,
+    output logic [15:0]         dctrl_is_wr_q1,
+    output logic [15:0]         dctrl_is_rd_q1,
+    output logic [15:0] [1:0]   dctrl_sz_q1,
+    output logic [2:0] [1:0]    dctrl_sz_new,
+    output logic [15:0] [63:0]  dctrl_data_q1
 );
 
 logic [`WAYS-1:0] [15:0]                        ALU_data_tmp;
@@ -63,12 +87,12 @@ generate;
 endgenerate
 
 // write to DCache
-logic                                       lsq_to_dc_wr_en;
+
 logic [2:0]                                 lsq_to_dc_wr_offset;
 logic [4:0]                                 lsq_to_dc_wr_idx;
 logic [7:0]                                 lsq_to_dc_wr_tag;
-logic [31:0]                                lsq_to_dc_wr_data;
-logic [1:0]                             lsq_to_dc_wr_size;
+
+assign lsq_to_dc_wr_addr = {lsq_to_dc_wr_tag, lsq_to_dc_wr_idx, lsq_to_dc_wr_offset};
 
 // read from DCache
 logic [2:0]                                 lsq_to_dc_rd_offset;
@@ -204,7 +228,16 @@ dcache dcache_0(
     .rd_en_out(dc_to_mem_rd_en_out),
     .rd_addr_out(dc_to_mem_rd_addr_out),
     .rd_size_out(dc_to_mem_rd_size_out),
-    .rd_gnt_out(dc_to_mem_rd_gnt_out)
+    .rd_gnt_out(dc_to_mem_rd_gnt_out),
+
+    .dcache_data,
+    .dcache_tags,
+    .dcache_dirty,
+    .dcache_valid,
+    .victim_tags,
+    .victim_data,
+    .victim_valid,
+    .victim_dirty
 );
 
 dcache_ctrl dcache_ctrl_0(
@@ -242,7 +275,18 @@ dcache_ctrl dcache_ctrl_0(
     .mem_wr_en,
     .mem_wr_idx,
     .mem_wr_tag,
-    .mem_wr_data
+    .mem_wr_data,
+
+    .dctrl_valid_new,
+    .dctrl_is_wr_new,
+    .dctrl_data_new,
+    .dctrl_addr_new,
+    .dctrl_addr_q1,
+    .dctrl_is_wr_q1,
+    .dctrl_is_rd_q1,
+    .dctrl_sz_q1,
+    .dctrl_sz_new,
+    .dctrl_data_q1
 );
     
 endmodule

@@ -73,8 +73,33 @@ module processor (
 	output logic [`WAYS-1:0]    ex_valid_inst_out,
 	output logic [`WAYS-1:0] [`XLEN-1:0] ex_alu_result_out,
 	output logic [`WAYS-1:0] 	ALU_occupied,
-	output logic [`WAYS-1:0] 	brand_result
+	output logic [`WAYS-1:0] 	brand_result,
 
+	output logic [`PRF-1:0] [`XLEN-1:0]        	prf_regs,
+	output logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out,
+	output logic [31:0]                         lsq_to_dc_wr_data,
+	output logic                                lsq_to_dc_wr_en,
+	output logic [1:0]                             lsq_to_dc_wr_size,
+	output logic [15:0]                         lsq_to_dc_wr_addr,
+	output logic [31:0] [63:0]  dcache_data,
+    output logic [31:0] [7:0]   dcache_tags,
+    output logic [31:0]         dcache_dirty,
+	output logic [31:0]         dcache_valid,
+    output logic [1:0] [12:0]     victim_tags,
+    output logic [1:0] [63:0]     victim_data,
+    output logic [1:0]            victim_valid,
+    output logic [1:0]            victim_dirty,
+
+	output logic [2:0]          dctrl_valid_new,
+    output logic [2:0]          dctrl_is_wr_new,
+    output logic [2:0] [63:0]   dctrl_data_new,
+    output logic [2:0] [15:0]   dctrl_addr_new,
+    output logic [15:0] [15:0]  dctrl_addr_q1,
+    output logic [15:0]         dctrl_is_wr_q1,
+    output logic [15:0]         dctrl_is_rd_q1,
+    output logic [15:0] [1:0]   dctrl_sz_q1,
+	output logic [2:0] [1:0]    dctrl_sz_new,
+	output logic [15:0] [63:0]  dctrl_data_q1
 );
 
 
@@ -89,10 +114,10 @@ module processor (
     logic [4:0] 						icache_to_cachemem_index;
     logic [7:0] 						icache_to_cachemem_tag;
     logic 								icache_to_cachemem_en;
-    logic [`WAYS:0] [4:0] 			icache_to_cachemem_rd_idx;
-    logic [`WAYS:0] [7:0] 			icache_to_cachemem_rd_tag;
-    logic [`WAYS:0][63:0] 			cachemem_to_icache_data;
-    logic [`WAYS:0] 					cachemem_to_icache_valid;
+    logic [`WAYS-1:0] [4:0] 			icache_to_cachemem_rd_idx;
+    logic [`WAYS-1:0] [7:0] 			icache_to_cachemem_rd_tag;
+    logic [`WAYS-1:0][63:0] 			cachemem_to_icache_data;
+    logic [`WAYS-1:0] 					cachemem_to_icache_valid;
 
     // between icache controller and mem
     logic [1:0] 						icache_to_mem_command;
@@ -182,7 +207,6 @@ module processor (
 	logic [$clog2(`ROB)-1:0]                  next_tail;
 
 
-  	logic [`WAYS-1:0] [$clog2(`PRF)-1:0]      dest_PRN_out;
 
   	logic [$clog2(`ROB):0]                    num_free;
 	logic [$clog2(`ROB):0]					  next_num_free;
@@ -436,7 +460,8 @@ endgenerate
 		.id_packet_out(id_packet),
 		.sign_out	(id_sign_out),
 		.opa_valid (id_opa_valid),
-		.opb_valid (id_opb_valid)
+		.opb_valid (id_opb_valid),
+		.prf_regs
 	);
 
 
@@ -561,7 +586,31 @@ DMEM DMEM_0(
 	.Dmem_command (Dmem_command), 
 	.Dmem_addr (Dmem_addr),
 	.Dmem_size (Dmem_size),
-	.Dmem_data (Dmem_data)
+	.Dmem_data (Dmem_data),
+
+	.lsq_to_dc_wr_data,
+	.lsq_to_dc_wr_en,
+	.lsq_to_dc_wr_size,
+	.lsq_to_dc_wr_addr,
+	.dcache_data,
+    .dcache_tags,
+    .dcache_dirty,
+	.dcache_valid,
+    .victim_tags,
+    .victim_data,
+    .victim_valid,
+    .victim_dirty,
+
+	.dctrl_valid_new,
+    .dctrl_is_wr_new,
+    .dctrl_data_new,
+    .dctrl_addr_new,
+    .dctrl_addr_q1,
+    .dctrl_is_wr_q1,
+    .dctrl_is_rd_q1,
+    .dctrl_sz_q1,
+	.dctrl_sz_new,
+	.dctrl_data_q1
 );
 
 assign lq_CDB_valid[`WAYS-2:0] = 0;

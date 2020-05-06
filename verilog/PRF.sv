@@ -12,12 +12,13 @@ module PRF(
         input   [`WAYS-1:0]                     wr_en,
 
         output logic [`WAYS-1:0] [`XLEN-1:0]    rda_dat,
-        output logic [`WAYS-1:0] [`XLEN-1:0]    rdb_dat
+        output logic [`WAYS-1:0] [`XLEN-1:0]    rdb_dat,
+        output logic [`PRF-1:0] [`XLEN-1:0]     prf_regs
     );
   
     reg [`PRF-1:0] [`XLEN-1:0]      registers;
     logic [`PRF-1:0] [`XLEN-1:0]    reg_next;
-
+    assign prf_regs = registers;
 
     logic [`WAYS-1:0][`WAYS-1:0]    opa_is_from_wr;
     logic [`WAYS-1:0][`WAYS-1:0]    opb_is_from_wr;

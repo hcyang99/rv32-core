@@ -71,7 +71,7 @@ logic [$clog2(`ROB)-1:0]                            head;
 //logic [$clog2(`ROB)-1:0]                          tail;
 logic [$clog2(`ROB)-1:0]                            next_head;
 //logic [$clog2(`ROB)-1:0]                            next_tail;
-logic [$clog2(`WAYS)-1:0]                           num_dispatched;
+logic [$clog2(`WAYS):0]                           num_dispatched;
 //logic [$clog2(`WAYS):0]                           num_committed;
 rob_entry [`WAYS-1:0]                               new_entries;
 //logic [$clog2(`ROB):0]                              next_num_free;

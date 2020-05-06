@@ -44,18 +44,27 @@ module dcache(
     output logic                rd_en_out,
     output logic [15:0]         rd_addr_out,
     output logic [1:0]          rd_size_out,
-    output logic [`LSQSZ-1:0]   rd_gnt_out
+    output logic [`LSQSZ-1:0]   rd_gnt_out,
+    output logic [31:0] [63:0]  dcache_data,
+    output logic [31:0] [7:0]   dcache_tags,
+    output logic [31:0]         dcache_dirty,
+    output logic [31:0]         dcache_valid,
+    output reg [1:0] [12:0]     victim_tags,
+    output reg [1:0] [63:0]     victim_data,
+    output reg [1:0]            victim_valid,
+    output reg [1:0]            victim_dirty
 );
 
 reg [31:0] [63:0] data;
 reg [31:0] [7:0] tags; 
 reg [31:0] valid;
 reg [31:0] dirty;
-reg [1:0] [12:0] victim_tags;
-reg [1:0] [63:0] victim_data;
-reg [1:0] victim_valid;
-reg [1:0] victim_dirty;
 reg victim_lru;
+
+assign dcache_data = data;
+assign dcache_tags = tags;
+assign dcache_valid = valid;
+assign dcache_dirty = dirty;
 
 wire [63:0] rd_data_cache_raw;
 wire [63:0] rd_data_cache;

@@ -43,7 +43,18 @@ module dcache_ctrl(
     output logic                mem_wr_en,
     output logic [4:0]          mem_wr_idx,
     output logic [7:0]          mem_wr_tag,
-    output logic [63:0]         mem_wr_data
+    output logic [63:0]         mem_wr_data,
+
+    output logic [2:0]          dctrl_valid_new,
+    output logic [2:0]          dctrl_is_wr_new,
+    output logic [2:0] [63:0]   dctrl_data_new,
+    output logic [2:0] [15:0]   dctrl_addr_new,
+    output logic [15:0] [15:0]  dctrl_addr_q1,
+    output logic [15:0]         dctrl_is_wr_q1,
+    output logic [15:0]         dctrl_is_rd_q1,
+    output logic [15:0] [1:0]   dctrl_sz_q1,
+    output logic [2:0] [1:0]    dctrl_sz_new,
+    output logic [15:0] [63:0]  dctrl_data_q1
 );
 
 parameter WIDTH = 2 * `LSQSZ;
@@ -406,6 +417,15 @@ always_ff @(posedge clock) begin
     end
 end
 
-
+assign dctrl_valid_new = valid_new_reg;
+assign dctrl_is_wr_new = is_wr_new_reg;
+assign dctrl_data_new = data_new_reg;
+assign dctrl_addr_new = addr_new_reg;
+assign dctrl_addr_q1 = addr_q1_reg;
+assign dctrl_is_wr_q1 = is_wr_q1_reg;
+assign dctrl_is_rd_q1 = is_rd_q1_reg;
+assign dctrl_sz_q1 = sz_q1_reg;
+assign dctrl_sz_new = sz_new_reg;
+assign dctrl_data_q1 = data_q1_reg;
 endmodule
 

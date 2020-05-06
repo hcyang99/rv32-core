@@ -1,17 +1,17 @@
-# #!/bin/bash
-# for file in test_progs/*.s; do
-# filename=$(echo $file | cut -d '/' -f2 | cut -d'.' -f1)
+#!/bin/bash
+for file in test_progs/*.s; do
+filename=$(echo $file | cut -d '/' -f2 | cut -d'.' -f1)
+echo "Running $filename"
+# build assembly
+make assembly SOURCE=$file > /dev/null
 # echo "Running $filename"
-# # build assembly
-# make assembly SOURCE=$file > /dev/null
-# # echo "Running $filename"
-# # simulate assembly
-# make > /dev/null
-# # echo "Saving $filename output"
-# # save program.out and writeback.out
-# cat program.out | grep "@@@" > ./outputs/$filename.program.out
-# mv writeback.out ./outputs/$filename.writeback.out
-# done
+# simulate assembly
+make > /dev/null
+# echo "Saving $filename output"
+# save program.out and writeback.out
+cat program.out | grep "@@@" > ./outputs/$filename.program.out
+mv writeback.out ./outputs/$filename.writeback.out
+done
 
 for file in test_progs/*.c; do
 filename=$(echo $file | cut -d '/' -f2 | cut -d'.' -f1)
