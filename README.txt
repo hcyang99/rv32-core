@@ -1,14 +1,11 @@
-This is a repo of milestone #1.
-We have implemented the whole RS module in rs.sv and fully debugged the RS_Line module in RS_Line.sv.
-The testbench for RS_Line module is rs_test.sv.
+EECS 470 FINAL PROJECT WN2020
+Group Members: Alvin Bahri, Haichao Yang, Wesley Shen, Yiqiu Sun, Yongle Liu
 
-command to run simulation:
-make
-command to run synthesis:
-make syn
-command to run code coverage analysis:
-make coverage
+Arbitary superscalar out-of-order RV32 core, with instruction prefetching and write-back no-write-allocate DCache.
 
-We are doing an N-way superscaler and set N = 3 currently. In the testbench, we randomized the valid bits for opa 
-and opb and randomized both the valid bits and data in the 3 CDB ports. The line coverage for the RS_Line module 
-has been up to 100. 
+Only 16-bit memory address space used. Floating point not implemented.
+
+See Makefile for usage. Requires VCS etc. to simulate.
+
+Number of superscalar ways can be changed via the `WAYS macro in sys_defs.svh. Currently 3. Tested for 2-8. It is known to be not working with `WAYS == 1.
+
