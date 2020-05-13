@@ -1,4 +1,4 @@
-EECS 470 FINAL PROJECT WN2020
+EECS 470 BEST PERFORMING PROJECT WN2020
 Group Members: Alvin Bahri, Haichao Yang, Wesley Shen, Yiqiu Sun, Yongle Liu
 
 Arbitary superscalar out-of-order RV32 core, with instruction prefetching and write-back no-write-allocate DCache.
